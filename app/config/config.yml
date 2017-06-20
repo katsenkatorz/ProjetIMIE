@@ -114,7 +114,10 @@ fos_user:
         token_generator:        fos_user.util.token_generator.default
         user_manager:           fos_user.user_manager.default
 
-
+assetic:
+    filters:
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
 
 
 
