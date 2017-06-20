@@ -8,6 +8,6 @@ class MainController extends Controller
 {
     public function homeAction()
     {
-        return $this->render('AdminBundle:Default:index.html.twig');
+        return $this->render('AdminBundle:app:home.html.twig');
     }
 }
