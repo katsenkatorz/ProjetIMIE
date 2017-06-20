@@ -1,7 +1,7 @@
-AdminBundle\Entity\Metier:
+AdminBundle\Entity\Job:
     type: entity
     table: null
-    repositoryClass: UserBundle\Repository\MetierRepository
+    repositoryClass: AdminBundle\Repository\JobRepository
     id:
         id:
             type: integer
@@ -9,16 +9,18 @@ AdminBundle\Entity\Metier:
             generator:
                 strategy: AUTO
     fields:
-        label:
+        lABEL:
             type: string
             length: 255
             unique: true
-        salaireMin:
+            column: LABEL
+        mINSALARY:
             type: integer
-            column: SalaireMin
-        salaireMax:
+            column: MIN_SALARY
+        mAXSALARY:
             type: integer
-            column: SalaireMax
-        description:
+            column: MAX_SALARY
+        dESCRIPTION:
             type: text
+            column: DESCRIPTION
     lifecycleCallbacks: {  }
