@@ -1,6 +1,8 @@
 <?php
 
+
 namespace AdminBundle\Entity;
+
 
 /**
  * Metier
