@@ -1,4 +1,4 @@
 admin_homepage:
-    path:     /admin
+    path:     /home
     defaults:
         _controller: AdminBundle:Main:home
