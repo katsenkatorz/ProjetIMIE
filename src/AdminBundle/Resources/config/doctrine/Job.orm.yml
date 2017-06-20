@@ -1,0 +1,26 @@
+AdminBundle\Entity\Job:
+    type: entity
+    table: null
+    repositoryClass: AdminBundle\Repository\JobRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lABEL:
+            type: string
+            length: 255
+            unique: true
+            column: LABEL
+        mINSALARY:
+            type: integer
+            column: MIN_SALARY
+        mAXSALARY:
+            type: integer
+            column: MAX_SALARY
+        dESCRIPTION:
+            type: text
+            column: DESCRIPTION
+    lifecycleCallbacks: {  }
