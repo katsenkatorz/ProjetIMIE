@@ -1,0 +1,24 @@
+UserBundle\Entity\Metier:
+    type: entity
+    table: null
+    repositoryClass: UserBundle\Repository\MetierRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 255
+            unique: true
+        salaireMin:
+            type: integer
+            column: SalaireMin
+        salaireMax:
+            type: integer
+            column: SalaireMax
+        description:
+            type: text
+    lifecycleCallbacks: {  }
