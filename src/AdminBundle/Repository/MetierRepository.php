@@ -1,6 +1,8 @@
 <?php
 
-namespace UserBundle\Repository;
+
+namespace AdminBundle\Repository;
+
 
 /**
  * MetierRepository

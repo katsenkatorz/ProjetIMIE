@@ -1,4 +1,6 @@
-UserBundle\Entity\Metier:
+
+AdminBundle\Entity\Metier:
+v
     type: entity
     table: null
     repositoryClass: UserBundle\Repository\MetierRepository
