@@ -8,6 +8,12 @@ class MainController extends Controller
 {
     public function homeAction()
     {
-        return $this->render('AdminBundle:app:home.html.twig');
+        $userRepo = $this->getDoctrine()->getRepository("UserBundle:User");
+
+        $users = $userRepo->getUsers();
+
+        return $this->render('AdminBundle:app:home.html.twig', [
+            "users" => $users
+        ]);
     }
 }
