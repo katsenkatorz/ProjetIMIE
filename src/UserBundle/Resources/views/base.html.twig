@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %} {% endblock %} - Projet IMIE</title>
+
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    {% endblock %}
+
+    {% stylesheets filter="scssphp" output="css/main.css"
+        "assets/scss/bootstrap.scss"
+        "assets/scss/font-awesome.scss"
+        "assets/css/*.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+</head>
+<body>
+
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% javascripts filter="?jsqueeze" output="js/main.js"
+    "assets/js/jquery.js"
+    "assets/js/bootstrap.js"
+    "assets/js/main.js"
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+</body>
+</html>
+
