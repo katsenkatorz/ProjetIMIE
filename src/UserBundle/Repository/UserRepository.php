@@ -2,6 +2,8 @@
 
 namespace UserBundle\Repository;
 
+use UserBundle\Entity\User;
+
 /**
  * UserRepository
  *
@@ -10,4 +12,126 @@ namespace UserBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Return all the user
+     *
+     * @return array
+     */
+    public function getUsers()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Return one user using his id
+     *
+     * @param $userId
+     *
+     * @return null|object
+     */
+    public function getUserByUserId($userId)
+    {
+        return $this->findOneBy(["id" => $userId]);
+    }
+
+    /**
+     * Give the admin role to a user
+     *
+     * @param $userId
+     *
+     * @return bool
+     */
+    public function upgradeUserToAdmin($userId)
+    {
+        $user = $this->getUserByUserId($userId);
+        $em = $this->getEntityManager();
+
+        if(!is_null($user))
+        {
+            $user->setRoles(["ROLE_ADMIN"]);
+
+            $em->persist($user);
+            $em->flush();
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return true if the user is admin, false otherwise
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function checkIfUserIsAdmin(User $user)
+    {
+        $arrayRoles = $user->getRoles();
+
+        foreach($arrayRoles as $role)
+        {
+            if($role === "ROLE_ADMIN")
+            {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Return the number of user with given role
+     *
+     * @param $role
+     * @return int
+     */
+    public function getRoleNumber($testedRole)
+    {
+        $i = 0;
+        $users = $this->getUsers();
+        foreach($users as $user)
+        {
+            $roles = $user->getRoles();
+            foreach($roles as $role)
+            {
+               if($role === $testedRole)
+               {
+                   $i++;
+               }
+            }
+        }
+
+        return $i;
+    }
+
+    /**
+     * Downgrade an admin to a user if the user is an admin and the number of admin is above 1
+     *
+     * @param $userId
+     * @return bool
+     */
+    public function downgradeAdminToUser($userId)
+    {
+        $user = $this->getUserByUserId($userId);
+        $em = $this->getEntityManager();
+
+        if(!is_null($user))
+        {
+            $boolIsAdmin = $this->checkIfUserIsAdmin($user);
+            $adminNumber = $this->getRoleNumber("ROLE_ADMIN");
+
+            if($boolIsAdmin && $adminNumber > 1)
+            {
+                $user->setRoles(["ROLE_USER"]);
+
+                $em->persist($user);
+                $em->flush();
+
+                return true;
+            }
+        }
+        return false;
+    }
 }
