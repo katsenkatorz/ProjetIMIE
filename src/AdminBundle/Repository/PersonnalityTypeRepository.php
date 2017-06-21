@@ -2,6 +2,8 @@
 
 namespace AdminBundle\Repository;
 
+use AdminBundle\Entity\PersonnalityType;
+
 /**
  * PersonnalityTypeRepository
  *
@@ -10,4 +12,96 @@ namespace AdminBundle\Repository;
  */
 class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Renvois tout les personnalityType
+     *
+     * @return array
+     */
+    public function getPersonnalityTypes()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Renvois un personnalityTypes grâce à sont id
+     *
+     * @param $ptId
+     *
+     * @return null|object
+     */
+    public function getPersonnalityTypeById($ptId)
+    {
+        return $this->findOneBy(["id" => $ptId]);
+    }
+
+    /**
+     * Renvois un personnalityTypes grâce à sont nom
+     *
+     * @param $name
+     *
+     * @return null|object
+     */
+    public function getPersonnalityTypeByName($name)
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
+    public function postPersonnalityType($name, $personnalityType, $opposedPersonnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        if(is_numeric($name))
+        {
+            $pT = new PersonnalityType();
+
+            $pT->setName($name)
+                ->setPersonnalityType($personnalityType)
+                ->setOpposedPersonnalityType($opposedPersonnalityType);
+
+            $em->persist($pT);
+            $em->flush();
+
+            return $pT;
+        }
+
+        return false;
+    }
+
+    public function putPersonnalityType($id, $name, $personnalityType, $opposedPersonnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        $pT = $this->getPersonnalityTypeById($id);
+
+        if(is_null($pT))
+        {
+            return false;
+        }
+
+        $pT->setName($name)
+            ->setPersonnalityType($personnalityType)
+            ->setOpposedPersonnalityType($opposedPersonnalityType);
+
+        $em->persist($pT);
+        $em->flush();
+
+        return $pT;
+    }
+
+    public function deletePersonnalityType($id)
+    {
+        $em = $this->getEntityManager();
+
+        $pT = $this->getPersonnalityTypeById($id);
+
+        if(is_null($pT))
+        {
+            return false;
+        }
+
+        $em->remove($pT);
+        $em->flush();
+
+        return true;
+    }
 }
