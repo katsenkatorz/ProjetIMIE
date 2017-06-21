@@ -119,6 +119,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      * Supprime un job
      *
      * @param $jobId
+     *
+     * @return bool
      */
     public function deleteJob($jobId)
     {
