@@ -126,8 +126,15 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         $job = $this->getJobById($jobId);
 
-        $em->remove($job);
-        $em->flush();
+        if(!is_null($job))
+        {
+            $em->remove($job);
+            $em->flush();
+
+            return true;
+        }
+
+        return false;
     }
 
 }
