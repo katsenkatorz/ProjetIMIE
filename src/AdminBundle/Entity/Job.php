@@ -24,12 +24,52 @@ class Job
      */
     private $description;
 
+    private $salaireMin;
+
+    private $salaireMax;
+
     private $jobPersonnalities;
 
     public function __construct()
     {
         $this->jobPersonnalities = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSalaireMin()
+    {
+        return $this->salaireMin;
+    }
+
+    /**
+     * @param mixed $salaireMin
+     **/
+    public function setSalaireMin($salaireMin)
+    {
+        $this->salaireMin = $salaireMin;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalaireMax()
+    {
+        return $this->salaireMax;
+    }
+
+    /**
+     * @param mixed $salaireMax
+     **/
+    public function setSalaireMax($salaireMax)
+    {
+        $this->salaireMax = $salaireMax;
+        return $this;
+    }
+
+
 
     /**
      * @return ArrayCollection

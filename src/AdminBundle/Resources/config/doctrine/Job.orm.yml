@@ -15,6 +15,10 @@ AdminBundle\Entity\Job:
             unique: true
         description:
             type: text
+        salaireMin:
+            type: integer
+        salaireMax:
+            type: integer
     oneToMany:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
