@@ -10,13 +10,9 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endblock %}
 
-    {% stylesheets filter="scssphp" output="css/main.css"
-        "assets/scss/bootstrap.scss"
-        "assets/scss/font-awesome.scss"
-        "assets/css/*.css"
-    %}
-        <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    {% endblock %}
 </head>
 <body>
 
@@ -32,13 +28,12 @@
 {% block footer %}
 {% endblock %}
 
-{% javascripts filter="?jsqueeze" output="js/main.js"
-    "assets/js/jquery.js"
-    "assets/js/bootstrap.js"
-    "assets/js/main.js"
-%}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.js') }}"></script>
+{% endblock %}
+
 
 </body>
 </html>
