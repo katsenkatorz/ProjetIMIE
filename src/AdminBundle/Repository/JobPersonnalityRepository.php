@@ -2,6 +2,10 @@
 
 namespace AdminBundle\Repository;
 
+use AdminBundle\Entity\Job;
+use AdminBundle\Entity\JobPersonnality;
+use AdminBundle\Entity\PersonnalityType;
+
 /**
  * JobPersonnalityRepository
  *
@@ -10,4 +14,103 @@ namespace AdminBundle\Repository;
  */
 class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Renvois tout les JobPersonnalities
+     *
+     * @return array
+     */
+    public function getJobPersonnalities()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Renvois un jobPersonnality choisie par sont id
+     *
+     * @param $jpId
+     * @return null|object
+     */
+    public function getJobPersonnalityById($jpId)
+    {
+        return $this->findOneBy(["id" => $jpId]);
+    }
+
+    /**
+     * Créer un nouveau jobPersonnality
+     *
+     * @param $value
+     * @param Job $job
+     * @param PersonnalityType $personnalityType
+     *
+     * @return JobPersonnality
+     */
+    public function postJobPersonnality($value, Job $job, PersonnalityType $personnalityType)
+    {
+        $em = $this->getEntityManager();
+        $jobPersonnality = new JobPersonnality();
+
+        $jobPersonnality->setValue($value)
+            ->setJob($job)
+            ->setPersonnalityType($personnalityType);
+
+        $em->persist($jobPersonnality);
+        $em->flush();
+
+        return $jobPersonnality;
+    }
+
+    /**
+     * Modifie un JobPersonnality
+     *
+     * @param $id
+     * @param $value
+     * @param Job $job
+     * @param PersonnalityType $personnalityType
+     *
+     * @return bool|object
+     */
+    public function putJobPersonnality($id, $value, Job $job, PersonnalityType $personnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        $jobPersonnality = $this->getJobPersonnalityById($id);
+
+        if(!is_null($jobPersonnality) && (!is_null($value) && is_numeric($value)))
+        {
+            $jobPersonnality->setValue($value)
+                ->setPersonnalityType($personnalityType)
+                ->setJob($job);
+
+            $em->persist($jobPersonnality);
+            $em->flush();
+
+            return $jobPersonnality;
+        }
+
+        return false;
+    }
+
+    /**
+     * Supprime un jobPersonnality
+     *
+     * @param $id
+     * @return bool
+     */
+    public function deleteJobPersonnality($id)
+    {
+        $em = $this->getEntityManager();
+
+        $jp = $this->getJobPersonnalityById($id);
+
+        if(!is_null($jp))
+        {
+            $em->remove($jp);
+            $em->flush();
+
+            return true;
+        }
+
+        return false;
+    }
 }
+
