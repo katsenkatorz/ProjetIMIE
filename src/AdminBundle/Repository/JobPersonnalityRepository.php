@@ -42,21 +42,26 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
      * @param Job $job
      * @param PersonnalityType $personnalityType
      *
-     * @return JobPersonnality
+     * @return bool|JobPersonnality
      */
     public function postJobPersonnality($value, Job $job, PersonnalityType $personnalityType)
     {
         $em = $this->getEntityManager();
         $jobPersonnality = new JobPersonnality();
 
-        $jobPersonnality->setValue($value)
-            ->setJob($job)
-            ->setPersonnalityType($personnalityType);
+        if(is_numeric($value))
+        {
+            $jobPersonnality->setValue($value)
+                ->setJob($job)
+                ->setPersonnalityType($personnalityType);
 
-        $em->persist($jobPersonnality);
-        $em->flush();
+            $em->persist($jobPersonnality);
+            $em->flush();
 
-        return $jobPersonnality;
+            return $jobPersonnality;
+        }
+
+        return false;
     }
 
     /**
