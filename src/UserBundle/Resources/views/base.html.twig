@@ -10,28 +10,35 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endblock %}
 
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('public/css/style.css') }}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    {% endblock %}
+    {% stylesheets filter="scssphp" output="css/main.css"
+        "assets/scss/bootstrap.scss"
+        "assets/scss/font-awesome.scss"
+        "assets/css/*.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 </head>
 <body>
 
 
-    {% block header %}
+{% block header %}
 
-    {% endblock %}
+{% endblock %}
 
-        {% block content %}
+{% block content %}
 
-        {% endblock %}
+{% endblock %}
 
-    {% block footer %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="{{ asset('public/javascript/menu.js') }}"></script>
-    {% endblock %}
+{% block footer %}
+{% endblock %}
 
+{% javascripts filter="?jsqueeze" output="js/main.js"
+    "assets/js/jquery.js"
+    "assets/js/bootstrap.js"
+    "assets/js/main.js"
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 </body>
 </html>

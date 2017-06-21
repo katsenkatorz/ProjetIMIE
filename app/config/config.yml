@@ -115,10 +115,13 @@ fos_user:
         user_manager:           fos_user.user_manager.default
 
 assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
     filters:
         scssphp:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
         jsqueeze: ~
+        cssrewrite: ~
 
 
 
