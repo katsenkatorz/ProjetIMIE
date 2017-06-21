@@ -1,0 +1,21 @@
+AdminBundle\Entity\JobPersonnality:
+    type: entity
+    table: null
+    repositoryClass: AdminBundle\Repository\JobPersonnalityRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        value:
+            type: integer
+    manyToOne:
+        job:
+            targetEntity: AdminBundle\Entity\Job
+            inversedBy: jobPersonnalities
+        personnalityType:
+            targetEntity: AdminBundle\Entity\PersonnalityType
+            inversedBy: jobPersonnalities
+    lifecycleCallbacks: {  }

@@ -5,9 +5,9 @@ namespace AdminBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Job
+ * PersonnalityType
  */
-class Job
+class PersonnalityType
 {
     /**
      * @var int
@@ -22,7 +22,12 @@ class Job
     /**
      * @var string
      */
-    private $description;
+    private $personnalityType;
+
+    /**
+     * @var string
+     */
+    private $opposedPersonnalityType;
 
     private $jobPersonnalities;
 
@@ -34,7 +39,7 @@ class Job
     /**
      * @return ArrayCollection
      */
-    public function getJobPersonnalities()
+    public function getJobPersonnalities(): ArrayCollection
     {
         return $this->jobPersonnalities;
     }
@@ -63,7 +68,7 @@ class Job
      *
      * @param string $name
      *
-     * @return Job
+     * @return PersonnalityType
      */
     public function setName($name)
     {
@@ -83,27 +88,51 @@ class Job
     }
 
     /**
-     * Set description
+     * Set personnalityType
      *
-     * @param string $description
+     * @param string $personnalityType
      *
-     * @return Job
+     * @return PersonnalityType
      */
-    public function setDescription($description)
+    public function setPersonnalityType($personnalityType)
     {
-        $this->description = $description;
+        $this->personnalityType = $personnalityType;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get personnalityType
      *
      * @return string
      */
-    public function getDescription()
+    public function getPersonnalityType()
     {
-        return $this->description;
+        return $this->personnalityType;
+    }
+
+    /**
+     * Set opposedPersonnalityType
+     *
+     * @param string $opposedPersonnalityType
+     *
+     * @return PersonnalityType
+     */
+    public function setOpposedPersonnalityType($opposedPersonnalityType)
+    {
+        $this->opposedPersonnalityType = $opposedPersonnalityType;
+
+        return $this;
+    }
+
+    /**
+     * Get opposedPersonnalityType
+     *
+     * @return string
+     */
+    public function getOpposedPersonnalityType()
+    {
+        return $this->opposedPersonnalityType;
     }
 }
 

@@ -1,7 +1,7 @@
-AdminBundle\Entity\Job:
+AdminBundle\Entity\PersonnalityType:
     type: entity
     table: null
-    repositoryClass: AdminBundle\Repository\JobRepository
+    repositoryClass: AdminBundle\Repository\PersonnalityTypeRepository
     id:
         id:
             type: integer
@@ -13,10 +13,16 @@ AdminBundle\Entity\Job:
             type: string
             length: '45'
             unique: true
-        description:
-            type: text
+        personnalityType:
+            type: string
+            length: '45'
+            unique: true
+        opposedPersonnalityType:
+            type: string
+            length: '45'
+            unique: true
     oneToMany:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
-            mappedBy: job
+            mappedBy: personnalityType
     lifecycleCallbacks: {  }
