@@ -2,3 +2,9 @@ admin_homepage:
     path:     /home
     defaults:
         _controller: AdminBundle:Main:home
+
+admin_manageUser:
+    path:     /manage/user
+    defaults:
+        _controller: AdminBundle:Main:manageUser
+

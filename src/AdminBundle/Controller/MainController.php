@@ -9,6 +9,11 @@ class MainController extends Controller
 {
     public function homeAction(Request $request)
     {
+        return $this->render('AdminBundle:app:home.html.twig');
+    }
+
+    public function manageUserAction(Request $request)
+    {
         $userRepo = $this->getDoctrine()->getRepository("UserBundle:User");
         $upgrade = $request->get("up");
         $downgrade = $request->get('down');
@@ -26,7 +31,7 @@ class MainController extends Controller
 
         $users = $userRepo->getUsers();
 
-        return $this->render('AdminBundle:app:home.html.twig', [
+        return $this->render('AdminBundle:app:manageUser.html.twig', [
             "users" => $users
         ]);
     }
