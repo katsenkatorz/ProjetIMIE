@@ -35,4 +35,10 @@ class MainController extends Controller
             "users" => $users
         ]);
     }
+
+    public function manageJobPersonnalityAction(Request $request)
+    {
+
+        return $this->render("AdminBundle:app:manageJobPersonnality.html.twig");
+    }
 }

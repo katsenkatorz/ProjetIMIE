@@ -8,3 +8,7 @@ admin_manageUser:
     defaults:
         _controller: AdminBundle:Main:manageUser
 
+admin_manageJobPersonnality:
+    path:     /manage/jobPersonnality
+    defaults:
+        _controller: AdminBundle:Main:manageJobPersonnality
