@@ -1,6 +1,6 @@
 AdminBundle\Entity\Job:
     type: entity
-    table: null
+    table: JOB
     repositoryClass: AdminBundle\Repository\JobRepository
     id:
         id:

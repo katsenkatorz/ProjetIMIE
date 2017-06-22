@@ -1,6 +1,6 @@
 AdminBundle\Entity\PersonnalityType:
     type: entity
-    table: null
+    table: PERSONNALITY_TYPE
     repositoryClass: AdminBundle\Repository\PersonnalityTypeRepository
     id:
         id:
