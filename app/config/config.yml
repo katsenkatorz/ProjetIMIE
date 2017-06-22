@@ -80,10 +80,6 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
-    profile:
-        form:
-            type:               fos_user_profile
-            name:               fos_user_profile_form
     change_password:
         form:
             type:               fos_user_change_password
