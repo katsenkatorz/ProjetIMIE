@@ -15,9 +15,9 @@ AdminBundle\Entity\Job:
             unique: true
         description:
             type: text
-        salaireMin:
+        minSalary:
             type: integer
-        salaireMax:
+        maxSalary:
             type: integer
     oneToMany:
         jobPersonnalities:

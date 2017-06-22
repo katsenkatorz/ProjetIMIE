@@ -24,9 +24,15 @@ class Job
      */
     private $description;
 
-    private $salaireMin;
+    /**
+     * @var integer
+     */
+    private $minSalary;
 
-    private $salaireMax;
+    /**
+     * @var integer
+     */
+    private $maxSalary;
 
     private $jobPersonnalities;
 
@@ -36,36 +42,36 @@ class Job
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
-    public function getSalaireMin()
+    public function getMinSalary()
     {
-        return $this->salaireMin;
+        return $this->minSalary;
     }
 
     /**
-     * @param mixed $salaireMin
+     * @param integer $minSalary
      **/
-    public function setSalaireMin($salaireMin)
+    public function setMinSalary($minSalary)
     {
-        $this->salaireMin = $salaireMin;
+        $this->minSalary = $minSalary;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
-    public function getSalaireMax()
+    public function getmaxSalary()
     {
-        return $this->salaireMax;
+        return $this->maxSalary;
     }
 
     /**
-     * @param mixed $salaireMax
+     * @param integer $maxSalary
      **/
-    public function setSalaireMax($salaireMax)
+    public function setMaxSalary($maxSalary)
     {
-        $this->salaireMax = $salaireMax;
+        $this->maxSalary = $maxSalary;
         return $this;
     }
 
