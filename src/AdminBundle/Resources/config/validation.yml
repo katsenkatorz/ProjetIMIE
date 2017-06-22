@@ -1,0 +1,52 @@
+AdminBundle\Entity\Job:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type:
+                type: string
+                message: "Le nom doit être une chaine de charactère"
+        minSalary:
+            - Type:
+                type: integer
+                message: "Le salaire minimum doit être un nombre"
+            - NotBlank: ~
+            - Range:
+                min: 0
+                minMessage: "Le salaire ne peut pas être négatif"
+        maxSalary:
+            - Type:
+                type: integer
+                message: "Le salaire maximum doit être un nombre"
+            - NotBlank: ~
+        description:
+            - Type:
+                type: string
+                message: "La description doit être une chaine de charactère"
+            - NotBlank: ~
+
+AdminBundle\Entity\PersonnalityType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 45
+                maxMessage: "Le nom ne peut pas exceder 45 charactères"
+            - Type:
+                type: string
+                message: "Le nom doit être une chaine de charactère"
+        personnalityType:
+            - NotBlank: ~
+            - Length:
+                max: 45
+                maxMessage: "Le type de personnalité ne peut pas exceder 45 charactères"
+            - Type:
+                type: string
+                message: "Le type de personnalité doit être une chaine de charactère"
+        opposedPersonnalityType:
+            - NotBlank: ~
+            - Length:
+                max: 45
+                maxMessage: "Le type de personnalité opposé ne peut pas exceder 45 charactères"
+            - Type:
+                type: string
+                message: "Le type de personnalité opposé doit être une chaine de charactère"
