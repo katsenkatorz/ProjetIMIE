@@ -15,6 +15,35 @@
 
 {% block content %}
     <h2>Page de gestion des profils métiers</h2>
+    <h3>Créer un job</h3>
+    {{ form_start(formJob) }}
+    {{ form_widget(formJob) }}
+    {{ form_end(formJob) }}
+    <h2>Créer un type de profil </h2>
+    {{ form_start(formPT) }}
+    {{ form_widget(formPT) }}
+    {{ form_end(formPT) }}
+    <h2>Créer un profils métiers</h2>
+    <form action="{{ path('admin_manageJobPersonnality') }}" method="post">
+        <div>
+            <label for="jobId">Type de personnalité</label>
+            <select name="jobId" required id="jobId">
+                {% for job in jobs %}
+                    <option value="{{ job.id }}">{{ job.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            {% for personnalityType in personnalityTypes %}
+                <h3>{{ personnalityType.name }}</h3>
+                <p style="float: left">{{ personnalityType.personnalityType }}</p>
+                <p style="float: right" >{{ personnalityType.opposedPersonnalityType }}</p>
+                <input type="hidden" name="{{ personnalityType.name }}" value="{{ personnalityType.id }}">
+                <input type="range" name="{{ personnalityType.name }}Value" min="0" max="100" step="1" required >
+            {% endfor %}
+        </div>
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}
 
 {% block footer %}
