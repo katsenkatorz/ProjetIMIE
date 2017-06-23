@@ -10,12 +10,13 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endblock %}
 
-    {% stylesheets filter="scssphp" output="css/main.css"
-        "assets/scss/bootstrap.scss"
-        "assets/scss/font-awesome.scss"
-        "assets/css/*.css" %}
-        <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/font-awesome/css/font-awesome.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-responsive.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}"/>
+    {% endblock %}
 </head>
 <body>
 
@@ -32,13 +33,12 @@
 
 {% endblock %}
 
-{% javascripts filter="?jsqueeze" output="js/app.js"
-    "assets/js/jquery.js"
-    "assets/js/bootstrap.js"
-    "assets/js/main.js" %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-
+{% block javascripts %}
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/matrix.js') }}"></script>
+    <script src="{{ asset('assets/js/matrix.dashboard.js') }}"></script>
+{% endblock %}
 
 </body>
 </html>

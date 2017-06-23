@@ -1,6 +1,6 @@
-{% extends 'UserBundle::base.html.twig' %}
+{% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Account' }}{% endblock %}
+{% block title %}{{ 'AdminAccount' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -11,12 +11,24 @@
 {% endblock %}
 
 {% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
 {% endblock %}
 
 {% block content %}
-<h2>Page d'acceuil de l'administration</h2>
+
+    {#{% include "AdminBundle:layout:topSearch.html.twig" %}#}
+
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    {% include "AdminBundle:layout:actionBoxes.html.twig" %}
+
 {% endblock %}
 
+
 {% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
     {{ parent() }}
 {% endblock %}
