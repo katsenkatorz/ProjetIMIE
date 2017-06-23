@@ -1,0 +1,35 @@
+{% extends 'UserBundle::base.html.twig' %}
+
+{% block title %}{{ 'Account' }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <h3>Créer un job</h3>
+    {{ form_start(formJob) }}
+    {{ form_widget(formJob) }}
+    {{ form_end(formJob) }}
+    <h2>Listes des jobs:</h2>
+    {% if jobs is defined %}
+        <ul>
+            {% for job in jobs %}
+                <li>
+                    <a href="{{ path("admin_job", {idJob: job.id}) }}">{{ job.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
