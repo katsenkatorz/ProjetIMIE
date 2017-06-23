@@ -1,0 +1,25 @@
+{% extends 'UserBundle::base.html.twig' %}
+
+{% block title %}{{ 'Account' }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <h2>Créer un type de profil</h2>
+    {{ form_start(formPT) }}
+    {{ form_widget(formPT) }}
+    {{ form_end(formPT) }}
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
