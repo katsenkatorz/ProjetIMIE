@@ -3,12 +3,29 @@ admin_homepage:
     defaults:
         _controller: AdminBundle:Main:home
 
-admin_manageUser:
-    path:     /manage/user
+admin_user:
+    path:     /user
     defaults:
-        _controller: AdminBundle:Main:manageUser
+        _controller: AdminBundle:Main:user
 
-admin_manageJobPersonnality:
-    path:     /manage/jobPersonnality
+admin_job:
+    path:     /job/{idJob}
     defaults:
-        _controller: AdminBundle:Main:manageJobPersonnality
+        _controller: AdminBundle:Main:job
+    requirements:
+        idJob: \d+
+
+admin_jobs:
+    path:     /jobs
+    defaults:
+        _controller: AdminBundle:Main:jobs
+
+admin_personnalityType:
+    path:     /personnalityType
+    defaults:
+        _controller: AdminBundle:Main:personnalityType
+
+admin_jobPersonnality:
+    path:     /jobPersonnality
+    defaults:
+        _controller: AdminBundle:Main:jobPersonnality
