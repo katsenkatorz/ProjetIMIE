@@ -27,12 +27,12 @@
                 <td>{% if user.roles|length > 1 %} Administrateur {% else %} Utilisateur {% endif %}</td>
                 <td>
                     {% if user.roles|length > 1 %}
-                        <form action="{{ path('admin_homepage') }}" method="post">
+                        <form action="{{ path('admin_user') }}" method="post">
                             <input type="hidden" name="userId" value="{{ user.id }}">
                             <input type="submit" value="Downgrade user" name="down">
                         </form>
                     {% else %}
-                        <form action="{{ path('admin_homepage') }}" method="post">
+                        <form action="{{ path('admin_user') }}" method="post">
                             <input type="hidden" name="userId" value="{{ user.id }}">
                             <input style="width: 100%" type="submit" value="Upgrade user" name="up">
                         </form>
