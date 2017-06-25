@@ -1,4 +1,4 @@
-{% extends 'UserBundle::base.html.twig' %}
+{% extends 'AdminBundle::base.html.twig' %}
 
 {% block title %}{{ 'Account' }}{% endblock %}
 
@@ -19,16 +19,16 @@
     {{ form_widget(formJob) }}
     {{ form_end(formJob) }}
     <h2>Listes des jobs:</h2>
-    {% if jobs is defined %}
-        <ul>
-            {% for job in jobs %}
-                <li>
-                    <a href="{{ path("admin_job", {idJob: job.id}) }}">{{ job.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <p class="SaveModificationMessage"></p>
+
+    {% include "AdminBundle:layout:accordion.html.twig" %}
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/JobPersonnalityProcess.js') }}"></script>
+{% endblock javascripts %}
 
 {% block footer %}
     {{ parent() }}
