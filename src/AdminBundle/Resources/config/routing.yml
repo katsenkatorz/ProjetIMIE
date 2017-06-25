@@ -25,6 +25,11 @@ admin_personnalityType:
     defaults:
         _controller: AdminBundle:Main:personnalityType
 
+admin_SavejobPersonnality:
+    path:     /saveJobPersonnality
+    defaults:
+        _controller: AdminBundle:Main:saveJobPersonnality
+
 admin_jobPersonnality:
     path:     /jobPersonnality
     defaults:
