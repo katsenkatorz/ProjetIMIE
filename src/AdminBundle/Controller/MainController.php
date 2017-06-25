@@ -9,6 +9,7 @@ use AdminBundle\Form\JobPersonnalityType;
 use AdminBundle\Form\JobType;
 use AdminBundle\Form\PersonnalityTypeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends Controller
@@ -60,24 +61,24 @@ class MainController extends Controller
         $jobFromForm = $JobRepo->getJobById($jobId);
 
         // Si le formulaire est soumis
-        if(!is_null($jobId))
+        if (!is_null($jobId))
         {
             // On créer un tableau de résultat
             $JobPersonnalityResult = [];
 
             // Pour chaque type de personnalité
-            forEach($personnalityTypes as $personnalityType)
+            forEach ($personnalityTypes as $personnalityType)
             {
                 // On récupère sont id et sont nom
                 $pTid = $personnalityType->getId();
                 $pTName = $personnalityType->getName();
 
                 // Et on stocke la value
-                $JobPersonnalityResult[$pTid] = (int)$request->get($pTName."Value");
+                $JobPersonnalityResult[$pTid] = (int)$request->get($pTName . "Value");
             }
 
             // Créer les jobPersonnality
-            forEach($JobPersonnalityResult as $id => $value)
+            forEach ($JobPersonnalityResult as $id => $value)
             {
                 $pt = $PersonnalityTypeRepo->getPersonnalityTypeById($id);
                 $JobPersonnalityRepo->postJobPersonnality($JobPersonnalityResult[$id], $jobFromForm, $pt);
@@ -130,7 +131,7 @@ class MainController extends Controller
         $idJob = $request->attributes->get("idJob");
 
         // Récupération du job gràce à l'id
-        $job =$JobRepository->getJobById($idJob);
+        $job = $JobRepository->getJobById($idJob);
 
         // Récupération des jobPersonnality correspondant au job
         $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
@@ -144,21 +145,6 @@ class MainController extends Controller
             $arrayForm[$key] = $this->createForm(JobPersonnalityType::class);
         }
 
-
-        // Utilisation des formulaires
-        foreach ($arrayForm as $key => $form)
-        {
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $value = $form->getData()->getValue();
-                $jobId = $form->getData()->getJob();
-                $ptId = $form->getData()->getPersonnalityType();
-
-                $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $ptId);
-            }
-        }
-
         // Actualisation des jobPersonnalités
         $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
 
@@ -168,11 +154,27 @@ class MainController extends Controller
             $arrayForm[$key] = $form->createView();
         }
 
-        return $this->render("AdminBundle:app:job.html.twig", [
+        return $this->json($this->renderView("AdminBundle:app:job.html.twig", [
             "forms" => $arrayForm,
             "job" => $job,
             "jobPersonnalities" => $jobPersonnalities
-        ]);
+        ]));
+    }
+
+    public function saveJobPersonnalityAction(Request $request)
+    {
+        // Récupération des éléments du formulaire
+        $jobId = $request->get('job');
+        $personnalityTypeId = $request->get('personnalityType');
+        $value = $request->get('value');
+
+        // Récupération du répository
+        $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
+
+        // Sauvegarde de la modification
+        $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
+
+        return $this->json(["message" => "Modification bien effectuer"]);
     }
 
     public function personnalityTypeAction(Request $request)
@@ -187,7 +189,7 @@ class MainController extends Controller
         $formPT->handleRequest($request);
 
         // Traitement pour la création de Type de personnalité
-        if($formPT->isSubmitted() && $formPT->isValid())
+        if ($formPT->isSubmitted() && $formPT->isValid())
         {
             $pt = $formPT->getData();
 
