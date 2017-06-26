@@ -47,7 +47,7 @@ hr{ border-top-color:#dadada;}
 
 /* Header */
 #header {
-	height: 77px;
+	height: 40px;
 	position: relative;
 	width: 100%;
 	z-index: -9;
@@ -194,6 +194,7 @@ hr{ border-top-color:#dadada;}
 }
 /* Content */
 #content {
+	margin-top: -10px;
 	background: none repeat scroll 0 0 #eeeeee;
 	margin-left: 220px;
 	margin-right: 0;
@@ -237,6 +238,7 @@ hr{ border-top-color:#dadada;}
 }
 /* Breadcrumb */
 #breadcrumb {
+	margin-top: 38px;
 	background-color: #fff;
 	border-bottom: 1px solid #e3ebed;
 }

@@ -2,19 +2,11 @@
 
 {% block title %}{{ 'AdminAccount' }}{% endblock %}
 
-{% block head %}
-    {{ parent() }}
-{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
 
-{% block header %}
-    {% include "AdminBundle:layout:header.html.twig" %}
-{% endblock %}
 
-{% block content %}
+
+{% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
@@ -23,10 +15,4 @@
 {% endblock %}
 
 
-{% block footer %}
-    {{ parent() }}
-{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}

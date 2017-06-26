@@ -34,3 +34,8 @@ admin_jobPersonnality:
     path:     /jobPersonnality
     defaults:
         _controller: AdminBundle:Main:jobPersonnality
+
+admin_login:
+    path:     /login
+    defaults:
+        _controller: AdminBundle:Main:login

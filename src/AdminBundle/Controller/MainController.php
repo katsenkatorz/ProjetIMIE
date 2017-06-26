@@ -203,4 +203,8 @@ class MainController extends Controller
             "formPT" => $formPT->createView(),
         ]);
     }
+
+    public function loginAction() {
+        return $this->render("AdminBundle:app:login.html.twig");
+    }
 }
