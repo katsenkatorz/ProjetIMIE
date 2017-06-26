@@ -29,11 +29,37 @@ class PersonnalityType
      */
     private $opposedPersonnalityType;
 
+    /**
+     * @var ArrayCollection
+     */
     private $jobPersonnalities;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $responses;
 
     public function __construct()
     {
         $this->jobPersonnalities = new ArrayCollection();
+        $this->responses = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getResponses()
+    {
+        return $this->responses;
+    }
+
+    /**
+     * @param Response $responses
+     **/
+    public function setResponses(Response $responses)
+    {
+        $this->responses->add($responses);
+        return $this;
     }
 
     /**

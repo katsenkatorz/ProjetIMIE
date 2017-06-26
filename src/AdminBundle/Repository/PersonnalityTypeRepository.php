@@ -49,8 +49,12 @@ class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
     public function postPersonnalityType($name, $personnalityType, $opposedPersonnalityType)
     {
         $em = $this->getEntityManager();
+        $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
+        $JobPersonnalityRepository = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
 
-        if(is_numeric($name))
+        $jobs = $jobRepository->getJobs();
+
+        if(is_string($name))
         {
             $pT = new PersonnalityType();
 
@@ -60,6 +64,12 @@ class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
 
             $em->persist($pT);
             $em->flush();
+
+
+            foreach($jobs as $job)
+            {
+                $JobPersonnalityRepository->postJobPersonnality(50, $job, $pT);
+            }
 
             return $pT;
         }

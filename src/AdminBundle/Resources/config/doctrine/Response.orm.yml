@@ -1,0 +1,27 @@
+AdminBundle\Entity\Response:
+    type: entity
+    table: RESPONSE
+    repositoryClass: AdminBundle\Repository\ResponseRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: '45'
+        value:
+            type: integer
+        image:
+            type: string
+            length: '45'
+    manyToOne:
+        question:
+            targetEntity: AdminBundle\Entity\Question
+            inversedBy: responses
+        personnalityType:
+            targetEntity: AdminBundle\Entity\PersonnalityType
+            inversedBy: responses
+    lifecycleCallbacks: {  }

@@ -1,0 +1,19 @@
+AdminBundle\Entity\Question:
+    type: entity
+    table: QUESTION
+    repositoryClass: AdminBundle\Repository\QuestionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 255
+    oneToMany:
+        responses:
+            targetEntity: AdminBundle\Entity\Response
+            mappedBy: question
+    lifecycleCallbacks: {  }

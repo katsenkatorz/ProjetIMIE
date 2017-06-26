@@ -57,6 +57,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Créer un nouveau job et le renvois
+     * Créer aussi les jobs Personnality pour le job avec une valeur par default a 50
      *
      * @param $name
      * @param $description
@@ -68,15 +69,24 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     public function postJob($name, $description, $salaireMax, $salaireMin)
     {
         $em = $this->getEntityManager();
+        $PersonnalityTypeRepo = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType");
+        $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+
+        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
 
         $job = new Job();
         $job->setName($name)
             ->setDescription($description)
-            ->setSalaireMax($salaireMax)
-            ->setSalaireMin($salaireMin);
+            ->setMinSalary($salaireMax)
+            ->setMaxSalary($salaireMin);
 
         $em->persist($job);
         $em->flush();
+
+        foreach ($personnalityTypes as $personnalityType)
+        {
+            $JobPersonnalityRepo->postJobPersonnality(50, $job, $personnalityType);
+        }
 
         return $job;
     }
@@ -101,8 +111,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         {
             $job->setName($name)
                 ->setDescription($description)
-                ->setSalaireMax($salaireMax)
-                ->setSalaireMin($salaireMin);
+                ->setMaxSalary($salaireMax)
+                ->setMinSalary($salaireMin);
 
             $em->persist($job);
             $em->flush();
