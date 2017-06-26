@@ -1,6 +1,9 @@
 <?php
 
 namespace AdminBundle\Repository;
+use AdminBundle\Entity\PersonnalityType;
+use AdminBundle\Entity\Question;
+use AdminBundle\Entity\Response;
 
 /**
  * RESPONSERepository
@@ -10,4 +13,98 @@ namespace AdminBundle\Repository;
  */
 class ResponseRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Renvois toutes les réponses enregistrer en base
+     *
+     * @return array
+     */
+    public function getResponses()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Renvois la réponse correspondant à un id
+     *
+     * @param $id
+     *
+     * @return null|object
+     */
+    public function getResponseById($id)
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * Créer une réponse
+     *
+     * @param $label
+     * @param $value
+     * @param $image
+     * @param Question $question
+     * @param PersonnalityType $personnalityType
+     *
+     * @return Response
+     */
+    public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        $response = new Response();
+
+        $response->setLabel($label)
+            ->setValue($value)
+            ->setImage($image)
+            ->setQuestion($question)
+            ->setPersonnalityType($personnalityType);
+
+        $em->persist($response);
+        $em->flush();
+
+        return $response;
+    }
+
+    /**
+     * Modifie une réponse
+     *
+     * @param $id
+     * @param $label
+     * @param $value
+     * @param $image
+     * @param Question $question
+     * @param PersonnalityType $personnalityType
+     *
+     * @return null|object
+     */
+    public function putResponse($id, $label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        $response = $this->getResponseById($id);
+
+        $response->setLabel($label)
+            ->setValue($value)
+            ->setImage($image)
+            ->setQuestion($question)
+            ->setPersonnalityType($personnalityType);
+
+        $em->persist($response);
+        $em->flush();
+
+        return $response;
+    }
+
+    /**
+     * Supprime une réponse
+     * @param $id
+     */
+    public function deleteResponse($id)
+    {
+        $em = $this->getEntityManager();
+
+        $response = $this->getResponseById($id);
+
+        $em->persist($response);
+        $em->flush();
+    }
 }
