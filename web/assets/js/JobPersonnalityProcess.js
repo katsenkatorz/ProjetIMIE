@@ -24,10 +24,9 @@ $(document).ready(function ()
                     // Au changement de value de l'input
                     $('input#job_personnality_value').on('input', function ()
                     {
-                        var jobId = this.nextElementSibling.value;
-                        var personnalityTypeId = this.nextElementSibling.nextElementSibling.value;
+                        var jobId = this.nextElementSibling.nextElementSibling.value;
+                        var personnalityTypeId = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
                         var value = this.value;
-
                         // On appelle la route qui permet de sauvegarder les changements
                         $.ajax({
                             url: "/admin/saveJobPersonnality",

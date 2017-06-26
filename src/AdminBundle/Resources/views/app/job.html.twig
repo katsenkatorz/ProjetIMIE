@@ -1,37 +1,33 @@
-<div id="content">
-    <div class="content-page">
-        <h2>{{ job.name }}</h2>
-        <div>
-            <ul>
-                <li>
-                    <span>Description du poste: </span>
-                    <p>{{ job.description }}</p>
-                </li>
-                <li>
-                    <span>Salaire minimum: </span>
-                    <p>{{ job.minSalary }}</p>
-                </li>
-                <li>
-                    <span>Salaire maximum: </span>
-                    <p>{{ job.maxSalary }}</p>
-                </li>
-            </ul>
-        </div>
-
-        <div>
-            {% for jobPersonnality in jobPersonnalities %}
-                <div>
-                    {{ form_start(forms[jobPersonnality["name"]]) }}
-                    <h3>{{ jobPersonnality["name"] }}</h3>
-                    <p>{{ jobPersonnality["personnalityType"] }}</p>
-                    <p>{{ jobPersonnality["opposedPersonnalityType"] }}</p>
-                    {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control' } }) }}
-                    {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
-                    {{ form_widget(forms[jobPersonnality["name"]].personnalityType, {'attr': {"value": jobPersonnality["idJP"], 'class': 'form-control'} }) }}
-                    {{ form_end(forms[jobPersonnality["name"]]) }}
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+<div>
+    <ul>
+        <li>
+            <span>Description du poste: </span>
+            <p>{{ job.description }}</p>
+        </li>
+        <li>
+            <span>Salaire minimum: </span>
+            <p>{{ job.minSalary }}</p>
+        </li>
+        <li>
+            <span>Salaire maximum: </span>
+            <p>{{ job.maxSalary }}</p>
+        </li>
+    </ul>
 </div>
+
+<div>
+    {% for jobPersonnality in jobPersonnalities %}
+        <div>
+            {{ form_start(forms[jobPersonnality["name"]]) }}
+            <h3>{{ jobPersonnality["name"] }}</h3>
+            <p>{{ jobPersonnality["personnalityType"] }}</p>
+            {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control' } }) }}
+            <p>{{ jobPersonnality["opposedPersonnalityType"] }}</p>
+            {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
+            {{ form_widget(forms[jobPersonnality["name"]].personnalityType, {'attr': {"value": jobPersonnality["idJP"], 'class': 'form-control'} }) }}
+            {{ form_end(forms[jobPersonnality["name"]]) }}
+        </div>
+    {% endfor %}
+</div>
+
 

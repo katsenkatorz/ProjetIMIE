@@ -6,3 +6,7 @@
 .btn-primary .btn-danger {
     width: 100%;
 }
+
+.panel-body p {
+    display: inline-block;
+}
