@@ -22,8 +22,7 @@ class JobPersonnalityType extends AbstractType
             ]
         ])
             ->add("job", HiddenType::class)
-            ->add("personnalityType", HiddenType::class)
-            ->add("save", SubmitType::class, ["label" => "Sauvegarder"]);
+            ->add("personnalityType", HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block content %}
+
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
     <div id="content">
@@ -24,18 +25,18 @@
             {{ form_widget(formJob) }}
             {{ form_end(formJob) }}
             <h2>Listes des jobs:</h2>
-            {% if jobs is defined %}
-                <ul>
-                    {% for job in jobs %}
-                        <li>
-                            <a href="{{ path("admin_job", {idJob: job.id}) }}">{{ job.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            <p class="SaveModificationMessage"></p>
+
+            {% include "AdminBundle:layout:accordion.html.twig" %}
         </div>
     </div>
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/JobPersonnalityProcess.js') }}"></script>
+{% endblock javascripts %}
 
 {% block footer %}
     {{ parent() }}
