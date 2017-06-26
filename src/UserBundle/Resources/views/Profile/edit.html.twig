@@ -1,5 +1,17 @@
-{% extends "AdminBundle::base.html.twig" %}
+{% extends "@FOSUser/Group/edit.html.twig" %}
+
 
 {% block fos_user_content %}
-{% include "@FOSUser/Profile/edit_content.html.twig" %}
+
+    <div class="login-form">
+
+        {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+        {{ form_widget(form) }}
+        <div>
+            <input class="btn btn-default" type="submit" value="Editer profil"/>
+        </div>
+        {{ form_end(form) }}
+
+    </div>
 {% endblock fos_user_content %}
+

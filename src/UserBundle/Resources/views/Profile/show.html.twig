@@ -1,5 +1,17 @@
-{% extends "AdminBundle::base.html.twig" %}
+{% extends "UserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-{% include "@FOSUser/Profile/show_content.html.twig" %}
+
+    <div class="login-form">
+
+        <div class="fos_user_user_show">
+            <p>Utilisateur : {{ user.username }}</p>
+            <p>Email : {{ user.email }}</p>
+        </div>
+        <a href="{{ path('admin_homepage') }}"><i class="icon icon-home"></i> <span>Retour à l'accueil</span></a>
+
+    </div>
+
 {% endblock fos_user_content %}
+
+
