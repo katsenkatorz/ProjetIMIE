@@ -25,4 +25,7 @@ AdminBundle\Entity\PersonnalityType:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
             mappedBy: personnalityType
+        responses:
+            targetEntity: AdminBundle\Entity\Response
+            mappedBy: personnalityType
     lifecycleCallbacks: {  }
