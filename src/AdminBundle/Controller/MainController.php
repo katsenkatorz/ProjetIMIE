@@ -108,6 +108,8 @@ class MainController extends Controller
         {
             $job = $formJob->getData();
 
+            $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob['maxSalary']->getData(), $formJob['minSalary']->getData());
+
             $em->persist($job);
             $em->flush();
         }
@@ -181,6 +183,7 @@ class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
         // Création du formulaire pour les Type de personnalité
         $pt = new PersonnalityType();
         $formPT = $this->createForm(PersonnalityTypeType::class, $pt);
@@ -191,8 +194,7 @@ class MainController extends Controller
         // Traitement pour la création de Type de personnalité
         if ($formPT->isSubmitted() && $formPT->isValid())
         {
-            $pt = $formPT->getData();
-
+            $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
             $em->persist($pt);
             $em->flush();
         }
