@@ -1,0 +1,13 @@
+{% extends "UserBundle::layout.html.twig" %}
+
+
+{% block fos_user_content %}
+    <div class="login-form">
+        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-group'}}) }}
+        {{ form_widget(form) }}
+        <div>
+            <input class="btn btn-default" type="submit" value="{{ 'registration.submit'|trans }}"/>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock fos_user_content %}
