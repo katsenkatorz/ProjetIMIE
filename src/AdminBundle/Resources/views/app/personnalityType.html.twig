@@ -1,6 +1,6 @@
-{% extends 'UserBundle::base.html.twig' %}
+{% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Account' }}{% endblock %}
+{% block title %}{{ 'Personnality Types' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -11,13 +11,20 @@
 {% endblock %}
 
 {% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
 {% endblock %}
 
 {% block content %}
-    <h2>Créer un type de profil</h2>
-    {{ form_start(formPT) }}
-    {{ form_widget(formPT) }}
-    {{ form_end(formPT) }}
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div class="content-page">
+            <h2>Créer un type de profil</h2>
+            {{ form_start(formPT) }}
+            {{ form_widget(formPT, {'attr': {'class':'form-control'}}) }}
+            {{ form_end(formPT) }}
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}
