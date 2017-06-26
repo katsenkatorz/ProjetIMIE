@@ -39,20 +39,25 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param $label
      *
-     * @return Question
+     * @return Question|bool
      */
     public function postQuestion($label)
     {
-        $em = $this->getEntityManager();
+        if(!$this->checkIfQuestionAlreadyExist($label))
+        {
+            $em = $this->getEntityManager();
 
-        $question = new Question();
+            $question = new Question();
 
-        $question->setLabel($label);
+            $question->setLabel($label);
 
-        $em->persist($question);
-        $em->flush();
+            $em->persist($question);
+            $em->flush();
 
-        return $question;
+            return $question;
+        }
+
+        return false;
     }
 
     /**
@@ -88,5 +93,28 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
 
         $em->remove($question);
         $em->flush();
+    }
+
+    /**
+     * Renvois true si la question existe déjà
+     *
+     * @param $label
+     *
+     * @return bool
+     */
+    public function checkIfQuestionAlreadyExist($label)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("q")
+            ->from("AdminBundle:Question", "q")
+            ->where("q.label = :label")
+            ->setParameter(":label", $label)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
+
+        return false;
     }
 }

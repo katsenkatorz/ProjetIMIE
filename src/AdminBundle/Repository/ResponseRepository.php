@@ -44,24 +44,29 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param Question $question
      * @param PersonnalityType $personnalityType
      *
-     * @return Response
+     * @return Response|bool
      */
     public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
     {
-        $em = $this->getEntityManager();
+        if(!$this->checkIfReponseAlreadyExist($label))
+        {
+            $em = $this->getEntityManager();
 
-        $response = new Response();
+            $response = new Response();
 
-        $response->setLabel($label)
-            ->setValue($value)
-            ->setImage($image)
-            ->setQuestion($question)
-            ->setPersonnalityType($personnalityType);
+            $response->setLabel($label)
+                ->setValue($value)
+                ->setImage($image)
+                ->setQuestion($question)
+                ->setPersonnalityType($personnalityType);
 
-        $em->persist($response);
-        $em->flush();
+            $em->persist($response);
+            $em->flush();
 
-        return $response;
+            return $response;
+        }
+
+        return false;
     }
 
     /**
@@ -106,5 +111,28 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
 
         $em->persist($response);
         $em->flush();
+    }
+
+    /**
+     * Renvois true si la réponse existe déjà
+     *
+     * @param $label
+     *
+     * @return bool
+     */
+    public function checkIfReponseAlreadyExist($label)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("r")
+            ->from("AdminBundle:Response", "r")
+            ->where("r.label = :label")
+            ->setParameter(":label", $label)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
+
+        return false;
     }
 }

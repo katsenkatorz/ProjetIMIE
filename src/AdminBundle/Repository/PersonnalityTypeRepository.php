@@ -48,35 +48,48 @@ class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
 
     public function postPersonnalityType($name, $personnalityType, $opposedPersonnalityType)
     {
-        $em = $this->getEntityManager();
-        $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
-        $JobPersonnalityRepository = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
-
-        $jobs = $jobRepository->getJobs();
-
-        if(is_string($name))
+        if(!$this->checkIfPersonnalityTypeAlreadyExist($name))
         {
-            $pT = new PersonnalityType();
+            $em = $this->getEntityManager();
+            $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
+            $JobPersonnalityRepository = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
 
-            $pT->setName($name)
-                ->setPersonnalityType($personnalityType)
-                ->setOpposedPersonnalityType($opposedPersonnalityType);
+            $jobs = $jobRepository->getJobs();
 
-            $em->persist($pT);
-            $em->flush();
-
-
-            foreach($jobs as $job)
+            if(is_string($name))
             {
-                $JobPersonnalityRepository->postJobPersonnality(50, $job, $pT);
-            }
+                $pT = new PersonnalityType();
 
-            return $pT;
+                $pT->setName($name)
+                    ->setPersonnalityType($personnalityType)
+                    ->setOpposedPersonnalityType($opposedPersonnalityType);
+
+                $em->persist($pT);
+                $em->flush();
+
+
+                foreach($jobs as $job)
+                {
+                    $JobPersonnalityRepository->postJobPersonnality(50, $job, $pT);
+                }
+
+                return $pT;
+            }
         }
 
         return false;
     }
 
+    /**
+     * Modifie un type de personnalité
+     *
+     * @param $id
+     * @param $name
+     * @param $personnalityType
+     * @param $opposedPersonnalityType
+     *
+     * @return bool|null|object
+     */
     public function putPersonnalityType($id, $name, $personnalityType, $opposedPersonnalityType)
     {
         $em = $this->getEntityManager();
@@ -98,6 +111,13 @@ class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
         return $pT;
     }
 
+    /**
+     * Supprime un type de personnalité
+     *
+     * @param $id
+     *
+     * @return bool
+     */
     public function deletePersonnalityType($id)
     {
         $em = $this->getEntityManager();
@@ -113,5 +133,28 @@ class PersonnalityTypeRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
 
         return true;
+    }
+
+    /**
+     * Renvois true si le type de personnalité existe déjà
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+    public function checkIfPersonnalityTypeAlreadyExist($name)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("pT")
+            ->from("AdminBundle:PersonnalityType", "pT")
+            ->where("pT.name = :name")
+            ->setParameter(":name", $name)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
+
+        return false;
     }
 }
