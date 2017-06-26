@@ -2,6 +2,8 @@
 
 namespace AdminBundle\Repository;
 
+use AdminBundle\Entity\Question;
+
 /**
  * QUESTIONRepository
  *
@@ -10,4 +12,81 @@ namespace AdminBundle\Repository;
  */
 class QuestionRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Renvois toutes les questions
+     *
+     * @return array
+     */
+    public function getQuestions()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Renvois une question grâce à sont id
+     *
+     * @param $id
+     *
+     * @return null|object
+     */
+    public function getQuestionById($id)
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * Créer une question
+     *
+     * @param $label
+     *
+     * @return Question
+     */
+    public function postQuestion($label)
+    {
+        $em = $this->getEntityManager();
+
+        $question = new Question();
+
+        $question->setLabel($label);
+
+        $em->persist($question);
+        $em->flush();
+
+        return $question;
+    }
+
+    /**
+     * Modifie une question
+     *
+     * @param $id
+     * @param $label
+     *
+     * @return null|object
+     */
+    public function putQuestion($id, $label)
+    {
+        $em = $this->getEntityManager();
+
+        $question = $this->getQuestionById($id);
+        $question->setLabel($label);
+
+        $em->persist($question);
+        $em->flush();
+
+        return $question;
+    }
+
+    /**
+     * Supprime une question
+     *
+     * @param $id
+     */
+    public function deleteQuestion($id)
+    {
+        $em = $this->getEntityManager();
+        $question = $this->getQuestionById($id);
+
+        $em->remove($question);
+        $em->flush();
+    }
 }
