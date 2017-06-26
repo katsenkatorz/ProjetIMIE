@@ -1,6 +1,6 @@
-{% extends 'UserBundle::base.html.twig' %}
+{% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Account' }}{% endblock %}
+{% block title %}{{ 'User' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -11,36 +11,47 @@
 {% endblock %}
 
 {% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
 {% endblock %}
 
 {% block content %}
-    <h2>Page de gestion des utilisateurs</h2>
-    <table border="2" cellpading="5px" cellspacing="5px">
-        <th>Pseudonyme</th>
-        <th>Email</th>
-        <th>Rôle</th>
-        <th>Action</th>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>{% if user.roles|length > 1 %} Administrateur {% else %} Utilisateur {% endif %}</td>
-                <td>
-                    {% if user.roles|length > 1 %}
-                        <form action="{{ path('admin_user') }}" method="post">
-                            <input type="hidden" name="userId" value="{{ user.id }}">
-                            <input type="submit" value="Downgrade user" name="down">
-                        </form>
-                    {% else %}
-                        <form action="{{ path('admin_user') }}" method="post">
-                            <input type="hidden" name="userId" value="{{ user.id }}">
-                            <input style="width: 100%" type="submit" value="Upgrade user" name="up">
-                        </form>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+    <div id="content">
+        <div class="content-page">
+            <h2>Page de gestion des utilisateurs</h2>
+            <div class="table-responsive">
+                <table class="table" border="2" cellpading="5px" cellspacing="5px">
+                    <th>Pseudonyme</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Action</th>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{% if user.roles|length > 1 %} Administrateur {% else %} Utilisateur {% endif %}</td>
+                            <td>
+                                {% if user.roles|length > 1 %}
+                                    <form action="{{ path('admin_user') }}" method="post">
+                                        <input class="form-control" type="hidden" name="userId" value="{{ user.id }}">
+                                        <input class="btn btn-danger" style="width: 100%" type="submit"
+                                               value="Downgrade user" name="down">
+                                    </form>
+                                {% else %}
+                                    <form action="{{ path('admin_user') }}" method="post">
+                                        <input class="form-control" type="hidden" name="userId" value="{{ user.id }}">
+                                        <input class="btn btn-primary" style="width: 100%" type="submit"
+                                               value="Upgrade user"
+                                               name="up">
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}

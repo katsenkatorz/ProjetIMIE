@@ -1,6 +1,6 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Account' }}{% endblock %}
+{% block title %}{{ 'Jobs' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -11,17 +11,25 @@
 {% endblock %}
 
 {% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
 {% endblock %}
 
 {% block content %}
-    <h3>Créer un job</h3>
-    {{ form_start(formJob) }}
-    {{ form_widget(formJob) }}
-    {{ form_end(formJob) }}
-    <h2>Listes des jobs:</h2>
-    <p class="SaveModificationMessage"></p>
 
-    {% include "AdminBundle:layout:accordion.html.twig" %}
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div class="content-page">
+            <h3>Créer un job</h3>
+            {{ form_start(formJob) }}
+            {{ form_widget(formJob) }}
+            {{ form_end(formJob) }}
+            <h2>Listes des jobs:</h2>
+            <p class="SaveModificationMessage"></p>
+
+            {% include "AdminBundle:layout:accordion.html.twig" %}
+        </div>
+    </div>
 
 {% endblock %}
 

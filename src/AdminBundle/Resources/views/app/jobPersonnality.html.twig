@@ -1,6 +1,6 @@
-{% extends 'UserBundle::base.html.twig' %}
+{% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Account' }}{% endblock %}
+{% block title %}{{ 'Job Personnality' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -11,39 +11,48 @@
 {% endblock %}
 
 {% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
 {% endblock %}
 
 {% block content %}
-    <h2>Page de gestion des profils métiers</h2>
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div class="content-page">
+        <h2>Page de gestion des profils métiers</h2>
 
 
+            <h2>Créer un profils métiers</h2>
+            <form action="{{ path('admin_jobPersonnality') }}" method="post">
 
-    <h2>Créer un profils métiers</h2>
-    <form action="{{ path('admin_jobPersonnality') }}" method="post">
+                <div>
+                    <label for="jobId">Type de personnalité</label>
+                    <select class="selectpicker" name="jobId" required id="jobId">
+                        {% for job in jobs %}
+                            <option value="{{ job.id }}">{{ job.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <div>
-            <label for="jobId">Type de personnalité</label>
-            <select name="jobId" required id="jobId">
-                {% for job in jobs %}
-                    <option value="{{ job.id }}">{{ job.name }}</option>
-                {% endfor %}
-            </select>
+                <div>
+                    {% for personnalityType in personnalityTypes %}
+
+                        <h3>{{ personnalityType.name }}</h3>
+                        <p style="float: left">{{ personnalityType.personnalityType }}</p>
+                        <p style="float: right">{{ personnalityType.opposedPersonnalityType }}</p>
+                        <input class="form-control" type="hidden" name="{{ personnalityType.name }}"
+                               value="{{ personnalityType.id }}">
+                        <input class="form-control" type="range" name="{{ personnalityType.name }}Value" min="0"
+                               max="100"
+                               step="1" required>
+
+                    {% endfor %}
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
         </div>
-
-        <div>
-            {% for personnalityType in personnalityTypes %}
-
-                <h3>{{ personnalityType.name }}</h3>
-                <p style="float: left">{{ personnalityType.personnalityType }}</p>
-                <p style="float: right" >{{ personnalityType.opposedPersonnalityType }}</p>
-                <input type="hidden" name="{{ personnalityType.name }}" value="{{ personnalityType.id }}">
-                <input type="range" name="{{ personnalityType.name }}Value" min="0" max="100" step="1" required >
-
-            {% endfor %}
-        </div>
-
-        <input type="submit" value="Submit">
-    </form>
+    </div>
 {% endblock %}
 
 {% block footer %}
