@@ -253,35 +253,54 @@ class MainController extends Controller
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
 
+        $questions = $QuestionRepo->getQuestions();
+        $arrayFormResponse = [];
+        foreach($questions as $question)
+        {
+            $arrayFormResponse[$question->getLabel()] = $this->createForm(ResponseType::class);
+        }
+
 
         $formQuestion = $this->createForm(QuestionType::class);
-        $formResponse = $this->createForm(ResponseType::class);
+
 
         $formQuestion->handleRequest($request);
-        $formResponse->handleRequest($request);
+
+        foreach($arrayFormResponse as $formResponse)
+        {
+            $formResponse->handleRequest($request);
+        }
 
         if($formQuestion->isSubmitted() && $formQuestion->isValid())
         {
             $QuestionRepo->postQuestion($formQuestion["label"]->getData());
         }
 
-        if($formResponse->isSubmitted() && $formResponse->isValid())
+        foreach ($arrayFormResponse as $formResponse)
         {
-            $value = $formResponse['value']->getData();
-            $question = $QuestionRepo->getQuestionById($formResponse["question"]->getData());
-            $image = $formResponse['image']->getData();
-            $label = $formResponse["label"]->getData();
-            $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+            if($formResponse->isSubmitted() && $formResponse->isValid())
+            {
+                $value = $formResponse['value']->getData();
+                $question = $QuestionRepo->getQuestionById($formResponse["question"]->getData());
+                $image = $formResponse['image']->getData();
+                $label = $formResponse["label"]->getData();
+                $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
 
-            $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
+                $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
+            }
         }
 
         $questions = $QuestionRepo->getQuestions();
         $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
 
+        foreach ($arrayFormResponse as $key => $value)
+        {
+            $arrayFormResponse[$key] = $value->createView();
+        }
+
         return $this->render("AdminBundle:app:questions.html.twig", [
             "formQuestion" => $formQuestion->createView(),
-            "formResponse" => $formResponse->createView(),
+            "arrayFormResponse" => $arrayFormResponse,
             "questions" => $questions,
             "personnalityTypes" => $personnalityTypes
         ]);
@@ -291,12 +310,33 @@ class MainController extends Controller
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $questionId = $request->get('questionId');
+        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
 
+        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
-            "responses" => $responses
+            "responses" => $responses,
+            "personnalityTypes" => $personnalityTypes
         ]));
+    }
 
+    public function responseUpdateAction(Request $request)
+    {
+        $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
+        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+
+        $value = $request->get('value');
+        $image = $request->get('image');
+        $label = $request->get('label');
+        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+        $responseId = $request->get('responseId');
+
+        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId))
+        {
+            $ResponseRepo->putResponse($responseId, $label, $value, $image, $personnalityType);
+        }
+
+        return $this->json(["message" => "Modification bien effectuer"]);
     }
 }

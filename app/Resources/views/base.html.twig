@@ -4,10 +4,12 @@
     <title>{% block title %} {% endblock %} - Projet IMIE</title>
 
     {% block head %}
+        {#<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>#}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     {% endblock %}
 
     {% block stylesheets %}
@@ -35,9 +37,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/matrix.js') }}"></script>
+    {#<script src="{{ asset('assets/js/matrix.js') }}"></script>#}
 {% endblock %}
 
 </body>

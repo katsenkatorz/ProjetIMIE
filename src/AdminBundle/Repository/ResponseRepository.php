@@ -89,12 +89,11 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param $label
      * @param $value
      * @param $image
-     * @param Question $question
      * @param PersonnalityType $personnalityType
      *
      * @return null|object
      */
-    public function putResponse($id, $label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    public function putResponse($id, $label, $value, $image, PersonnalityType $personnalityType)
     {
         $em = $this->getEntityManager();
 
@@ -103,7 +102,6 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
         $response->setLabel($label)
             ->setValue($value)
             ->setImage($image)
-            ->setQuestion($question)
             ->setPersonnalityType($personnalityType);
 
         $em->persist($response);

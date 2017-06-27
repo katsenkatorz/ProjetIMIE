@@ -47,3 +47,7 @@ admin_getResponsesFromQuestion:
     requirements:
         questionId: \d+
 
+admin_putResponse:
+    path:     /putResponse
+    defaults:
+        _controller: AdminBundle:Main:responseUpdate
