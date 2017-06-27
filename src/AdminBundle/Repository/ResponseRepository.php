@@ -1,6 +1,9 @@
 <?php
 
 namespace AdminBundle\Repository;
+use AdminBundle\Entity\PersonnalityType;
+use AdminBundle\Entity\Question;
+use AdminBundle\Entity\Response;
 
 /**
  * RESPONSERepository
@@ -10,4 +13,139 @@ namespace AdminBundle\Repository;
  */
 class ResponseRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Renvois toutes les réponses enregistrer en base
+     *
+     * @return array
+     */
+    public function getResponses()
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Renvois la réponse correspondant à un id
+     *
+     * @param $id
+     *
+     * @return null|object
+     */
+    public function getResponseById($id)
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * Renvois les réponses pour une question
+     *
+     * @param $questionId
+     * @return array
+     */
+    public function getResponseByQuestionId($questionId)
+    {
+        $question = $this->getEntityManager()->getRepository("AdminBundle:Question")->getQuestionById($questionId);
+
+        return $this->findBy(['question' => $question]);
+    }
+
+    /**
+     * Créer une réponse
+     *
+     * @param $label
+     * @param $value
+     * @param $image
+     * @param Question $question
+     * @param PersonnalityType $personnalityType
+     *
+     * @return Response|bool
+     */
+    public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    {
+        if(!$this->checkIfReponseAlreadyExist($label))
+        {
+            $em = $this->getEntityManager();
+
+            $response = new Response();
+
+            $response->setLabel($label)
+                ->setValue($value)
+                ->setImage($image)
+                ->setQuestion($question)
+                ->setPersonnalityType($personnalityType);
+
+            $em->persist($response);
+            $em->flush();
+
+            return $response;
+        }
+
+        return false;
+    }
+
+    /**
+     * Modifie une réponse
+     *
+     * @param $id
+     * @param $label
+     * @param $value
+     * @param $image
+     * @param Question $question
+     * @param PersonnalityType $personnalityType
+     *
+     * @return null|object
+     */
+    public function putResponse($id, $label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    {
+        $em = $this->getEntityManager();
+
+        $response = $this->getResponseById($id);
+
+        $response->setLabel($label)
+            ->setValue($value)
+            ->setImage($image)
+            ->setQuestion($question)
+            ->setPersonnalityType($personnalityType);
+
+        $em->persist($response);
+        $em->flush();
+
+        return $response;
+    }
+
+    /**
+     * Supprime une réponse
+     * @param $id
+     */
+    public function deleteResponse($id)
+    {
+        $em = $this->getEntityManager();
+
+        $response = $this->getResponseById($id);
+
+        $em->persist($response);
+        $em->flush();
+    }
+
+    /**
+     * Renvois true si la réponse existe déjà
+     *
+     * @param $label
+     *
+     * @return bool
+     */
+    public function checkIfReponseAlreadyExist($label)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("r")
+            ->from("AdminBundle:Response", "r")
+            ->where("r.label = :label")
+            ->setParameter(":label", $label)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
+
+        return false;
+    }
 }

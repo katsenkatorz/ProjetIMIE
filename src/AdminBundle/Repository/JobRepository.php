@@ -64,31 +64,36 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      * @param $salaireMax
      * @param $salaireMin
      *
-     * @return Job
+     * @return Job|bool
      */
     public function postJob($name, $description, $salaireMax, $salaireMin)
     {
-        $em = $this->getEntityManager();
-        $PersonnalityTypeRepo = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType");
-        $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
-
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
-
-        $job = new Job();
-        $job->setName($name)
-            ->setDescription($description)
-            ->setMinSalary($salaireMax)
-            ->setMaxSalary($salaireMin);
-
-        $em->persist($job);
-        $em->flush();
-
-        foreach ($personnalityTypes as $personnalityType)
+        if(!$this->checkIfJobAlreadyExist($name, $description))
         {
-            $JobPersonnalityRepo->postJobPersonnality(50, $job, $personnalityType);
+            $em = $this->getEntityManager();
+            $PersonnalityTypeRepo = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType");
+            $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+
+            $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+
+            $job = new Job();
+            $job->setName($name)
+                ->setDescription($description)
+                ->setMinSalary($salaireMax)
+                ->setMaxSalary($salaireMin);
+
+            $em->persist($job);
+            $em->flush();
+
+            foreach ($personnalityTypes as $personnalityType)
+            {
+                $JobPersonnalityRepo->postJobPersonnality(50, $job, $personnalityType);
+            }
+
+            return $job;
         }
 
-        return $job;
+        return false;
     }
 
     /**
@@ -145,6 +150,32 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Renvois true si le métier existe déjà
+     *
+     * @param $name
+     * @param $description
+     *
+     * @return bool
+     */
+    public function checkIfJobAlreadyExist($name, $description)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("j")
+            ->from("AdminBundle:Job", "j")
+            ->where("j.name = :name")
+            ->andWhere("j.description = :description")
+            ->setParameter(":name", $name)
+            ->setParameter(":description", $description)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
 
         return false;
     }
