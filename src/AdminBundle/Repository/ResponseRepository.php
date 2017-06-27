@@ -36,6 +36,19 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * Renvois les réponses pour une question
+     *
+     * @param $questionId
+     * @return array
+     */
+    public function getResponseByQuestionId($questionId)
+    {
+        $question = $this->getEntityManager()->getRepository("AdminBundle:Question")->getQuestionById($questionId);
+
+        return $this->findBy(['question' => $question]);
+    }
+
+    /**
      * Créer une réponse
      *
      * @param $label

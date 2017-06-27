@@ -1,0 +1,19 @@
+<div class="table-responsive">
+    <table class="table">
+        <th>Label</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Image</th>
+        <th>Action</th>
+        {% for response in responses %}
+            <tr>
+                <td>{{ response.label }}</td>
+                <td>{{ response.personnalityType.name }}</td>
+                <td>{{ response.value }}</td>
+                <td>{{ response.image }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+

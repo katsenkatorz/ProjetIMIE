@@ -8,17 +8,31 @@ use AdminBundle\Entity\PersonnalityType;
 use AdminBundle\Form\JobPersonnalityType;
 use AdminBundle\Form\JobType;
 use AdminBundle\Form\PersonnalityTypeType;
+use AdminBundle\Form\QuestionType;
+use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends Controller
 {
+    /**
+     * Affiche la page d'acceuil de l'administration
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function homeAction(Request $request)
     {
         return $this->render('AdminBundle:app:home.html.twig');
     }
 
+    /**
+     * Affiche la page de gestion des utilisateurs
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function userAction(Request $request)
     {
         $userRepo = $this->getDoctrine()->getRepository("UserBundle:User");
@@ -43,6 +57,12 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Affiche la page de gestion des jobPersonnalities
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function jobPersonnalityAction(Request $request)
     {
         // Récupération des répository et entityManager
@@ -91,11 +111,16 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Affiche la page de gestion des jobs
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function jobsAction(Request $request)
     {
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
-        $em = $this->getDoctrine()->getManager();
 
         // Création du formulaire pour créer un job
         $job = new Job();
@@ -106,12 +131,7 @@ class MainController extends Controller
         // Traitement pour la création de job
         if ($formJob->isSubmitted() && $formJob->isValid())
         {
-            $job = $formJob->getData();
-
             $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob['maxSalary']->getData(), $formJob['minSalary']->getData());
-
-            $em->persist($job);
-            $em->flush();
         }
 
         // Récupération des jobs
@@ -123,6 +143,12 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Affiche la vue partielle qui est integrer dans jobs avec un appel ajax
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function jobAction(Request $request)
     {
         // Récupération des répository
@@ -163,6 +189,12 @@ class MainController extends Controller
         ]));
     }
 
+    /**
+     * Disponible seulement de post, enregistre les modifications envoyer en ajax venant de la page jobs
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function saveJobPersonnalityAction(Request $request)
     {
         // Récupération des éléments du formulaire
@@ -179,14 +211,19 @@ class MainController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+    /**
+     * Affiche la page de gestion des types de personnalités
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function personnalityTypeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+
         // Création du formulaire pour les Type de personnalité
-        $pt = new PersonnalityType();
-        $formPT = $this->createForm(PersonnalityTypeType::class, $pt);
+        $formPT = $this->createForm(PersonnalityTypeType::class);
 
         // Récupération de la requête
         $formPT->handleRequest($request);
@@ -195,12 +232,69 @@ class MainController extends Controller
         if ($formPT->isSubmitted() && $formPT->isValid())
         {
             $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
-            $em->persist($pt);
-            $em->flush();
         }
 
         return $this->render("AdminBundle:app:personnalityType.html.twig", [
             "formPT" => $formPT->createView(),
         ]);
+    }
+
+
+    /**
+     * Affiche la page de gestion des questions
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function questionsAction(Request $request)
+    {
+        $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
+        $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
+        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+
+
+        $formQuestion = $this->createForm(QuestionType::class);
+        $formResponse = $this->createForm(ResponseType::class);
+
+        $formQuestion->handleRequest($request);
+        $formResponse->handleRequest($request);
+
+        if($formQuestion->isSubmitted() && $formQuestion->isValid())
+        {
+            $QuestionRepo->postQuestion($formQuestion["label"]->getData());
+        }
+
+        if($formResponse->isSubmitted() && $formResponse->isValid())
+        {
+            $value = $formResponse['value']->getData();
+            $question = $QuestionRepo->getQuestionById($formResponse["question"]->getData());
+            $image = $formResponse['image']->getData();
+            $label = $formResponse["label"]->getData();
+            $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+
+            $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
+        }
+
+        $questions = $QuestionRepo->getQuestions();
+        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+
+        return $this->render("AdminBundle:app:questions.html.twig", [
+            "formQuestion" => $formQuestion->createView(),
+            "formResponse" => $formResponse->createView(),
+            "questions" => $questions,
+            "personnalityTypes" => $personnalityTypes
+        ]);
+    }
+
+    public function responsesAction(Request $request)
+    {
+        $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
+        $questionId = $request->get('questionId');
+
+        $responses = $ResponseRepo->getResponseByQuestionId($questionId);
+
+        return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
+            "responses" => $responses
+        ]));
     }
 }

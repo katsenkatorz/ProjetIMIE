@@ -1,6 +1,6 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Jobs' }}{% endblock %}
+{% block title %}{{ 'AdminAccount' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -15,24 +15,20 @@
 {% endblock %}
 
 {% block content %}
-
     {% include "AdminBundle:layout:sidebar.html.twig" %}
-
     <div id="content">
         <div class="content-page">
-            <h2>Listes des métiers:</h2>
-            <p class="SaveModificationMessage"></p>
             {% include "AdminBundle:layout:accordion.html.twig" %}
         </div>
     </div>
+{% endblock %}
 
+
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/JobPersonnalityProcess.js') }}"></script>
-{% endblock javascripts %}
-
-{% block footer %}
-    {{ parent() }}
+    <script src="{{ asset('assets/js/ResponsesFromQuestionProcess.js') }}"></script>
 {% endblock %}

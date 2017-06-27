@@ -20,6 +20,11 @@ admin_jobs:
     defaults:
         _controller: AdminBundle:Main:jobs
 
+admin_questions:
+    path: /questions
+    defaults:
+        _controller: AdminBundle:Main:questions
+
 admin_personnalityType:
     path:     /personnalityType
     defaults:
@@ -34,3 +39,10 @@ admin_jobPersonnality:
     path:     /jobPersonnality
     defaults:
         _controller: AdminBundle:Main:jobPersonnality
+
+admin_getResponsesFromQuestion:
+    path:     /getResponsesFromQuestion/{questionId}
+    defaults:
+        _controller: AdminBundle:Main:responses
+    requirements:
+        questionId: \d+
