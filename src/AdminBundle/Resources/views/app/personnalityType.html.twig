@@ -1,6 +1,5 @@
 {% extends 'AdminBundle::base.html.twig' %}
-
-{% block title %}{{ 'Personnality Types' }}{% endblock %}
+{% block title %}{{ 'Profils métier' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -18,10 +17,14 @@
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
     <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon-plus-sign-alt"></i>Création des profils</a>
+            </div>
+        </div>
         <div class="content-page">
             <h2>Créer un type de profil</h2>
             {{ form_start(formPT) }}
-            {{ form_widget(formPT, {'attr': {'class':'form-control'}}) }}
+            {{ form_widget(formPT, {'attr': {'class':'form-group'}}) }}
             {{ form_end(formPT) }}
         </div>
     </div>

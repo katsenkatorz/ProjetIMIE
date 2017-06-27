@@ -1,0 +1,14 @@
+test_homepage:
+    path:     /
+    defaults:
+        _controller: TestBundle:Default:home
+
+test_user:
+    path:     /formOne
+    defaults:
+        _controller: TestBundle:Default:formOne
+
+test_job:
+    path:     /formTwo
+    defaults:
+        _controller: TestBundle:Default:formTwo

@@ -15,7 +15,8 @@ class PersonnalityTypeType extends AbstractType
         $builder->add("name", TextType::class, ["label" => "Nom du type"])
             ->add("personnalityType", TextType::class, ["label" => "Type de personnalité"])
             ->add("opposedPersonnalityType", TextType::class, ["label" => "Type de personnalité opposés"])
-            ->add("save", SubmitType::class, ["label" => "Créer un type de personnalité"]);
+            ->add("save", SubmitType::class, ["label" => "Créer un type de personnalité"])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,6 +1,6 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Jobs' }}{% endblock %}
+{% block title %}{{ 'Métiers' }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -19,6 +19,10 @@
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
     <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-book"></i>Création des métiers</a>
+            </div>
+        </div>
         <div class="content-page">
             <h2>Listes des métiers:</h2>
             <p class="SaveModificationMessage"></p>
