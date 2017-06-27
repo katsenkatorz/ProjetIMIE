@@ -1,0 +1,63 @@
+{% extends 'TestBundle::base.html.twig' %}
+
+{% block title %}{{ 'FormOne' }}{% endblock %}
+
+
+
+
+
+{% block _TestBundle %}
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="texte/html; charset=UTF-8" />
+        <script type="text/javascript" language="Javascript" src="" ></script>
+        <script type="text/javascript" language="Javascript" src="" ></script>
+
+        <title>Ma page</title>
+        <style type="text/css" >
+
+            <!--
+            body,td,th {
+                font-family: Arial, Verdana, serif;
+                color: #fff;
+                font-size: x-small;
+            }
+
+            .checkbox, .radio {
+                width: 19px;
+                height: 25px;
+                padding: 0 5px 0 0;
+                background: url() no-repeat;
+                display: block;
+            }
+            .radio {
+                background: url() no-repeat;
+            }
+            .select {
+                position: absolute;
+                width: 158px; /* With the padding included, the width is 190 pixels: the actual width of the image. */
+                height: 21px;
+                padding: 0 24px 0 8px;
+                color: #fff;
+                font: 12px/21px arial,sans-serif;
+                background: url(select.gif) no-repeat;
+                overflow: hidden;
+            }
+            -->
+
+        </style>
+    </head>
+    <body bgcolor="#000">
+
+    <form id="formulaire" action="#" method="post">
+        <input type="checkbox" name="champ[]" value="Affiche" class="styled" onclick="limite_check(this.name, 1);"/></p>
+        <input type="checkbox" name="champ[]" value="Carte de visite" class="styled" onclick="limite_check(this.name, 1);"/></p>
+        <input type="checkbox" name="champ[]" value="Logo" class="styled" onclick="limite_check(this.name, 1);"/></p>
+    </form>
+
+    </body>
+    </html>
+
+{% endblock %}

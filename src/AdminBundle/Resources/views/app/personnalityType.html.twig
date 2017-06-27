@@ -1,5 +1,4 @@
 {% extends 'AdminBundle::base.html.twig' %}
-
 {% block title %}{{ 'Profils métier' }}{% endblock %}
 
 {% block head %}
@@ -25,7 +24,7 @@
         <div class="content-page">
             <h2>Créer un type de profil</h2>
             {{ form_start(formPT) }}
-            {{ form_widget(formPT, {'attr': {'class':'form-control'}}) }}
+            {{ form_widget(formPT, {'attr': {'class':'form-group'}}) }}
             {{ form_end(formPT) }}
         </div>
     </div>
