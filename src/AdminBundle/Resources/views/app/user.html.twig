@@ -20,15 +20,13 @@
         <div class="content-page">
             <h2>Page de gestion des utilisateurs</h2>
             <div class="table-responsive">
-                <table class="table" border="2" cellpading="5px" cellspacing="5px">
+                <table class="table table-striped">
                     <th>Pseudonyme</th>
-                    <th>Email</th>
                     <th>Rôle</th>
                     <th>Action</th>
                     {% for user in users %}
                         <tr>
                             <td>{{ user.username }}</td>
-                            <td>{{ user.email }}</td>
                             <td>{% if user.roles|length > 1 %} Administrateur {% else %} Utilisateur {% endif %}</td>
                             <td>
                                 {% if user.roles|length > 1 %}

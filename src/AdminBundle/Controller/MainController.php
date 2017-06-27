@@ -240,6 +240,7 @@ class MainController extends Controller
     }
 
 
+
     /**
      * Affiche la page de gestion des questions
      *
@@ -296,5 +297,6 @@ class MainController extends Controller
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses
         ]));
+
     }
 }

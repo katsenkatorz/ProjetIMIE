@@ -46,3 +46,4 @@ admin_getResponsesFromQuestion:
         _controller: AdminBundle:Main:responses
     requirements:
         questionId: \d+
+

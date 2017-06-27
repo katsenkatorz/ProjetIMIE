@@ -1,27 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %} {% endblock %} - Projet IMIE</title>
+{% extends "UserBundle::base.html.twig" %}
 
-    {% block head %}
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    {% endblock %}
+{% block title %}{{ 'UserAccount' }}{% endblock %}
 
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/css/formWizard.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    {% endblock %}
-</head>
-<body>
+{% block head %}
 
+{% endblock %}
 
-{% block header %}
-
+{% block stylesheets %}
 {% endblock %}
 
 {% block content %}
@@ -29,22 +14,8 @@
 {% endblock %}
 
 {% block footer %}
-
 {% endblock %}
 
 {% block javascripts %}
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
-    <script src="{{ asset('assets/js/formWizard.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/matrix.js') }}"></script>
-    <script src="{{ asset('assets/js/matrix.dashboard.js') }}"></script>
 {% endblock %}
-
-</body>
-</html>
 
