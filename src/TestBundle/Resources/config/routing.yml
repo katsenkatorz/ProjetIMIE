@@ -3,12 +3,12 @@ test_homepage:
     defaults:
         _controller: TestBundle:Default:home
 
-test_user:
+test_formOne:
     path:     /formOne
     defaults:
         _controller: TestBundle:Default:formOne
 
-test_job:
+test_formTwo:
     path:     /formTwo
     defaults:
         _controller: TestBundle:Default:formTwo

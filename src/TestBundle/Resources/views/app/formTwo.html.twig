@@ -8,5 +8,17 @@
 
 {% block _TestBundle %}
 
+    <h1 style="text-align: center; color: #FFF">Êtes-vous sensé ou censé ?</h1>
+    <div class="container">
+        <form class="slider">
+            <img class="img1" src="{{ asset('assets/img/THUMB__t5j5.jpg') }}">
+            <img class="img2" src="{{ asset('assets/img/THUMB__cosi.jpg') }}">
+            <input type="range" id="slider1" title="slider" data-slider-min="0" data-slider-max="20"/>
+            <p style="color: #FFF" class="left">sensé</p>
+            <p style="color: #FFF" class="right">censé</p>
+
+            <input class="slide btn btn-success" type="submit" value="Suivant" title="Suivant">
+        </form>
+    </div>
 
 {% endblock %}
