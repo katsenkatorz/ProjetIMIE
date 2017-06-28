@@ -1,70 +1,80 @@
-<div class="table-responsive" xmlns="http://www.w3.org/1999/html">
-    <table class="table">
-        <th>Label</th>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Image</th>
-        <th>Action</th>
-        {% for response in responses %}
-            <tr>
-                <td>{{ response.label }}</td>
-                <td>{{ response.personnalityType.name }}</td>
-                <td>{{ response.value }}</td>
-                <td>{{ response.image }}</td>
-                <td>
-                    {# Modal modification #}
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#modalModifResponse{{ response.id }}">Modifier
-                    </button>
+{% if responses is not empty %}
+    <div class="table-responsive" xmlns="http://www.w3.org/1999/html">
+        <table class="table">
+            <th>Label</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Image</th>
+            <th colspan="2">Action</th>
+            {% for response in responses %}
+                <tr>
+                    <td>{{ response.label }}</td>
+                    <td>{{ response.personnalityType.name }}</td>
+                    <td>{{ response.value }}</td>
+                    <td>{{ response.image }}</td>
+                    <td>
+                        {# Modal modification #}
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#modalModifResponse{{ response.id }}">Modifier
+                        </button>
+                        <!-- Modal Response ID-->
+                        <div id="modalModifResponse{{ response.id }}" class="modal fade" role="dialog"
+                             style="display:none;">
+                            <div class="modal-dialog">
 
-                    <!-- Modal Response ID-->
-                    <div id="modalModifResponse{{ response.id }}" class="modal fade" role="dialog" style="display:none;">
-                        <div class="modal-dialog">
+                                <!-- Modal Critic content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Modification de : {{ response.label }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" class="form-group">
+                                            <label for="labelModifResponse{{ response.id }}">Intitulé</label>
+                                            <input id="labelModifResponse{{ response.id }}" type="text" name="label" value="{{ response.label }}"
+                                                   class="form-control">
 
-                            <!-- Modal Critic content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Modification de : {{ response.label }}</h4>
+                                            <label for="valueModifResponse{{ response.id }}">Valeur</label>
+                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value" value="{{ response.value }}"
+                                                   min="0" max="100" class="form-control">
+
+                                            <label for="imageModifResponse{{ response.id }}">Image</label>
+                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image" value="{{ response.image }}"
+                                                   class="form-control">
+
+                                            <label for="personnalityType{{ response.id }}"></label>
+                                            <select id="personnalityType{{ response.id }}" name="personnalityType"
+                                                    class="form-control">
+                                                {% for personnalityType in personnalityTypes %}
+                                                    {% if personnalityType.id == response.personnalityType.id %}
+                                                        <option value="{{ personnalityType.id }}"
+                                                                selected>{{ personnalityType.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ personnalityType.id }}">{{ personnalityType.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+
+                                            <br>
+                                            <input type="submit" name="Valider" class="form-control btn btn-primary modalSubmit" id="{{ response.id }}">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="{{ path("admin_putResponse") }}" method="post" class="form-group">
-                                        <label for="label">Intitulé</label>
-                                        <input id="label" type="text" name="label" value="{{ response.label }}" class="form-control">
 
-                                        <label for="value">Valeur</label>
-                                        <input id="value" type="range" name="value" value="{{ response.value }}" min="0" max="100" class="form-control">
-
-                                        <label for="image">Image</label>
-                                        <input id="image" type="text" name="image" value="{{ response.image }}" class="form-control">
-
-                                        <label for="personnalityType"></label>
-                                        <select id="personnalityType" name="personnalityType" class="form-control">
-                                            {% for personnalityType in personnalityTypes %}
-                                                {% if personnalityType.id == response.personnalityType.id %}
-                                                    <option value="{{ personnalityType.id }}"
-                                                            selected>{{ personnalityType.name }}</option>
-                                                {% else %}
-                                                    <option value="{{ personnalityType.id }}">{{ personnalityType.name }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                        <input type="hidden" name="responseId" value="{{ response.id }}">
-                                        <br>
-                                        <p class="btn btn-primary modalSubmit" id="{{ response.id }}">Valider</p>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-
-                                </div>
                             </div>
-
                         </div>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-</div>
-
-
+                    </td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="responseId" value="{{ response.id }}">
+                            <input type="submit" value="Supprimer" class="btn btn-danger deleteResponseButton" >
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}
