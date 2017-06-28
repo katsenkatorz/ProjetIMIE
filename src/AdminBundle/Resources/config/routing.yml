@@ -1,3 +1,7 @@
+#=================================#
+#       MainController            #
+#=================================#
+
 admin_homepage:
     path:     /home
     defaults:
@@ -8,42 +12,74 @@ admin_user:
     defaults:
         _controller: AdminBundle:Main:user
 
+#=================================#
+#   JobPersonnalityController     #
+#=================================#
+
 admin_job:
     path:     /job/{idJob}
     defaults:
-        _controller: AdminBundle:Main:job
+        _controller: AdminBundle:JobPersonnality:job
     requirements:
         idJob: \d+
 
 admin_jobs:
     path:     /jobs
     defaults:
-        _controller: AdminBundle:Main:jobs
-
-admin_questions:
-    path: /questions
-    defaults:
-        _controller: AdminBundle:Main:questions
+        _controller: AdminBundle:JobPersonnality:jobs
 
 admin_personnalityType:
     path:     /personnalityType
     defaults:
-        _controller: AdminBundle:Main:personnalityType
+        _controller: AdminBundle:JobPersonnality:personnalityType
 
 admin_SavejobPersonnality:
     path:     /saveJobPersonnality
     defaults:
-        _controller: AdminBundle:Main:saveJobPersonnality
+        _controller: AdminBundle:JobPersonnality:saveJobPersonnality
 
 admin_jobPersonnality:
     path:     /jobPersonnality
     defaults:
-        _controller: AdminBundle:Main:jobPersonnality
+        _controller: AdminBundle:JobPersonnality:jobPersonnality
+
+#=================================#
+#       QuestionController        #
+#=================================#
+
+admin_questions:
+    path:     /questions
+    defaults:
+        _controller: AdminBundle:Question:questions
 
 admin_getResponsesFromQuestion:
     path:     /getResponsesFromQuestion/{questionId}
     defaults:
-        _controller: AdminBundle:Main:responses
+        _controller: AdminBundle:Question:responses
     requirements:
         questionId: \d+
 
+admin_putQuestion:
+    path:     /putQuestion
+    defaults:
+        _controller: AdminBundle:Question:questionPut
+
+admin_deleteQuestion:
+    path:     /deleteQuestion
+    defaults:
+        _controller: AdminBundle:Question:questionDelete
+
+admin_postResponse:
+    path:     /postResponse
+    defaults:
+        _controller: AdminBundle:Question:responsePost
+
+admin_putResponse:
+    path:     /putResponse
+    defaults:
+        _controller: AdminBundle:Question:responseUpdate
+
+admin_deleteResponse:
+    path:     /deleteResponse
+    defaults:
+        _controller: AdminBundle:Question:responseDelete

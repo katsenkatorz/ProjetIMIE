@@ -24,9 +24,11 @@ $(document).ready(function ()
                     // Au changement de value de l'input
                     $('input#job_personnality_value').on('input', function ()
                     {
-                        var jobId = this.nextElementSibling.nextElementSibling.value;
-                        var personnalityTypeId = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                        var jobId = this.nextElementSibling.value;
+                        var personnalityTypeId = this.nextElementSibling.nextElementSibling.value;
                         var value = this.value;
+
+
                         // On appelle la route qui permet de sauvegarder les changements
                         $.ajax({
                             url: "/admin/saveJobPersonnality",
@@ -39,11 +41,11 @@ $(document).ready(function ()
                             success: function (result)
                             {
                                 // A la réussite on affiche le message de succes
-                                $("p.SaveModificationMessage").html(result.message);
+                                console.log(result.message)
                             },
                             error: function (error)
                             {
-                                $("p.SaveModificationMessage").html(error)
+                                console.log(error.message);
                             }
                         })
 
@@ -53,6 +55,7 @@ $(document).ready(function ()
                 error: function (error)
                 {
                     descriptionContent.innerHTML = "Erreur lors du chargement";
+                    console.log(error.statusText)
                 }
             });
         }

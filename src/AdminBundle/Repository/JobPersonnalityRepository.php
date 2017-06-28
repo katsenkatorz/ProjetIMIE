@@ -79,7 +79,8 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
                     "value" => $value,
                     "idJP" => $idJP,
                     "personnalityType" => $personnalityType,
-                    "opposedPersonnalityType" => $opposedPersonnalityType
+                    "opposedPersonnalityType" => $opposedPersonnalityType,
+                    "personnalityTypeId" => $jobPersonnality->getPersonnalityType()->getId()
                 ];
             }
 

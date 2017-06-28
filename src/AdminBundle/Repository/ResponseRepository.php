@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Repository;
+
 use AdminBundle\Entity\PersonnalityType;
 use AdminBundle\Entity\Question;
 use AdminBundle\Entity\Response;
@@ -39,7 +40,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * Renvois les réponses pour une question
      *
      * @param $questionId
-     * @return array
+     * @return array|bool
      */
     public function getResponseByQuestionId($questionId)
     {
@@ -61,7 +62,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
     {
-        if(!$this->checkIfReponseAlreadyExist($label))
+        if (!$this->checkIfReponseAlreadyExist($label))
         {
             $em = $this->getEntityManager();
 
@@ -89,27 +90,30 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param $label
      * @param $value
      * @param $image
-     * @param Question $question
      * @param PersonnalityType $personnalityType
      *
-     * @return null|object
+     * @return bool|object
      */
-    public function putResponse($id, $label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    public function putResponse($id, $label, $value, $image, PersonnalityType $personnalityType)
     {
         $em = $this->getEntityManager();
 
-        $response = $this->getResponseById($id);
+        if (!$this->checkIfReponseAlreadyExist($label))
+        {
+            $response = $this->getResponseById($id);
 
-        $response->setLabel($label)
-            ->setValue($value)
-            ->setImage($image)
-            ->setQuestion($question)
-            ->setPersonnalityType($personnalityType);
+            $response->setLabel($label)
+                ->setValue($value)
+                ->setImage($image)
+                ->setPersonnalityType($personnalityType);
 
-        $em->persist($response);
-        $em->flush();
+            $em->persist($response);
+            $em->flush();
 
-        return $response;
+            return $response;
+        }
+
+        return false;
     }
 
     /**
@@ -122,7 +126,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
 
         $response = $this->getResponseById($id);
 
-        $em->persist($response);
+        $em->remove($response);
         $em->flush();
     }
 
@@ -143,8 +147,10 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
-        if(count($isHereOrNot))
+        if (count($isHereOrNot))
+        {
             return true;
+        }
 
         return false;
     }
