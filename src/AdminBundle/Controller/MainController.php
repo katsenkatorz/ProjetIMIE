@@ -206,8 +206,12 @@ class MainController extends Controller
         $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
 
         // Sauvegarde de la modification
-        $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
+        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
 
+        if(!$bool)
+        {
+            return $this->json(["message" => "Erreur put renvois false"]);
+        }
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 

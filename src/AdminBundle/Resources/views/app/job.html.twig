@@ -24,7 +24,7 @@
             <p class="opposedPersonnalityType">{{ jobPersonnality["opposedPersonnalityType"] }}</p>
             {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control' } }) }}
             {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
-            {{ form_widget(forms[jobPersonnality["name"]].personnalityType, {'attr': {"value": jobPersonnality["idJP"], 'class': 'form-control'} }) }}
+            {{ form_widget(forms[jobPersonnality["name"]].personnalityType, {'attr': {"value": jobPersonnality["personnalityTypeId"], 'class': 'form-control'} }) }}
             {{ form_end(forms[jobPersonnality["name"]]) }}
         </div>
     {% endfor %}

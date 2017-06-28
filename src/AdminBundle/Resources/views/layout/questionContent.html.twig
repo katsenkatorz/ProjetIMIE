@@ -1,20 +1,24 @@
 {#Pour la page Question#}
 {% if questions is defined %}
-    {#<!-- Modal Question Button-->#}
     <button type="button" class="btn btn-primary" data-toggle="modal"
             data-target="#modalQuestion">Ajouter une question
     </button>
-    <div class="panel-group" id="accordion">
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         {% for question in questions %}
             <div class="panel panel-default">
-                <div class="panel-heading">
+
+                <div class="panel-heading" role="tab" id="heading{{ question.id }}">
                     <h4 class="panel-title" data-id="{{ question.id }}">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}"
+                           aria-expanded="true" aria-controls="collapse{{ question.id }}">
                             {{ question.label }}
                         </a>
                     </h4>
                 </div>
-                <div id="{{ question.id }}" class="panel-collapse collapse">
+
+                <div id="{{ question.id }}" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="heading{{ question.id }}">
                     <div class="panel-body">
                         <div class="responseContent{{ question.id }}"></div>
 
