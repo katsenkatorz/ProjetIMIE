@@ -8,15 +8,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     {% endblock %}
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('assets/font-awesome/css/font-awesome.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-responsive.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}"/>
         <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}"/>
         <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        {#<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">#}
     {% endblock %}
 </head>
 <body>
@@ -36,7 +36,7 @@
 
 {% block javascripts %}
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    {#<script href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
     <script src="{{ asset('assets/js/matrix.js') }}"></script>
 {% endblock %}
 
