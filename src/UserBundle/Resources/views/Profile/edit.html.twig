@@ -1,20 +1,26 @@
 {% extends "@FOSUser/Group/edit.html.twig" %}
 
+{% block title %}{{ 'Edition de profil' }}{% endblock %}
 
 {% block fos_user_content %}
+    {% include 'AdminBundle:layout:header.html.twig' %}
+    <br>
+    {% include 'AdminBundle:layout:sidebar.html.twig' %}
+    <div id="content">
+        <div class="login-form">
+            <h2 class="login-title">Edition de profil</h2>
 
-    <div class="login-form">
-
-        {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-        {{ form_widget(form) }}
-        <div>
-            <input class="btn btn-default" type="submit" value="Editer profil"/>
-        </div>
-        {{ form_end(form) }}
+            {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+            {{ form_widget(form) }}
+            <div>
+                <input class="btn btn-default" type="submit" value="Editer profil"/>
+            </div>
+            {{ form_end(form) }}
 
 
-        <div style="padding-top: 20px">
-            <a href="{{ path('admin_homepage') }}"><i class="icon icon-home"></i> <span>Retour à l'accueil</span></a>
+            <div style="padding-top: 20px">
+                <p class="login-redirect"><a href="{{ path('admin_homepage') }}"><i class="icon icon-home"></i>Retour à l'accueil</a></p>
+            </div>
         </div>
     </div>
 {% endblock fos_user_content %}

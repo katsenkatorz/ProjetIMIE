@@ -1,13 +1,22 @@
 {% extends "UserBundle::layout.html.twig" %}
 
+{% block title %}{{ 'Enregistrement' }}{% endblock %}
 
 {% block fos_user_content %}
-    <div class="login-form">
-        {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-group'}}) }}
-        {{ form_widget(form) }}
-        <div>
-            <input class="btn btn-default" type="submit" value="{{ 'registration.submit'|trans }}"/>
+    <div style="color: #FFF;" id="content">
+        <div class="login-form">
+            <h2 class="login-title">Enregistrement</h2>
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-group'}}) }}
+            {{ form_widget(form.email, {'attr': {'placeholder': 'form.email'|trans }}) }}
+            {{ form_widget(form.username, {'attr': {'placeholder': 'form.username'|trans }}) }}
+            {{ form_widget(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe'}}) }}
+            {{ form_widget(form.plainPassword.second, {'attr': {'placeholder': 'Répéter mot de passe'}}) }}
+            {#{{ dump(form.children.email) }}#}
+            <div>
+                <input class="btn btn-default" type="submit" value="{{ 'Enregistrer' }}"/>
+            </div>
+            {{ form_end(form) }}
+            <p class="login-redirect"><a href="{{ path('fos_user_security_login') }}"><i class="icon icon-user"></i> Se connecter</a></p>
         </div>
-        {{ form_end(form) }}
     </div>
 {% endblock fos_user_content %}

@@ -13,10 +13,50 @@
 
 .login-form {
     text-align: center;
-    color: #f7f7f7;
-    width: 30% !important;
+    color: #FFF;
+    width: 50% !important;
     margin: auto;
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 200px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #505050;
+}
+@media screen and (max-width: 640px){
+    .login-form {
+        text-align: center;
+        color: #FFF;
+        width: 100% !important;
+        margin: auto;
+        padding-top: 10px;
+        padding-bottom: 200px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-color: #505050;
+    }
+}
+
+
+.login-form input {
+    margin-bottom: 15px;
+}
+
+.login-title {
+    padding-bottom: 200px;
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.login-redirect a {
+    color: #909090 !important;
+}
+
+.login-redirect a:hover, a:focus {
+    color: #FFF !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;
 }
 
 .opposedPersonnalityType {
