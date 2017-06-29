@@ -12,6 +12,11 @@ admin_user:
     defaults:
         _controller: AdminBundle:Main:user
 
+admin_parameters:
+    path:     /parameters
+    defaults:
+        _controller: AdminBundle:Main:parameters
+
 #=================================#
 #   JobPersonnalityController     #
 #=================================#

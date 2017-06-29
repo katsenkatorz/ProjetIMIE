@@ -40,13 +40,11 @@ class MainController extends Controller
         $downgrade = $request->get('down');
         $userId = $request->get('userId');
 
-        if (isset($upgrade) && $upgrade === "Upgrade user")
-        {
+        if (isset($upgrade) && $upgrade === "Upgrade user") {
             $userRepo->upgradeUserToAdmin($userId);
         }
 
-        if (isset($downgrade) && $downgrade === "Downgrade user")
-        {
+        if (isset($downgrade) && $downgrade === "Downgrade user") {
             $userRepo->downgradeAdminToUser($userId);
         }
 
@@ -54,6 +52,24 @@ class MainController extends Controller
 
         return $this->render('AdminBundle:app:user.html.twig', [
             "users" => $users
+        ]);
+    }
+
+    /**
+     * Affiche la page des parametres utilisateur
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function parametersAction(Request $request)
+    {
+        $paramRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+        $paramId = $request->get('paramId');
+
+        $parameters = $paramRepo->getParameters();
+
+        return $this->render('AdminBundle:app:parameters.html.twig', [
+            "parameters" => $parameters
         ]);
     }
 
@@ -81,14 +97,12 @@ class MainController extends Controller
         $jobFromForm = $JobRepo->getJobById($jobId);
 
         // Si le formulaire est soumis
-        if (!is_null($jobId))
-        {
+        if (!is_null($jobId)) {
             // On créer un tableau de résultat
             $JobPersonnalityResult = [];
 
             // Pour chaque type de personnalité
-            forEach ($personnalityTypes as $personnalityType)
-            {
+            forEach ($personnalityTypes as $personnalityType) {
                 // On récupère sont id et sont nom
                 $pTid = $personnalityType->getId();
                 $pTName = $personnalityType->getName();
@@ -98,8 +112,7 @@ class MainController extends Controller
             }
 
             // Créer les jobPersonnality
-            forEach ($JobPersonnalityResult as $id => $value)
-            {
+            forEach ($JobPersonnalityResult as $id => $value) {
                 $pt = $PersonnalityTypeRepo->getPersonnalityTypeById($id);
                 $JobPersonnalityRepo->postJobPersonnality($JobPersonnalityResult[$id], $jobFromForm, $pt);
             }
@@ -129,8 +142,7 @@ class MainController extends Controller
         $formJob->handleRequest($request);
 
         // Traitement pour la création de job
-        if ($formJob->isSubmitted() && $formJob->isValid())
-        {
+        if ($formJob->isSubmitted() && $formJob->isValid()) {
             $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob['maxSalary']->getData(), $formJob['minSalary']->getData());
         }
 
@@ -168,8 +180,7 @@ class MainController extends Controller
         $arrayForm = [];
 
         // Création des formulaires dans le tableau
-        foreach ($jobPersonnalities as $key => $value)
-        {
+        foreach ($jobPersonnalities as $key => $value) {
             $arrayForm[$key] = $this->createForm(JobPersonnalityType::class);
         }
 
@@ -177,8 +188,7 @@ class MainController extends Controller
         $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
 
         // Préparation des formulaires pour les vues
-        foreach ($arrayForm as $key => $form)
-        {
+        foreach ($arrayForm as $key => $form) {
             $arrayForm[$key] = $form->createView();
         }
 
@@ -208,8 +218,7 @@ class MainController extends Controller
         // Sauvegarde de la modification
         $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
 
-        if(!$bool)
-        {
+        if (!$bool) {
             return $this->json(["message" => "Erreur put renvois false"]);
         }
         return $this->json(["message" => "Modification bien effectuer"]);
@@ -233,8 +242,7 @@ class MainController extends Controller
         $formPT->handleRequest($request);
 
         // Traitement pour la création de Type de personnalité
-        if ($formPT->isSubmitted() && $formPT->isValid())
-        {
+        if ($formPT->isSubmitted() && $formPT->isValid()) {
             $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
         }
 
@@ -242,7 +250,6 @@ class MainController extends Controller
             "formPT" => $formPT->createView(),
         ]);
     }
-
 
 
     /**
@@ -259,8 +266,7 @@ class MainController extends Controller
 
         $questions = $QuestionRepo->getQuestions();
         $arrayFormResponse = [];
-        foreach($questions as $question)
-        {
+        foreach ($questions as $question) {
             $arrayFormResponse[$question->getLabel()] = $this->createForm(ResponseType::class);
         }
 
@@ -270,20 +276,16 @@ class MainController extends Controller
 
         $formQuestion->handleRequest($request);
 
-        foreach($arrayFormResponse as $formResponse)
-        {
+        foreach ($arrayFormResponse as $formResponse) {
             $formResponse->handleRequest($request);
         }
 
-        if($formQuestion->isSubmitted() && $formQuestion->isValid())
-        {
+        if ($formQuestion->isSubmitted() && $formQuestion->isValid()) {
             $QuestionRepo->postQuestion($formQuestion["label"]->getData());
         }
 
-        foreach ($arrayFormResponse as $formResponse)
-        {
-            if($formResponse->isSubmitted() && $formResponse->isValid())
-            {
+        foreach ($arrayFormResponse as $formResponse) {
+            if ($formResponse->isSubmitted() && $formResponse->isValid()) {
                 $value = $formResponse['value']->getData();
                 $question = $QuestionRepo->getQuestionById($formResponse["question"]->getData());
                 $image = $formResponse['image']->getData();
@@ -297,8 +299,7 @@ class MainController extends Controller
         $questions = $QuestionRepo->getQuestions();
         $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
 
-        foreach ($arrayFormResponse as $key => $value)
-        {
+        foreach ($arrayFormResponse as $key => $value) {
             $arrayFormResponse[$key] = $value->createView();
         }
 
@@ -336,8 +337,7 @@ class MainController extends Controller
         $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
         $responseId = $request->get('responseId');
 
-        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId))
-        {
+        if (!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId)) {
             $ResponseRepo->putResponse($responseId, $label, $value, $image, $personnalityType);
         }
 

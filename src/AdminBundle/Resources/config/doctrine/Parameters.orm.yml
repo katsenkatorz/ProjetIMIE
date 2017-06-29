@@ -1,0 +1,23 @@
+AdminBundle\Entity\Parameters:
+    type: entity
+    table: PARAMETERS
+    repositoryClass: AdminBundle\Repository\ParametersRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 255
+        value:
+            type: text
+#        Si l'entité user est créée      #
+#        manyToOne:
+#            user:
+#              targetEntity: AdminBundle\Entity\User
+#              inversedBy: user
+#              cascade: [persist, remove]
+    lifecycleCallbacks: {  }
