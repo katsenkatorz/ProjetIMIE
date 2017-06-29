@@ -79,8 +79,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $job = new Job();
             $job->setName($name)
                 ->setDescription($description)
-                ->setMinSalary($salaireMax)
-                ->setMaxSalary($salaireMin);
+                ->setMinSalary($salaireMin)
+                ->setMaxSalary($salaireMax);
 
             $em->persist($job);
             $em->flush();
