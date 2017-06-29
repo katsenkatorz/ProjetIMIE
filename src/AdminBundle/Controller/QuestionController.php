@@ -48,6 +48,12 @@ class QuestionController extends Controller
         ]);
     }
 
+    /**
+     * Permet de modifier une question
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function questionPutAction(Request $request)
     {
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
@@ -63,6 +69,12 @@ class QuestionController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+    /**
+     * Permet de supprimer une question
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function questionDeleteAction(Request $request)
     {
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
@@ -72,9 +84,10 @@ class QuestionController extends Controller
         if(!is_null($questionId))
         {
             $QuestionRepo->deleteQuestion($questionId);
+            return $this->json(["message" => "Suppression bien effectuer"]);
         }
 
-        return $this->json(["message" => "Suppression bien effectuer"]);
+        return $this->json(["message" => "Error lors de la suppression"]);
     }
 
     /**
@@ -98,6 +111,12 @@ class QuestionController extends Controller
         ]));
     }
 
+    /**
+     * Permet de créer une question
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function responsePostAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
@@ -116,7 +135,10 @@ class QuestionController extends Controller
             $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
         }
 
-        return $this->json(["message" => "Création bien effectuer"]);
+        return $this->json([
+            "message" => "Création bien effectuer",
+            "idQuestion" => $request->get('question')
+        ]);
     }
 
     /**
@@ -144,17 +166,23 @@ class QuestionController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+    /**
+     * Permet de supprimer une réponse
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function responseDeleteAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-
         $idResponse = $request->get('responseId');
+        $response = $ResponseRepo->getResponseById($idResponse);
 
         if(!is_null($idResponse))
         {
             $ResponseRepo->deleteResponse($idResponse);
         }
 
-        return $this->json(["message" => "Suppression bien effectuer"]);
+        return $this->json(["message" => "Suppression bien effectuer", "idQuestion" => $response->getQuestion()->getId()]);
     }
 }

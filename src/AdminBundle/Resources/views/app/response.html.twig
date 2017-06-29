@@ -56,7 +56,7 @@
                                             </select>
 
                                             <br>
-                                            <input type="submit" name="Valider" class="form-control btn btn-primary modalSubmit" id="{{ response.id }}">
+                                            <input type="submit" name="Valider" class="form-control btn btn-primary modalModifResponse" id="{{ response.id }}">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -70,7 +70,7 @@
                     <td>
                         <form method="post">
                             <input type="hidden" name="responseId" value="{{ response.id }}">
-                            <input type="submit" value="Supprimer" class="btn btn-danger deleteResponseButton" >
+                            <p class="deleteResponseButton btn btn-danger" >Supprimer</p>
                         </form>
                     </td>
                 </tr>

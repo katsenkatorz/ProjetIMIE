@@ -62,7 +62,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
     {
-        if (!$this->checkIfReponseAlreadyExist($label))
+        if (!$this->checkIfResponseAlreadyExist($value, $question, $personnalityType) && $value != 50)
         {
             $em = $this->getEntityManager();
 
@@ -97,22 +97,23 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     public function putResponse($id, $label, $value, $image, PersonnalityType $personnalityType)
     {
         $em = $this->getEntityManager();
-
-        if (!$this->checkIfReponseAlreadyExist($label))
+        if($value != 50)
         {
             $response = $this->getResponseById($id);
 
-            $response->setLabel($label)
-                ->setValue($value)
-                ->setImage($image)
-                ->setPersonnalityType($personnalityType);
+            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $personnalityType, $response->getId()))
+            {
+                $response->setLabel($label)
+                    ->setValue($value)
+                    ->setImage($image)
+                    ->setPersonnalityType($personnalityType);
 
-            $em->persist($response);
-            $em->flush();
+                $em->persist($response);
+                $em->flush();
 
-            return $response;
+                return $response;
+            }
         }
-
         return false;
     }
 
@@ -137,21 +138,52 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool
      */
-    public function checkIfReponseAlreadyExist($label)
+    public function checkIfResponseAlreadyExist($value, Question $question, PersonnalityType $personnalityType, $id = null)
     {
-        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+        if($value > 50)
+        {
+            $this->checkerProcess("r.value > 50", $question, $personnalityType, $id);
+        }
+        else if($value < 50)
+        {
+            $this->checkerProcess("r.value < 50", $question, $personnalityType, $id);
+        }
+        return false;
+    }
+
+    private function checkerProcess($string, $question, $personnalityType, $id)
+    {
+        $responses = $this->getEntityManager()->createQueryBuilder()
             ->select("r")
             ->from("AdminBundle:Response", "r")
-            ->where("r.label = :label")
-            ->setParameter(":label", $label)
+            ->where("r.question = :question")
+            ->andWhere("r.personnalityType = :personnalityType")
+            ->andWhere($string)
+            ->setParameters([
+                ":question" => $question,
+                ":personnalityType" => $personnalityType,
+            ])
             ->getQuery()
             ->getResult();
 
-        if (count($isHereOrNot))
+        if (count($responses))
         {
-            return true;
-        }
+            if(is_null($id))
+            {
+                return true;
+            }
+            else
+            {
+                foreach ($responses as $response)
+                {
+                    if($response->getId() === $id)
+                    {
+                        return false;
+                    }
+                }
 
-        return false;
+                return true;
+            }
+        }
     }
 }
