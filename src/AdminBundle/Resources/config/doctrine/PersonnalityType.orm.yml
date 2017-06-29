@@ -25,6 +25,7 @@ AdminBundle\Entity\PersonnalityType:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
             mappedBy: personnalityType
+            cascade: [persist, remove]
         responses:
             targetEntity: AdminBundle\Entity\Response
             mappedBy: personnalityType

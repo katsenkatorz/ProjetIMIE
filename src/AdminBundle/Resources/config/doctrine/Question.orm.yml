@@ -16,4 +16,5 @@ AdminBundle\Entity\Question:
         responses:
             targetEntity: AdminBundle\Entity\Response
             mappedBy: question
+            cascade: [persist, remove]
     lifecycleCallbacks: {  }

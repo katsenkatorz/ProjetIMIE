@@ -18,4 +18,5 @@ AdminBundle\Entity\JobPersonnality:
         personnalityType:
             targetEntity: AdminBundle\Entity\PersonnalityType
             inversedBy: jobPersonnalities
+            cascade: [persist, remove]
     lifecycleCallbacks: {  }

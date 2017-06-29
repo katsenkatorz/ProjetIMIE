@@ -23,4 +23,5 @@ AdminBundle\Entity\Job:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
             mappedBy: job
+            cascade: [persist, remove]
     lifecycleCallbacks: {  }
