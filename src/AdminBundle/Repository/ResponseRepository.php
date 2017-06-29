@@ -5,7 +5,6 @@ namespace AdminBundle\Repository;
 use AdminBundle\Entity\PersonnalityType;
 use AdminBundle\Entity\Question;
 use AdminBundle\Entity\Response;
-use const false;
 
 
 /**
