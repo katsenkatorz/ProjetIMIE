@@ -5,6 +5,8 @@ namespace AdminBundle\Repository;
 use AdminBundle\Entity\PersonnalityType;
 use AdminBundle\Entity\Question;
 use AdminBundle\Entity\Response;
+use const false;
+
 
 /**
  * RESPONSERepository
@@ -62,6 +64,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
     {
+
         if (!$this->checkIfResponseAlreadyExist($value, $question, $personnalityType) && $value != 50)
         {
             $em = $this->getEntityManager();
@@ -140,18 +143,25 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function checkIfResponseAlreadyExist($value, Question $question, PersonnalityType $personnalityType, $id = null)
     {
+    	  $return = false;
         if($value > 50)
-        {
-            $this->checkerProcess("r.value > 50", $question, $personnalityType, $id);
-        }
+		  $return = $this->checkerProcess("r.value > 50", $question, $personnalityType, $id);
         else if($value < 50)
-        {
-            $this->checkerProcess("r.value < 50", $question, $personnalityType, $id);
-        }
-        return false;
+		  $return = $this->checkerProcess("r.value < 50", $question, $personnalityType, $id);
+
+        return $return;
     }
 
-    private function checkerProcess($string, $question, $personnalityType, $id)
+	/**
+	 *
+	 * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
+	 * @param $string
+	 * @param $question
+	 * @param $personnalityType
+	 * @param $id
+	 * @return bool
+	 */
+	private function checkerProcess($string, $question, $personnalityType, $id)
     {
         $responses = $this->getEntityManager()->createQueryBuilder()
             ->select("r")
@@ -166,24 +176,9 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
-        if (count($responses))
-        {
-            if(is_null($id))
-            {
-                return true;
-            }
-            else
-            {
-                foreach ($responses as $response)
-                {
-                    if($response->getId() === $id)
-                    {
-                        return false;
-                    }
-                }
+	    (count($responses) > 0) ? $return = true : $return = false;
 
-                return true;
-            }
-        }
+
+        return $return;
     }
 }
