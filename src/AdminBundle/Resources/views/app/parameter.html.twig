@@ -1,0 +1,30 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block title %}{{ 'Paramètres' }}{% endblock %}
+
+
+
+
+
+{% block _AdminBundle %}
+
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-cogs"></i>Paramètres</a>
+            </div>
+        </div>
+        <form class="form-group" action="" method="post">
+
+            {% for parameter in parameters %}
+                <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
+                <label class="param-title">{{ parameter.label }}</label>
+                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value" value="{{ parameter.value }}">
+            {% endfor %}
+
+            <input class="float-right btn btn-info" type="submit" value="Sauvegarder">
+        </form>
+    </div>
+
+{% endblock %}
