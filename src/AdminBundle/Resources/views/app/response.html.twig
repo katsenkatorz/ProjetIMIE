@@ -43,7 +43,7 @@
                                                    class="form-control">
 
                                             <label for="personnalityType{{ response.id }}"></label>
-                                            <select id="personnalityType{{ response.id }}" name="personnalityType"
+                                            <select id="personnalityTypeModifResponse{{ response.id }}" name="personnalityType"
                                                     class="form-control">
                                                 {% for personnalityType in personnalityTypes %}
                                                     {% if personnalityType.id == response.personnalityType.id %}
@@ -54,7 +54,8 @@
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
-
+                                            <p class="personnalityType" id="personnalityType">TestGauche</p>
+                                            <p class="opposedPersonnalityType">TestDroite</p>
                                             <br>
                                             <input type="submit" name="Valider" class="form-control btn btn-primary modalModifResponse" id="{{ response.id }}">
                                         </form>

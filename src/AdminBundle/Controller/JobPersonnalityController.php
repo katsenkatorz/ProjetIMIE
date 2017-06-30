@@ -13,6 +13,7 @@ use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class JobPersonnalityController extends Controller
 {
@@ -167,7 +168,7 @@ class JobPersonnalityController extends Controller
         // Sauvegarde de la modification
         $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
 
-        if(!$bool)
+        if (!$bool)
         {
             return $this->json(["message" => "Erreur put renvois false"]);
         }
@@ -200,5 +201,22 @@ class JobPersonnalityController extends Controller
         return $this->render("AdminBundle:app:personnalityType.html.twig", [
             "formPT" => $formPT->createView(),
         ]);
+    }
+
+    public function getPersonnalityTypeAction(Request $request)
+    {
+        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+
+        var_dump($request->attributes->get("idPersonnalityType"));
+
+        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->attributes->get("idPersonnalityType"));
+
+        $json = ["personnalityType" => $personnalityType->getPersonnalityType(), "opposedPersonnalityType" => $personnalityType->getOpposedPersonnalityType()];
+
+        $response = new Response(json_encode($json), "200");
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
     }
 }
