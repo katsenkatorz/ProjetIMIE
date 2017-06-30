@@ -1,3 +1,4 @@
+// Permet de charger les réponses
 function loadResponse(idQuestion, env, PanelTitle)
 {
     // Pour régler un bug des accordions
@@ -121,8 +122,6 @@ $(document).ready(function ()
             var label = $("#labelResponse" + idQuestion).val();
             var personnalityType = $("#personnalityTypeResponse" + idQuestion).val();
 
-            console.log("sendingAjaxRequest");
-
             $.ajax({
                 url: "/admin/postResponse",
                 type: "POST",
@@ -140,8 +139,6 @@ $(document).ready(function ()
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
 
-                    // loadResponse(result.idQuestion, env, PanelTitle);
-
                     PanelTitle.trigger("click");
                     setTimeout(function ()
                     {
@@ -155,10 +152,11 @@ $(document).ready(function ()
             });
         });
 
+        // Suppresion d'une question
         $(".deleteQuestion").unbind('click').bind('click', function (e)
         {
-            console.log("toto");
             e.preventDefault();
+
             var questionId = $(this).attr("id");
 
             $.ajax({
@@ -179,6 +177,7 @@ $(document).ready(function ()
             });
         });
 
+        // Modification d'une question
         $(".submitModifQuestion").unbind('click').bind('click', function (e)
         {
             e.preventDefault();
@@ -196,7 +195,8 @@ $(document).ready(function ()
                 },
                 success: function (result)
                 {
-                    location.reload();
+                    window.location.href = window.location.href;
+                    console.log(result);
                 },
                 error: function (error)
                 {
@@ -204,147 +204,5 @@ $(document).ready(function ()
                 }
             });
         });
-
-        //
-        // var PanelTitle = $(this);
-        // // Pour régler un bug des accordions
-        // $('.collapse').collapse("hide");
-        //
-        // $(this.parentElement.nextElementSibling).collapse("show");
-        // var responseContent = $(".responseContent"+idQuestion);
-        //
-        // // Récupération des réponses pour une question et affichage dans le content de l'accordion
-        // $.ajax({
-        //     url: "/admin/getResponsesFromQuestion/" + idQuestion,
-        //     type: "GET",
-        //     dataType: "json",
-        //     success: function (result)
-        //     {
-        //         // On affiche le résultat
-        //         responseContent.html(result);
-        //
-        //         // Supression d'une réponse
-        //         // $(".deleteResponseButton").on('click', function (e)
-        //         // {
-        //         //     e.preventDefault();
-        //         //
-        //         //     var responseId = $(this).prev().val();
-        //         //
-        //         //     $.ajax({
-        //         //         url: "/admin/deleteResponse",
-        //         //         type: "POST",
-        //         //         data: {
-        //         //             responseId: responseId
-        //         //         },
-        //         //         success: function (result)
-        //         //         {
-        //         //             PanelTitle.trigger("click");
-        //         //             setTimeout(function()
-        //         //             {
-        //         //                 PanelTitle.trigger("click");
-        //         //             }, 500);
-        //         //
-        //         //             PanelTitle.addClass("IsLoaded")
-        //         //         },
-        //         //         error: function (error)
-        //         //         {
-        //         //             console.log(error);
-        //         //         }
-        //         //     });
-        //         // });
-        //         //
-        //         // // Ajout d'une réponse
-        //         // $(".submitResponse").on('click submit',function (e)
-        //         // {
-        //         //     e.preventDefault();
-        //         //
-        //         //     var value = $("#valueResponse"+idQuestion).val();
-        //         //     var image = $("#imageResponse"+idQuestion).val();
-        //         //     var label = $("#labelResponse"+idQuestion).val();
-        //         //     var personnalityType = $("#personnalityTypeResponse"+idQuestion).val();
-        //         //
-        //         //     $.ajax({
-        //         //         url: "/admin/postResponse",
-        //         //         type: "POST",
-        //         //         data: {
-        //         //             question: idQuestion,
-        //         //             value: value,
-        //         //             image: image,
-        //         //             label: label,
-        //         //             personnalityType: personnalityType
-        //         //
-        //         //         },
-        //         //         success: function (result)
-        //         //         {
-        //         //             // Fermeture du modal en cas de success
-        //         //             $('#modalResponse'+idQuestion).modal('hide');
-        //         //             $('body').removeClass('modal-open');
-        //         //             $('.modal-backdrop').remove();
-        //         //
-        //         //             loadResponse(result.idQuestion);
-        //         //
-        //         //             PanelTitle.trigger("click");
-        //         //             setTimeout(function()
-        //         //             {
-        //         //                 PanelTitle.trigger("click");
-        //         //             }, 500);
-        //         //         },
-        //         //         error: function (error)
-        //         //         {
-        //         //             console.log(error);
-        //         //         }
-        //         //     });
-        //         // });
-        //         //
-        //         // // Au click sur valider du modal de modification d'une réponse
-        //         // $(".modalModifResponse").on('click submit', function (e)
-        //         // {
-        //         //     e.preventDefault();
-        //         //
-        //         //     var responseId = $(this).attr("id");
-        //         //
-        //         //     var value = $("#valueModifResponse"+responseId).val();
-        //         //     var image = $("#imageModifResponse"+responseId).val();
-        //         //     var label = $("#labelModifResponse"+responseId).val();
-        //         //     var personnalityType = $('#personnalityType'+responseId).val();
-        //         //
-        //         //     // On appelle la route qui permet de sauvegarder les changements
-        //         //     $.ajax({
-        //         //         url: "/admin/putResponse",
-        //         //         type: "POST",
-        //         //         data: {
-        //         //             responseId: responseId,
-        //         //             value: value,
-        //         //             image: image,
-        //         //             label: label,
-        //         //             personnalityType: personnalityType
-        //         //
-        //         //         },
-        //         //         success: function (result)
-        //         //         {
-        //         //             // Fermeture du modal en cas de success
-        //         //             $('#modalModifResponse'+idQuestion).modal('hide');
-        //         //             $('body').removeClass('modal-open');
-        //         //             $('.modal-backdrop').remove();
-        //         //
-        //         //             PanelTitle.trigger("click");
-        //         //             PanelTitle.trigger("click");
-        //         //             // setTimeout(function()
-        //         //             // {
-        //         //             //
-        //         //             // }, 500);
-        //         //         },
-        //         //         error: function (error)
-        //         //         {
-        //         //             console.log(error);
-        //         //         }
-        //         //     });
-        //         // });
-        //     },
-        //     error: function (error)
-        //     {
-        //         console.log(error.statusText);
-        //     }
-        // });
     });
 });
