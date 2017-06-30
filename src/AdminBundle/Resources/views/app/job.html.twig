@@ -22,7 +22,7 @@
             <h3>{{ jobPersonnality["name"] }}</h3>
             <p>{{ jobPersonnality["personnalityType"] }}</p>
             <p class="opposedPersonnalityType">{{ jobPersonnality["opposedPersonnalityType"] }}</p>
-            {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control' } }) }}
+            {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control rangeInput' } }) }}
             {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
             {{ form_widget(forms[jobPersonnality["name"]].personnalityType, {'attr': {"value": jobPersonnality["personnalityTypeId"], 'class': 'form-control'} }) }}
             {{ form_end(forms[jobPersonnality["name"]]) }}
