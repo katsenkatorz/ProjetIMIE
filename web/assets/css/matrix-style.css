@@ -46,6 +46,10 @@ hr{ border-top-color:#dadada;}
 .bg_lh{ background:#b6b3b3;}
 
 /* Header */
+header {
+	padding-bottom: 15px;
+}
+
 #header {
 	height: 25px;
 	position: relative;
