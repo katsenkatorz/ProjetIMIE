@@ -99,11 +99,11 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     public function putResponse($id, $label, $value, $image, PersonnalityType $personnalityType)
     {
         $em = $this->getEntityManager();
-        if($value != 50)
+        if ($value != 50)
         {
             $response = $this->getResponseById($id);
 
-            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $personnalityType, $response->getId()))
+            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $personnalityType, $id))
             {
                 $response->setLabel($label)
                     ->setValue($value)
@@ -142,25 +142,28 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function checkIfResponseAlreadyExist($value, Question $question, PersonnalityType $personnalityType, $id = null)
     {
-    	  $return = false;
-        if($value > 50)
-		  $return = $this->checkerProcess("r.value > 50", $question, $personnalityType, $id);
-        else if($value < 50)
-		  $return = $this->checkerProcess("r.value < 50", $question, $personnalityType, $id);
+        if ($value > 50)
+        {
+            $query = "r.value > 50";
+        }
+        else if ($value < 50)
+        {
+            $query = "r.value < 50";
+        }
 
-        return $return;
+        return $this->checkerProcess($query, $question, $personnalityType, $id);
     }
 
-	/**
-	 *
-	 * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
-	 * @param $string
-	 * @param $question
-	 * @param $personnalityType
-	 * @param $id
-	 * @return bool
-	 */
-	private function checkerProcess($string, $question, $personnalityType, $id)
+    /**
+     *
+     * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
+     * @param $string
+     * @param $question
+     * @param $personnalityType
+     * @param $id
+     * @return bool
+     */
+    private function checkerProcess($string, $question, $personnalityType, $id)
     {
         $responses = $this->getEntityManager()->createQueryBuilder()
             ->select("r")
@@ -175,8 +178,37 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
-	    (count($responses) > 0) ? $return = true : $return = false;
+        /**
+         * True == Entité présente et non demandé en modification ==> modification refuser
+         * False == Entité non présente ou présente et demande de modification => Modification autoriser
+         */
 
+        $return = false;
+
+        // Si on a une réponse
+        if (count($responses))
+        {
+            // Si l'id présent en paramètre est null
+            if (is_null($id))
+            {
+                // On renvois true
+                $return = true;
+            }
+            else
+            {
+                // En renvois true
+                $return = true;
+
+                // Si l'id présent en paramètre correspond a celui d'un des résultats trouver on renvois false
+                foreach ($responses as $response)
+                {
+                    if ($response->getId() == $id)
+                    {
+                        $return = false;
+                    }
+                }
+            }
+        }
 
         return $return;
     }
