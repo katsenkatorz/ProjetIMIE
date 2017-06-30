@@ -9,6 +9,7 @@
 {% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
+
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-cogs"></i>Paramètres</a>
@@ -17,16 +18,13 @@
         <form class="form-group" action="" method="post">
 
             {% for parameter in parameters %}
-                <input type="hidden" name="{{ parameter.label }}id" value="{{ parameter.id }}">
-                <label></label>
-                <input class="param form-control" name="{{ parameter.label }}" type="text" title="{{ parameter.label }}"
-                       value="{{ parameter.label }}">
-                {#<textarea class="param form-control" name="{{ parameter.label }}Value">{{ parameter.value }}</textarea>#}
+                <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
+                <label class="param-title">{{ parameter.label }}</label>
+                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value" value="{{ parameter.value }}">
             {% endfor %}
 
             <input class="float-right btn btn-info" type="submit" value="Sauvegarder">
         </form>
-
     </div>
 
 {% endblock %}

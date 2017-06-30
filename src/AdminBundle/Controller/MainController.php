@@ -64,13 +64,37 @@ class MainController extends Controller
     public function parametersAction(Request $request)
     {
         $paramRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-        $paramId = $request->get('paramId');
 
         $parameters = $paramRepo->getParameters();
 
-        return $this->render('AdminBundle:app:parameters.html.twig', [
+        foreach ($parameters as $parameter) {
+
+            $arrayParam[$parameter->getLabel()] = [
+                $parameter->getLabel() . "id",
+                $parameter->getLabel(),
+                $parameter->getLabel() . "Value"
+            ];
+        }
+
+        return $this->render('AdminBundle:app:parameter.html.twig', [
             "parameters" => $parameters
         ]);
+    }
+
+    /**
+     * Modifie la page des parametres utilisateur
+     *
+     * @param Request $request
+     * @return jsonResponse
+     */
+
+    public function updateParametersAction(Request $request)
+    {
+        $paramRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $parameters = $paramRepo->getParameters();
+
+        return $this->json('/admin/putParameters');
     }
 
     /**
