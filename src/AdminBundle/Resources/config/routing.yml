@@ -20,7 +20,8 @@ admin_parameters:
 admin_putParameters:
     path:     /putParameters
     defaults:
-        _controller: AdminBundle:Parameters:putParameters
+        _controller: AdminBundle:Main:updateParameters
+        method: POST
 
 #=================================#
 #   JobPersonnalityController     #

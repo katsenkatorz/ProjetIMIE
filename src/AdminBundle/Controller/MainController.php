@@ -63,9 +63,9 @@ class MainController extends Controller
      */
     public function parametersAction(Request $request)
     {
-        $paramRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $paramRepo->getParameters();
+        $parameters = $ParamRepo->getParameters();
 
         foreach ($parameters as $parameter) {
 
@@ -90,11 +90,21 @@ class MainController extends Controller
 
     public function updateParametersAction(Request $request)
     {
-        $paramRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $paramRepo->getParameters();
+        $parameters = $ParamRepo->getParameters();
 
-        return $this->json('/admin/putParameters');
+        $parameterId = $request->get('parameterId');
+        $label = $request->get('label');
+        $value = $request->get('value');
+
+        if(!is_null($parameterId) && !is_null($label) && !is_null($value))
+        {
+            $ParamRepo->putParameters($parameterId, $label, $value);
+        }
+
+
+        return $this->json(["message" => "Modification(s) bien effectuée(s)"]);
     }
 
     /**
