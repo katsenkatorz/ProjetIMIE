@@ -34,17 +34,8 @@
                                             <input id="labelModifResponse{{ response.id }}" type="text" name="label" value="{{ response.label }}"
                                                    class="form-control">
 
-                                            <label for="valueModifResponse{{ response.id }}">Valeur</label>
-                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value" value="{{ response.value }}"
-                                                   min="0" max="100" class="form-control">
-
-                                            <label for="imageModifResponse{{ response.id }}">Image</label>
-                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image" value="{{ response.image }}"
-                                                   class="form-control">
-
-                                            <label for="personnalityType{{ response.id }}"></label>
-                                            <select id="personnalityTypeModifResponse{{ response.id }}" name="personnalityType"
-                                                    class="form-control">
+                                            <label for="personnalityType{{ response.id }}">Tempérament</label>
+                                            <select id="personnalityTypeModifResponse{{ response.id }}" name="personnalityType" class="form-control personnalityTypeModifResponse">
                                                 {% for personnalityType in personnalityTypes %}
                                                     {% if personnalityType.id == response.personnalityType.id %}
                                                         <option value="{{ personnalityType.id }}"
@@ -54,8 +45,14 @@
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
-                                            <p class="personnalityType" id="personnalityType">TestGauche</p>
+                                            <p class="personnalityType">TestGauche</p>
                                             <p class="opposedPersonnalityType">TestDroite</p>
+                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value" value="{{ response.value }}"
+                                                   min="0" max="100" class="form-control">
+
+                                            <label for="imageModifResponse{{ response.id }}">Image</label>
+                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image" value="{{ response.image }}"
+                                                   class="form-control">
                                             <br>
                                             <input type="submit" name="Valider" class="form-control btn btn-primary modalModifResponse" id="{{ response.id }}">
                                         </form>

@@ -18,6 +18,7 @@ function loadResponse(idQuestion, env, PanelTitle)
             responseContent.html(result);
 
             loadPersonnalityType("#personnalityTypeResponse"+idQuestion);
+            loadPersonnalityType(".personnalityTypeModifResponse");
 
             // Supression d'une réponse
             $(".deleteResponseButton").unbind('click').bind('click', function (e)
@@ -104,32 +105,34 @@ function loadResponse(idQuestion, env, PanelTitle)
 
 function loadPersonnalityType(selector)
 {
-    function getHomonyme(idPersonnalityType)
+    function getHomonyme(idPersonnalityType, context)
     {
         $.ajax({
             url: "/admin/getPersonnalityType/"+idPersonnalityType,
             type: "GET",
-            dataType: "html",
+            dataType: "json",
             success: function (result)
             {
-                console.log("titi");
-                console.log($.parseJSON("result"));
+                var personnalityTypeContainer = context.next();
+                var opposedPersonnalityTypeContainer = context.next().next();
+
+                personnalityTypeContainer.html(result.personnalityType);
+                opposedPersonnalityTypeContainer.html(result.opposedPersonnalityType);
             },
             error: function (error)
             {
-                console.log("toto");
                 console.log(error);
             }
         });
     }
 
-    getHomonyme($(selector).val());
+    getHomonyme($(selector).val(), $(selector));
 
     $(selector).change(function ()
     {
         var id = $(this).val();
 
-        getHomonyme(id);
+        getHomonyme(id, $(this));
     });
 }
 
