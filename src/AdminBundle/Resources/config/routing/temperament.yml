@@ -1,8 +1,8 @@
-admin_personnalityType_show:
+admin_temperament_show:
     path:   /
     defaults:
-        _controller: AdminBundle:PersonnalityType:personnalityType
+        _controller: AdminBundle:Temperament:temperament
 
-personnalitytype_delete:
+temperament_delete:
     path:     /{id}/delete
-    defaults: { _controller: "AdminBundle:PersonnalityType:delete" }
+    defaults: { _controller: "AdminBundle:Temperament:delete" }

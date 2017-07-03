@@ -29,7 +29,7 @@
                         <h2>Liste des tempéraments</h2>
                     </div>
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPersonnalityType">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTemperament">
                             <i class="fa fa-plus"></i> Ajouter un tempérament
                         </button>
                         {% for message in app.flashes('message') %}
@@ -47,16 +47,16 @@
                     </div>
                     <div class="col-md-12">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            {% for personnalityType in personnalityTypes %}
+                            {% for temperament in temperaments %}
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingOne">
                                         <h4 class="panel-title  inline-block">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ personnalityType.id }}" aria-expanded="true" aria-controls="collapse-{{ personnalityType.id }}">
-                                                {{ personnalityType.name }}
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ temperament.id }}" aria-expanded="true" aria-controls="collapse-{{ temperament.id }}">
+                                                {{ temperament.name }}
                                             </a>
                                         </h4>
                                         <div class="pull-right  inline-block">
-                                            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalConfirm" data-href="{{ path('personnalitytype_delete',  {'id': personnalityType.id} ) }}" data-name="{{ personnalityType.name }}" data-id="{{ personnalityType.id }}">
+                                            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalConfirm" data-href="{{ path('temperament_delete',  {'id': temperament.id} ) }}" data-name="{{ temperament.name }}" data-id="{{ temperament.id }}">
                                                 <i class="fa fa-trash fa-inverse fa-2x"></i>
                                             </a>
                                             <a class="btn btn-primary btn-sm">
@@ -64,7 +64,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div id="collapse-{{ personnalityType.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div id="collapse-{{ temperament.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                         <div class="panel-body">
                                             <div class="row">
                                                 <p class="col-xs-3 text-right">
@@ -76,7 +76,7 @@
                                             </div>
                                             <div class="row">
                                                 <p class="col-xs-3 text-right">
-                                                    {{ personnalityType.personnalityType }}
+                                                    {{ temperament.temperament }}
                                                 </p>
                                                 <div class="col-xs-6">
                                                     <div class="pull-left arrow-left">
@@ -86,7 +86,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-3">
-                                                    {{ personnalityType.opposedPersonnalityType }}
+                                                    {{ temperament.opposedTemperament }}
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <div id="modalPersonnalityType" class="modal fade" tabindex="-1" role="dialog">
+    <div id="modalTemperament" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,10 +113,10 @@
                 <div class="modal-body">
                     {{ form_label(formPT.name) }}
                     {{ form_widget(formPT.name) }}
-                    {{ form_label(formPT.personnalityType) }}
-                    {{ form_widget(formPT.personnalityType) }}
-                    {{ form_label(formPT.opposedPersonnalityType) }}
-                    {{ form_widget(formPT.opposedPersonnalityType) }}
+                    {{ form_label(formPT.temperament) }}
+                    {{ form_widget(formPT.temperament) }}
+                    {{ form_label(formPT.opposedTemperament) }}
+                    {{ form_widget(formPT.opposedTemperament) }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -148,7 +148,7 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/PersonnalityTypeProcess.js') }}"></script>
+    <script src="{{ asset('assets/js/TemperamentProcess.js') }}"></script>
 {% endblock javascripts %}
 {% block footer %}
     {{ parent() }}
