@@ -1,15 +1,21 @@
 <?php
+
 namespace AdminBundle\Form;
 
+
 use AdminBundle\Entity\Temperament;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TemperamentType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add("name", TextType::class, ["label" => "Nom du type"])
@@ -18,7 +24,10 @@ class TemperamentType extends AbstractType
             ->add("save", SubmitType::class, ["label" => "Créer un tempérament"])
         ;
     }
-
+    
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -28,4 +37,14 @@ class TemperamentType extends AbstractType
             "csrf_token_id" => "temperament_item",
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'adminbundle_personnalitytype';
+    }
+
+
 }

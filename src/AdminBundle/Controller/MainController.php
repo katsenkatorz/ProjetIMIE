@@ -258,6 +258,7 @@ class MainController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+
     /**
      * Affiche la page de gestion des types de personnalités
      *
@@ -284,7 +285,6 @@ class MainController extends Controller
             "formPT" => $formPT->createView(),
         ]);
     }
-
 
     /**
      * Affiche la page de gestion des questions

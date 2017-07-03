@@ -175,6 +175,7 @@ class JobPersonnalityController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+
     /**
      * Affiche la page de gestion des tempéraments
      *
@@ -203,6 +204,12 @@ class JobPersonnalityController extends Controller
         ]);
     }
 
+    /**
+     * Récupère les type de personnalité
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getTemperamentAction(Request $request)
     {
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
@@ -214,6 +221,27 @@ class JobPersonnalityController extends Controller
         $opposedTemperament = $temperament->getOpposedTemperament();
 
         return $this->json(["temperament" => "$firstTemperament", "opposedTemperament" => "$opposedTemperament"]);
+    }
 
+    /**
+     * Supprime un job avec sont id
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteJobAction(Request $request)
+    {
+        $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
+
+        $idJob = $request->attributes->get('idJob');
+
+        if(!is_null($idJob))
+        {
+            $JobRepo->deleteJob($idJob);
+
+            return $this->json(["message" => "Supression bien effectuer"]);
+        }
+
+        return $this->json(["message" => "Erreur lors de la suppresion"]);
     }
 }

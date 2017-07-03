@@ -29,4 +29,5 @@ AdminBundle\Entity\Temperament:
         responses:
             targetEntity: AdminBundle\Entity\Response
             mappedBy: temperament
+            cascade: [persist, remove]
     lifecycleCallbacks: {  }
