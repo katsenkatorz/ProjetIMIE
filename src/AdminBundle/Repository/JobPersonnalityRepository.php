@@ -4,7 +4,7 @@ namespace AdminBundle\Repository;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
-use AdminBundle\Entity\PersonnalityType;
+use AdminBundle\Entity\Temperament;
 
 /**
  * JobPersonnalityRepository
@@ -45,9 +45,9 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
     public function getJobPersonnalityByPtIdAndJobId($jobId, $ptId)
     {
         $job = $this->getEntityManager()->getRepository("AdminBundle:Job")->getJobById($jobId);
-        $pt = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType")->getPersonnalityTypeById($ptId);
+        $pt = $this->getEntityManager()->getRepository("AdminBundle:Temperament")->getTemperamentById($ptId);
 
-        return $this->findOneBy(["job" => $job, "personnalityType" => $pt]);
+        return $this->findOneBy(["job" => $job, "temperament" => $pt]);
     }
 
     /**
@@ -56,7 +56,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
      * @param $jobId
      * @return bool|array
      */
-    public function getPersonnalityTypesByJobId($jobId)
+    public function getTemperamentsByJobId($jobId)
     {
         $job = $this->getEntityManager()->getRepository("AdminBundle:Job")->getJobById($jobId);
 
@@ -69,18 +69,18 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
             foreach($JobPersonnalities as $jobPersonnality)
             {
                 $value = $jobPersonnality->getValue();
-                $name = $jobPersonnality->getPersonnalityType()->getName();
-                $personnalityType = $jobPersonnality->getPersonnalityType()->getPersonnalityType();
-                $opposedPersonnalityType = $jobPersonnality->getPersonnalityType()->getOpposedPersonnalityType();
+                $name = $jobPersonnality->getTemperament()->getName();
+                $temperament = $jobPersonnality->getTemperament()->getTemperament();
+                $opposedTemperament = $jobPersonnality->getTemperament()->getOpposedTemperament();
                 $idJP = $jobPersonnality->getId();
 
                 $result[$name] = [
                     "name" => $name,
                     "value" => $value,
                     "idJP" => $idJP,
-                    "personnalityType" => $personnalityType,
-                    "opposedPersonnalityType" => $opposedPersonnalityType,
-                    "personnalityTypeId" => $jobPersonnality->getPersonnalityType()->getId()
+                    "temperament" => $temperament,
+                    "opposedTemperament" => $opposedTemperament,
+                    "temperamentId" => $jobPersonnality->getTemperament()->getId()
                 ];
             }
 
@@ -95,11 +95,11 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param $value
      * @param Job $job
-     * @param PersonnalityType $personnalityType
+     * @param Temperament $temperament
      *
      * @return bool|JobPersonnality
      */
-    public function postJobPersonnality($value, Job $job, PersonnalityType $personnalityType)
+    public function postJobPersonnality($value, Job $job, Temperament $temperament)
     {
         $em = $this->getEntityManager();
         $jobPersonnality = new JobPersonnality();
@@ -108,7 +108,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
         {
             $jobPersonnality->setValue($value)
                 ->setJob($job)
-                ->setPersonnalityType($personnalityType);
+                ->setTemperament($temperament);
 
             $em->persist($jobPersonnality);
             $em->flush();
@@ -125,11 +125,11 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
      * @param $idJP
      * @param $value
      * @param Job $job
-     * @param PersonnalityType $personnalityType
+     * @param Temperament $temperament
      *
      * @return bool|object
      */
-    public function putJobPersonnalityByJpid($idJP, $value, Job $job, PersonnalityType $personnalityType)
+    public function putJobPersonnalityByJpid($idJP, $value, Job $job, Temperament $temperament)
     {
         $em = $this->getEntityManager();
 
@@ -138,7 +138,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
         if(!is_null($jobPersonnality) && (!is_null($value) && is_numeric($value)))
         {
             $jobPersonnality->setValue($value)
-                ->setPersonnalityType($personnalityType)
+                ->setTemperament($temperament)
                 ->setJob($job);
 
             $em->persist($jobPersonnality);
@@ -151,7 +151,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Modifie un JobPersonnality selectionner grâce à sont job et personnalityType
+     * Modifie un JobPersonnality selectionner grâce à sont job et temperament
      *
      * @param $value
      * @param $jobId
@@ -163,7 +163,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
         $job = $this->getEntityManager()->getRepository("AdminBundle:Job")->getJobById($jobId);
-        $pt = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType")->getPersonnalityTypeById($ptId);
+        $pt = $this->getEntityManager()->getRepository("AdminBundle:Temperament")->getTemperamentById($ptId);
 
 
         $jobPersonnality = $this->getJobPersonnalityByPtIdAndJobId($jobId, $ptId);
@@ -171,7 +171,7 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
         if(!is_null($jobPersonnality) && (!is_null($value) && is_numeric($value)))
         {
             $jobPersonnality->setValue($value)
-                ->setPersonnalityType($pt)
+                ->setTemperament($pt)
                 ->setJob($job);
 
             $em->persist($jobPersonnality);

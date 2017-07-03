@@ -39,14 +39,14 @@
                 </div>
 
                 <div>
-                    {% for personnalityType in personnalityTypes %}
+                    {% for temperament in temperaments %}
 
-                        <h3>{{ personnalityType.name }}</h3>
-                        <p style="float: left">{{ personnalityType.personnalityType }}</p>
-                        <p style="float: right">{{ personnalityType.opposedPersonnalityType }}</p>
-                        <input class="form-control" type="hidden" name="{{ personnalityType.name }}"
-                               value="{{ personnalityType.id }}">
-                        <input class="form-control" type="range" name="{{ personnalityType.name }}Value" min="0"
+                        <h3>{{ temperament.name }}</h3>
+                        <p style="float: left">{{ temperament.temperament }}</p>
+                        <p style="float: right">{{ temperament.opposedTemperament }}</p>
+                        <input class="form-control" type="hidden" name="{{ temperament.name }}"
+                               value="{{ temperament.id }}">
+                        <input class="form-control" type="range" name="{{ temperament.name }}Value" min="0"
                                max="100"
                                step="1" required>
 

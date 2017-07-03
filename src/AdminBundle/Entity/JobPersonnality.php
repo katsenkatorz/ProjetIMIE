@@ -20,7 +20,7 @@ class JobPersonnality
 
     private $job;
 
-    private $personnalityType;
+    private $temperament;
 
     /**
      * @return mixed
@@ -42,17 +42,17 @@ class JobPersonnality
     /**
      * @return mixed
      */
-    public function getPersonnalityType()
+    public function getTemperament()
     {
-        return $this->personnalityType;
+        return $this->temperament;
     }
 
     /**
-     * @param mixed $personnalityType
+     * @param mixed $temperament
      **/
-    public function setPersonnalityType($personnalityType)
+    public function setTemperament($temperament)
     {
-        $this->personnalityType = $personnalityType;
+        $this->temperament = $temperament;
         return $this;
     }
 

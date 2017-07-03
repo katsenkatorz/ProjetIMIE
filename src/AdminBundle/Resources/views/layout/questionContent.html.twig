@@ -44,14 +44,14 @@
                                     <input type="text" name="labelResponse" id="labelResponse{{ question.id }}"
                                            class="form-control">
                                     <label for="valueResponse{{ question.id }}">Type de personnalité</label>
-                                    <select name="personnalityType" class="form-control"
-                                            id="personnalityTypeResponse{{ question.id }}">
-                                        {% for personnalityType in personnalityTypes %}
-                                            <option value="{{ personnalityType.id }}">{{ personnalityType.name }}</option>
+                                    <select name="temperament" class="form-control"
+                                            id="temperamentResponse{{ question.id }}">
+                                        {% for temperament in temperaments %}
+                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
                                         {% endfor %}
                                     </select>
-                                    <p class="personnalityType" >TestGauche</p>
-                                    <p class="opposedPersonnalityType" >TestDroite</p>
+                                    <p class="temperament" >TestGauche</p>
+                                    <p class="opposedTemperament" >TestDroite</p>
                                     <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
                                            class="form-control">
                                     <label for="imageResponse{{ question.id }}">Image</label>

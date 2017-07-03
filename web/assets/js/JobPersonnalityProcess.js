@@ -78,7 +78,7 @@ $(document).ready(function ()
                 {
                     var value = this.value;
                     var jobId = this.nextElementSibling.value;
-                    var personnalityTypeId = this.nextElementSibling.nextElementSibling.value;
+                    var temperamentId = this.nextElementSibling.nextElementSibling.value;
 
                     // On appelle la route qui permet de sauvegarder les changements
                     $.ajax({
@@ -86,7 +86,7 @@ $(document).ready(function ()
                         type: "POST",
                         data: {
                             job: jobId,
-                            personnalityType: personnalityTypeId,
+                            temperament: temperamentId,
                             value: value
                         },
                         success: function (result)

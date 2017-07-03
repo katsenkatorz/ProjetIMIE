@@ -4,10 +4,10 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
-use AdminBundle\Entity\PersonnalityType;
-use AdminBundle\Form\JobPersonnalityType;
+use AdminBundle\Entity\Temperament;
+use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
-use AdminBundle\Form\PersonnalityTypeType;
+use AdminBundle\Form\TemperamentType;
 use AdminBundle\Form\QuestionType;
 use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,13 +27,13 @@ class JobPersonnalityController extends Controller
     {
         // Récupération des répository et entityManager
         $em = $this->getDoctrine()->getManager();
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
         $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
         $JobPersonnalityRepo = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
 
         // Récupération des jobs et type de personnalités pour les select
         $jobs = $JobRepo->getJobs();
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
 
 
         // Récupération du job sélectionner en select
@@ -47,11 +47,11 @@ class JobPersonnalityController extends Controller
             $JobPersonnalityResult = [];
 
             // Pour chaque type de personnalité
-            forEach ($personnalityTypes as $personnalityType)
+            forEach ($temperaments as $temperament)
             {
                 // On récupère sont id et sont nom
-                $pTid = $personnalityType->getId();
-                $pTName = $personnalityType->getName();
+                $pTid = $temperament->getId();
+                $pTName = $temperament->getName();
 
                 // Et on stocke la value
                 $JobPersonnalityResult[$pTid] = (int)$request->get($pTName . "Value");
@@ -60,13 +60,13 @@ class JobPersonnalityController extends Controller
             // Créer les jobPersonnality
             forEach ($JobPersonnalityResult as $id => $value)
             {
-                $pt = $PersonnalityTypeRepo->getPersonnalityTypeById($id);
+                $pt = $TemperamentRepo->getTemperamentById($id);
                 $JobPersonnalityRepo->postJobPersonnality($JobPersonnalityResult[$id], $jobFromForm, $pt);
             }
         }
 
         return $this->render("AdminBundle:app:jobPersonnality.html.twig", [
-            "personnalityTypes" => $personnalityTypes,
+            "temperaments" => $temperaments,
             "jobs" => $jobs
         ]);
     }
@@ -122,7 +122,7 @@ class JobPersonnalityController extends Controller
         $job = $JobRepository->getJobById($idJob);
 
         // Récupération des jobPersonnality correspondant au job
-        $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
+        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
         // Initialisation du tableau de formulaire
         $arrayForm = [];
@@ -130,11 +130,11 @@ class JobPersonnalityController extends Controller
         // Création des formulaires dans le tableau
         foreach ($jobPersonnalities as $key => $value)
         {
-            $arrayForm[$key] = $this->createForm(JobPersonnalityType::class);
+            $arrayForm[$key] = $this->createForm(JobTemperamentType::class);
         }
 
         // Actualisation des jobPersonnalités
-        $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
+        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
         // Préparation des formulaires pour les vues
         foreach ($arrayForm as $key => $form)
@@ -159,14 +159,14 @@ class JobPersonnalityController extends Controller
     {
         // Récupération des éléments du formulaire
         $jobId = $request->get('job');
-        $personnalityTypeId = $request->get('personnalityType');
+        $temperamentId = $request->get('temperament');
         $value = $request->get('value');
 
         // Récupération du répository
         $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
 
         // Sauvegarde de la modification
-        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
+        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $temperamentId);
 
         if (!$bool)
         {
@@ -177,29 +177,29 @@ class JobPersonnalityController extends Controller
 
 
     /**
-     * Affiche la page de gestion des types de personnalités
+     * Affiche la page de gestion des tempéraments
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function personnalityTypeAction(Request $request)
+    public function temperamentAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
-        // Création du formulaire pour les Type de personnalité
-        $formPT = $this->createForm(PersonnalityTypeType::class);
+        // Création du formulaire pour les tempéraments
+        $formPT = $this->createForm(TemperamentType::class);
 
         // Récupération de la requête
         $formPT->handleRequest($request);
 
-        // Traitement pour la création de Type de personnalité
+        // Traitement pour la création de tempéraments
         if ($formPT->isSubmitted() && $formPT->isValid())
         {
-            $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
+            $TemperamentRepo->postTemperament($formPT["name"]->getData(), $formPT["temperament"]->getData(), $formPT["opposedTemperament"]->getData());
         }
 
-        return $this->render("AdminBundle:app:personnalityType.html.twig", [
+        return $this->render("AdminBundle:app:temperament.html.twig", [
             "formPT" => $formPT->createView(),
         ]);
     }
@@ -210,18 +210,17 @@ class JobPersonnalityController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getPersonnalityTypeAction(Request $request)
+    public function getTemperamentAction(Request $request)
     {
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
-        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->attributes->get("idPersonnalityType"));
+        $temperament = $TemperamentRepo->getTemperamentById($request->attributes->get("idTemperament"));
 
-        $firstPersonnalityType = $personnalityType->getPersonnalityType();
+        $firstTemperament = $temperament->getTemperament();
 
-        $opposedPersonnalityType = $personnalityType->getOpposedPersonnalityType();
+        $opposedTemperament = $temperament->getOpposedTemperament();
 
-
-        return $this->json(["personnalityType" => "$firstPersonnalityType", "opposedPersonnalityType" => "$opposedPersonnalityType"]);
+        return $this->json(["temperament" => "$firstTemperament", "opposedTemperament" => "$opposedTemperament"]);
     }
 
     /**

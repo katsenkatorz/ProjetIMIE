@@ -1,6 +1,6 @@
-admin_personnalityType:
-    resource:   "@AdminBundle/Resources/config/routing/personnalitytype.yml"
-    prefix:     /personnalityType
+admin_temperament:
+    resource:   "@AdminBundle/Resources/config/routing/temperament.yml"
+    prefix:     /temperament
 
 #=================================#
 #       MainController            #
@@ -53,10 +53,10 @@ admin_jobPersonnality:
     defaults:
         _controller: AdminBundle:JobPersonnality:jobPersonnality
 
-admin_getPersonnalityType:
-    path:     /getPersonnalityType/{idPersonnalityType}
+admin_getTemperament:
+    path:     /getTemperament/{idTemperament}
     defaults:
-        _controller: AdminBundle:JobPersonnality:getPersonnalityType
+        _controller: AdminBundle:JobPersonnality:getTemperament
 
 admin_deleteJob:
     path:     /deleteJob/{idJob}
