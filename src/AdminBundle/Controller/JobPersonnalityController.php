@@ -203,6 +203,12 @@ class JobPersonnalityController extends Controller
         ]);
     }
 
+    /**
+     * Récupère les type de personnalité
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getPersonnalityTypeAction(Request $request)
     {
         $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
@@ -215,6 +221,27 @@ class JobPersonnalityController extends Controller
 
 
         return $this->json(["personnalityType" => "$firstPersonnalityType", "opposedPersonnalityType" => "$opposedPersonnalityType"]);
+    }
 
+    /**
+     * Supprime un job avec sont id
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteJobAction(Request $request)
+    {
+        $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
+
+        $idJob = $request->attributes->get('idJob');
+
+        if(!is_null($idJob))
+        {
+            $JobRepo->deleteJob($idJob);
+
+            return $this->json(["message" => "Supression bien effectuer"]);
+        }
+
+        return $this->json(["message" => "Erreur lors de la suppresion"]);
     }
 }

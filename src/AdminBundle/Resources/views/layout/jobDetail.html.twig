@@ -4,6 +4,7 @@
     <button type="button" class="btn btn-primary" data-toggle="modal"
             data-target="#modalJob">Ajouter un métier
     </button>
+
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         {% for job in jobs %}
             <div class="panel panel-default">
@@ -19,6 +20,7 @@
                 <div id="{{ job.id }}" class="panel-collapse collapse" role="tabpanel"
                      aria-labelledby="heading{{ job.id }}" >
                     <div class="panel-body"  style="overflow: auto">
+                        <button class="btn btn-danger deleteJob " data-id="{{ job.id }}">Supprimer ce metier</button>
                         <div id="descriptionContent{{ job.id }}" ></div>
                     </div>
                 </div>
@@ -48,55 +50,4 @@
 
         </div>
     </div>
-
-
-
-
-    {#<!-- Modal Job Button-->#}
-    {#<button type="button" class="btn btn-primary" data-toggle="modal"#}
-            {#data-target="#modalJob">Ajouter un métier#}
-    {#</button>#}
-    {#<div class="panel-group" id="accordion">#}
-        {#{% for job in jobs %}#}
-            {#<div class="panel panel-default">#}
-                {#<div class="panel-heading">#}
-                    {#<h4 class="panel-title">#}
-                        {#<a data-toggle="collapse" data-parent="#accordion" href="#{{ job.id }}"#}
-                           {#class="getJobPersonnalityView">#}
-                            {#{{ job.name }}#}
-                        {#</a>#}
-                    {#</h4>#}
-                {#</div>#}
-                {#<div id="{{ job.id }}" class="panel-collapse collapse">#}
-                    {#<div class="panel-body" style="overflow: auto">#}
-                        {#{{ job.description }}#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#{% endfor %}#}
-    {#</div>#}
-
-    {#<!-- Modal Job ID-->#}
-    {#<div id="modalJob" class="modal fade" role="dialog" style="display:none;">#}
-        {#<div class="modal-dialog">#}
-
-            {#<!-- Modal Critic content-->#}
-            {#<div class="modal-content">#}
-                {#<div class="modal-header">#}
-                    {#<button type="button" class="close" data-dismiss="modal">&times;</button>#}
-                    {#<h4 class="modal-title">Ajouter un métier</h4>#}
-                {#</div>#}
-                {#<div class="modal-body">#}
-                    {#{{ form_start(formJob) }}#}
-                    {#{{ form_widget(formJob) }}#}
-                    {#{{ form_end(formJob) }}#}
-                {#</div>#}
-                {#<div class="modal-footer">#}
-
-                {#</div>#}
-            {#</div>#}
-
-        {#</div>#}
-    {#</div>#}
-
 {% endif %}

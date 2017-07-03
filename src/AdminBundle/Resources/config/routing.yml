@@ -58,6 +58,11 @@ admin_getPersonnalityType:
     defaults:
         _controller: AdminBundle:JobPersonnality:getPersonnalityType
 
+admin_deleteJob:
+    path:     /deleteJob/{idJob}
+    defaults:
+        _controller: AdminBundle:JobPersonnality:deleteJob
+
 #=================================#
 #       QuestionController        #
 #=================================#

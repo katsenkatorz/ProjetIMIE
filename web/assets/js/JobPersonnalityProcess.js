@@ -1,5 +1,26 @@
 $(document).ready(function ()
 {
+
+    $('.deleteJob').unbind('click').bind('click', function ()
+    {
+        var idJob = $(this).attr("data-id");
+
+        $.ajax({
+            url: "/admin/deleteJob/"+idJob,
+            type: "DELETE",
+            dataType: "json",
+            success: function (result)
+            {
+                console.log(result.message);
+                window.location.href = window.location.href;
+            },
+            error: function (error)
+            {
+                console.log(error.message);
+            }
+        })
+    });
+
     $("a.getJobPersonnalityView").unbind('click').bind('click', function ()
     {
         // On récupère l'id du Job
