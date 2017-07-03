@@ -175,6 +175,7 @@ class JobPersonnalityController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
+
     /**
      * Affiche la page de gestion des types de personnalités
      *

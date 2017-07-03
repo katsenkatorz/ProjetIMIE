@@ -7,17 +7,48 @@
     width: 100%;
 }
 
-.float-right {
+.btn-right {
     display: inline-block;
     float: right;
     margin-right: 25%;
     margin-top: 40px;
 }
-
+.panel-heading.form-inline{
+   padding-top:5px;
+}
+.panel-title  {
+    padding-top:15px;
+}
+.inline-block{
+    display:inline-block;
+}
 .panel-body p {
     display: inline-block;
 }
-
+.horyzontal-line{
+    width:calc(100% - 34px);
+    border-bottom:4px solid rgb(102, 102, 102); padding:4px 0
+}
+.float-right{
+    float:right;
+}
+.arrow-right{
+    width:0;
+    height:0;
+    border-style:solid;
+    border-width:10px 0 10px 17px;
+    border-color:transparent transparent transparent rgb(102, 102, 102);
+}
+.arrow-left{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 17px 10px 0;
+    border-color: transparent rgb(102, 102, 102) transparent transparent;
+}
+.alert{
+    margin-top:20px;
+}
 /**
 FORMULAIRE DE LOGIN
  */
@@ -44,6 +75,16 @@ FORMULAIRE DE LOGIN
         padding-left: 40px;
         padding-right: 40px;
         background-color: #505050;
+    }
+}
+@media (min-width: 1200px){
+    .container {
+        width: calc(1170px - 220px);
+    }
+}
+@media (min-width: 992px){
+    .container {
+        width: calc(970px - 220px);
     }
 }
 

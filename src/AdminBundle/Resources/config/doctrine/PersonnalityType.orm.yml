@@ -29,4 +29,5 @@ AdminBundle\Entity\PersonnalityType:
         responses:
             targetEntity: AdminBundle\Entity\Response
             mappedBy: personnalityType
+            cascade: [persist, remove]
     lifecycleCallbacks: {  }
