@@ -7,48 +7,58 @@
                 <span>Accueil</span>
             </a>
         </li>
-        <li>
-            <a href="{{ path('admin_jobs') }}">
-                <i class="icon icon-book"></i>
-                <span>Administration des métiers</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_temperament_show') }}">
-                <i class="icon-plus-sign-alt"></i>
-                <span>Ajouter un profil</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_user') }}">
-                <i class="icon icon-group"></i>
-                <span>Gérer utilisateurs</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_questions') }}">
-                <i class="icon icon-comment"></i>
-                <span>Ajouter une question</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('admin_parameters') }}">
-                <i class="icon icon-cogs"></i>
-                <span>Modifier les paramètres</span>
-            </a>
-        </li>
         <li class="submenu">
             <a href="#">
-                <i class="icon icon-bookmark"></i>
-                <span>Menu</span>
+                <i class="icon icon-tasks"></i>
+                <span>Gestion du site</span>
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li><a href="#">submenus</a></li>
-                <li><a href="#">submenus</a></li>
-                <li><a href="#">submenus</a></li>
-                <li><a href="#">submenus</a></li>
-                <li><a href="#">submenus</a></li>
+                <li>
+                    <a href="{{ path('admin_jobs') }}">
+                        <i class="icon icon-book"></i>
+                        <span>Administration des métiers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_temperament_show') }}">
+                        <i class="icon-plus-sign-alt"></i>
+                        <span>Ajouter un profil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_questions') }}">
+                        <i class="icon icon-comment"></i>
+                        <span>Ajouter une question</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="#">
+                <i class="icon icon-cog"></i>
+                <span>Paramétrage</span>
+                <i class="icon-caret-down"></i>
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ path('admin_parameters') }}">
+                        <i class="icon icon-cogs"></i>
+                        <span>Site</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_user') }}">
+                        <i class="icon icon-group"></i>
+                        <span>Gérer utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_user') }}">
+                        <i class="icon icon-suitcase"></i>
+                        <span>Mentions Légales</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>
