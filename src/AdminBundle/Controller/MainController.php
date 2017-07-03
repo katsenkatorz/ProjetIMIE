@@ -4,10 +4,10 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
-use AdminBundle\Entity\PersonnalityType;
-use AdminBundle\Form\JobPersonnalityType;
+use AdminBundle\Entity\Temperament;
+use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
-use AdminBundle\Form\PersonnalityTypeType;
+use AdminBundle\Form\TemperamentType;
 use AdminBundle\Form\QuestionType;
 use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -117,13 +117,13 @@ class MainController extends Controller
     {
         // Récupération des répository et entityManager
         $em = $this->getDoctrine()->getManager();
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
         $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
         $JobPersonnalityRepo = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
 
         // Récupération des jobs et type de personnalités pour les select
         $jobs = $JobRepo->getJobs();
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
 
 
         // Récupération du job sélectionner en select
@@ -136,10 +136,10 @@ class MainController extends Controller
             $JobPersonnalityResult = [];
 
             // Pour chaque type de personnalité
-            forEach ($personnalityTypes as $personnalityType) {
+            forEach ($temperaments as $temperament) {
                 // On récupère sont id et sont nom
-                $pTid = $personnalityType->getId();
-                $pTName = $personnalityType->getName();
+                $pTid = $temperament->getId();
+                $pTName = $temperament->getName();
 
                 // Et on stocke la value
                 $JobPersonnalityResult[$pTid] = (int)$request->get($pTName . "Value");
@@ -147,13 +147,13 @@ class MainController extends Controller
 
             // Créer les jobPersonnality
             forEach ($JobPersonnalityResult as $id => $value) {
-                $pt = $PersonnalityTypeRepo->getPersonnalityTypeById($id);
+                $pt = $TemperamentRepo->getTemperamentById($id);
                 $JobPersonnalityRepo->postJobPersonnality($JobPersonnalityResult[$id], $jobFromForm, $pt);
             }
         }
 
         return $this->render("AdminBundle:app:jobPersonnality.html.twig", [
-            "personnalityTypes" => $personnalityTypes,
+            "temperaments" => $temperaments,
             "jobs" => $jobs
         ]);
     }
@@ -208,18 +208,18 @@ class MainController extends Controller
         $job = $JobRepository->getJobById($idJob);
 
         // Récupération des jobPersonnality correspondant au job
-        $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
+        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
         // Initialisation du tableau de formulaire
         $arrayForm = [];
 
         // Création des formulaires dans le tableau
         foreach ($jobPersonnalities as $key => $value) {
-            $arrayForm[$key] = $this->createForm(JobPersonnalityType::class);
+            $arrayForm[$key] = $this->createForm(JobTemperamentType::class);
         }
 
         // Actualisation des jobPersonnalités
-        $jobPersonnalities = $JobPersonnalityRepository->getPersonnalityTypesByJobId($idJob);
+        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
         // Préparation des formulaires pour les vues
         foreach ($arrayForm as $key => $form) {
@@ -243,14 +243,14 @@ class MainController extends Controller
     {
         // Récupération des éléments du formulaire
         $jobId = $request->get('job');
-        $personnalityTypeId = $request->get('personnalityType');
+        $temperamentId = $request->get('temperament');
         $value = $request->get('value');
 
         // Récupération du répository
         $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
 
         // Sauvegarde de la modification
-        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $personnalityTypeId);
+        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $temperamentId);
 
         if (!$bool) {
             return $this->json(["message" => "Erreur put renvois false"]);
@@ -264,23 +264,23 @@ class MainController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function personnalityTypeAction(Request $request)
+    public function temperamentAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         // Création du formulaire pour les Type de personnalité
-        $formPT = $this->createForm(PersonnalityTypeType::class);
+        $formPT = $this->createForm(TemperamentType::class);
 
         // Récupération de la requête
         $formPT->handleRequest($request);
 
         // Traitement pour la création de Type de personnalité
         if ($formPT->isSubmitted() && $formPT->isValid()) {
-            $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
+            $TemperamentRepo->postTemperament($formPT["name"]->getData(), $formPT["temperament"]->getData(), $formPT["opposedTemperament"]->getData());
         }
 
-        return $this->render("AdminBundle:app:personnalityType.html.twig", [
+        return $this->render("AdminBundle:app:temperament.html.twig", [
             "formPT" => $formPT->createView(),
         ]);
     }
@@ -296,7 +296,7 @@ class MainController extends Controller
     {
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $questions = $QuestionRepo->getQuestions();
         $arrayFormResponse = [];
@@ -324,14 +324,14 @@ class MainController extends Controller
                 $question = $QuestionRepo->getQuestionById($formResponse["question"]->getData());
                 $image = $formResponse['image']->getData();
                 $label = $formResponse["label"]->getData();
-                $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+                $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
 
-                $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
+                $ResponseRepo->postResponse($label, $value, $image, $question, $temperament);
             }
         }
 
         $questions = $QuestionRepo->getQuestions();
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
 
         foreach ($arrayFormResponse as $key => $value) {
             $arrayFormResponse[$key] = $value->createView();
@@ -341,7 +341,7 @@ class MainController extends Controller
             "formQuestion" => $formQuestion->createView(),
             "arrayFormResponse" => $arrayFormResponse,
             "questions" => $questions,
-            "personnalityTypes" => $personnalityTypes
+            "temperaments" => $temperaments
         ]);
     }
 
@@ -349,30 +349,30 @@ class MainController extends Controller
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $questionId = $request->get('questionId');
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
-            "personnalityTypes" => $personnalityTypes
+            "temperaments" => $temperaments
         ]));
     }
 
     public function responseUpdateAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $value = $request->get('value');
         $image = $request->get('image');
         $label = $request->get('label');
-        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+        $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
         $responseId = $request->get('responseId');
 
-        if (!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId)) {
-            $ResponseRepo->putResponse($responseId, $label, $value, $image, $personnalityType);
+        if (!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId)) {
+            $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
         }
 
         return $this->json(["message" => "Modification bien effectuer"]);

@@ -5,9 +5,9 @@ namespace AdminBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * PersonnalityType
+ * Temperament
  */
-class PersonnalityType
+class Temperament
 {
     /**
      * @var int
@@ -22,12 +22,12 @@ class PersonnalityType
     /**
      * @var string
      */
-    private $personnalityType;
+    private $temperament;
 
     /**
      * @var string
      */
-    private $opposedPersonnalityType;
+    private $opposedTemperament;
 
     /**
      * @var ArrayCollection
@@ -94,7 +94,7 @@ class PersonnalityType
      *
      * @param string $name
      *
-     * @return PersonnalityType
+     * @return Temperament
      */
     public function setName($name)
     {
@@ -114,51 +114,51 @@ class PersonnalityType
     }
 
     /**
-     * Set personnalityType
+     * Set temperament
      *
-     * @param string $personnalityType
+     * @param string $temperament
      *
-     * @return PersonnalityType
+     * @return Temperament
      */
-    public function setPersonnalityType($personnalityType)
+    public function setTemperament($temperament)
     {
-        $this->personnalityType = $personnalityType;
+        $this->temperament = $temperament;
 
         return $this;
     }
 
     /**
-     * Get personnalityType
+     * Get temperament
      *
      * @return string
      */
-    public function getPersonnalityType()
+    public function getTemperament()
     {
-        return $this->personnalityType;
+        return $this->temperament;
     }
 
     /**
-     * Set opposedPersonnalityType
+     * Set opposedTemperament
      *
-     * @param string $opposedPersonnalityType
+     * @param string $opposedTemperament
      *
-     * @return PersonnalityType
+     * @return Temperament
      */
-    public function setOpposedPersonnalityType($opposedPersonnalityType)
+    public function setOpposedTemperament($opposedTemperament)
     {
-        $this->opposedPersonnalityType = $opposedPersonnalityType;
+        $this->opposedTemperament = $opposedTemperament;
 
         return $this;
     }
 
     /**
-     * Get opposedPersonnalityType
+     * Get opposedTemperament
      *
      * @return string
      */
-    public function getOpposedPersonnalityType()
+    public function getOpposedTemperament()
     {
-        return $this->opposedPersonnalityType;
+        return $this->opposedTemperament;
     }
 }
 

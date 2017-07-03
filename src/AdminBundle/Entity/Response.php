@@ -33,9 +33,9 @@ class Response
     private $question;
 
     /**
-     * @var PersonnalityType
+     * @var Temperament
      */
-    private $personnalityType;
+    private $temperament;
 
     /**
      * @return Question
@@ -55,19 +55,19 @@ class Response
     }
 
     /**
-     * @return PersonnalityType
+     * @return Temperament
      */
-    public function getPersonnalityType()
+    public function getTemperament()
     {
-        return $this->personnalityType;
+        return $this->temperament;
     }
 
     /**
-     * @param PersonnalityType $personnalityType
+     * @param Temperament $temperament
      **/
-    public function setPersonnalityType(PersonnalityType $personnalityType)
+    public function setTemperament(Temperament $temperament)
     {
-        $this->personnalityType = $personnalityType;
+        $this->temperament = $temperament;
         return $this;
     }
 

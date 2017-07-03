@@ -24,7 +24,7 @@ AdminBundle\Entity\Job:
                 message: "La description doit être une chaine de charactère"
             - NotBlank: ~
 
-AdminBundle\Entity\PersonnalityType:
+AdminBundle\Entity\Temperament:
     properties:
         name:
             - NotBlank: ~
@@ -34,7 +34,7 @@ AdminBundle\Entity\PersonnalityType:
             - Type:
                 type: string
                 message: "Le nom doit être une chaine de charactère"
-        personnalityType:
+        temperament:
             - NotBlank: ~
             - Length:
                 max: 45
@@ -42,7 +42,7 @@ AdminBundle\Entity\PersonnalityType:
             - Type:
                 type: string
                 message: "Le type de personnalité doit être une chaine de charactère"
-        opposedPersonnalityType:
+        opposedTemperament:
             - NotBlank: ~
             - Length:
                 max: 45

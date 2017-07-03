@@ -9,7 +9,7 @@
             {% for response in responses %}
                 <tr>
                     <td>{{ response.label }}</td>
-                    <td>{{ response.personnalityType.name }}</td>
+                    <td>{{ response.temperament.name }}</td>
                     <td>{{ response.value }}</td>
                     <td>{{ response.image }}</td>
                     <td>
@@ -34,19 +34,19 @@
                                             <input id="labelModifResponse{{ response.id }}" type="text" name="label" value="{{ response.label }}"
                                                    class="form-control">
 
-                                            <label for="personnalityType{{ response.id }}">Tempérament</label>
-                                            <select id="personnalityTypeModifResponse{{ response.id }}" name="personnalityType" class="form-control personnalityTypeModifResponse">
-                                                {% for personnalityType in personnalityTypes %}
-                                                    {% if personnalityType.id == response.personnalityType.id %}
-                                                        <option value="{{ personnalityType.id }}"
-                                                                selected>{{ personnalityType.name }}</option>
+                                            <label for="temperament{{ response.id }}">Tempérament</label>
+                                            <select id="temperamentModifResponse{{ response.id }}" name="temperament" class="form-control temperamentModifResponse">
+                                                {% for temperament in temperaments %}
+                                                    {% if temperament.id == response.temperament.id %}
+                                                        <option value="{{ temperament.id }}"
+                                                                selected>{{ temperament.name }}</option>
                                                     {% else %}
-                                                        <option value="{{ personnalityType.id }}">{{ personnalityType.name }}</option>
+                                                        <option value="{{ temperament.id }}">{{ temperament.name }}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
-                                            <p class="personnalityType">TestGauche</p>
-                                            <p class="opposedPersonnalityType">TestDroite</p>
+                                            <p class="temperament">TestGauche</p>
+                                            <p class="opposedTemperament">TestDroite</p>
                                             <input id="valueModifResponse{{ response.id }}" type="range" name="value" value="{{ response.value }}"
                                                    min="0" max="100" class="form-control">
 

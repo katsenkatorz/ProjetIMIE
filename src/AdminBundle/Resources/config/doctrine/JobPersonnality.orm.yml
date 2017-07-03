@@ -15,8 +15,7 @@ AdminBundle\Entity\JobPersonnality:
         job:
             targetEntity: AdminBundle\Entity\Job
             inversedBy: jobPersonnalities
-        personnalityType:
-            targetEntity: AdminBundle\Entity\PersonnalityType
+        temperament:
+            targetEntity: AdminBundle\Entity\Temperament
             inversedBy: jobPersonnalities
-            cascade: [persist, remove]
     lifecycleCallbacks: {  }

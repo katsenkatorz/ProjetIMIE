@@ -21,7 +21,7 @@ AdminBundle\Entity\Response:
         question:
             targetEntity: AdminBundle\Entity\Question
             inversedBy: responses
-        personnalityType:
-            targetEntity: AdminBundle\Entity\PersonnalityType
+        temperament:
+            targetEntity: AdminBundle\Entity\Temperament
             inversedBy: responses
     lifecycleCallbacks: {  }

@@ -4,10 +4,10 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
-use AdminBundle\Entity\PersonnalityType;
-use AdminBundle\Form\JobPersonnalityType;
+use AdminBundle\Entity\Temperament;
+use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
-use AdminBundle\Form\PersonnalityTypeType;
+use AdminBundle\Form\TemperamentType;
 use AdminBundle\Form\QuestionType;
 use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,7 +26,7 @@ class QuestionController extends Controller
     {
         // Récupération des répository
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $formQuestion = $this->createForm(QuestionType::class);
 
@@ -39,12 +39,12 @@ class QuestionController extends Controller
 
         $questions = $QuestionRepo->getQuestions();
 
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
 
         return $this->render("AdminBundle:app:questions.html.twig", [
             "formQuestion" => $formQuestion->createView(),
             "questions" => $questions,
-            "personnalityTypes" => $personnalityTypes
+            "temperaments" => $temperaments
         ]);
     }
 
@@ -100,14 +100,14 @@ class QuestionController extends Controller
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $questionId = $request->get('questionId');
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
-        $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+        $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
-            "personnalityTypes" => $personnalityTypes
+            "temperaments" => $temperaments
         ]));
     }
 
@@ -120,25 +120,26 @@ class QuestionController extends Controller
     public function responsePostAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
-
 
         $value = $request->get('value');
         $image = $request->get('image');
         $label = $request->get('label');
         $question = $QuestionRepo->getQuestionById($request->get('question'));
-        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+        $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
 
-        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($question))
+        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($question))
         {
-            $ResponseRepo->postResponse($label, $value, $image, $question, $personnalityType);
+            $ResponseRepo->postResponse($label, $value, $image, $question, $temperament);
+
+            return $this->json([
+                "message" => "Création bien effectuer",
+                "idQuestion" => $request->get('question')
+            ]);
         }
 
-        return $this->json([
-            "message" => "Création bien effectuer",
-            "idQuestion" => $request->get('question')
-        ]);
+        return $this->json(['message' => "Erreur lors de l'ajout de réponse"]);
     }
 
     /**
@@ -150,17 +151,17 @@ class QuestionController extends Controller
     public function responseUpdateAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $value = $request->get('value');
         $image = $request->get('image');
         $label = $request->get('label');
         $responseId = $request->get('responseId');
-        $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->get('personnalityType'));
+        $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
 
-        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId))
+        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId))
         {
-            $ResponseRepo->putResponse($responseId, $label, $value, $image, $personnalityType);
+            $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
             return $this->json(["message" => "Modification bien effectuer"]);
         }
 

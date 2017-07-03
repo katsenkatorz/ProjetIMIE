@@ -71,10 +71,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         if(!$this->checkIfJobAlreadyExist($name, $description))
         {
             $em = $this->getEntityManager();
-            $PersonnalityTypeRepo = $this->getEntityManager()->getRepository("AdminBundle:PersonnalityType");
+            $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
             $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
 
-            $personnalityTypes = $PersonnalityTypeRepo->getPersonnalityTypes();
+            $temperaments = $TemperamentRepo->getTemperaments();
 
             $job = new Job();
             $job->setName($name)
@@ -85,9 +85,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $em->persist($job);
             $em->flush();
 
-            foreach ($personnalityTypes as $personnalityType)
+            foreach ($temperaments as $temperament)
             {
-                $JobPersonnalityRepo->postJobPersonnality(50, $job, $personnalityType);
+                $JobPersonnalityRepo->postJobPersonnality(50, $job, $temperament);
             }
 
             return $job;

@@ -2,7 +2,7 @@
 
 namespace AdminBundle\Repository;
 
-use AdminBundle\Entity\PersonnalityType;
+use AdminBundle\Entity\Temperament;
 use AdminBundle\Entity\Question;
 use AdminBundle\Entity\Response;
 
@@ -57,14 +57,14 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param $value
      * @param $image
      * @param Question $question
-     * @param PersonnalityType $personnalityType
+     * @param Temperament $temperament
      *
      * @return Response|bool
      */
-    public function postResponse($label, $value, $image, Question $question, PersonnalityType $personnalityType)
+    public function postResponse($label, $value, $image, Question $question, Temperament $temperament)
     {
 
-        if (!$this->checkIfResponseAlreadyExist($value, $question, $personnalityType) && $value != 50)
+        if (!$this->checkIfResponseAlreadyExist($value, $question, $temperament) && $value != 50)
         {
             $em = $this->getEntityManager();
 
@@ -74,7 +74,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 ->setValue($value)
                 ->setImage($image)
                 ->setQuestion($question)
-                ->setPersonnalityType($personnalityType);
+                ->setTemperament($temperament);
 
             $em->persist($response);
             $em->flush();
@@ -92,23 +92,21 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param $label
      * @param $value
      * @param $image
-     * @param PersonnalityType $personnalityType
+     * @param Temperament $temperament
      *
      * @return bool|object
      */
-    public function putResponse($id, $label, $value, $image, PersonnalityType $personnalityType)
+    public function putResponse($id, $label, $value, $image, Temperament $temperament)
     {
         $em = $this->getEntityManager();
-        if ($value != 50)
-        {
+        if ($value != 50) {
             $response = $this->getResponseById($id);
 
-            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $personnalityType, $id))
-            {
+            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $temperament, $id)) {
                 $response->setLabel($label)
                     ->setValue($value)
                     ->setImage($image)
-                    ->setPersonnalityType($personnalityType);
+                    ->setTemperament($temperament);
 
                 $em->persist($response);
                 $em->flush();
@@ -140,18 +138,15 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool
      */
-    public function checkIfResponseAlreadyExist($value, Question $question, PersonnalityType $personnalityType, $id = null)
+    public function checkIfResponseAlreadyExist($value, Question $question, Temperament $temperament, $id = null)
     {
-        if ($value > 50)
-        {
+        if ($value > 50) {
             $query = "r.value > 50";
-        }
-        else if ($value < 50)
-        {
+        } else if ($value < 50) {
             $query = "r.value < 50";
         }
 
-        return $this->checkerProcess($query, $question, $personnalityType, $id);
+        return $this->checkerProcess($query, $question, $temperament, $id);
     }
 
     /**
@@ -159,21 +154,21 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
      * @param $string
      * @param $question
-     * @param $personnalityType
+     * @param $temperament
      * @param $id
      * @return bool
      */
-    private function checkerProcess($string, $question, $personnalityType, $id)
+    private function checkerProcess($string, $question, $temperament, $id)
     {
         $responses = $this->getEntityManager()->createQueryBuilder()
             ->select("r")
             ->from("AdminBundle:Response", "r")
             ->where("r.question = :question")
-            ->andWhere("r.personnalityType = :personnalityType")
+            ->andWhere("r.temperament = :temperament")
             ->andWhere($string)
             ->setParameters([
                 ":question" => $question,
-                ":personnalityType" => $personnalityType,
+                ":temperament" => $temperament,
             ])
             ->getQuery()
             ->getResult();
@@ -186,24 +181,18 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
         $return = false;
 
         // Si on a une réponse
-        if (count($responses))
-        {
+        if (count($responses)) {
             // Si l'id présent en paramètre est null
-            if (is_null($id))
-            {
+            if (is_null($id)) {
                 // On renvois true
                 $return = true;
-            }
-            else
-            {
+            } else {
                 // En renvois true
                 $return = true;
 
                 // Si l'id présent en paramètre correspond a celui d'un des résultats trouver on renvois false
-                foreach ($responses as $response)
-                {
-                    if ($response->getId() == $id)
-                    {
+                foreach ($responses as $response) {
+                    if ($response->getId() == $id) {
                         $return = false;
                     }
                 }

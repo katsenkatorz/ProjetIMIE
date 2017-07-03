@@ -1,7 +1,7 @@
-AdminBundle\Entity\PersonnalityType:
+AdminBundle\Entity\Temperament:
     type: entity
-    table: PERSONNALITY_TYPE
-    repositoryClass: AdminBundle\Repository\PersonnalityTypeRepository
+    table: TEMPERAMENT
+    repositoryClass: AdminBundle\Repository\TemperamentRepository
     id:
         id:
             type: integer
@@ -13,20 +13,20 @@ AdminBundle\Entity\PersonnalityType:
             type: string
             length: '45'
             unique: true
-        personnalityType:
+        temperament:
             type: string
             length: '45'
             unique: true
-        opposedPersonnalityType:
+        opposedTemperament:
             type: string
             length: '45'
             unique: true
     oneToMany:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
-            mappedBy: personnalityType
+            mappedBy: temperament
             cascade: [persist, remove]
         responses:
             targetEntity: AdminBundle\Entity\Response
-            mappedBy: personnalityType
+            mappedBy: temperament
     lifecycleCallbacks: {  }

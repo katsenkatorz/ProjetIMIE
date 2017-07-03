@@ -17,8 +17,8 @@ function loadResponse(idQuestion, env, PanelTitle)
             // On affiche le résultat
             responseContent.html(result);
 
-            loadPersonnalityType("#personnalityTypeResponse"+idQuestion);
-            loadPersonnalityType(".personnalityTypeModifResponse");
+            loadTemperament("#temperamentResponse"+idQuestion);
+            loadTemperament(".temperamentModifResponse");
 
             // Supression d'une réponse
             $(".deleteResponseButton").unbind('click').bind('click', function (e)
@@ -60,7 +60,7 @@ function loadResponse(idQuestion, env, PanelTitle)
                 var value = $("#valueModifResponse" + responseId).val();
                 var image = $("#imageModifResponse" + responseId).val();
                 var label = $("#labelModifResponse" + responseId).val();
-                var personnalityType = $('#personnalityTypeModifResponse' + responseId).val();
+                var temperament = $('#temperamentModifResponse' + responseId).val();
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
@@ -71,7 +71,7 @@ function loadResponse(idQuestion, env, PanelTitle)
                         value: value,
                         image: image,
                         label: label,
-                        personnalityType: personnalityType
+                        temperament: temperament
 
                     },
                     success: function (result)
@@ -103,21 +103,21 @@ function loadResponse(idQuestion, env, PanelTitle)
     });
 }
 
-function loadPersonnalityType(selector)
+function loadTemperament(selector)
 {
-    function getHomonyme(idPersonnalityType, context)
+    function getHomonyme(idTemperament, context)
     {
         $.ajax({
-            url: "/admin/getPersonnalityType/"+idPersonnalityType,
+            url: "/admin/getTemperament/"+idTemperament,
             type: "GET",
             dataType: "json",
             success: function (result)
             {
-                var personnalityTypeContainer = context.next();
-                var opposedPersonnalityTypeContainer = context.next().next();
+                var temperamentContainer = context.next();
+                var opposedTemperamentContainer = context.next().next();
 
-                personnalityTypeContainer.html(result.personnalityType);
-                opposedPersonnalityTypeContainer.html(result.opposedPersonnalityType);
+                temperamentContainer.html(result.temperament);
+                opposedTemperamentContainer.html(result.opposedTemperament);
             },
             error: function (error)
             {
@@ -156,7 +156,7 @@ $(document).ready(function ()
             var value = $("#valueResponse" + idQuestion).val();
             var image = $("#imageResponse" + idQuestion).val();
             var label = $("#labelResponse" + idQuestion).val();
-            var personnalityType = $("#personnalityTypeResponse" + idQuestion).val();
+            var temperament = $("#temperamentResponse" + idQuestion).val();
 
             $.ajax({
                 url: "/admin/postResponse",
@@ -166,7 +166,7 @@ $(document).ready(function ()
                     value: value,
                     image: image,
                     label: label,
-                    personnalityType: personnalityType
+                    temperament: temperament
                 },
                 success: function (result)
                 {

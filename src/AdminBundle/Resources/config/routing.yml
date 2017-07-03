@@ -39,10 +39,10 @@ admin_jobs:
     defaults:
         _controller: AdminBundle:JobPersonnality:jobs
 
-admin_personnalityType:
-    path:     /personnalityType
+admin_temperament:
+    path:     /temperament
     defaults:
-        _controller: AdminBundle:JobPersonnality:personnalityType
+        _controller: AdminBundle:JobPersonnality:temperament
 
 admin_SavejobPersonnality:
     path:     /saveJobPersonnality
@@ -54,10 +54,10 @@ admin_jobPersonnality:
     defaults:
         _controller: AdminBundle:JobPersonnality:jobPersonnality
 
-admin_getPersonnalityType:
-    path:     /getPersonnalityType/{idPersonnalityType}
+admin_getTemperament:
+    path:     /getTemperament/{idTemperament}
     defaults:
-        _controller: AdminBundle:JobPersonnality:getPersonnalityType
+        _controller: AdminBundle:JobPersonnality:getTemperament
 
 #=================================#
 #       QuestionController        #
