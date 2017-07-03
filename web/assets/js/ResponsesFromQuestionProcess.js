@@ -17,6 +17,9 @@ function loadResponse(idQuestion, env, PanelTitle)
             // On affiche le résultat
             responseContent.html(result);
 
+            loadPersonnalityType("#personnalityTypeResponse"+idQuestion);
+            loadPersonnalityType(".personnalityTypeModifResponse");
+
             // Supression d'une réponse
             $(".deleteResponseButton").unbind('click').bind('click', function (e)
             {
@@ -48,7 +51,7 @@ function loadResponse(idQuestion, env, PanelTitle)
             });
 
             // Au click sur valider du modal de modification d'une réponse
-            $(".modalModifResponse").unbind('click').bind('click submit', function (e)
+            $(".modalModifResponse").unbind('click submit').bind('click submit', function (e)
             {
                 e.preventDefault();
 
@@ -57,7 +60,7 @@ function loadResponse(idQuestion, env, PanelTitle)
                 var value = $("#valueModifResponse" + responseId).val();
                 var image = $("#imageModifResponse" + responseId).val();
                 var label = $("#labelModifResponse" + responseId).val();
-                var personnalityType = $('#personnalityType' + responseId).val();
+                var personnalityType = $('#personnalityTypeModifResponse' + responseId).val();
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
@@ -73,12 +76,11 @@ function loadResponse(idQuestion, env, PanelTitle)
                     },
                     success: function (result)
                     {
+                        console.log(result);
                         // Fermeture du modal en cas de success
                         $('#modalModifResponse' + idQuestion).modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
-
-                        // loadResponse(result.idQuestion, env, PanelTitle);
 
                         PanelTitle.trigger("click");
                         setTimeout(function()
@@ -100,6 +102,40 @@ function loadResponse(idQuestion, env, PanelTitle)
         }
     });
 }
+
+function loadPersonnalityType(selector)
+{
+    function getHomonyme(idPersonnalityType, context)
+    {
+        $.ajax({
+            url: "/admin/getPersonnalityType/"+idPersonnalityType,
+            type: "GET",
+            dataType: "json",
+            success: function (result)
+            {
+                var personnalityTypeContainer = context.next();
+                var opposedPersonnalityTypeContainer = context.next().next();
+
+                personnalityTypeContainer.html(result.personnalityType);
+                opposedPersonnalityTypeContainer.html(result.opposedPersonnalityType);
+            },
+            error: function (error)
+            {
+                console.log(error);
+            }
+        });
+    }
+
+    getHomonyme($(selector).val(), $(selector));
+
+    $(selector).change(function ()
+    {
+        var id = $(this).val();
+
+        getHomonyme(id, $(this));
+    });
+}
+
 $(document).ready(function ()
 {
     // Pour chaque éléments qui contienne un liens a de classe getJobPersonnalityView

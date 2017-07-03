@@ -161,9 +161,10 @@ class QuestionController extends Controller
         if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($personnalityType) && !is_null($responseId))
         {
             $ResponseRepo->putResponse($responseId, $label, $value, $image, $personnalityType);
+            return $this->json(["message" => "Modification bien effectuer"]);
         }
 
-        return $this->json(["message" => "Modification bien effectuer"]);
+        return $this->json(["message" => "Erreur lors de la modification"]);
     }
 
     /**

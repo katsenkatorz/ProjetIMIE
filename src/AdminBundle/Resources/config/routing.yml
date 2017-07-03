@@ -54,6 +54,11 @@ admin_jobPersonnality:
     defaults:
         _controller: AdminBundle:JobPersonnality:jobPersonnality
 
+admin_getPersonnalityType:
+    path:     /getPersonnalityType/{idPersonnalityType}
+    defaults:
+        _controller: AdminBundle:JobPersonnality:getPersonnalityType
+
 #=================================#
 #       QuestionController        #
 #=================================#
