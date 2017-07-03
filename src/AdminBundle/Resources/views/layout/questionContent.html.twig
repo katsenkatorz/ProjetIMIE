@@ -1,13 +1,12 @@
 {#Pour la page Question#}
+
 {% if questions is defined %}
     <button type="button" class="btn btn-primary" data-toggle="modal"
             data-target="#modalQuestion">Ajouter une question
     </button>
-
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     {% for question in questions %}
     <div class="panel panel-default">
-
         <div class="panel-heading" role="tab" id="heading{{ question.id }}">
             <h4 class="panel-title inline-block" data-id="{{ question.id }}">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}"
@@ -25,9 +24,7 @@
              aria-labelledby="heading{{ question.id }}">
             <div class="panel-body">
                 <div class="responseContent{{ question.id }}"></div>
-
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalResponse{{ question.id }}">Ajouter une réponse</button>
-
                 <!-- Modal Response -->
                 <div id="modalResponse{{ question.id }}" class="modal fade" role="dialog"
                      style="display: none;">
@@ -43,6 +40,7 @@
                                     <label for="labelResponse{{ question.id }}">Label</label>
                                     <input type="text" name="labelResponse" id="labelResponse{{ question.id }}"
                                            class="form-control">
+
                                     <label for="valueResponse{{ question.id }}">Type de personnalité</label>
                                     <select name="temperament" class="form-control"
                                             id="temperamentResponse{{ question.id }}">
@@ -54,6 +52,7 @@
                                     <p class="opposedTemperament" >TestDroite</p>
                                     <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
                                            class="form-control">
+
                                     <label for="imageResponse{{ question.id }}">Image</label>
                                     <input type="text" name="imageResponse" id="imageResponse{{ question.id }}"
                                            class="form-control">
@@ -96,8 +95,6 @@
         {% endfor %}
     </div>
 
-
-
     <!-- Modal Question ID-->
     <div id="modalQuestion" class="modal fade" role="dialog" style="display: none;">
         <div class="modal-dialog">
@@ -114,7 +111,6 @@
                     {{ form_end(formQuestion) }}
                 </div>
                 <div class="modal-footer">
-
                 </div>
             </div>
         </div>
