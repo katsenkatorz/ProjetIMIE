@@ -214,7 +214,7 @@ $(document).ready(function ()
             },
             success: function (result)
             {
-                location.reload();
+                window.location = window.location;
                 console.log(result);
             },
             error: function (error)
@@ -239,7 +239,7 @@ $(document).ready(function ()
             },
             success: function (result)
             {
-                location.reload();
+                window.location = window.location;
                 console.log(result);
             },
             error: function (error)
