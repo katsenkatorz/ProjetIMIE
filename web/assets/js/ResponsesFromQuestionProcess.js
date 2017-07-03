@@ -188,57 +188,64 @@ $(document).ready(function ()
             });
         });
 
-        // Suppresion d'une question
-        $(".deleteQuestion").unbind('click').bind('click', function (e)
-        {
-            e.preventDefault();
 
-            var questionId = $(this).attr("id");
+    });
 
-            $.ajax({
-                url: "/admin/deleteQuestion",
-                type: "POST",
-                data: {
-                    question: questionId
-                },
-                success: function (result)
-                {
-                    location.reload();
-                    console.log(result);
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                }
-            });
+
+    // Modification d'une question
+    $(".submitModifQuestion").unbind('click').bind('click', function (e)
+    {
+        e.preventDefault();
+
+        var questionId = $(this).attr('id');
+        var label = $("#labelModifQuestion" + questionId).val();
+        var responseContent = $(".responseContent" + questionId);
+
+        console.log(questionId);
+        console.log(label);
+        console.log(responseContent);
+
+        $.ajax({
+            url: "/admin/putQuestion",
+            type: "POST",
+            data: {
+                question: questionId,
+                label: label
+            },
+            success: function (result)
+            {
+                location.reload();
+                console.log(result);
+            },
+            error: function (error)
+            {
+                console.log(error);
+            }
         });
+    });
 
-        // Modification d'une question
-        $(".submitModifQuestion").unbind('click').bind('click', function (e)
-        {
-            e.preventDefault();
+    // Suppresion d'une question
+    $(".deleteQuestion").unbind('click').bind('click', function (e)
+    {
+        e.preventDefault();
 
-            var questionId = $(this).attr('id');
-            var label = $("#labelModifQuestion" + questionId).val();
-            var responseContent = $(".responseContent" + questionId);
+        var questionId = $(this).attr("data-id");
 
-            $.ajax({
-                url: "/admin/putQuestion",
-                type: "POST",
-                data: {
-                    question: questionId,
-                    label: label
-                },
-                success: function (result)
-                {
-                    window.location.href = window.location.href;
-                    console.log(result);
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                }
-            });
+        $.ajax({
+            url: "/admin/deleteQuestion",
+            type: "POST",
+            data: {
+                question: questionId
+            },
+            success: function (result)
+            {
+                location.reload();
+                console.log(result);
+            },
+            error: function (error)
+            {
+                console.log(error);
+            }
         });
     });
 });

@@ -245,4 +245,23 @@ class JobPersonnalityController extends Controller
 
         return $this->json(["message" => "Erreur lors de la suppresion"]);
     }
+
+    public function putJobAction(Request $request)
+    {
+        $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
+
+        $idJob = $request->attributes->get('idJob');
+        $name = $request->get('name');
+        $minSalary = $request->get('minSalary');
+        $maxSalary = $request->get('maxSalary');
+        $description = $request->get('description');
+
+        if(!is_null($idJob) && !is_null($name) && !is_null($minSalary) && !is_null($maxSalary) && !is_null($description))
+        {
+            $JobRepo->putJob($idJob, $name, $description, $maxSalary, $minSalary);
+            return $this->json(['message'=> "Modification bien effectuer"]);
+        }
+
+        return $this->json(['message'=> "Erreur lors de la modification"]);
+    }
 }

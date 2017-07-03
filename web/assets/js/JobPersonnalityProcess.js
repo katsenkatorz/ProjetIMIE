@@ -1,5 +1,39 @@
 $(document).ready(function ()
 {
+    var JobPanel = $("a.getJobPersonnalityView");
+
+    $('.modifJob').unbind('click').bind('click', function (e)
+    {
+        e.preventDefault();
+
+        var jobId = $(this).attr('data-id');
+        var name = $('#modifName'+jobId).val();
+        var minSalary = $('#modifMinSalary'+jobId).val();
+        var maxSalary = $('#modifMaxSalary'+jobId).val();
+        var description = $('#modifDescription'+jobId).val();
+
+        $.ajax({
+            url: "/admin/putJob/"+jobId,
+            type: "POST",
+            dataType: "json",
+            data: {
+                name: name,
+                minSalary: minSalary,
+                maxSalary: maxSalary,
+                description: description
+            },
+            success: function (result)
+            {
+                console.log(result.message);
+                location.reload();
+            },
+            error: function (error)
+            {
+                console.log(error.message);
+            }
+        })
+
+    });
 
     $('.deleteJob').unbind('click').bind('click', function ()
     {
@@ -21,7 +55,7 @@ $(document).ready(function ()
         })
     });
 
-    $("a.getJobPersonnalityView").unbind('click').bind('click', function ()
+    JobPanel.unbind('click').bind('click', function ()
     {
         // On récupère l'id du Job
         var idJob = $(this).data('id');
