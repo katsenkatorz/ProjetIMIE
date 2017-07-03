@@ -180,16 +180,14 @@ class JobPersonnalityController extends Controller
     {
         $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
 
-        var_dump($request->attributes->get("idPersonnalityType"));
-
         $personnalityType = $PersonnalityTypeRepo->getPersonnalityTypeById($request->attributes->get("idPersonnalityType"));
 
-        $json = ["personnalityType" => $personnalityType->getPersonnalityType(), "opposedPersonnalityType" => $personnalityType->getOpposedPersonnalityType()];
+        $firstPersonnalityType = $personnalityType->getPersonnalityType();
 
-        $response = new Response(json_encode($json), "200");
-        $response->headers->set('Content-Type', 'application/json');
+        $opposedPersonnalityType = $personnalityType->getOpposedPersonnalityType();
 
-        return $response;
+
+        return $this->json(["personnalityType" => "$firstPersonnalityType", "opposedPersonnalityType" => "$opposedPersonnalityType"]);
 
     }
 }

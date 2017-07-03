@@ -19,12 +19,21 @@
 
             {% for parameter in parameters %}
                 <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
-                <label class="param-title">{{ parameter.label }}</label>
-                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value" value="{{ parameter.value }}">
+                <label class="param-title" data-label="{{ parameter.label }}">{{ parameter.label }}</label>
+                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value" value="{{ parameter.value }}" data-id="{{ parameter.id }}" >
             {% endfor %}
 
+<<<<<<< HEAD
             <input class="btn-right btn btn-info" type="submit" value="Sauvegarder">
+=======
+            {#<input class="float-right btn btn-info" type="submit" value="Modifier">#}
+>>>>>>> origin/V1
         </form>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/parametersProcess.js') }}"></script>
 {% endblock %}
