@@ -1,3 +1,7 @@
+admin_personnalityType:
+    resource:   "@AdminBundle/Resources/config/routing/personnalitytype.yml"
+    prefix:     /personnalityType
+
 #=================================#
 #       MainController            #
 #=================================#
@@ -37,11 +41,6 @@ admin_jobs:
     path:     /jobs
     defaults:
         _controller: AdminBundle:JobPersonnality:jobs
-
-admin_personnalityType:
-    path:     /personnalityType
-    defaults:
-        _controller: AdminBundle:JobPersonnality:personnalityType
 
 admin_SavejobPersonnality:
     path:     /saveJobPersonnality

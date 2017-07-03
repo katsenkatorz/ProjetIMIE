@@ -1,0 +1,8 @@
+admin_personnalityType_show:
+    path:   /
+    defaults:
+        _controller: AdminBundle:PersonnalityType:personnalityType
+
+personnalitytype_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:PersonnalityType:delete" }

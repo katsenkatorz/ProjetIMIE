@@ -248,33 +248,6 @@ class MainController extends Controller
         return $this->json(["message" => "Modification bien effectuer"]);
     }
 
-    /**
-     * Affiche la page de gestion des types de personnalités
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function personnalityTypeAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $PersonnalityTypeRepo = $this->getDoctrine()->getRepository("AdminBundle:PersonnalityType");
-
-        // Création du formulaire pour les Type de personnalité
-        $formPT = $this->createForm(PersonnalityTypeType::class);
-
-        // Récupération de la requête
-        $formPT->handleRequest($request);
-
-        // Traitement pour la création de Type de personnalité
-        if ($formPT->isSubmitted() && $formPT->isValid()) {
-            $PersonnalityTypeRepo->postPersonnalityType($formPT["name"]->getData(), $formPT["personnalityType"]->getData(), $formPT["opposedPersonnalityType"]->getData());
-        }
-
-        return $this->render("AdminBundle:app:personnalityType.html.twig", [
-            "formPT" => $formPT->createView(),
-        ]);
-    }
-
 
     /**
      * Affiche la page de gestion des questions
