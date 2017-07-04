@@ -2,7 +2,10 @@
 <div id="sidebar"><a href="#" class="visible-phone hidden"><i class="icon icon-tasks"></i> Menu</a>
 
     <ul>
-        <li class="">
+        <li class="{% if app.request.requestUri == "/admin/home" %}
+                    active
+                    {% endif %}"
+        >
             <a href="{{ path('admin_homepage') }}">
                 <i class="icon icon-home"></i>
                 <span>Accueil</span>
