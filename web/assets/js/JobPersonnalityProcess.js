@@ -30,20 +30,17 @@ function loadPartielView(idJob, resultContent)
                     },
                     success: function (result)
                     {
-                        // A la réussite on affiche le message de succes
-                        console.log(result.message)
-                    },
-                    error: function (error)
-                    {
-                        console.log(error.message);
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(result.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
                     }
                 });
             });
-        },
-        error: function (error)
-        {
-            descriptionContent.html("Erreur lors du chargement");
-            console.log(error.statusText)
         }
     });
 }
@@ -77,13 +74,36 @@ $(document).ready(function ()
             {
                 loadPartielView(jobId, resultContent);
                 $('#collapseTitle'+jobId).text(result.name);
-            },
-            error: function (error)
-            {
-                console.log(error.message);
+
+                $('#modifJob' + jobId).modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(result.message);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").addClass("hidden");
+                }, 2000);
             }
         })
 
+    });
+
+    $('.modalDeleteJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+    {
+        var modal = $(this);
+        var button = $(event.relatedTarget);
+        var name = button.data('name');
+
+        modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
+        modal.find('.modal-body p').html('Etes-vous sûr de supprimer le métier :&nbsp;<strong>' + name + ' ?</strong>');
     });
 
     $('.deleteJob').unbind('click').bind('click', function ()
@@ -96,13 +116,7 @@ $(document).ready(function ()
             dataType: "json",
             success: function (result)
             {
-                console.log(result.message);
-
                 window.location = window.location;
-            },
-            error: function (error)
-            {
-                console.log(error.message);
             }
         })
     });
