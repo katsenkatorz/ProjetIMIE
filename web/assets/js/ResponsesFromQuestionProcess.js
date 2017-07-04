@@ -22,6 +22,7 @@ function loadResponse(idQuestion, env, PanelTitle)
             if(result.length > 0)
                 loadTemperament(".temperamentModifResponse");
 
+            loadRangeInput(".rangeInput");
 
             $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
             {
@@ -124,6 +125,29 @@ function loadResponse(idQuestion, env, PanelTitle)
     });
 }
 
+function loadRangeInput(selector)
+{
+    $(selector).each(function ()
+    {
+        var value = $(this).val();
+        var valueBlockRight = $(this).prev().prev();
+        var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+        valueBlockRight.html(100-value);
+        valueBlockLeft.html(value);
+
+        $(this).unbind('click').bind('click', function ()
+        {
+            var value = $(this).val();
+            var valueBlockRight = $(this).prev().prev();
+            var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+            valueBlockRight.html(100-value);
+            valueBlockLeft.html(value);
+        });
+    });
+}
+
 function loadTemperament(selector)
 {
     function getHomonyme(idTemperament, context)
@@ -135,7 +159,7 @@ function loadTemperament(selector)
             success: function (result)
             {
                 var temperamentContainer = context.next();
-                var opposedTemperamentContainer = context.next().next();
+                var opposedTemperamentContainer = context.next().next().next().next();
 
                 temperamentContainer.html(result.temperament);
                 opposedTemperamentContainer.html(result.opposedTemperament);
@@ -159,6 +183,8 @@ function loadTemperament(selector)
 
 $(document).ready(function ()
 {
+    loadRangeInput(".rangeInput");
+
     // Pour chaque éléments qui contienne un liens a de classe getJobPersonnalityView
     $(".panel-title").unbind("click").bind("click", function ()
     {
@@ -174,7 +200,8 @@ $(document).ready(function ()
         {
             e.preventDefault();
 
-            var value = $("#valueResponse" + idQuestion).val();
+            var rangeInput = $("#valueResponse" + idQuestion);
+            var value = rangeInput.val();
             var image = $("#imageResponse" + idQuestion).val();
             var label = $("#labelResponse" + idQuestion).val();
             var temperament = $("#temperamentResponse" + idQuestion).val();
@@ -277,7 +304,7 @@ $(document).ready(function ()
             type: "DELETE",
             success: function (result)
             {
-                window.location = window.location;
+                window.location = window.location.href;
             }
         });
     });

@@ -13,12 +13,16 @@ function loadPartielView(idJob, resultContent)
             // On stocke la vue partielle dans la description
             descriptionContent.html(result);
 
+            loadRangeInput('.rangeInput');
+
             // Au changement de value de l'input
             $('.rangeInput').unbind('click').bind('click', function ()
             {
-                var value = this.value;
-                var jobId = this.nextElementSibling.value;
-                var temperamentId = this.nextElementSibling.nextElementSibling.value;
+                var value = $(this).val();
+                var jobId = $(this).next().val();
+                var temperamentId = $(this).next().next().val();
+
+                loadRangeInput('.rangeInput');
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
@@ -42,6 +46,29 @@ function loadPartielView(idJob, resultContent)
                 });
             });
         }
+    });
+}
+
+function loadRangeInput(selector)
+{
+    $(selector).each(function ()
+    {
+        var value = $(this).val();
+        var valueBlockRight = $(this).prev().prev();
+        var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+        valueBlockRight.html(100-value);
+        valueBlockLeft.html(value);
+
+        $(this).unbind('click').bind('click', function ()
+        {
+            var value = $(this).val();
+            var valueBlockRight = $(this).prev().prev();
+            var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+            valueBlockRight.html(100-value);
+            valueBlockLeft.html(value);
+        });
     });
 }
 
@@ -116,7 +143,11 @@ $(document).ready(function ()
             dataType: "json",
             success: function (result)
             {
-                window.location = window.location;
+                window.location = window.location.href;
+
+                $('#modalDeleteJob' + idJob).modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
             }
         })
     });
