@@ -9,3 +9,9 @@ admin_putParameters:
     defaults:
         _controller: AdminBundle:Main:updateParameters
         method: POST
+
+admin_mentionLegale:
+    path:     /mentionLegale
+    defaults:
+        _controller: AdminBundle:Main:mentionLegale
+        method: POST

@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
+use AdminBundle\Entity\Parameters;
 use AdminBundle\Entity\Temperament;
 use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
@@ -67,9 +68,10 @@ class MainController extends Controller
 
         $parameters = $ParamRepo->getParameters();
 
-        foreach ($parameters as $parameter) {
+        $parameters = array_slice($parameters, 0, count($parameters) - 1);
 
-            $arrayParam[$parameter->getLabel()] = [
+        foreach ($parameters as $parameter) {
+            $arrayParams[$parameter->getLabel()] = [
                 $parameter->getLabel() . "id",
                 $parameter->getLabel(),
                 $parameter->getLabel() . "Value"
@@ -87,7 +89,6 @@ class MainController extends Controller
      * @param Request $request
      * @return jsonResponse
      */
-
     public function updateParametersAction(Request $request)
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
@@ -98,12 +99,29 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if(!is_null($parameterId) && !is_null($label) && !is_null($value))
-        {
+        if (!is_null($parameterId) && !is_null($label) && !is_null($value)) {
             $ParamRepo->putParameters($parameterId, $label, $value);
         }
 
 
         return $this->json(["message" => "Modification(s) bien effectuée(s)"]);
+    }
+
+
+    /**
+     * Modifie la page des mentionsLégales utilisateur
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function mentionLegaleAction(Request $request)
+    {
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $parameter = $ParamRepo->getParameterById(4);
+
+        return $this->render('AdminBundle:app:mentionLegale.html.twig', [
+            "parameter" => $parameter,
+        ]);
     }
 }

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: "/admin/parameter/put/"+parameterId,
-            method: "POST",
+            method: "PUT",
             data: {
                 label: label,
                 value: value
@@ -16,7 +16,7 @@ $(document).ready(function () {
                 console.log(result.message)
             },
             error: function (error) {
-                console.log(error.message)
+                console.log('error');
             }
         });
 

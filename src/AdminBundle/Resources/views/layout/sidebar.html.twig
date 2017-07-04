@@ -2,7 +2,7 @@
 <div id="sidebar"><a href="#" class="visible-phone hidden"><i class="icon icon-tasks"></i> Menu</a>
 
     <ul>
-        <li class="{% if app.request.requestUri == "/admin/home" %}
+        <li class="{% if app.request.requestUri ==  path('admin_homepage')  %}
                     active
                     {% endif %}"
         >
@@ -11,9 +11,9 @@
                 <span>Accueil</span>
             </a>
         </li>
-        <li class="{% if app.request.requestUri == "/admin/job/" or
-        app.request.requestUri == "/admin/temperament/" or
-        app.request.requestUri == "/admin/question/" %}open {% endif %}submenu"
+        <li class="{% if app.request.requestUri == path('admin_job_home') or
+        app.request.requestUri == path('admin_temperament_show') or
+        app.request.requestUri == path('admin_question') %}open {% endif %}submenu"
         >
             <a href="#">
                 <i class="icon icon-tasks"></i>
@@ -21,7 +21,7 @@
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li class="{% if app.request.requestUri == "/admin/job/" %}
+                <li class="{% if app.request.requestUri == path('admin_job_home') %}
                     active
                     {% endif %}"
                 >
@@ -30,7 +30,7 @@
                         <span>Administration des métiers</span>
                     </a>
                 </li>
-                <li class="{% if app.request.requestUri == "/admin/temperament/" %}
+                <li class="{% if app.request.requestUri == path('admin_temperament_show') %}
                     active
                     {% endif %}"
                 >
@@ -39,7 +39,7 @@
                         <span>Ajouter un profil</span>
                     </a>
                 </li>
-                <li class="{% if app.request.requestUri == "/admin/question/" %}
+                <li class="{% if app.request.requestUri == path('admin_question') %}
                     active
                     {% endif %}"
                 >
@@ -50,9 +50,9 @@
                 </li>
             </ul>
         </li>
-        <li class="{% if app.request.requestUri == "/admin/parameter" or
-        app.request.requestUri == "/admin/user" or
-        app.request.requestUri == "/admin/user" %}open {% endif %}submenu"
+        <li class="{% if app.request.requestUri == path('admin_parameter') or
+        app.request.requestUri == path('admin_user') or
+        app.request.requestUri == path('admin_mentionLegale') %}open {% endif %}submenu"
         >
             <a href="#">
                 <i class="icon icon-cog"></i>
@@ -60,7 +60,7 @@
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li class="{% if app.request.requestUri == "/admin/parameter" %}
+                <li class="{% if app.request.requestUri == path('admin_parameter') %}
                     active
                     {% endif %}"
                 >
@@ -69,7 +69,7 @@
                         <span>Site</span>
                     </a>
                 </li>
-                <li class="{% if app.request.requestUri == "/admin/user" %}
+                <li class="{% if app.request.requestUri == path('admin_user') %}
                     active
                     {% endif %}"
                 >
@@ -78,15 +78,15 @@
                         <span>Gérer utilisateurs</span>
                     </a>
                 </li>
-                {#<li class="{% if app.request.requestUri == "/admin/user" %}#}
-                    {#active#}
-                    {#{% endif %}"#}
-                {#>#}
-                    {#<a href="{{ path('admin_user') }}">#}
-                        {#<i class="icon icon-suitcase"></i>#}
-                        {#<span>Mentions Légales</span>#}
-                    {#</a>#}
-                {#</li>#}
+                <li class="{% if app.request.requestUri == path('admin_mentionLegale') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_mentionLegale') }}">
+                        <i class="icon icon-suitcase"></i>
+                        <span>Mentions Légales</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>
