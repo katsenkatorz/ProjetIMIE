@@ -88,7 +88,6 @@ FORMULAIRE DE LOGIN
     }
 }
 
-
 .login-form input {
     margin-bottom: 15px;
 }
@@ -113,7 +112,7 @@ FORMULAIRE DE LOGIN
 
 
 /**
-PERSONNALITY TYPE
+TEMPERAMENT
  */
 .opposedTemperament {
     float: right;

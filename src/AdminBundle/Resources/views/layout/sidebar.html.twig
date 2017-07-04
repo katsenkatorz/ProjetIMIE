@@ -20,7 +20,7 @@
                 <span>Gestion du site</span>
                 <i class="icon-caret-down"></i>
             </a>
-            <ul>
+            <ul class="nav-group">
                 <li class="{% if app.request.requestUri == path('admin_job_home') %}
                     active
                     {% endif %}"
@@ -59,7 +59,7 @@
                 <span>Paramétrage</span>
                 <i class="icon-caret-down"></i>
             </a>
-            <ul>
+            <ul class="nav-group">
                 <li class="{% if app.request.requestUri == path('admin_parameter') %}
                     active
                     {% endif %}"
