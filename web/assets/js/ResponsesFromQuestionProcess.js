@@ -9,7 +9,7 @@ function loadResponse(idQuestion, env, PanelTitle)
 
     // Récupération des réponses pour une question et affichage dans le content de l'accordion
     $.ajax({
-        url: "/admin/getResponsesFromQuestion/" + idQuestion,
+        url: "/admin/question/" + idQuestion + "/getResponse",
         type: "GET",
         dataType: "json",
         success: function (result)
@@ -18,7 +18,9 @@ function loadResponse(idQuestion, env, PanelTitle)
             responseContent.html(result);
 
             loadTemperament("#temperamentResponse"+idQuestion);
-            loadTemperament(".temperamentModifResponse");
+
+            if(result.length > 0)
+                loadTemperament(".temperamentModifResponse");
 
             // Supression d'une réponse
             $(".deleteResponseButton").unbind('click').bind('click', function (e)
@@ -28,11 +30,8 @@ function loadResponse(idQuestion, env, PanelTitle)
                 var responseId = $(this).prev().val();
 
                 $.ajax({
-                    url: "/admin/deleteResponse",
-                    type: "POST",
-                    data: {
-                        responseId: responseId
-                    },
+                    url: "/admin/question/"+idQuestion+"/deleteResponse/"+responseId,
+                    type: "DELETE",
                     success: function (result)
                     {
                         // loadResponse(result.idQuestion, env, PanelTitle);
@@ -64,10 +63,9 @@ function loadResponse(idQuestion, env, PanelTitle)
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
-                    url: "/admin/putResponse",
-                    type: "POST",
+                    url: "/admin/question/"+idQuestion+"/putResponse/"+responseId,
+                    type: "PUT",
                     data: {
-                        responseId: responseId,
                         value: value,
                         image: image,
                         label: label,
@@ -108,7 +106,7 @@ function loadTemperament(selector)
     function getHomonyme(idTemperament, context)
     {
         $.ajax({
-            url: "/admin/getTemperament/"+idTemperament,
+            url: "/admin/job/getTemperament/"+idTemperament,
             type: "GET",
             dataType: "json",
             success: function (result)
@@ -158,11 +156,13 @@ $(document).ready(function ()
             var label = $("#labelResponse" + idQuestion).val();
             var temperament = $("#temperamentResponse" + idQuestion).val();
 
+            console.log(temperament);
+
+
             $.ajax({
-                url: "/admin/postResponse",
+                url: "/admin/question/"+idQuestion+"/postResponse",
                 type: "POST",
                 data: {
-                    question: idQuestion,
                     value: value,
                     image: image,
                     label: label,
@@ -201,15 +201,10 @@ $(document).ready(function ()
         var label = $("#labelModifQuestion" + questionId).val();
         var responseContent = $(".responseContent" + questionId);
 
-        console.log(questionId);
-        console.log(label);
-        console.log(responseContent);
-
         $.ajax({
-            url: "/admin/putQuestion",
-            type: "POST",
+            url: "/admin/question/put/"+questionId,
+            type: "PUT",
             data: {
-                question: questionId,
                 label: label
             },
             success: function (result)
@@ -232,11 +227,8 @@ $(document).ready(function ()
         var questionId = $(this).attr("data-id");
 
         $.ajax({
-            url: "/admin/deleteQuestion",
-            type: "POST",
-            data: {
-                question: questionId
-            },
+            url: "/admin/question/delete/"+questionId,
+            type: "DELETE",
             success: function (result)
             {
                 window.location = window.location;

@@ -6,10 +6,9 @@ $(document).ready(function () {
         var label = $(this).prev().attr("data-label");
 
         $.ajax({
-            url: "/admin/putParameters",
+            url: "/admin/parameter/put/"+parameterId,
             method: "POST",
             data: {
-                parameterId: parameterId,
                 label: label,
                 value: value
             },

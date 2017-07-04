@@ -1,0 +1,11 @@
+admin_parameter:
+    path:     /
+    defaults:
+        _controller: AdminBundle:Main:parameters
+        method: [GET, POST]
+
+admin_putParameters:
+    path:     /put/{idParameter}
+    defaults:
+        _controller: AdminBundle:Main:updateParameters
+        method: POST

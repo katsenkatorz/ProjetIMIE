@@ -58,15 +58,16 @@ class QuestionController extends Controller
     {
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
-        $questionId = $request->get('question');
+        $questionId = $request->attributes->get('idQuestion');
         $label = $request->get('label');
 
         if(!is_null($questionId) && !is_null($label))
         {
             $QuestionRepo->putQuestion($questionId, $label);
+            return $this->json(["message" => "Modification bien effectuer"]);
         }
 
-        return $this->json(["message" => "Modification bien effectuer"]);
+        return $this->json(["message" => "Erreur lors de la modification"]);
     }
 
     /**
@@ -79,7 +80,7 @@ class QuestionController extends Controller
     {
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
-        $questionId = $request->get('question');
+        $questionId = $request->attributes->get('idQuestion');
 
         if(!is_null($questionId))
         {
@@ -99,7 +100,7 @@ class QuestionController extends Controller
     public function responsesAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $questionId = $request->get('questionId');
+        $questionId = $request->attributes->get('idQuestion');
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $temperaments = $TemperamentRepo->getTemperaments();
@@ -126,8 +127,11 @@ class QuestionController extends Controller
         $value = $request->get('value');
         $image = $request->get('image');
         $label = $request->get('label');
-        $question = $QuestionRepo->getQuestionById($request->get('question'));
-        $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
+        $idQuestion = $request->attributes->get('idQuestion');
+        $idTemperament = $request->get('temperament');
+
+        $question = $QuestionRepo->getQuestionById($idQuestion);
+        $temperament = $TemperamentRepo->getTemperamentById($idTemperament);
 
         if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($question))
         {
@@ -135,7 +139,8 @@ class QuestionController extends Controller
 
             return $this->json([
                 "message" => "Création bien effectuer",
-                "idQuestion" => $request->get('question')
+                "idQuestion" => $idQuestion,
+                "test" => $idTemperament
             ]);
         }
 
@@ -156,7 +161,7 @@ class QuestionController extends Controller
         $value = $request->get('value');
         $image = $request->get('image');
         $label = $request->get('label');
-        $responseId = $request->get('responseId');
+        $responseId = $request->attributes->get('idResponse');
         $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
 
         if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId))
@@ -177,7 +182,7 @@ class QuestionController extends Controller
     public function responseDeleteAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $idResponse = $request->get('responseId');
+        $idResponse = $request->attributes->get('idResponse');
         $response = $ResponseRepo->getResponseById($idResponse);
 
         if(!is_null($idResponse))

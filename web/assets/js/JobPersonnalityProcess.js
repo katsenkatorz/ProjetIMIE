@@ -1,3 +1,53 @@
+function loadPartielView(idJob, resultContent)
+{
+    // On récupère la div qui contient la description
+    var descriptionContent = resultContent;
+
+    // On appelle le controleur qui renvois la vue partielle
+    $.ajax({
+        url: "/admin/job/"+idJob,
+        type: "GET",
+        dataType: "json",
+        success: function (result)
+        {
+            // On stocke la vue partielle dans la description
+            descriptionContent.html(result);
+
+            // Au changement de value de l'input
+            $('.rangeInput').unbind('click').bind('click', function ()
+            {
+                var value = this.value;
+                var jobId = this.nextElementSibling.value;
+                var temperamentId = this.nextElementSibling.nextElementSibling.value;
+
+                // On appelle la route qui permet de sauvegarder les changements
+                $.ajax({
+                    url: "/admin/job/"+jobId+"/saveTemperament",
+                    type: "POST",
+                    data: {
+                        temperament: temperamentId,
+                        value: value
+                    },
+                    success: function (result)
+                    {
+                        // A la réussite on affiche le message de succes
+                        console.log(result.message)
+                    },
+                    error: function (error)
+                    {
+                        console.log(error.message);
+                    }
+                });
+            });
+        },
+        error: function (error)
+        {
+            descriptionContent.html("Erreur lors du chargement");
+            console.log(error.statusText)
+        }
+    });
+}
+
 $(document).ready(function ()
 {
     var JobPanel = $("a.getJobPersonnalityView");
@@ -11,10 +61,11 @@ $(document).ready(function ()
         var minSalary = $('#modifMinSalary'+jobId).val();
         var maxSalary = $('#modifMaxSalary'+jobId).val();
         var description = $('#modifDescription'+jobId).val();
+        var resultContent = $('#descriptionContent'+jobId);
 
         $.ajax({
-            url: "/admin/putJob/"+jobId,
-            type: "POST",
+            url: "/admin/job/"+jobId+"/put",
+            type: "PUT",
             dataType: "json",
             data: {
                 name: name,
@@ -24,8 +75,8 @@ $(document).ready(function ()
             },
             success: function (result)
             {
-                console.log(result.message);
-                location.reload();
+                loadPartielView(jobId, resultContent);
+                $('#collapseTitle'+jobId).text(result.name);
             },
             error: function (error)
             {
@@ -40,13 +91,14 @@ $(document).ready(function ()
         var idJob = $(this).attr("data-id");
 
         $.ajax({
-            url: "/admin/deleteJob/"+idJob,
+            url: "/admin/job/"+idJob+"/delete",
             type: "DELETE",
             dataType: "json",
             success: function (result)
             {
                 console.log(result.message);
-                window.location.href = window.location.href;
+
+                window.location = window.location;
             },
             error: function (error)
             {
@@ -57,55 +109,9 @@ $(document).ready(function ()
 
     JobPanel.unbind('click').bind('click', function ()
     {
-        // On récupère l'id du Job
         var idJob = $(this).data('id');
+        var resultContent = $('#descriptionContent'+idJob);
 
-        // On récupère la div qui contient la description
-        var descriptionContent = $('#descriptionContent'+idJob);
-
-        // On appelle le controleur qui renvois la vue partielle
-        $.ajax({
-            url: "/admin/job/"+idJob,
-            type: "GET",
-            dataType: "json",
-            success: function (result)
-            {
-                // On stocke la vue partielle dans la description
-                descriptionContent.html(result);
-
-                // Au changement de value de l'input
-                $('.rangeInput').unbind('click').bind('click', function ()
-                {
-                    var value = this.value;
-                    var jobId = this.nextElementSibling.value;
-                    var temperamentId = this.nextElementSibling.nextElementSibling.value;
-
-                    // On appelle la route qui permet de sauvegarder les changements
-                    $.ajax({
-                        url: "/admin/saveJobPersonnality",
-                        type: "POST",
-                        data: {
-                            job: jobId,
-                            temperament: temperamentId,
-                            value: value
-                        },
-                        success: function (result)
-                        {
-                            // A la réussite on affiche le message de succes
-                            console.log(result.message)
-                        },
-                        error: function (error)
-                        {
-                            console.log(error.message);
-                        }
-                    });
-                });
-            },
-            error: function (error)
-            {
-                descriptionContent.html("Erreur lors du chargement");
-                console.log(error.statusText)
-            }
-        });
+        loadPartielView(idJob, resultContent);
     });
 });
