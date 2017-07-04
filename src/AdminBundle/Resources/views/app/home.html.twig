@@ -10,8 +10,13 @@
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
-    {% include "AdminBundle:layout:actionBoxes.html.twig" %}
-
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-home"></i>Accueil</a>
+            </div>
+            {#{% include "AdminBundle:layout:actionBoxes.html.twig" %}#}
+        </div>
+    </div>
 
 {% endblock %}
 
