@@ -1,32 +1,45 @@
 <!--sidebar-menu-->
 <div id="sidebar"><a href="#" class="visible-phone hidden"><i class="icon icon-tasks"></i> Menu</a>
+
     <ul>
-        <li class="active">
+        <li class="">
             <a href="{{ path('admin_homepage') }}">
                 <i class="icon icon-home"></i>
                 <span>Accueil</span>
             </a>
         </li>
-        <li class="submenu">
+        <li class="{% if app.request.requestUri == "/admin/jobs" or
+        app.request.requestUri == "/admin/temperament/" or
+        app.request.requestUri == "/admin/questions" %}open {% endif %}submenu"
+        >
             <a href="#">
                 <i class="icon icon-tasks"></i>
                 <span>Gestion du site</span>
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li>
+                <li class="{% if app.request.requestUri == "/admin/jobs" %}
+                    active
+                    {% endif %}"
+                >
                     <a href="{{ path('admin_jobs') }}">
                         <i class="icon icon-book"></i>
                         <span>Administration des métiers</span>
                     </a>
                 </li>
-                <li>
+                <li class="{% if app.request.requestUri == "/admin/temperament/" %}
+                    active
+                    {% endif %}"
+                >
                     <a href="{{ path('admin_temperament_show') }}">
                         <i class="icon-plus-sign-alt"></i>
                         <span>Ajouter un profil</span>
                     </a>
                 </li>
-                <li>
+                <li class="{% if app.request.requestUri == "/admin/questions" %}
+                    active
+                    {% endif %}"
+                >
                     <a href="{{ path('admin_questions') }}">
                         <i class="icon icon-comment"></i>
                         <span>Ajouter une question</span>
@@ -34,31 +47,43 @@
                 </li>
             </ul>
         </li>
-        <li class="submenu">
+        <li class="{% if app.request.requestUri == "/admin/parameter" or
+        app.request.requestUri == "/admin/user" or
+        app.request.requestUri == "/admin/user" %}open {% endif %}submenu"
+        >
             <a href="#">
                 <i class="icon icon-cog"></i>
                 <span>Paramétrage</span>
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li>
+                <li class="{% if app.request.requestUri == "/admin/parameter" %}
+                    active
+                    {% endif %}"
+                >
                     <a href="{{ path('admin_parameters') }}">
                         <i class="icon icon-cogs"></i>
                         <span>Site</span>
                     </a>
                 </li>
-                <li>
+                <li class="{% if app.request.requestUri == "/admin/user" %}
+                    active
+                    {% endif %}"
+                >
                     <a href="{{ path('admin_user') }}">
                         <i class="icon icon-group"></i>
                         <span>Gérer utilisateurs</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ path('admin_user') }}">
-                        <i class="icon icon-suitcase"></i>
-                        <span>Mentions Légales</span>
-                    </a>
-                </li>
+                {#<li class="{% if app.request.requestUri == "/admin/user" %}#}
+                    {#active#}
+                    {#{% endif %}"#}
+                {#>#}
+                    {#<a href="{{ path('admin_user') }}">#}
+                        {#<i class="icon icon-suitcase"></i>#}
+                        {#<span>Mentions Légales</span>#}
+                    {#</a>#}
+                {#</li>#}
             </ul>
         </li>
     </ul>
