@@ -52,7 +52,7 @@
         </li>
         <li class="{% if app.request.requestUri == "/admin/parameter" or
         app.request.requestUri == "/admin/user" or
-        app.request.requestUri == "/admin/user" %}open {% endif %}submenu"
+        app.request.requestUri == "/admin/mentionLegale" %}open {% endif %}submenu"
         >
             <a href="#">
                 <i class="icon icon-cog"></i>
@@ -78,15 +78,15 @@
                         <span>Gérer utilisateurs</span>
                     </a>
                 </li>
-                {#<li class="{% if app.request.requestUri == "/admin/user" %}#}
-                    {#active#}
-                    {#{% endif %}"#}
-                {#>#}
-                    {#<a href="{{ path('admin_user') }}">#}
-                        {#<i class="icon icon-suitcase"></i>#}
-                        {#<span>Mentions Légales</span>#}
-                    {#</a>#}
-                {#</li>#}
+                <li class="{% if app.request.requestUri == "/admin/mentionLegale" %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_mentionLegale') }}">
+                        <i class="icon icon-suitcase"></i>
+                        <span>Mentions Légales</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

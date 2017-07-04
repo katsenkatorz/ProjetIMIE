@@ -4,10 +4,13 @@ $(document).ready(function () {
         var parameterId = $(this).attr("data-id");
         var value = $(this).val();
         var label = $(this).prev().attr("data-label");
+        console.log(parameterId);
+        console.log(value);
+        console.log(label);
 
         $.ajax({
             url: "/admin/putParameters",
-            method: "POST",
+            method: "PUT",
             data: {
                 parameterId: parameterId,
                 label: label,
@@ -17,7 +20,7 @@ $(document).ready(function () {
                 console.log(result.message)
             },
             error: function (error) {
-                console.log(error.message)
+                console.log('error');
             }
         });
 

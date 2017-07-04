@@ -21,11 +21,16 @@ admin_parameters:
     defaults:
         _controller: AdminBundle:Main:parameters
 
+admin_mentionLegale:
+    path:     /mentionLegale
+    defaults:
+        _controller: AdminBundle:Main:mentionLegale
+
 admin_putParameters:
     path:     /putParameters
     defaults:
         _controller: AdminBundle:Main:updateParameters
-        method: POST
+        method: PUT
 
 #=================================#
 #   JobPersonnalityController     #

@@ -59,7 +59,7 @@ class TemperamentController extends Controller
 
 		$this->addFlash(
 			'message',
-			'La suppréssion de ' . $temperament->getName() . ' est réaliser !'
+			'La suppression de ' . $temperament->getName() . ' est réalisée !'
 		);
 
 		return $this->redirectToRoute('admin_temperament_show');
