@@ -4,15 +4,11 @@ $(document).ready(function () {
         var parameterId = $(this).attr("data-id");
         var value = $(this).val();
         var label = $(this).prev().attr("data-label");
-        console.log(parameterId);
-        console.log(value);
-        console.log(label);
 
         $.ajax({
-            url: "/admin/putParameters",
+            url: "/admin/parameter/put/"+parameterId,
             method: "PUT",
             data: {
-                parameterId: parameterId,
                 label: label,
                 value: value
             },

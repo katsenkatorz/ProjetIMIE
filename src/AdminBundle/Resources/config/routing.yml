@@ -2,12 +2,20 @@ admin_temperament:
     resource:   "@AdminBundle/Resources/config/routing/temperament.yml"
     prefix:     /temperament
 
-#=================================#
-#       MainController            #
-#=================================#
+admin_jobs:
+    resource:   "@AdminBundle/Resources/config/routing/job.yml"
+    prefix:     /job
+
+admin_questions:
+    resource:   "@AdminBundle/Resources/config/routing/question.yml"
+    prefix:     /question
+
+admin_parameters:
+    resource:   "@AdminBundle/Resources/config/routing/parameter.yml"
+    prefix:     /parameter
 
 admin_homepage:
-    path:     /home
+    path:     /
     defaults:
         _controller: AdminBundle:Main:home
 
@@ -15,101 +23,3 @@ admin_user:
     path:     /user
     defaults:
         _controller: AdminBundle:Main:user
-
-admin_parameters:
-    path:     /parameter
-    defaults:
-        _controller: AdminBundle:Main:parameters
-
-admin_mentionLegale:
-    path:     /mentionLegale
-    defaults:
-        _controller: AdminBundle:Main:mentionLegale
-
-admin_putParameters:
-    path:     /putParameters
-    defaults:
-        _controller: AdminBundle:Main:updateParameters
-        method: PUT
-
-#=================================#
-#   JobPersonnalityController     #
-#=================================#
-
-admin_job:
-    path:     /job/{idJob}
-    defaults:
-        _controller: AdminBundle:JobPersonnality:job
-    requirements:
-        idJob: \d+
-
-admin_jobs:
-    path:     /jobs
-    defaults:
-        _controller: AdminBundle:JobPersonnality:jobs
-
-admin_SavejobPersonnality:
-    path:     /saveJobPersonnality
-    defaults:
-        _controller: AdminBundle:JobPersonnality:saveJobPersonnality
-
-admin_jobPersonnality:
-    path:     /jobPersonnality
-    defaults:
-        _controller: AdminBundle:JobPersonnality:jobPersonnality
-
-admin_getTemperament:
-    path:     /getTemperament/{idTemperament}
-    defaults:
-        _controller: AdminBundle:JobPersonnality:getTemperament
-
-admin_deleteJob:
-    path:     /deleteJob/{idJob}
-    defaults:
-        _controller: AdminBundle:JobPersonnality:deleteJob
-
-admin_putJob:
-    path:     /putJob/{idJob}
-    defaults:
-        _controller: AdminBundle:JobPersonnality:putJob
-
-#=================================#
-#       QuestionController        #
-#=================================#
-
-admin_questions:
-    path:     /questions
-    defaults:
-        _controller: AdminBundle:Question:questions
-
-admin_getResponsesFromQuestion:
-    path:     /getResponsesFromQuestion/{questionId}
-    defaults:
-        _controller: AdminBundle:Question:responses
-    requirements:
-        questionId: \d+
-
-admin_putQuestion:
-    path:     /putQuestion
-    defaults:
-        _controller: AdminBundle:Question:questionPut
-
-admin_deleteQuestion:
-    path:     /deleteQuestion
-    defaults:
-        _controller: AdminBundle:Question:questionDelete
-
-admin_postResponse:
-    path:     /postResponse
-    defaults:
-        _controller: AdminBundle:Question:responsePost
-
-admin_putResponse:
-    path:     /putResponse
-    defaults:
-        _controller: AdminBundle:Question:responseUpdate
-
-admin_deleteResponse:
-    path:     /deleteResponse
-    defaults:
-        _controller: AdminBundle:Question:responseDelete

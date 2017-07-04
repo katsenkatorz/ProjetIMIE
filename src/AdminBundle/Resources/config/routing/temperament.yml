@@ -2,7 +2,9 @@ admin_temperament_show:
     path:   /
     defaults:
         _controller: AdminBundle:Temperament:temperament
+        method: GET
 
 temperament_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "AdminBundle:Temperament:delete" }
+    path:     /delete/{id}
+    defaults:
+        _controller: AdminBundle:Temperament:delete

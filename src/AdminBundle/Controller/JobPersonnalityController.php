@@ -18,60 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 class JobPersonnalityController extends Controller
 {
     /**
-     * Affiche la page de gestion des jobPersonnalities
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function jobPersonnalityAction(Request $request)
-    {
-        // Récupération des répository et entityManager
-        $em = $this->getDoctrine()->getManager();
-        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
-        $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
-        $JobPersonnalityRepo = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
-
-        // Récupération des jobs et type de personnalités pour les select
-        $jobs = $JobRepo->getJobs();
-        $temperaments = $TemperamentRepo->getTemperaments();
-
-
-        // Récupération du job sélectionner en select
-        $jobId = $request->get('jobId');
-        $jobFromForm = $JobRepo->getJobById($jobId);
-
-        // Si le formulaire est soumis
-        if (!is_null($jobId))
-        {
-            // On créer un tableau de résultat
-            $JobPersonnalityResult = [];
-
-            // Pour chaque type de personnalité
-            forEach ($temperaments as $temperament)
-            {
-                // On récupère sont id et sont nom
-                $pTid = $temperament->getId();
-                $pTName = $temperament->getName();
-
-                // Et on stocke la value
-                $JobPersonnalityResult[$pTid] = (int)$request->get($pTName . "Value");
-            }
-
-            // Créer les jobPersonnality
-            forEach ($JobPersonnalityResult as $id => $value)
-            {
-                $pt = $TemperamentRepo->getTemperamentById($id);
-                $JobPersonnalityRepo->postJobPersonnality($JobPersonnalityResult[$id], $jobFromForm, $pt);
-            }
-        }
-
-        return $this->render("AdminBundle:app:jobPersonnality.html.twig", [
-            "temperaments" => $temperaments,
-            "jobs" => $jobs
-        ]);
-    }
-
-    /**
      * Affiche la page de gestion des jobs
      *
      * @param Request $request
@@ -158,7 +104,7 @@ class JobPersonnalityController extends Controller
     public function saveJobPersonnalityAction(Request $request)
     {
         // Récupération des éléments du formulaire
-        $jobId = $request->get('job');
+        $jobId = $request->attributes->get('idJob');
         $temperamentId = $request->get('temperament');
         $value = $request->get('value');
 
@@ -242,7 +188,7 @@ class JobPersonnalityController extends Controller
             return $this->json(["message" => "Supression bien effectuer"]);
         }
 
-        return $this->json(["message" => "Erreur lors de la suppresion"]);
+        return $this->json(["message" => "Erreur lors de la supression"]);
     }
 
     public function putJobAction(Request $request)
@@ -257,8 +203,8 @@ class JobPersonnalityController extends Controller
 
         if(!is_null($idJob) && !is_null($name) && !is_null($minSalary) && !is_null($maxSalary) && !is_null($description))
         {
-            $JobRepo->putJob($idJob, $name, $description, $maxSalary, $minSalary);
-            return $this->json(['message'=> "Modification bien effectuer"]);
+            $job = $JobRepo->putJob($idJob, $name, $description, $maxSalary, $minSalary);
+            return $this->json(['message'=> "Modification bien effectuer", "name" => $job->getName()]);
         }
 
         return $this->json(['message'=> "Erreur lors de la modification"]);

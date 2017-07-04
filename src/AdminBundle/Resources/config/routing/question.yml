@@ -1,0 +1,43 @@
+admin_question:
+    path:     /
+    defaults:
+        _controller: AdminBundle:Question:questions
+        method: [GET, POST]
+
+admin_putQuestion:
+    path:     /put/{idQuestion}
+    defaults:
+        _controller: AdminBundle:Question:questionPut
+        method: PUT
+
+admin_deleteQuestion:
+    path:     /delete/{idQuestion}
+    defaults:
+        _controller: AdminBundle:Question:questionDelete
+        method: DELETE
+
+admin_getResponsesFromQuestion:
+    path:     /{idQuestion}/getResponse
+    defaults:
+        _controller: AdminBundle:Question:responses
+        method: GET
+    requirements:
+        questionId: \d+
+
+admin_postResponse:
+    path:     /{idQuestion}/postResponse
+    defaults:
+        _controller: AdminBundle:Question:responsePost
+        method: POST
+
+admin_putResponse:
+    path:     /{idQuestion}/putResponse/{idResponse}
+    defaults:
+        _controller: AdminBundle:Question:responseUpdate
+        method: PUT
+
+admin_deleteResponse:
+    path:     /{idQuestion}/deleteResponse/{idResponse}
+    defaults:
+        _controller: AdminBundle:Question:responseDelete
+        method: DELETE
