@@ -14,7 +14,6 @@
                     {{ question.label }}
                 </a>
             </h4>
-
             <div class="pull-right inline-block">
                 <button class="btn btn-danger deleteQuestion" data-id="{{ question.id }}"><i class="fa fa-trash fa-inverse fa-2x"></i></button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModifQuestion{{ question.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></button>
@@ -95,6 +94,7 @@
         </div>
         {% endfor %}
     </div>
+
     <!-- Modal Question ID-->
     <div id="modalQuestion" class="modal fade" role="dialog" style="display: none;">
         <div class="modal-dialog">
