@@ -1,4 +1,4 @@
-admin_questions:
+admin_question:
     path:     /
     defaults:
         _controller: AdminBundle:Question:questions

@@ -11,9 +11,9 @@
                 <span>Accueil</span>
             </a>
         </li>
-        <li class="{% if app.request.requestUri == "/admin/jobs" or
+        <li class="{% if app.request.requestUri == "/admin/job/" or
         app.request.requestUri == "/admin/temperament/" or
-        app.request.requestUri == "/admin/questions" %}open {% endif %}submenu"
+        app.request.requestUri == "/admin/question/" %}open {% endif %}submenu"
         >
             <a href="#">
                 <i class="icon icon-tasks"></i>
@@ -21,11 +21,11 @@
                 <i class="icon-caret-down"></i>
             </a>
             <ul>
-                <li class="{% if app.request.requestUri == "/admin/jobs" %}
+                <li class="{% if app.request.requestUri == "/admin/job/" %}
                     active
                     {% endif %}"
                 >
-                    <a href="{{ path('admin_job') }}">
+                    <a href="{{ path('admin_job_home') }}">
                         <i class="icon icon-book"></i>
                         <span>Administration des métiers</span>
                     </a>
@@ -39,11 +39,11 @@
                         <span>Ajouter un profil</span>
                     </a>
                 </li>
-                <li class="{% if app.request.requestUri == "/admin/questions" %}
+                <li class="{% if app.request.requestUri == "/admin/question/" %}
                     active
                     {% endif %}"
                 >
-                    <a href="{{ path('admin_questions') }}">
+                    <a href="{{ path('admin_question') }}">
                         <i class="icon icon-comment"></i>
                         <span>Ajouter une question</span>
                     </a>
