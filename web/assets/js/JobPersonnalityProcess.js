@@ -13,12 +13,30 @@ function loadPartielView(idJob, resultContent)
             // On stocke la vue partielle dans la description
             descriptionContent.html(result);
 
-            // Au changement de value de l'input
-            $('.rangeInput').unbind('click').bind('click', function ()
+            var rangeInput = $('.rangeInput');
+
+            rangeInput.each(function ()
             {
-                var value = this.value;
-                var jobId = this.nextElementSibling.value;
-                var temperamentId = this.nextElementSibling.nextElementSibling.value;
+                var value = $(this).val();
+
+                var valueBlockRight = $(this).prev().prev();
+                var valueBlockLeft = $(this).prev().prev().prev();
+
+                valueBlockLeft.html(100-value);
+                valueBlockRight.html(value);
+            });
+
+            // Au changement de value de l'input
+            rangeInput.unbind('click').bind('click', function ()
+            {
+                var value = $(this).val();
+                var jobId = $(this).next().val();
+                var temperamentId = $(this).next().next().val();
+                var valueBlockRight = $(this).prev().prev();
+                var valueBlockLeft = $(this).prev().prev().prev();
+
+                valueBlockLeft.html(100-value);
+                valueBlockRight.html(value);
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({

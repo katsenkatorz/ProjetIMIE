@@ -48,10 +48,12 @@
                                                 {% endfor %}
                                             </select>
                                             <p class="temperament">TestGauche</p>
+                                            <p class="valueBlockLeft"></p>
+                                            <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
                                             <p class="opposedTemperament">TestDroite</p>
                                             <input id="valueModifResponse{{ response.id }}" type="range" name="value"
                                                    value="{{ response.value }}"
-                                                   min="0" max="100" class="form-control">
+                                                   min="0" max="100" class="form-control rangeInput">
 
                                             <label for="imageModifResponse{{ response.id }}">Image</label>
                                             <input id="imageModifResponse{{ response.id }}" type="text" name="image"

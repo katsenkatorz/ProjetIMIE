@@ -61,9 +61,11 @@
                                         {% endfor %}
                                     </select>
                                     <p class="temperament" >TestGauche</p>
+                                    <p class="valueBlockLeft"></p>
+                                    <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
                                     <p class="opposedTemperament" >TestDroite</p>
                                     <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
-                                           class="form-control">
+                                           class="form-control rangeInput">
 
                                     <label for="imageResponse{{ question.id }}">Image</label>
                                     <input type="text" name="imageResponse" id="imageResponse{{ question.id }}"

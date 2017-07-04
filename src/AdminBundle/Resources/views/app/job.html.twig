@@ -1,10 +1,6 @@
 <div>
     <ul>
         <li>
-            <span>Description du poste: </span>
-            <p>{{ job.description }}</p>
-        </li>
-        <li>
             <span>Salaire minimum: </span>
             <p>{{ job.minSalary }}</p>
         </li>
@@ -12,15 +8,20 @@
             <span>Salaire maximum: </span>
             <p>{{ job.maxSalary }}</p>
         </li>
+        <li>
+            <span>Description du poste: </span>
+            <p>{{ job.description }}</p>
+        </li>
     </ul>
 </div>
-
 <div>
     {% for jobPersonnality in jobPersonnalities %}
         <div>
             {{ form_start(forms[jobPersonnality["name"]]) }}
             <h3>{{ jobPersonnality["name"] }}</h3>
             <p>{{ jobPersonnality["temperament"] }}</p>
+            <p class="valueBlockLeft"></p>
+            <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
             <p class="opposedTemperament">{{ jobPersonnality["opposedTemperament"] }}</p>
             {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control rangeInput' } }) }}
             {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
