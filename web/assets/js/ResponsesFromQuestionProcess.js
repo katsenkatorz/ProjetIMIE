@@ -22,29 +22,48 @@ function loadResponse(idQuestion, env, PanelTitle)
             if(result.length > 0)
                 loadTemperament(".temperamentModifResponse");
 
+
+            $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+            {
+                var modal = $(this);
+                var button = $(event.relatedTarget);
+                var name = button.data('name');
+
+                modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
+                modal.find('.modal-body p').html('Etes-vous sûr de supprimer la réponse :&nbsp;<strong>' + name + '</strong>');
+            });
+
             // Supression d'une réponse
             $(".deleteResponseButton").unbind('click').bind('click', function (e)
             {
                 e.preventDefault();
 
-                var responseId = $(this).prev().val();
+                var responseId = $(this).attr('data-id');
+                var idModal = $(this).attr('data-modalId');
 
                 $.ajax({
                     url: "/admin/question/"+idQuestion+"/deleteResponse/"+responseId,
                     type: "DELETE",
                     success: function (result)
                     {
-                        // loadResponse(result.idQuestion, env, PanelTitle);
+                        $(idModal).modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(result.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
 
                         PanelTitle.trigger("click");
                         setTimeout(function ()
                         {
                             PanelTitle.trigger("click");
                         }, 500);
-                    },
-                    error: function (error)
-                    {
-                        console.log(error);
                     }
                 });
             });
@@ -55,7 +74,6 @@ function loadResponse(idQuestion, env, PanelTitle)
                 e.preventDefault();
 
                 var responseId = $(this).attr("id");
-
                 var value = $("#valueModifResponse" + responseId).val();
                 var image = $("#imageModifResponse" + responseId).val();
                 var label = $("#labelModifResponse" + responseId).val();
@@ -74,21 +92,26 @@ function loadResponse(idQuestion, env, PanelTitle)
                     },
                     success: function (result)
                     {
-                        console.log(result);
                         // Fermeture du modal en cas de success
                         $('#modalModifResponse' + idQuestion).modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+
+                        $("#responseMessage").html(result.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
 
                         PanelTitle.trigger("click");
                         setTimeout(function()
                         {
                             PanelTitle.trigger("click");
                         }, 500);
-                    },
-                    error: function (error)
-                    {
-                        console.log(error);
                     }
                 });
             });
@@ -156,9 +179,6 @@ $(document).ready(function ()
             var label = $("#labelResponse" + idQuestion).val();
             var temperament = $("#temperamentResponse" + idQuestion).val();
 
-            console.log(temperament);
-
-
             $.ajax({
                 url: "/admin/question/"+idQuestion+"/postResponse",
                 type: "POST",
@@ -175,6 +195,15 @@ $(document).ready(function ()
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
 
+                    $("#responseMessageContent")
+                        .fadeIn(250)
+                        .removeClass('hidden');
+                    $("#responseMessage").html(result.message);
+                    setTimeout(function ()
+                    {
+                        $("#responseMessageContent").fadeOut(250);
+                    }, 5000);
+
                     PanelTitle.trigger("click");
                     setTimeout(function ()
                     {
@@ -189,6 +218,16 @@ $(document).ready(function ()
         });
 
 
+    });
+
+    $('.modalConfirmDeleteQuestion').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+    {
+        var modal = $(this);
+        var button = $(event.relatedTarget);
+        var name = button.data('name');
+
+        modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
+        modal.find('.modal-body p').html('Etes-vous sûr de supprimer la question :&nbsp;<strong>' + name + '</strong>');
     });
 
 
@@ -209,12 +248,19 @@ $(document).ready(function ()
             },
             success: function (result)
             {
-                window.location = window.location;
-                console.log(result);
-            },
-            error: function (error)
-            {
-                console.log(error);
+                $('#modalModifQuestion' + questionId).modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+
+                $("#questionLabelDiv"+questionId).html(result.name);
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(result.message);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
             }
         });
     });
@@ -232,11 +278,6 @@ $(document).ready(function ()
             success: function (result)
             {
                 window.location = window.location;
-                console.log(result);
-            },
-            error: function (error)
-            {
-                console.log(error);
             }
         });
     });

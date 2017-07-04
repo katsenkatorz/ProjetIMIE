@@ -15,7 +15,7 @@
                     <td>
                         {# Modal modification #}
                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#modalModifResponse{{ response.id }}">Modifier
+                                data-target="#modalModifResponse{{ response.id }}"><i class="fa fa-edit"> Modifier</i>
                         </button>
                         <!-- Modal Response ID-->
                         <div id="modalModifResponse{{ response.id }}" class="modal fade" role="dialog"
@@ -31,11 +31,13 @@
                                     <div class="modal-body">
                                         <form method="post" class="form-group">
                                             <label for="labelModifResponse{{ response.id }}">Intitulé</label>
-                                            <input id="labelModifResponse{{ response.id }}" type="text" name="label" value="{{ response.label }}"
+                                            <input id="labelModifResponse{{ response.id }}" type="text" name="label"
+                                                   value="{{ response.label }}"
                                                    class="form-control">
 
                                             <label for="temperament{{ response.id }}">Tempérament</label>
-                                            <select id="temperamentModifResponse{{ response.id }}" name="temperament" class="form-control temperamentModifResponse">
+                                            <select id="temperamentModifResponse{{ response.id }}" name="temperament"
+                                                    class="form-control temperamentModifResponse">
                                                 {% for temperament in temperaments %}
                                                     {% if temperament.id == response.temperament.id %}
                                                         <option value="{{ temperament.id }}"
@@ -47,18 +49,21 @@
                                             </select>
                                             <p class="temperament">TestGauche</p>
                                             <p class="opposedTemperament">TestDroite</p>
-                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value" value="{{ response.value }}"
+                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value"
+                                                   value="{{ response.value }}"
                                                    min="0" max="100" class="form-control">
 
                                             <label for="imageModifResponse{{ response.id }}">Image</label>
-                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image" value="{{ response.image }}"
+                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image"
+                                                   value="{{ response.image }}"
                                                    class="form-control">
                                             <br>
-                                            <input type="submit" name="Valider" class="form-control btn btn-primary modalModifResponse" id="{{ response.id }}">
+                                            <input type="submit" name="Valider"
+                                                   class="form-control btn btn-primary modalModifResponse"
+                                                   id="{{ response.id }}">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-
                                     </div>
                                 </div>
 
@@ -66,12 +71,31 @@
                         </div>
                     </td>
                     <td>
-                        <form method="post">
-                            <input type="hidden" name="responseId" value="{{ response.id }}">
-                            <p class="deleteResponseButton btn btn-danger" >Supprimer</p>
-                        </form>
+                        <a class="btn btn-danger"
+                           data-toggle="modal"
+                           data-target="#modalConfirmDeleteResponse{{ response.id }}"
+                           data-name="{{ response.label }}"
+                           data-id="{{ response.id }}"><i class="fa fa-trash"> Supprimer</i></a>
                     </td>
                 </tr>
+                <div id="modalConfirmDeleteResponse{{ response.id }}" class="modalConfirmDeleteResponse modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="alert alert-danger"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                <a id="confirm" data-modalId="modalConfirmDeleteResponse{{ response.id }}" data-id="{{ response.id }}" type="button" class="deleteResponseButton btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </table>
     </div>

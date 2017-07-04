@@ -63,8 +63,8 @@ class QuestionController extends Controller
 
         if(!is_null($questionId) && !is_null($label))
         {
-            $QuestionRepo->putQuestion($questionId, $label);
-            return $this->json(["message" => "Modification bien effectuer"]);
+            $result = $QuestionRepo->putQuestion($questionId, $label);
+            return $this->json(["message" => "Le changement du nom de la question est bien effectué", "name" => $result->getLabel()]);
         }
 
         return $this->json(["message" => "Erreur lors de la modification"]);
@@ -85,10 +85,10 @@ class QuestionController extends Controller
         if(!is_null($questionId))
         {
             $QuestionRepo->deleteQuestion($questionId);
-            return $this->json(["message" => "Suppression bien effectuer"]);
+            return $this->json(["message" => "La suppression de la question est bien effectué"]);
         }
 
-        return $this->json(["message" => "Error lors de la suppression"]);
+        return $this->json(["message" => "Erreur pendant la suppression"]);
     }
 
     /**
@@ -138,13 +138,12 @@ class QuestionController extends Controller
             $ResponseRepo->postResponse($label, $value, $image, $question, $temperament);
 
             return $this->json([
-                "message" => "Création bien effectuer",
+                "message" => "La création de la réponse c'est bien effectué",
                 "idQuestion" => $idQuestion,
-                "test" => $idTemperament
             ]);
         }
 
-        return $this->json(['message' => "Erreur lors de l'ajout de réponse"]);
+        return $this->json(['message' => "Erreur lors de l'ajout de la réponse"]);
     }
 
     /**
@@ -167,10 +166,10 @@ class QuestionController extends Controller
         if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId))
         {
             $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
-            return $this->json(["message" => "Modification bien effectuer"]);
+            return $this->json(["message" => "La modification de la réponse c'est bien effectué"]);
         }
 
-        return $this->json(["message" => "Erreur lors de la modification"]);
+        return $this->json(["message" => "Erreur lors de la modification de la réponse"]);
     }
 
     /**
@@ -190,6 +189,6 @@ class QuestionController extends Controller
             $ResponseRepo->deleteResponse($idResponse);
         }
 
-        return $this->json(["message" => "Suppression bien effectuer", "idQuestion" => $response->getQuestion()->getId()]);
+        return $this->json(["message" => "La suppression de la question c'est bien effectué", "idQuestion" => $response->getQuestion()->getId()]);
     }
 }

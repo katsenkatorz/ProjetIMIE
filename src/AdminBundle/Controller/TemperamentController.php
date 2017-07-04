@@ -23,7 +23,7 @@ class TemperamentController extends Controller
 	 */
 	public function temperamentAction(Request $request)
 	{
-		$em                   = $this->getDoctrine()->getManager();
+		$em              = $this->getDoctrine()->getManager();
 		$temperaments    = $em->getRepository('AdminBundle:Temperament')->findAll();
 		$TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
@@ -59,7 +59,7 @@ class TemperamentController extends Controller
 
 		$this->addFlash(
 			'message',
-			'La suppression de ' . $temperament->getName() . ' est réalisée !'
+			'La suppression de ' . $temperament->getName() . ' est réaliser !'
 		);
 
 		return $this->redirectToRoute('admin_temperament_show');

@@ -3,17 +3,12 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
-use AdminBundle\Entity\JobPersonnality;
-use AdminBundle\Entity\Temperament;
 use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
 use AdminBundle\Form\TemperamentType;
-use AdminBundle\Form\QuestionType;
-use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class JobPersonnalityController extends Controller
 {
@@ -116,9 +111,9 @@ class JobPersonnalityController extends Controller
 
         if (!$bool)
         {
-            return $this->json(["message" => "Erreur put renvois false"]);
+            return $this->json(["message" => "Il y a eu une erreur lors de la modification"]);
         }
-        return $this->json(["message" => "Modification bien effectuer"]);
+        return $this->json(["message" => "La modification des tempéraments métiers est bien effectué"]);
     }
 
 
@@ -185,12 +180,17 @@ class JobPersonnalityController extends Controller
         {
             $JobRepo->deleteJob($idJob);
 
-            return $this->json(["message" => "Supression bien effectuer"]);
+            return $this->json(["message" => "La suppression du métier c'est bien effectué"]);
         }
 
-        return $this->json(["message" => "Erreur lors de la supression"]);
+        return $this->json(["message" => "Il y a eu une erreur lors de la suppression"]);
     }
 
+    /**
+     * Modifie un job
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function putJobAction(Request $request)
     {
         $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
@@ -204,9 +204,9 @@ class JobPersonnalityController extends Controller
         if(!is_null($idJob) && !is_null($name) && !is_null($minSalary) && !is_null($maxSalary) && !is_null($description))
         {
             $job = $JobRepo->putJob($idJob, $name, $description, $maxSalary, $minSalary);
-            return $this->json(['message'=> "Modification bien effectuer", "name" => $job->getName()]);
+            return $this->json(['message'=> "La modification du métier c'est bien effectué", "name" => $job->getName()]);
         }
 
-        return $this->json(['message'=> "Erreur lors de la modification"]);
+        return $this->json(['message'=> "Il y a eu une erreur lors de la modification du métier"]);
     }
 }

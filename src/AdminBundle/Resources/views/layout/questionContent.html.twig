@@ -4,19 +4,31 @@
     <button type="button" class="btn btn-primary" data-toggle="modal"
             data-target="#modalQuestion">Ajouter une question
     </button>
+    <div id="responseMessageContent" class="row hidden">
+        <div class="col-md-12">
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                </button>
+                <p id="responseMessage"></p>
+            </div>
+        </div>
+    </div>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     {% for question in questions %}
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="heading{{ question.id }}">
             <h4 class="panel-title inline-block" data-id="{{ question.id }}">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}"
+                <a role="button" id="questionLabelDiv{{ question.id }}" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}"
                    aria-expanded="true" aria-controls="collapse{{ question.id }}">
                     {{ question.label }}
                 </a>
             </h4>
             <div class="pull-right inline-block">
-                <button class="btn btn-danger deleteQuestion" data-id="{{ question.id }}"><i class="fa fa-trash fa-inverse fa-2x"></i></button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalModifQuestion{{ question.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></button>
+                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalConfirmDeleteQuestion{{ question.id }}" data-id="{{ question.id }}" data-name="{{ question.label }}">
+                    <i class="fa fa-trash fa-inverse fa-2x"></i>
+                </a>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalModifQuestion{{ question.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></button>
             </div>
         </div>
 
@@ -67,6 +79,26 @@
                 </div>
             </div>
         </div>
+        <div id="modalConfirmDeleteQuestion{{ question.id }}" class="modalConfirmDeleteQuestion modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="alert alert-danger"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <a id="confirm" type="button" class="btn btn-danger deleteQuestion" ><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Modal ModifQuestion -->
         <div id="modalModifQuestion{{ question.id }}" class="modal fade" role="dialog"
              style="display: none;">
