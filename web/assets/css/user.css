@@ -1,0 +1,68 @@
+/**
+FORMULAIRE DE LOGIN
+ */
+
+body {
+    background-image: url('../img/SiteFlou.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-form {
+    text-align: center;
+    color: #FFF;
+    width: 50% !important;
+    margin-top: 50px;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding-top: 10px;
+    padding-bottom: 150px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #505050;
+}
+@media screen and (max-width: 640px){
+    .login-form {
+        text-align: center;
+        color: #FFF;
+        width: 100% !important;
+        margin: auto;
+        padding-top: 10px;
+        padding-bottom: 200px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-color: #505050;
+    }
+}
+@media (min-width: 1200px){
+    .container {
+        width: calc(1170px - 220px);
+    }
+}
+@media (min-width: 992px){
+    .container {
+        width: calc(970px - 220px);
+    }
+}
+
+.login-form input {
+    margin-bottom: 15px;
+}
+
+.login-title {
+    padding-bottom: 200px;
+    color: #FFF;
+    text-decoration: underline;
+}
+
+.login-redirect a {
+    color: #909090 !important;
+}
+
+.login-redirect a:hover, a:focus {
+    color: #21A4B2 !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;
+}
