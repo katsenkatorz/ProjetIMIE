@@ -277,7 +277,7 @@ $(document).ready(function ()
             type: "DELETE",
             success: function (result)
             {
-                window.location = window.location;
+                window.location = window.location.href;
             }
         });
     });

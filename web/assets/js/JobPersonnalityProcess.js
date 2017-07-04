@@ -116,7 +116,11 @@ $(document).ready(function ()
             dataType: "json",
             success: function (result)
             {
-                window.location = window.location;
+                window.location = window.location.href;
+
+                $('#modalDeleteJob' + idJob).modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
             }
         })
     });
