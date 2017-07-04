@@ -13,30 +13,16 @@ function loadPartielView(idJob, resultContent)
             // On stocke la vue partielle dans la description
             descriptionContent.html(result);
 
-            var rangeInput = $('.rangeInput');
-
-            rangeInput.each(function ()
-            {
-                var value = $(this).val();
-
-                var valueBlockRight = $(this).prev().prev();
-                var valueBlockLeft = $(this).prev().prev().prev();
-
-                valueBlockLeft.html(100-value);
-                valueBlockRight.html(value);
-            });
+            loadRangeInput('.rangeInput');
 
             // Au changement de value de l'input
-            rangeInput.unbind('click').bind('click', function ()
+            $('.rangeInput').unbind('click').bind('click', function ()
             {
                 var value = $(this).val();
                 var jobId = $(this).next().val();
                 var temperamentId = $(this).next().next().val();
-                var valueBlockRight = $(this).prev().prev();
-                var valueBlockLeft = $(this).prev().prev().prev();
 
-                valueBlockLeft.html(100-value);
-                valueBlockRight.html(value);
+                loadRangeInput('.rangeInput');
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
@@ -60,6 +46,29 @@ function loadPartielView(idJob, resultContent)
                 });
             });
         }
+    });
+}
+
+function loadRangeInput(selector)
+{
+    $(selector).each(function ()
+    {
+        var value = $(this).val();
+        var valueBlockRight = $(this).prev().prev();
+        var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+        valueBlockRight.html(100-value);
+        valueBlockLeft.html(value);
+
+        $(this).unbind('click').bind('click', function ()
+        {
+            var value = $(this).val();
+            var valueBlockRight = $(this).prev().prev();
+            var valueBlockLeft = $(this).prev().prev().prev().html(value);
+
+            valueBlockRight.html(100-value);
+            valueBlockLeft.html(value);
+        });
     });
 }
 
