@@ -13,7 +13,7 @@
     {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
     {#<a href="{{ path('fos_user_security_logout') }}">#}
         {#{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
-    </a>
+    {#</a>#}
 {% else %}
     {#<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>#}
 {% endif %}
@@ -29,7 +29,7 @@
             {% endfor %}
         {% endif %}
 
-<div>
+<div class="container">
     {% block fos_user_content %}
     {% endblock fos_user_content %}
 </div>

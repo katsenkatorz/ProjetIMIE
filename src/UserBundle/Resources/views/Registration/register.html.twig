@@ -2,20 +2,24 @@
 
 {% block title %}{{ 'Enregistrement' }}{% endblock %}
 
-{% block fos_user_content %}
-    <div style="color: #FFF;" id="content">
-        <div class="login-form">
-            <h2 class="login-title">Enregistrement</h2>
-            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-group'}}) }}
-            {{ form_widget(form.email, {'attr': {'placeholder': 'form.email'|trans }}) }}
-            {{ form_widget(form.username, {'attr': {'placeholder': 'form.username'|trans }}) }}
-            {{ form_widget(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe'}}) }}
-            {{ form_widget(form.plainPassword.second, {'attr': {'placeholder': 'Répéter mot de passe'}}) }}
-            <div>
-                <input class="btn btn-default" type="submit" value="{{ 'Enregistrer' }}"/>
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Enregistrement
+                    </div>
+                    <div class="panel-body">
+                        {% block fos_user_content %}
+                            {% include "UserBundle:Registration:register_content.html.twig" %}
+                        {% endblock fos_user_content %}
+                        <a class="btn btn-default pull-right" href="{{ path('fos_user_security_login') }}">Déja enregistré(e) ?</a>
+                    </div>
+                </div>
             </div>
-            {{ form_end(form) }}
-            <p class="login-redirect"><a href="{{ path('fos_user_security_login') }}"><i class="icon icon-user"></i> Se connecter</a></p>
         </div>
     </div>
-{% endblock fos_user_content %}
+{% endblock %}

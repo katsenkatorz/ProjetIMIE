@@ -1,5 +1,26 @@
-{% extends "UserBundle::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
-{% block fos_user_content %}
-{% include "@FOSUser/Group/show_content.html.twig" %}
-{% endblock fos_user_content %}
+
+{% block content %}
+    {% include "AdminBundle:layout:header.html.twig" %}
+
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon-edit"></i>Profil</a>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    {% block fos_user_content %}
+                        {% include "UserBundle:Group:show_content.html.twig" %}
+                    {% endblock fos_user_content %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
