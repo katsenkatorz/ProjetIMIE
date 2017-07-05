@@ -8,6 +8,7 @@ use AdminBundle\Entity\Parameters;
 use AdminBundle\Entity\Temperament;
 use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
+use AdminBundle\Form\MentionLegaleType;
 use AdminBundle\Form\TemperamentType;
 use AdminBundle\Form\QuestionType;
 use AdminBundle\Form\ResponseType;
@@ -117,11 +118,25 @@ class MainController extends Controller
     public function mentionLegaleAction(Request $request)
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+        $em = $this->getDoctrine()->getManager();
 
         $parameter = $ParamRepo->getParameterById(4);
+        $form = $this->createForm(MentionLegaleType::class, $parameter);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $parameter->setValue($form['value']->getData());
+
+            $em->persist($parameter);
+            $em->flush();
+        }
+
 
         return $this->render('AdminBundle:app:mentionLegale.html.twig', [
             "parameter" => $parameter,
+            "form" => $form->createView()
         ]);
     }
 }

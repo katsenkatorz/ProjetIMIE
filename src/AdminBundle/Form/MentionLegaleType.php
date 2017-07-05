@@ -5,13 +5,15 @@ use AdminBundle\Entity\Parameters;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MentionLegaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("value", CKEditorType::class, ["label" => "Intitulé de la question"]);
+        $builder->add("value", CKEditorType::class, ["label" => "Intitulé de la question"])
+            ->add("save", SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

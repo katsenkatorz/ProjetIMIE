@@ -23,10 +23,19 @@ class JobPersonnalityController extends Controller
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
+        $jobs = $JobRepository->getJobs();
+        $updateForms = [];
+
+        foreach($jobs as $job)
+        {
+            $updateForms[] = ["jobId" => $job->getId(),"form" => $this->createForm(JobType::class, $job)->createView()];
+        }
+
         // Création du formulaire pour créer un job
         $job = new Job();
         $formJob = $this->createForm(JobType::class, $job);
 
+        // Récupération de la requête de création de job
         $formJob->handleRequest($request);
 
         // Traitement pour la création de job
@@ -41,6 +50,7 @@ class JobPersonnalityController extends Controller
         return $this->render("AdminBundle:app:jobs.html.twig", [
             "formJob" => $formJob->createView(),
             "jobs" => $jobs,
+            "updateForms" => $updateForms,
         ]);
     }
 
