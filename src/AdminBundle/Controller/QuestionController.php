@@ -165,7 +165,9 @@ class QuestionController extends Controller
 
         if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId))
         {
-            $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
+            $response = $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
+            if(!$response)
+                return $this->json(['message' => "Problème lors de l'enregistrement, vérifier que les informations entrées soit valide.\n Il ne peut pas y avoir deux fois le même type d'équilibre pour un tempérament."]);
             return $this->json(["message" => "La modification de la réponse c'est bien effectué"]);
         }
 

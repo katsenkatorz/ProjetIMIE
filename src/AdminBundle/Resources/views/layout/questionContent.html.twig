@@ -1,134 +1,153 @@
 {#Pour la page Question#}
 
 {% if questions is defined %}
-    <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#modalQuestion">Ajouter une question
-    </button>
-    <div id="responseMessageContent" class="row hidden">
-        <div class="col-md-12">
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                </button>
-                <p id="responseMessage"></p>
+    <div class="col-md-12">
+        <h2>Liste des questions</h2>
+    </div>
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#modalQuestion"><i class="fa fa-plus"></i> Ajouter une question
+        </button>
+        <div id="responseMessageContent" class="row hidden">
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                    </button>
+                    <p id="responseMessage"></p>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="col-md-12">
+    <hr>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    {% for question in questions %}
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="heading{{ question.id }}">
-            <h4 class="panel-title inline-block" data-id="{{ question.id }}">
-                <a role="button" id="questionLabelDiv{{ question.id }}" data-toggle="collapse" data-parent="#accordion" href="#{{ question.id }}"
-                   aria-expanded="true" aria-controls="collapse{{ question.id }}">
-                    {{ question.label }}
-                </a>
-            </h4>
-            <div class="pull-right inline-block">
-                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalConfirmDeleteQuestion{{ question.id }}" data-id="{{ question.id }}" data-name="{{ question.label }}">
-                    <i class="fa fa-trash fa-inverse fa-2x"></i>
-                </a>
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalModifQuestion{{ question.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></button>
+        {% for question in questions %}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading{{ question.id }}">
+                <h4 class="panel-title inline-block" data-id="{{ question.id }}">
+                    <a role="button" id="questionLabelDiv{{ question.id }}" data-toggle="collapse"
+                       data-parent="#accordion"
+                       href="#{{ question.id }}"
+                       aria-expanded="true" aria-controls="collapse{{ question.id }}">
+                        {{ question.label }}
+                    </a>
+                </h4>
+                <div class="pull-right inline-block">
+                    <a class="btn btn-danger btn-sm" data-toggle="modal"
+                       data-target="#modalConfirmDeleteQuestion{{ question.id }}" data-id="{{ question.id }}"
+                       data-name="{{ question.label }}">
+                        <i class="fa fa-trash fa-inverse fa-2x"></i>
+                    </a>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#modalModifQuestion{{ question.id }}"><i
+                                class="fa fa-edit fa-inverse fa-2x"></i>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div id="{{ question.id }}" class="panel-collapse collapse" role="tabpanel"
-             aria-labelledby="heading{{ question.id }}">
-            <div class="panel-body">
-                <div class="responseContent{{ question.id }}"></div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalResponse{{ question.id }}">Ajouter une réponse</button>
-                <!-- Modal Response -->
-                <div id="modalResponse{{ question.id }}" class="modal fade" role="dialog"
-                     style="display: none;">
-                    <div class="modal-dialog">
-                        <!-- Modal Question content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Ajouter une réponse</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="" method="post" class="form-group">
-                                    <label for="labelResponse{{ question.id }}">Label</label>
-                                    <input type="text" name="labelResponse" id="labelResponse{{ question.id }}"
-                                           class="form-control">
+            <div id="{{ question.id }}" class="panel-collapse collapse" role="tabpanel"
+                 aria-labelledby="heading{{ question.id }}">
+                <div class="panel-body">
+                    <div class="responseContent{{ question.id }}"></div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#modalResponse{{ question.id }}">Ajouter une réponse
+                    </button>
+                    <!-- Modal Response -->
+                    <div id="modalResponse{{ question.id }}" class="modal fade" role="dialog"
+                         style="display: none;">
+                        <div class="modal-dialog">
+                            <!-- Modal Question content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Ajouter une réponse</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="post" class="form-group">
+                                        <label for="labelResponse{{ question.id }}">Label</label>
+                                        <input type="text" name="labelResponse" id="labelResponse{{ question.id }}"
+                                               class="form-control">
 
-                                    <label for="valueResponse{{ question.id }}">Type de personnalité</label>
-                                    <select name="temperament" class="form-control"
-                                            id="temperamentResponse{{ question.id }}">
-                                        {% for temperament in temperaments %}
-                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <p class="temperament" >TestGauche</p>
-                                    <p class="valueBlockLeft"></p>
-                                    <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                                    <p class="opposedTemperament" >TestDroite</p>
-                                    <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
-                                           class="form-control rangeInput">
+                                        <label for="valueResponse{{ question.id }}">Type de personnalité</label>
+                                        <select name="temperament" class="form-control"
+                                                id="temperamentResponse{{ question.id }}">
+                                            {% for temperament in temperaments %}
+                                                <option value="{{ temperament.id }}">{{ temperament.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <p class="temperament">TestGauche</p>
+                                        <p class="valueBlockLeft"></p>
+                                        <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
+                                        <p class="opposedTemperament">TestDroite</p>
+                                        <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
+                                               class="form-control rangeInput">
 
-                                    <label for="imageResponse{{ question.id }}">Image</label>
-                                    <input type="text" name="imageResponse" id="imageResponse{{ question.id }}"
-                                           class="form-control">
-                                    <input type="submit" name="Ajouter"
-                                           class="btn btn-primary form-control submitResponse"
-                                           id="{{ question.id }}">
-                                </form>
-                                <div class="modal-footer"></div>
+                                        <label for="imageResponse{{ question.id }}">Image</label>
+                                        <input type="text" name="imageResponse" id="imageResponse{{ question.id }}"
+                                               class="form-control">
+                                        <input type="submit" name="Ajouter"
+                                               class="btn btn-primary form-control submitResponse"
+                                               id="{{ question.id }}">
+                                    </form>
+                                    <div class="modal-footer"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="modalConfirmDeleteQuestion{{ question.id }}" class="modalConfirmDeleteQuestion modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <p class="alert alert-danger"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <a id="confirm" type="button" class="btn btn-danger deleteQuestion" ><i class="fa fa-trash"></i>&nbsp;Oui</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Modal ModifQuestion -->
-        <div id="modalModifQuestion{{ question.id }}" class="modal fade" role="dialog"
-             style="display: none;">
-            <div class="modal-dialog">
-                <!-- Modal Question content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modifier la question</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="post" class="form-group">
-                            <label for="labelModifQuestion{{ question.id }}">Label</label>
-                            <input type="text" name="labelModifQuestion"
-                                   id="labelModifQuestion{{ question.id }}"
-                                   class="form-control" value="{{ question.label }}">
-                            <input type="submit" name="Ajouter"
-                                   class="btn btn-primary form-control submitModifQuestion"
-                                   id="{{ question.id }}">
-                        </form>
-                        <div class="modal-footer"></div>
+            <div id="modalConfirmDeleteQuestion{{ question.id }}" class="modalConfirmDeleteQuestion modal fade"
+                 tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="alert alert-danger"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                            <a id="confirm" type="button" class="btn btn-danger deleteQuestion"><i
+                                        class="fa fa-trash"></i>&nbsp;Oui</a>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+            <!-- Modal ModifQuestion -->
+            <div id="modalModifQuestion{{ question.id }}" class="modal fade" role="dialog"
+                 style="display: none;">
+                <div class="modal-dialog">
+                    <!-- Modal Question content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modifier la question</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" class="form-group">
+                                <label for="labelModifQuestion{{ question.id }}">Label</label>
+                                <input type="text" name="labelModifQuestion"
+                                       id="labelModifQuestion{{ question.id }}"
+                                       class="form-control" value="{{ question.label }}">
+                                <input type="submit" name="Ajouter"
+                                       class="btn btn-primary form-control submitModifQuestion"
+                                       id="{{ question.id }}">
+                            </form>
+                            <div class="modal-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-
     <!-- Modal Question ID-->
     <div id="modalQuestion" class="modal fade" role="dialog" style="display: none;">
         <div class="modal-dialog">
