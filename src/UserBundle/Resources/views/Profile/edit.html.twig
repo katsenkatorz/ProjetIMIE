@@ -2,11 +2,25 @@
 
 {% block title %}{{ 'Edition de profil' }}{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/font-awesome/css/font-awesome.css') }}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
 {% block fos_user_content %}
     {% include 'AdminBundle:layout:header.html.twig' %}
-    <br>
+
     {% include 'AdminBundle:layout:sidebar.html.twig' %}
+
     <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon-edit"></i>Édition de profil</a>
+            </div>
+        </div>
         <div class="login-form">
             <h2 class="login-title">Edition de profil</h2>
 
@@ -24,4 +38,8 @@
         </div>
     </div>
 {% endblock fos_user_content %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/matrix.js') }}"></script>
+{% endblock %}
 
