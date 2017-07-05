@@ -84,11 +84,11 @@ $(document).ready(function(){
 	}
 
 	// === Tooltips === //
-	$('.tip').tooltip();
-	$('.tip-left').tooltip({ placement: 'left' });
-	$('.tip-right').tooltip({ placement: 'right' });
-	$('.tip-top').tooltip({ placement: 'top' });
-	$('.tip-bottom').tooltip({ placement: 'bottom' });
+	// $('.tip').tooltip();
+	// $('.tip-left').tooltip({ placement: 'left' });
+	// $('.tip-right').tooltip({ placement: 'right' });
+	// $('.tip-top').tooltip({ placement: 'top' });
+	// $('.tip-bottom').tooltip({ placement: 'bottom' });
 
 	// === Search input typeahead === //
 	// $('#search input[type=text]').typeahead({

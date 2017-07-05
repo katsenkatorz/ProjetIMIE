@@ -3,14 +3,16 @@
         <table class="table">
             <th>Label</th>
             <th>Name</th>
-            <th>Value</th>
+            <th>Tempérament</th>
+            <th>Tempérament opposés</th>
             <th>Image</th>
             <th colspan="2">Action</th>
             {% for response in responses %}
                 <tr>
                     <td>{{ response.label }}</td>
                     <td>{{ response.temperament.name }}</td>
-                    <td>{{ response.value }}</td>
+                    <td>{{ response.temperament.temperament }} {{ response.value }}</td>
+                    <td>{{ response.temperament.opposedTemperament }} {{ 100 - response.value }}</td>
                     <td>{{ response.image }}</td>
                     <td>
                         {# Modal modification #}

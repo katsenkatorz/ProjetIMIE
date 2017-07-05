@@ -4,7 +4,13 @@ admin_temperament_show:
         _controller: AdminBundle:Temperament:temperament
         method: GET
 
+temperament_put:
+    path:     /put/{idTemperament}
+    defaults:
+        _controller: AdminBundle:Temperament:updateTemperament
+        method: PUT
+
 temperament_delete:
-    path:     /delete/{id}
+    path:     /delete/{idTemperament}
     defaults:
         _controller: AdminBundle:Temperament:delete

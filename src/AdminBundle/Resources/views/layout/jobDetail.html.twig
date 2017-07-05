@@ -1,102 +1,113 @@
 {#Pour la page jobs#}
 
 {% if jobs is defined %}
-    <!-- Modal Job Button-->
-    <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#modalJob">Ajouter un métier
-    </button>
-    <div id="responseMessageContent" class="row hidden">
-        <div class="col-md-12">
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                </button>
-                <p id="responseMessage"></p>
+    <div class="col-md-12">
+        <h2>Liste des métiers</h2>
+    </div>
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#modalJob"><i class="fa fa-plus"></i> Ajouter un métier
+        </button>
+        <div id="responseMessageContent" class="row hidden">
+            <div class="col-md-12">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                    </button>
+                    <p id="responseMessage"></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        {% for job in jobs %}
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title inline-block">
-                        <a data-toggle="collapse" data-id="{{ job.id }}" data-parent="#accordion" href="#{{ job.id }}"
-                           class="getJobPersonnalityView" id="collapseTitle{{ job.id }}" aria-expanded="true"
-                           aria-controls="collapse{{ job.id }}">{{ job.name }}</a>
-                    </h4>
-                    <div class="pull-right inline-block">
-                        <a class="btn btn-danger btn-sm" data-target="#modalDeleteJob{{ job.id }}" data-toggle="modal" data-name="{{ job.name }}" data-id="{{ job.id }}"><i
-                                    class="fa fa-trash fa-inverse fa-2x"></i></a>
-                        <a type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                           data-target="#modifJob{{ job.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></a>
-                    </div>
-                </div>
-                <div id="{{ job.id }}" class="panel-collapse collapse" role="tabpanel">
-                    <div class="panel-body" style="overflow: auto">
-                        <div id="descriptionContent{{ job.id }}"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div id="modalDeleteJob{{ job.id }}" class="modalDeleteJob modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"></h4>
+    <div class="col-md-12">
+        <hr>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            {% for job in jobs %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title inline-block">
+                            <a data-toggle="collapse" data-id="{{ job.id }}" data-parent="#accordion"
+                               href="#{{ job.id }}"
+                               class="getJobPersonnalityView" id="collapseTitle{{ job.id }}" aria-expanded="true"
+                               aria-controls="collapse{{ job.id }}">{{ job.name }}</a>
+                        </h4>
+                        <div class="pull-right inline-block">
+                            <a class="btn btn-danger btn-sm" data-target="#modalDeleteJob{{ job.id }}"
+                               data-toggle="modal"
+                               data-name="{{ job.name }}" data-id="{{ job.id }}"><i
+                                        class="fa fa-trash fa-inverse fa-2x"></i></a>
+                            <a type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                               data-target="#modifJob{{ job.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></a>
                         </div>
-                        <div class="modal-body">
-                            <p class="alert alert-danger"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                            <a id="confirm" data-id="{{ job.id }}" type="button" class="btn btn-danger deleteJob"><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                    </div>
+                    <div id="{{ job.id }}" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body" style="overflow: auto">
+                            <div id="descriptionContent{{ job.id }}"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Modal modif Job ID-->
-            <div id="modifJob{{ job.id }}" class="modal fade" role="dialog" style="display:none;">
-                <div class="modal-dialog">
-                    <!-- Modal ModifJob content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Modifier un métier</h4>
+                <div id="modalDeleteJob{{ job.id }}" class="modalDeleteJob modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="alert alert-danger"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                <a id="confirm" data-id="{{ job.id }}" type="button" class="btn btn-danger deleteJob"><i
+                                            class="fa fa-trash"></i>&nbsp;Oui</a>
+                            </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="modal-body">
-                            <form method="post" class="form-group">
-                                <label for="modifName{{ job.id }}">Nom du métier</label>
-                                <input type="text" name="name" id="modifName{{ job.id }}" value="{{ job.name }}"
-                                       class="form-control">
+                <!-- Modal modif Job ID-->
+                <div id="modifJob{{ job.id }}" class="modal fade" role="dialog" style="display:none;">
+                    <div class="modal-dialog">
+                        <!-- Modal ModifJob content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modifier un métier</h4>
+                            </div>
 
-                                <label for="modifMinSalary{{ job.id }}">Salaire minimum</label>
-                                <input type="number" name="minSalary" id="modifMinSalary{{ job.id }}"
-                                       value="{{ job.minSalary }}" class="form-control">
+                            <div class="modal-body">
+                                <form method="post" class="form-group">
+                                    <label for="modifName{{ job.id }}">Nom du métier</label>
+                                    <input type="text" name="name" id="modifName{{ job.id }}" value="{{ job.name }}"
+                                           class="form-control">
 
-                                <label for="modifMaxSalary{{ job.id }}">Salaire maximum</label>
-                                <input type="number" name="maxSalary" id="modifMaxSalary{{ job.id }}"
-                                       value="{{ job.maxSalary }}" class="form-control">
+                                    <label for="modifMinSalary{{ job.id }}">Salaire minimum</label>
+                                    <input type="number" name="minSalary" id="modifMinSalary{{ job.id }}"
+                                           value="{{ job.minSalary }}" class="form-control">
 
-                                <label for="modifDescription{{ job.id }}">Description</label>
-                                <textarea name="description" id="modifDescription{{ job.id }}" class="form-control">
+                                    <label for="modifMaxSalary{{ job.id }}">Salaire maximum</label>
+                                    <input type="number" name="maxSalary" id="modifMaxSalary{{ job.id }}"
+                                           value="{{ job.maxSalary }}" class="form-control">
+
+                                    <label for="modifDescription{{ job.id }}">Description</label>
+                                    <textarea name="description" id="modifDescription{{ job.id }}" class="form-control">
                                                 {{ job.description }}
                                 </textarea>
 
-                                <button class="btn btn-primary modifJob" data-id="{{ job.id }}">Modifier</button>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
+                                    <button class="btn btn-primary modifJob" data-id="{{ job.id }}">Modifier</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-
     <!-- Modal Job ID-->
     <div id="modalJob" class="modal fade" role="dialog" style="display:none;">
         <div class="modal-dialog">
