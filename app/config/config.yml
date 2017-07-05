@@ -105,7 +105,11 @@ fos_user:
         token_generator:        fos_user.util.token_generator.default
         user_manager:           fos_user.user_manager.default
 
-
+ivory_ck_editor:
+    jquery: true
+    configs:
+        my_config:
+            toolbar: full
 
 
 
