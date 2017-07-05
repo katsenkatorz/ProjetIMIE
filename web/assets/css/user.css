@@ -1,11 +1,20 @@
 /**
 FORMULAIRE DE LOGIN
  */
-
 body {
     background-image: url('../img/SiteFlou.png');
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.panel-heading {
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .login-form {
@@ -21,7 +30,8 @@ body {
     padding-right: 40px;
     background-color: #505050;
 }
-@media screen and (max-width: 640px){
+
+@media screen and (max-width: 640px) {
     .login-form {
         text-align: center;
         color: #FFF;
@@ -34,12 +44,14 @@ body {
         background-color: #505050;
     }
 }
-@media (min-width: 1200px){
+
+@media (min-width: 1200px) {
     .container {
         width: calc(1170px - 220px);
     }
 }
-@media (min-width: 992px){
+
+@media (min-width: 992px) {
     .container {
         width: calc(970px - 220px);
     }
@@ -63,6 +75,11 @@ body {
     color: #21A4B2 !important;
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
+::-moz-placeholder { /* Firefox 19+ */
+    text-align: center;
+}
+
+.confirmed {
+    margin-top: 20px;
     text-align: center;
 }

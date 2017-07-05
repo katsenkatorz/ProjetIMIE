@@ -3,33 +3,17 @@
 {% block title %}{{ 'Connexion' }}{% endblock %}
 
 {% block fos_user_content %}
-    <div id="content">
-        <div class="login-form">
-            <h2 class="login-title">Se connecter</h2>
-            <form class="form-group" action="{{ path("fos_user_security_check") }}" method="post">
-                {% if csrf_token %}
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-                {% endif %}
-
-                <label for="username"></label>
-                <input class="form-control" placeholder="Nom d'utilisateur" type="text" id="username" name="_username"
-                       value="{{ last_username }}"
-                       required="required"/>
-
-                <label for="password"></label>
-                <input class="form-control" placeholder="Mot de passe" type="password" id="password"
-                       name="_password" required="required"/><br>
-
-                <p>
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-                    ( Se souvenir de moi )
-                </p>
-
-                <input class="btn btn-default" type="submit" id="_submit" name="_submit"
-                       value="Se connecter"/>
-            </form>
-            <p class="login-redirect"><a href="{{ path('fos_user_registration_register') }}"><i class="icon icon-user"></i> S'enregistrer</a></p>
+<div class="row" >
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Connection
+            </div>
+            <div class="panel-body">
+                {{ include('UserBundle:Security:login_content.html.twig') }}
+            </div>
         </div>
     </div>
+</div>
 {% endblock fos_user_content %}
 
