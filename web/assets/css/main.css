@@ -126,17 +126,7 @@ TEMPERAMENT
 /**
 PARAMETRES
  */
-.param {
-    margin: auto;
-    text-align: center;
-    width: 50%;
-}
 
-.param-title {
-    margin: auto;
-    text-align: center;
-    width: 100%;
-    text-transform: uppercase;
-    text-decoration: underline;
-    padding-top: 10px;
+.param {
+    width: 50%;
 }
