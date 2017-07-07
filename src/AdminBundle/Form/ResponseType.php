@@ -2,7 +2,6 @@
 namespace AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,17 +18,17 @@ class ResponseType extends AbstractType
             "label" => "Intitulé de la réponse"
             ])
             ->add("value", RangeType::class, [
+                "label" => "Valeur",
                 "attr" => [
                     "min" => 0,
                     "max" => 100
                 ]
             ])
-            ->add("image", FileType::class, [
-                "label" => "Image"
+            ->add("image", TextType::class, [
+                "label" => "ImageUrl"
             ])
-            ->add("temperament", HiddenType::class)
             ->add("question", HiddenType::class)
-            ->add("save", SubmitType::class, ["label" => "Créer une réponse"]);
+            ->add("save", SubmitType::class, ["label" => "Créer une question"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

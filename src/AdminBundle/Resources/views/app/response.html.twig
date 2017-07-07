@@ -13,7 +13,7 @@
                     <td>{{ response.temperament.name }}</td>
                     <td>{{ response.temperament.temperament }} {{ response.value }}</td>
                     <td>{{ response.temperament.opposedTemperament }} {{ 100 - response.value }}</td>
-                    <td><img src="{{ asset(response.imagename) }}" alt=""></td>
+                    <td>{{ response.image }}</td>
                     <td>
                         {# Modal modification #}
                         <button type="button" class="btn btn-primary" data-toggle="modal"

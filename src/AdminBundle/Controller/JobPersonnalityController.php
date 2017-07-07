@@ -41,7 +41,7 @@ class JobPersonnalityController extends Controller
         // Traitement pour la création de job
         if ($formJob->isSubmitted() && $formJob->isValid())
         {
-            $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob->getData());
+            $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob['maxSalary']->getData(), $formJob['minSalary']->getData());
         }
 
         // Récupération des jobs

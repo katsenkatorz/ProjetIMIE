@@ -14,13 +14,9 @@ AdminBundle\Entity\Response:
             length: '45'
         value:
             type: integer
-        imageName:
+        image:
             type: string
             length: '45'
-            nullable: true
-        updatedAt:
-            type: datetime
-            nullable: true
     manyToOne:
         question:
             targetEntity: AdminBundle\Entity\Question

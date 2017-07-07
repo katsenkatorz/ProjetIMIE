@@ -66,7 +66,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Job|bool
      */
-    public function postJob($name, $description, $formGetData)
+    public function postJob($name, $description, $salaireMax, $salaireMin)
     {
         if(!$this->checkIfJobAlreadyExist($name, $description))
         {
@@ -77,8 +77,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $temperaments = $TemperamentRepo->getTemperaments();
 
             $job = new Job();
-            $job = $formGetData;
-            $job->setUpdatedAt(new \DateTime());
+            $job->setName($name)
+                ->setDescription($description)
+                ->setMinSalary($salaireMin)
+                ->setMaxSalary($salaireMax);
 
             $em->persist($job);
             $em->flush();
@@ -94,7 +96,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return false;
     }
 
-
     /**
      * Modifie un job
      *
@@ -106,15 +107,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool|object
      */
-    public function putJob($jobId, $name, $description, $formGetData)
+    public function putJob($jobId, $name, $description, $salaireMax, $salaireMin)
     {
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
 
-        if(!is_null($job) && (!is_null($name) && !is_null($description) && !is_null($formGetData)))
+        if(!is_null($job) && (!is_null($name) && !is_null($description) && !is_null($salaireMax) && !is_null($salaireMin)))
         {
-            $job = $formGetData;
-            $job->setUpdatedAt(new \DateTime());
+            $job->setName($name)
+                ->setDescription($description)
+                ->setMaxSalary($salaireMax)
+                ->setMinSalary($salaireMin);
 
             $em->persist($job);
             $em->flush();
