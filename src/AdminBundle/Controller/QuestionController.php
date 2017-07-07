@@ -4,6 +4,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
 use AdminBundle\Entity\JobPersonnality;
+use AdminBundle\Entity\Response;
 use AdminBundle\Entity\Temperament;
 use AdminBundle\Form\JobTemperamentType;
 use AdminBundle\Form\JobType;
@@ -39,12 +40,20 @@ class QuestionController extends Controller
 
         $questions = $QuestionRepo->getQuestions();
 
+        $createResponseForms = [];
+        foreach ($questions as $question)
+        {
+            $createResponseForms[] = ["questionId" => $question->getId(), "formResponse" => $this->createForm(ResponseType::class)->createView()];
+        }
+
+
         $temperaments = $TemperamentRepo->getTemperaments();
 
         return $this->render("AdminBundle:app:questions.html.twig", [
             "formQuestion" => $formQuestion->createView(),
             "questions" => $questions,
-            "temperaments" => $temperaments
+            "temperaments" => $temperaments,
+            "createResponseForms" => $createResponseForms,
         ]);
     }
 
@@ -116,26 +125,28 @@ class QuestionController extends Controller
      * Permet de créer une question
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      */
     public function responsePostAction(Request $request)
     {
+        $data = [];
+
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
-        $value = $request->get('value');
-        $image = $request->get('image');
-        $label = $request->get('label');
         $idQuestion = $request->attributes->get('idQuestion');
-        $idTemperament = $request->get('temperament');
 
-        $question = $QuestionRepo->getQuestionById($idQuestion);
-        $temperament = $TemperamentRepo->getTemperamentById($idTemperament);
+        $form = $this->createForm(ResponseType::class);
 
-        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($question))
+        $form->handleRequest($request);
+
+        $question = $QuestionRepo->getQuestionById($form["question"]->getData());
+        $temperament = $TemperamentRepo->getTemperamentById($form["temperament"]->getData());
+
+        if($form->isValid() && $form->isSubmitted())
         {
-            $ResponseRepo->postResponse($label, $value, $image, $question, $temperament);
+            $ResponseRepo->postResponse($form["label"]->getData(), $form["value"]->getData(), $form["image"]->getData(), $question, $temperament);
 
             return $this->json([
                 "message" => "La création de la réponse c'est bien effectué",
@@ -143,7 +154,9 @@ class QuestionController extends Controller
             ]);
         }
 
-        return $this->json(['message' => "Erreur lors de l'ajout de la réponse"]);
+        return $this->render("AdminBundle:app:questions.html.twig", [
+            "data" => $data,
+        ]);
     }
 
     /**

@@ -17,9 +17,9 @@ function loadResponse(idQuestion, env, PanelTitle)
             // On affiche le résultat
             responseContent.html(result);
 
-            loadTemperament("#temperamentResponse"+idQuestion);
+            loadTemperament("#temperamentResponse" + idQuestion);
 
-            if(result.length > 0)
+            if (result.length > 0)
                 loadTemperament(".temperamentModifResponse");
 
             loadRangeInput(".rangeInput");
@@ -43,7 +43,7 @@ function loadResponse(idQuestion, env, PanelTitle)
                 var idModal = $(this).attr('data-modalId');
 
                 $.ajax({
-                    url: "/admin/question/"+idQuestion+"/deleteResponse/"+responseId,
+                    url: "/admin/question/" + idQuestion + "/deleteResponse/" + responseId,
                     type: "DELETE",
                     success: function (result)
                     {
@@ -82,7 +82,7 @@ function loadResponse(idQuestion, env, PanelTitle)
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
-                    url: "/admin/question/"+idQuestion+"/putResponse/"+responseId,
+                    url: "/admin/question/" + idQuestion + "/putResponse/" + responseId,
                     type: "PUT",
                     data: {
                         value: value,
@@ -109,7 +109,7 @@ function loadResponse(idQuestion, env, PanelTitle)
                         }, 5000);
 
                         PanelTitle.trigger("click");
-                        setTimeout(function()
+                        setTimeout(function ()
                         {
                             PanelTitle.trigger("click");
                         }, 500);
@@ -120,7 +120,7 @@ function loadResponse(idQuestion, env, PanelTitle)
         },
         error: function (error)
         {
-            console.log(error.statusText);
+            $("#responseMessage").html(error.statusText);
         }
     });
 }
@@ -133,7 +133,7 @@ function loadRangeInput(selector)
         var valueBlockRight = $(this).prev().prev();
         var valueBlockLeft = $(this).prev().prev().prev().html(value);
 
-        valueBlockRight.html(100-value);
+        valueBlockRight.html(100 - value);
         valueBlockLeft.html(value);
 
         $(this).unbind('click').bind('click', function ()
@@ -142,7 +142,7 @@ function loadRangeInput(selector)
             var valueBlockRight = $(this).prev().prev();
             var valueBlockLeft = $(this).prev().prev().prev().html(value);
 
-            valueBlockRight.html(100-value);
+            valueBlockRight.html(100 - value);
             valueBlockLeft.html(value);
         });
     });
@@ -153,7 +153,7 @@ function loadTemperament(selector)
     function getHomonyme(idTemperament, context)
     {
         $.ajax({
-            url: "/admin/job/getTemperament/"+idTemperament,
+            url: "/admin/job/getTemperament/" + idTemperament,
             type: "GET",
             dataType: "json",
             success: function (result)
@@ -195,8 +195,10 @@ $(document).ready(function ()
 
         loadResponse(idQuestion, env, PanelTitle);
 
+
+
         // Ajout d'une réponse
-        $(".submitResponse").unbind('click').bind('click', function (e)
+        $('#formResponse' + idQuestion).unbind('submit').bind('submit', function (e)
         {
             e.preventDefault();
 
@@ -205,18 +207,27 @@ $(document).ready(function ()
             var image = $("#imageResponse" + idQuestion).val();
             var label = $("#labelResponse" + idQuestion).val();
             var temperament = $("#temperamentResponse" + idQuestion).val();
+            var hiddenTemp = document.querySelector('#tempResponse'+idQuestion);
+
+            hiddenTemp.value = temperament;
+
+
+            var formData = new FormData($(this)[0]);
+
+            // console.log($(this)[0]);
+            // console.log($(this).attr('action'));
+
 
             $.ajax({
-                url: "/admin/question/"+idQuestion+"/postResponse",
+                url: $(this).attr('action'),
                 type: "POST",
-                data: {
-                    value: value,
-                    image: image,
-                    label: label,
-                    temperament: temperament
-                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
                 success: function (result)
                 {
+
                     // Fermeture du modal en cas de success
                     $('#modalResponse' + idQuestion).modal('hide');
                     $('body').removeClass('modal-open');
@@ -242,6 +253,42 @@ $(document).ready(function ()
                     console.log(error);
                 }
             });
+
+
+            // $.ajax({
+            //     url: "/admin/question/"+idQuestion+"/postResponse",
+            //     type: "POST",
+            //     data: {
+            //         data: data
+            //     },
+            //     success: function (result)
+            //     {
+            //
+            //         // Fermeture du modal en cas de success
+            //         $('#modalResponse' + idQuestion).modal('hide');
+            //         $('body').removeClass('modal-open');
+            //         $('.modal-backdrop').remove();
+            //
+            //         $("#responseMessageContent")
+            //             .fadeIn(250)
+            //             .removeClass('hidden');
+            //         $("#responseMessage").html(result.message);
+            //         setTimeout(function ()
+            //         {
+            //             $("#responseMessageContent").fadeOut(250);
+            //         }, 5000);
+            //
+            //         PanelTitle.trigger("click");
+            //         setTimeout(function ()
+            //         {
+            //             PanelTitle.trigger("click");
+            //         }, 500);
+            //     },
+            //     error: function (error)
+            //     {
+            //         console.log(error);
+            //     }
+            // });
         });
 
 
@@ -268,7 +315,7 @@ $(document).ready(function ()
         var responseContent = $(".responseContent" + questionId);
 
         $.ajax({
-            url: "/admin/question/put/"+questionId,
+            url: "/admin/question/put/" + questionId,
             type: "PUT",
             data: {
                 label: label
@@ -279,7 +326,7 @@ $(document).ready(function ()
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
 
-                $("#questionLabelDiv"+questionId).html(result.name);
+                $("#questionLabelDiv" + questionId).html(result.name);
                 $("#responseMessageContent")
                     .fadeIn(250)
                     .removeClass('hidden');
@@ -300,7 +347,7 @@ $(document).ready(function ()
         var questionId = $(this).attr("data-id");
 
         $.ajax({
-            url: "/admin/question/delete/"+questionId,
+            url: "/admin/question/delete/" + questionId,
             type: "DELETE",
             success: function (result)
             {

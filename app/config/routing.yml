@@ -6,6 +6,10 @@ admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
     prefix:   /admin
 
+upload:
+    resource: "@UploadBundle/Resources/config/routing.yml"
+    prefix:   /uploadBundle
+
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /

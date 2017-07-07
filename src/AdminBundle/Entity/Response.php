@@ -2,8 +2,13 @@
 
 namespace AdminBundle\Entity;
 
+use Grafikart\UploadBundle\Annotation\Uploadable;
+use Grafikart\UploadBundle\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * RESPONSE
+ * @Uploadable()
  */
 class Response
 {
@@ -25,6 +30,12 @@ class Response
     /**
      * @var string
      */
+    private $imageName;
+
+    /**
+     * @UploadableField(filename="imageName", path="imageResponse")
+     * @Assert\Image(maxWidth="2000", maxHeight="2000")
+     */
     private $image;
 
     /**
@@ -36,6 +47,45 @@ class Response
      * @var Temperament
      */
     private $temperament;
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     **/
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string $imageName
+     **/
+    public function setImageName(string $imageName)
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
 
     /**
      * @return Question

@@ -87,6 +87,7 @@
                         {{ form_row(updateForm.form.minSalary, {'id': 'modifMinSalary' ~ updateForm.jobId }) }}
                         {{ form_row(updateForm.form.maxSalary, {'id': 'modifMaxSalary' ~ updateForm.jobId }) }}
                         {{ form_row(updateForm.form.description, {'id': 'modifDescription' ~ updateForm.jobId }) }}
+                        {{ form_row(updateForm.form.image) }}
                         {{ form_row(updateForm.form.save, {'label': 'Modifier', 'attr': {'class': 'btn btn-primary modifJob','data-id': updateForm.jobId }}) }}
                         {{ form_end(updateForm.form) }}
                     </div>

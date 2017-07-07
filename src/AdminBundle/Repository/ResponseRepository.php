@@ -72,8 +72,9 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
 
             $response->setLabel($label)
                 ->setValue($value)
-                ->setImage($image)
+                ->setImageName($image)
                 ->setQuestion($question)
+                ->setUpdatedAt(new \DateTime())
                 ->setTemperament($temperament);
 
             $em->persist($response);
@@ -106,6 +107,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 $response->setLabel($label)
                     ->setValue($value)
                     ->setImage($image)
+                    ->setUpdatedAt(new \DateTime())
                     ->setTemperament($temperament);
 
                 $em->persist($response);

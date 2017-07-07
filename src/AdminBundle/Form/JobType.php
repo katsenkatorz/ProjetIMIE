@@ -3,6 +3,7 @@ namespace AdminBundle\Form;
 
 use AdminBundle\Entity\Job;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +20,7 @@ class JobType extends AbstractType
             ->add("minSalary", IntegerType::class, ["label" => "Salaire minimum"])
             ->add("maxSalary", IntegerType::class, ["label" => "Salaire maximum"])
             ->add("description", CKEditorType::class, ["label" => "Description du poste"])
+            ->add('image', FileType::class, ['required' => false])
             ->add("save", SubmitType::class, ["label" => "Créer un job"]);
     }
 
