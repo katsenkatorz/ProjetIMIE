@@ -1,6 +1,6 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
-{% block title %}{{ 'Paramètres' }}{% endblock %}
+{% block title %}{{ 'Gestion du site' }}{% endblock %}
 
 
 
@@ -12,18 +12,32 @@
 
     <div id="content">
         <div id="content-header">
-            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-cogs"></i>Paramètres</a>
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="icon icon-cogs"></i>Gestion du site</a>
             </div>
         </div>
-        <form class="form-group" action="" method="post">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Gestion du site</h2>
+                    <hr/>
+                </div>
+                <div class="col-md-12">
+                    <form class="form-group" action="" method="post">
 
-            {% for parameter in parameters %}
-                <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
-                <label class="param-title" data-label="{{ parameter.label }}">{{ parameter.label }}</label>
-                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value" value="{{ parameter.value }}" data-id="{{ parameter.id }}" >
-            {% endfor %}
+                        {% for parameter in parameters %}
+                            <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
+                            <div class="form-group">
+                                <label class="param-title"
+                                       data-label="{{ parameter.label }}">{{ parameter.label }}</label>
+                                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value"
+                                       value="{{ parameter.value }}" data-id="{{ parameter.id }}">
+                            </div>
+                        {% endfor %}
 
-        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
