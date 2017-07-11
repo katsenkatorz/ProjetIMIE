@@ -33,7 +33,7 @@ class Response
     private $imageName;
 
     /**
-     * @UploadableField(filename="imageName", path="imageResponse")
+     * @UploadableField(filename="imageName", path="assets/img/imageResponse")
      * @Assert\Image(maxWidth="2000", maxHeight="2000")
      */
     private $image;
@@ -96,9 +96,9 @@ class Response
     }
 
     /**
-     * @param Question $question
+     * @param mixed $question
      **/
-    public function setQuestion(Question $question)
+    public function setQuestion($question)
     {
         $this->question = $question;
         return $this;
@@ -113,9 +113,9 @@ class Response
     }
 
     /**
-     * @param Temperament $temperament
+     * @param mixed $temperament
      **/
-    public function setTemperament(Temperament $temperament)
+    public function setTemperament($temperament)
     {
         $this->temperament = $temperament;
         return $this;

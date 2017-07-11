@@ -82,7 +82,14 @@
                     </div>
 
                     <div class="modal-body">
-                        {{ form_start(updateForm.form, {'method': 'POST'}) }}
+                        {{ form_start(updateForm.form, {
+                            'method': 'POST',
+                            'attr': {
+                                'class': 'formModifJob',
+                                'id': 'formModifJob'+ updateForm.jobId,
+                                'data-id': updateForm.jobId
+                            }
+                        }) }}
                         {{ form_row(updateForm.form.name, {'id': 'modifName' ~ updateForm.jobId }) }}
                         {{ form_row(updateForm.form.minSalary, {'id': 'modifMinSalary' ~ updateForm.jobId }) }}
                         {{ form_row(updateForm.form.maxSalary, {'id': 'modifMaxSalary' ~ updateForm.jobId }) }}

@@ -44,7 +44,7 @@ class Job
     private $imageName;
 
     /**
-     * @UploadableField(filename="imageName", path="imageResponse")
+     * @UploadableField(filename="imageName", path="assets/img/imageJob")
      * @Assert\Image(maxWidth="2000", maxHeight="2000")
      */
     private $image;

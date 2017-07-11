@@ -115,9 +115,21 @@ class QuestionController extends Controller
         $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
+        $formUpdateResponses = [];
+
+        foreach($responses as $response)
+        {
+            $formUpdateResponses[] = [
+                "questionId" => $questionId,
+                "response" => $response,
+                "formUpdateResponse" => $this->createForm(ResponseType::class, $response)->createView()
+            ];
+        }
+
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
-            "temperaments" => $temperaments
+            "temperaments" => $temperaments,
+            "formUpdateResponses" => $formUpdateResponses,
         ]));
     }
 
@@ -129,24 +141,16 @@ class QuestionController extends Controller
      */
     public function responsePostAction(Request $request)
     {
-        $data = [];
-
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
-        $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
-
         $idQuestion = $request->attributes->get('idQuestion');
 
         $form = $this->createForm(ResponseType::class);
 
         $form->handleRequest($request);
 
-        $question = $QuestionRepo->getQuestionById($form["question"]->getData());
-        $temperament = $TemperamentRepo->getTemperamentById($form["temperament"]->getData());
-
         if($form->isValid() && $form->isSubmitted())
         {
-            $ResponseRepo->postResponse($form["label"]->getData(), $form["value"]->getData(), $form["image"]->getData(), $question, $temperament);
+            $ResponseRepo->postResponse($form);
 
             return $this->json([
                 "message" => "La création de la réponse c'est bien effectué",
@@ -154,9 +158,7 @@ class QuestionController extends Controller
             ]);
         }
 
-        return $this->render("AdminBundle:app:questions.html.twig", [
-            "data" => $data,
-        ]);
+        return $this->render("AdminBundle:app:questions.html.twig");
     }
 
     /**
@@ -168,19 +170,21 @@ class QuestionController extends Controller
     public function responseUpdateAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
-        $value = $request->get('value');
-        $image = $request->get('image');
-        $label = $request->get('label');
         $responseId = $request->attributes->get('idResponse');
-        $temperament = $TemperamentRepo->getTemperamentById($request->get('temperament'));
 
-        if(!is_null($value) && !is_null($image) && !is_null($label) && !is_null($temperament) && !is_null($responseId))
+        $form = $this->createForm(ResponseType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
         {
-            $response = $ResponseRepo->putResponse($responseId, $label, $value, $image, $temperament);
+            $response = $ResponseRepo->putResponse($responseId, $form);
             if(!$response)
-                return $this->json(['message' => "Problème lors de l'enregistrement, vérifier que les informations entrées soit valide.\n Il ne peut pas y avoir deux fois le même type d'équilibre pour un tempérament."]);
+                return $this->json([
+                    'message' => "Problème lors de l'enregistrement, vérifier que les informations entrées soit valide.\n Il ne peut pas y avoir deux fois le même type d'équilibre pour un tempérament."
+                ]);
+
             return $this->json(["message" => "La modification de la réponse c'est bien effectué"]);
         }
 

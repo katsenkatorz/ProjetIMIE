@@ -160,5 +160,10 @@ class Temperament
     {
         return $this->opposedTemperament;
     }
+
+    public function __toString()
+    {
+        return $this->getId()."";
+    }
 }
 

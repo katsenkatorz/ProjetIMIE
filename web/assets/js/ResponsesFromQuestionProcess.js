@@ -70,27 +70,28 @@ function loadResponse(idQuestion, env, PanelTitle)
             });
 
             // Au click sur valider du modal de modification d'une réponse
-            $(".modalModifResponse").unbind('click submit').bind('click submit', function (e)
+            $(".formUpdateResponse").unbind('submit').bind('submit', function (e)
             {
                 e.preventDefault();
 
-                var responseId = $(this).attr("id");
-                var value = $("#valueModifResponse" + responseId).val();
-                var image = $("#imageModifResponse" + responseId).val();
-                var label = $("#labelModifResponse" + responseId).val();
+                var responseId = $(this).attr("data-id");
                 var temperament = $('#temperamentModifResponse' + responseId).val();
+                var hiddenTemp = document.querySelector('#tempModifResponse'+responseId);
+
+                hiddenTemp.value = temperament;
+
+                console.log($(this)[0]);
+
+                var formData = new FormData($(this)[0]);
 
                 // On appelle la route qui permet de sauvegarder les changements
                 $.ajax({
-                    url: "/admin/question/" + idQuestion + "/putResponse/" + responseId,
-                    type: "PUT",
-                    data: {
-                        value: value,
-                        image: image,
-                        label: label,
-                        temperament: temperament
-
-                    },
+                    url: $(this).attr('action'),
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success: function (result)
                     {
                         // Fermeture du modal en cas de success
@@ -130,20 +131,20 @@ function loadRangeInput(selector)
     $(selector).each(function ()
     {
         var value = $(this).val();
-        var valueBlockRight = $(this).prev().prev();
-        var valueBlockLeft = $(this).prev().prev().prev().html(value);
+        var valueBlockRight = $(this).parent().prev().prev();
+        var valueBlockLeft = $(this).parent().prev().prev().prev();
 
-        valueBlockRight.html(100 - value);
-        valueBlockLeft.html(value);
+        valueBlockRight.html(value);
+        valueBlockLeft.html(-value);
 
         $(this).unbind('click').bind('click', function ()
         {
             var value = $(this).val();
-            var valueBlockRight = $(this).prev().prev();
-            var valueBlockLeft = $(this).prev().prev().prev().html(value);
+            var valueBlockRight = $(this).parent().prev().prev();
+            var valueBlockLeft = $(this).parent().prev().prev().prev();
 
-            valueBlockRight.html(100 - value);
-            valueBlockLeft.html(value);
+            valueBlockRight.html(value);
+            valueBlockLeft.html(-value);
         });
     });
 }
@@ -202,21 +203,12 @@ $(document).ready(function ()
         {
             e.preventDefault();
 
-            var rangeInput = $("#valueResponse" + idQuestion);
-            var value = rangeInput.val();
-            var image = $("#imageResponse" + idQuestion).val();
-            var label = $("#labelResponse" + idQuestion).val();
             var temperament = $("#temperamentResponse" + idQuestion).val();
             var hiddenTemp = document.querySelector('#tempResponse'+idQuestion);
 
             hiddenTemp.value = temperament;
 
-
             var formData = new FormData($(this)[0]);
-
-            // console.log($(this)[0]);
-            // console.log($(this).attr('action'));
-
 
             $.ajax({
                 url: $(this).attr('action'),
@@ -253,42 +245,6 @@ $(document).ready(function ()
                     console.log(error);
                 }
             });
-
-
-            // $.ajax({
-            //     url: "/admin/question/"+idQuestion+"/postResponse",
-            //     type: "POST",
-            //     data: {
-            //         data: data
-            //     },
-            //     success: function (result)
-            //     {
-            //
-            //         // Fermeture du modal en cas de success
-            //         $('#modalResponse' + idQuestion).modal('hide');
-            //         $('body').removeClass('modal-open');
-            //         $('.modal-backdrop').remove();
-            //
-            //         $("#responseMessageContent")
-            //             .fadeIn(250)
-            //             .removeClass('hidden');
-            //         $("#responseMessage").html(result.message);
-            //         setTimeout(function ()
-            //         {
-            //             $("#responseMessageContent").fadeOut(250);
-            //         }, 5000);
-            //
-            //         PanelTitle.trigger("click");
-            //         setTimeout(function ()
-            //         {
-            //             PanelTitle.trigger("click");
-            //         }, 500);
-            //     },
-            //     error: function (error)
-            //     {
-            //         console.log(error);
-            //     }
-            // });
         });
 
 

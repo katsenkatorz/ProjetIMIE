@@ -41,7 +41,7 @@ class JobPersonnalityController extends Controller
         // Traitement pour la création de job
         if ($formJob->isSubmitted() && $formJob->isValid())
         {
-            $JobRepository->postJob($formJob['name']->getData(), $formJob['description']->getData(), $formJob->getData());
+            $JobRepository->postJob($formJob);
         }
 
         // Récupération des jobs
@@ -206,14 +206,14 @@ class JobPersonnalityController extends Controller
         $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
         $idJob = $request->attributes->get('idJob');
-        $name = $request->get('name');
-        $minSalary = $request->get('minSalary');
-        $maxSalary = $request->get('maxSalary');
-        $description = $request->get('description');
 
-        if(!is_null($idJob) && !is_null($name) && !is_null($minSalary) && !is_null($maxSalary) && !is_null($description))
+        $form = $this->createForm(JobType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isValid() && $form->isSubmitted())
         {
-            $job = $JobRepo->putJob($idJob, $name, $description, $maxSalary, $minSalary);
+            $job = $JobRepo->putJob($idJob, $form);
             return $this->json(['message'=> "La modification du métier c'est bien effectué", "name" => $job->getName()]);
         }
 

@@ -13,8 +13,10 @@
             <p>{{ job.description|raw }}</p>
         </li>
         <li>
-            <span>Image métier</span><br>
-            <img src="{{ asset(job.image.pathname) }}" alt="" width="50px" height="50px">
+            {% if job.image is not null %}
+                <span>Image métier</span><br>
+                <img src="{{ asset(job.image.pathname) }}" alt="" width="50px" height="50px">
+            {% endif %}
         </li>
     </ul>
 </div>

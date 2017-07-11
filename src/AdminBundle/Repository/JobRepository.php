@@ -61,14 +61,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param $name
      * @param $description
-     * @param $salaireMax
-     * @param $salaireMin
-     *
+     * @param $formGetData
      * @return Job|bool
      */
-    public function postJob($name, $description, $formGetData)
+    public function postJob($formResult)
     {
-        if(!$this->checkIfJobAlreadyExist($name, $description))
+        if(!$this->checkIfJobAlreadyExist($formResult['name']->getData(), $formResult['description']->getData()))
         {
             $em = $this->getEntityManager();
             $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
@@ -77,7 +75,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $temperaments = $TemperamentRepo->getTemperaments();
 
             $job = new Job();
-            $job = $formGetData;
+            $job = $formResult->getData();
             $job->setUpdatedAt(new \DateTime());
 
             $em->persist($job);
@@ -85,7 +83,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             foreach ($temperaments as $temperament)
             {
-                $JobPersonnalityRepo->postJobPersonnality(50, $job, $temperament);
+                $JobPersonnalityRepo->postJobPersonnality(0, $job, $temperament);
             }
 
             return $job;
@@ -106,15 +104,27 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool|object
      */
-    public function putJob($jobId, $name, $description, $formGetData)
+    public function putJob($jobId, $form)
     {
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
 
-        if(!is_null($job) && (!is_null($name) && !is_null($description) && !is_null($formGetData)))
+        $name = $form['name']->getData();
+        $description = $form['description']->getData();
+        $minsalary = $form['minSalary']->getData();
+        $maxSalary = $form['maxSalary']->getData();
+        $image = $form['image']->getData();
+
+        if($job)
         {
-            $job = $formGetData;
-            $job->setUpdatedAt(new \DateTime());
+            $job->setName($name)
+                ->setDescription($description)
+                ->setMinSalary($minsalary)
+                ->setMaxSalary($maxSalary)
+                ->setUpdatedAt(new \DateTime());
+
+            if($image)
+                $job->setImage($image);
 
             $em->persist($job);
             $em->flush();

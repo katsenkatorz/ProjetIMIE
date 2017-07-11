@@ -22,7 +22,7 @@ admin_putJob:
     path:     /{idJob}/put
     defaults:
         _controller: AdminBundle:JobPersonnality:putJob
-        method: PUT
+        method: POST
 
 admin_save:
     path:     /{idJob}/saveTemperament

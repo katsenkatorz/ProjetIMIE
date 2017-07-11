@@ -20,12 +20,14 @@ class ResponseType extends AbstractType
             ])
             ->add("value", RangeType::class, [
                 "attr" => [
-                    "min" => 0,
-                    "max" => 100
+                    "min" => -100,
+                    "max" => 100,
+                    "value" => 0
                 ]
             ])
             ->add("image", FileType::class, [
-                "label" => "Image"
+                "label" => "Image",
+                "required" => false,
             ])
             ->add("temperament", HiddenType::class)
             ->add("question", HiddenType::class)

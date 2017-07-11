@@ -57,8 +57,8 @@ function loadRangeInput(selector)
         var valueBlockRight = $(this).prev().prev();
         var valueBlockLeft = $(this).prev().prev().prev().html(value);
 
-        valueBlockRight.html(100-value);
-        valueBlockLeft.html(value);
+        valueBlockRight.html(value);
+        valueBlockLeft.html(-value);
 
         $(this).unbind('click').bind('click', function ()
         {
@@ -66,8 +66,8 @@ function loadRangeInput(selector)
             var valueBlockRight = $(this).prev().prev();
             var valueBlockLeft = $(this).prev().prev().prev().html(value);
 
-            valueBlockRight.html(100-value);
-            valueBlockLeft.html(value);
+            valueBlockRight.html(value);
+            valueBlockLeft.html(-value);
         });
     });
 }
@@ -76,7 +76,8 @@ $(document).ready(function ()
 {
     var JobPanel = $("a.getJobPersonnalityView");
 
-    $('.modifJob').unbind('click').bind('click', function (e)
+
+    $('.formModifJob').unbind('submit').bind('submit', function (e)
     {
         e.preventDefault();
 
@@ -87,16 +88,16 @@ $(document).ready(function ()
         var description = $('#modifDescription'+jobId).val();
         var resultContent = $('#descriptionContent'+jobId);
 
+        var formData = new FormData($(this)[0]);
+
         $.ajax({
             url: "/admin/job/"+jobId+"/put",
-            type: "PUT",
+            type: "POST",
             dataType: "json",
-            data: {
-                name: name,
-                minSalary: minSalary,
-                maxSalary: maxSalary,
-                description: description
-            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function (result)
             {
                 loadPartielView(jobId, resultContent);
@@ -122,6 +123,53 @@ $(document).ready(function ()
         })
 
     });
+
+    // $('.modifJob').unbind('click').bind('click', function (e)
+    // {
+    //     e.preventDefault();
+    //
+    //     var jobId = $(this).attr('data-id');
+    //     var name = $('#modifName'+jobId).val();
+    //     var minSalary = $('#modifMinSalary'+jobId).val();
+    //     var maxSalary = $('#modifMaxSalary'+jobId).val();
+    //     var description = $('#modifDescription'+jobId).val();
+    //     var resultContent = $('#descriptionContent'+jobId);
+    //
+    //     $.ajax({
+    //         url: "/admin/job/"+jobId+"/put",
+    //         type: "PUT",
+    //         dataType: "json",
+    //         data: {
+    //             name: name,
+    //             minSalary: minSalary,
+    //             maxSalary: maxSalary,
+    //             description: description
+    //         },
+    //         success: function (result)
+    //         {
+    //             loadPartielView(jobId, resultContent);
+    //             $('#collapseTitle'+jobId).text(result.name);
+    //
+    //             $('#modifJob' + jobId).modal('hide');
+    //             $('body').removeClass('modal-open');
+    //             $('.modal-backdrop').remove();
+    //
+    //             $("#responseMessageContent")
+    //                 .fadeIn(250)
+    //                 .removeClass('hidden');
+    //             $("#responseMessage").html(result.message);
+    //             setTimeout(function ()
+    //             {
+    //                 $("#responseMessageContent").fadeOut(250);
+    //             }, 5000);
+    //             setTimeout(function ()
+    //             {
+    //                 $("#responseMessageContent").addClass("hidden");
+    //             }, 2000);
+    //         }
+    //     })
+    //
+    // });
 
     $('.modalDeleteJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
     {
