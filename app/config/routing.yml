@@ -1,3 +1,7 @@
+home:
+    resource: "@HomeBundle/Resources/config/routing.yml"
+    prefix:   /home
+
 test:
     resource: "@TestBundle/Resources/config/routing.yml"
     prefix:   /test
