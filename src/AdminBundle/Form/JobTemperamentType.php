@@ -17,8 +17,9 @@ class JobTemperamentType extends AbstractType
         $builder->add("value", RangeType::class, [
             "label" => "Valeur",
             "attr" => [
-                "min" => 0,
-                "max" => 100
+                "min" => -100,
+                "max" => 100,
+                "value" => 0
             ]
         ])
             ->add("job", HiddenType::class)

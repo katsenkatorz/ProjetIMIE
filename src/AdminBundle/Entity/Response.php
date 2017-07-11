@@ -2,8 +2,13 @@
 
 namespace AdminBundle\Entity;
 
+use Grafikart\UploadBundle\Annotation\Uploadable;
+use Grafikart\UploadBundle\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * RESPONSE
+ * @Uploadable()
  */
 class Response
 {
@@ -25,6 +30,12 @@ class Response
     /**
      * @var string
      */
+    private $imageName;
+
+    /**
+     * @UploadableField(filename="imageName", path="assets/img/imageResponse")
+     * @Assert\Image(maxWidth="2000", maxHeight="2000")
+     */
     private $image;
 
     /**
@@ -38,6 +49,45 @@ class Response
     private $temperament;
 
     /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     **/
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string $imageName
+     **/
+    public function setImageName(string $imageName)
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    /**
      * @return Question
      */
     public function getQuestion()
@@ -46,9 +96,9 @@ class Response
     }
 
     /**
-     * @param Question $question
+     * @param mixed $question
      **/
-    public function setQuestion(Question $question)
+    public function setQuestion($question)
     {
         $this->question = $question;
         return $this;
@@ -63,9 +113,9 @@ class Response
     }
 
     /**
-     * @param Temperament $temperament
+     * @param mixed $temperament
      **/
-    public function setTemperament(Temperament $temperament)
+    public function setTemperament($temperament)
     {
         $this->temperament = $temperament;
         return $this;

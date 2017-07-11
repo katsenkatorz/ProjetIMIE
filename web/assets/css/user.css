@@ -5,6 +5,7 @@ body {
     background-image: url('../img/SiteFlou.png');
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .container {

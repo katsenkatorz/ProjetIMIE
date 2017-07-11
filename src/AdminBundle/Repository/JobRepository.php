@@ -61,14 +61,12 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param $name
      * @param $description
-     * @param $salaireMax
-     * @param $salaireMin
-     *
+     * @param $formGetData
      * @return Job|bool
      */
-    public function postJob($name, $description, $salaireMax, $salaireMin)
+    public function postJob($formResult)
     {
-        if(!$this->checkIfJobAlreadyExist($name, $description))
+        if(!$this->checkIfJobAlreadyExist($formResult['name']->getData(), $formResult['description']->getData()))
         {
             $em = $this->getEntityManager();
             $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
@@ -77,17 +75,15 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $temperaments = $TemperamentRepo->getTemperaments();
 
             $job = new Job();
-            $job->setName($name)
-                ->setDescription($description)
-                ->setMinSalary($salaireMin)
-                ->setMaxSalary($salaireMax);
+            $job = $formResult->getData();
+            $job->setUpdatedAt(new \DateTime());
 
             $em->persist($job);
             $em->flush();
 
             foreach ($temperaments as $temperament)
             {
-                $JobPersonnalityRepo->postJobPersonnality(50, $job, $temperament);
+                $JobPersonnalityRepo->postJobPersonnality(0, $job, $temperament);
             }
 
             return $job;
@@ -95,6 +91,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
         return false;
     }
+
 
     /**
      * Modifie un job
@@ -107,17 +104,27 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool|object
      */
-    public function putJob($jobId, $name, $description, $salaireMax, $salaireMin)
+    public function putJob($jobId, $form)
     {
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
 
-        if(!is_null($job) && (!is_null($name) && !is_null($description) && !is_null($salaireMax) && !is_null($salaireMin)))
+        $name = $form['name']->getData();
+        $description = $form['description']->getData();
+        $minsalary = $form['minSalary']->getData();
+        $maxSalary = $form['maxSalary']->getData();
+        $image = $form['image']->getData();
+
+        if($job)
         {
             $job->setName($name)
                 ->setDescription($description)
-                ->setMaxSalary($salaireMax)
-                ->setMinSalary($salaireMin);
+                ->setMinSalary($minsalary)
+                ->setMaxSalary($maxSalary)
+                ->setUpdatedAt(new \DateTime());
+
+            if($image)
+                $job->setImage($image);
 
             $em->persist($job);
             $em->flush();

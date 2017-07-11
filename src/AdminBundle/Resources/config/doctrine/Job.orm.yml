@@ -19,6 +19,13 @@ AdminBundle\Entity\Job:
             type: integer
         maxSalary:
             type: integer
+        imageName:
+            type: string
+            length: '45'
+            nullable: true
+        updatedAt:
+            type: datetime
+            nullable: true
     oneToMany:
         jobPersonnalities:
             targetEntity: AdminBundle\Entity\JobPersonnality
