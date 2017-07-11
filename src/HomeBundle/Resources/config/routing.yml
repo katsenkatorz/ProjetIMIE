@@ -1,0 +1,20 @@
+home_homepage:
+    path:     /
+    defaults: { _controller: HomeBundle:Home:index }
+
+home_jobs:
+    path:     /jobs
+    defaults: { _controller: HomeBundle:Home:jobs }
+
+home_question1:
+    path:     /question1
+    defaults: { _controller: HomeBundle:Home:question1 }
+
+home_question2:
+    path:     /question2
+    defaults: { _controller: HomeBundle:Home:question2 }
+
+home_result:
+    path:     /result
+    defaults: { _controller: HomeBundle:Home:result }
+

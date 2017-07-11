@@ -1,0 +1,66 @@
+{% extends 'HomeBundle::base.html.twig' %}
+
+{% block title %} Résultat {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="col-md-7">
+                        <h2>Tu es ...</h2>
+                        <p>
+                            Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
+                            sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
+                            necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
+                            alienis nimis implicari molestum esse; commodissimum esse quam laxissimas habenas habere
+                            amicitiae, quas vel adducas, cum velis, vel remittas; caput enim esse ad beate vivendum
+                            securitatem, qua frui non possit animus, si tamquam parturiat unus pro pluribus.
+                        </p>
+                    </div>
+                    <div class="col-md-5">
+                        <a href="#" class="thumbnail">
+                            <img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="...">
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="thumbnail">
+                                <img src="{{ asset('assets/img/THUMB__cosi.jpg') }}" alt="...">
+                            </a>
+                            <h3>Titre</h3>
+                            <p>
+                                Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
+                                sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
+                                necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
+                                alienis nimis implicari molestum esse.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h3>Le tempérament du métier</h3>
+                    <a href="#" class="thumbnail">
+                        <img src="{{ asset('assets/img/graphEx.png') }}" alt="...">
+                    </a>
+                    <div class="row">
+                        <h3>Le salaire</h3>
+                        <p>
+                            Nam quibusdam, quos audio sapientes habitos in Graecia.
+                        </p>
+                        <a href="#" class="thumbnail">
+                            <img src="{{ asset('assets/img/THUMB__h13g.jpg') }}" alt="...">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+    {% block footer %}
+    {% endblock %}

@@ -1,0 +1,58 @@
+{% extends "HomeBundle::base.html.twig" %}
+
+{% block title %} Accueil {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                <div class="text-center">
+                    <h1>Test de personnalité :</h1>
+                    <div class="col-md-6 col-md-offset-3">
+                        <p>
+                            Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris
+                            incertus agitare quaedam conducentia saluti suae per itinera conaretur, remoti sunt omnes de
+                            industria milites agentes in civitatibus perviis.
+                            Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem Gallus de futuris
+                            incertus agitare quaedam conducentia saluti suae per itinera conaretur, remoti sunt omnes de
+                            industria milites agentes in civitatibus perviis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                {% for job in jobs %}
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#" class="thumbnail">
+                            <img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="...">{{ job.name }}
+                        </a>
+
+                    </div>
+                {% endfor %}
+                {#<div class="col-sm-4 col-md-4">#}
+                    {#<a href="#" class="thumbnail">#}
+                        {#<img src="{{ asset('assets/img/THUMB__h13g.jpg') }}" alt="...">#}
+                    {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                    {#<a href="#" class="thumbnail">#}
+                        {#<img src="{{ asset('assets/img/THUMB__cosi.jpg') }}" alt="...">#}
+                    {#</a>#}
+                {#</div>#}
+            </div>
+            <div class="text-center">
+                <a class=" btn btn-primary btn-lg" href="{{ path('home_question1') }}">
+                    Faire le test
+                </a>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

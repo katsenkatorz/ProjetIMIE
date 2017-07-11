@@ -1,0 +1,76 @@
+{% extends 'HomeBundle::base.html.twig' %}
+
+{% block title %} Les métiers {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                {% for job in jobs %}
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#" class="thumbnail">
+                            <img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">
+                            {#<img src="{{ asset(job.image.pathname) }}" alt="job.name">#}
+                            <p class="text-center">{{ job.name }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="" class="thumbnail">#}
+                {#<img  src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+                {#<div class="col-sm-4 col-md-4">#}
+                {#<a href="#" class="thumbnail">#}
+                {#<img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="">#}
+                {#<p class="text-center">métier</p>#}
+                {#</a>#}
+                {#</div>#}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
