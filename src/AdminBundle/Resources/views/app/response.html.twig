@@ -11,68 +11,20 @@
                 <tr>
                     <td>{{ response.label }}</td>
                     <td>{{ response.temperament.name }}</td>
-                    <td>{{ response.temperament.temperament }} {{ response.value }}</td>
-                    <td>{{ response.temperament.opposedTemperament }} {{ 100 - response.value }}</td>
-                    <td>{{ response.image }}</td>
+                    <td>{{ response.temperament.temperament }} {{ -response.value }}</td>
+                    <td>{{ response.temperament.opposedTemperament }} {{ response.value }}</td>
+                    <td>
+                        {% if response.image is not null %}
+                            <img src="{{ asset(response.image.pathname) }}" alt="">
+                        {% else %}
+                            <p>Pas d'image</p>
+                        {% endif %}
+                    </td>
                     <td>
                         {# Modal modification #}
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#modalModifResponse{{ response.id }}"><i class="fa fa-edit"> Modifier</i>
                         </button>
-                        <!-- Modal Response ID-->
-                        <div id="modalModifResponse{{ response.id }}" class="modal fade" role="dialog"
-                             style="display:none;">
-                            <div class="modal-dialog">
-
-                                <!-- Modal Critic content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Modification de : {{ response.label }}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post" class="form-group">
-                                            <label for="labelModifResponse{{ response.id }}">Intitulé</label>
-                                            <input id="labelModifResponse{{ response.id }}" type="text" name="label"
-                                                   value="{{ response.label }}"
-                                                   class="form-control">
-
-                                            <label for="temperament{{ response.id }}">Tempérament</label>
-                                            <select id="temperamentModifResponse{{ response.id }}" name="temperament"
-                                                    class="form-control temperamentModifResponse">
-                                                {% for temperament in temperaments %}
-                                                    {% if temperament.id == response.temperament.id %}
-                                                        <option value="{{ temperament.id }}"
-                                                                selected>{{ temperament.name }}</option>
-                                                    {% else %}
-                                                        <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                            <p class="temperament">TestGauche</p>
-                                            <p class="valueBlockLeft"></p>
-                                            <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                                            <p class="opposedTemperament">TestDroite</p>
-                                            <input id="valueModifResponse{{ response.id }}" type="range" name="value"
-                                                   value="{{ response.value }}"
-                                                   min="0" max="100" class="form-control rangeInput">
-
-                                            <label for="imageModifResponse{{ response.id }}">Image</label>
-                                            <input id="imageModifResponse{{ response.id }}" type="text" name="image"
-                                                   value="{{ response.image }}"
-                                                   class="form-control">
-                                            <br>
-                                            <input type="submit" name="Valider"
-                                                   class="form-control btn btn-primary modalModifResponse"
-                                                   id="{{ response.id }}">
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                     </td>
                     <td>
                         <a class="btn btn-danger"
@@ -82,7 +34,8 @@
                            data-id="{{ response.id }}"><i class="fa fa-trash"> Supprimer</i></a>
                     </td>
                 </tr>
-                <div id="modalConfirmDeleteResponse{{ response.id }}" class="modalConfirmDeleteResponse modal fade" tabindex="-1" role="dialog">
+                <div id="modalConfirmDeleteResponse{{ response.id }}" class="modalConfirmDeleteResponse modal fade"
+                     tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -95,12 +48,87 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                <a id="confirm" data-modalId="modalConfirmDeleteResponse{{ response.id }}" data-id="{{ response.id }}" type="button" class="deleteResponseButton btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                                <a id="confirm" data-modalId="modalConfirmDeleteResponse{{ response.id }}"
+                                   data-id="{{ response.id }}" type="button"
+                                   class="deleteResponseButton btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </table>
+
+        {% if formUpdateResponses is not empty %}
+            {% for formUpdateResponse in formUpdateResponses %}
+                <!-- Modal Response ID-->
+                <div id="modalModifResponse{{ formUpdateResponse["response"].id }}" class="modal fade" role="dialog"
+                     style="display:none;">
+                    <div class="modal-dialog">
+                        <!-- Modal Critic content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modification de
+                                    : {{ formUpdateResponse['response'].label }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ form_start(formUpdateResponse["formUpdateResponse"],{
+                                    'attr': {
+                                        'action': "/admin/question/" ~ formUpdateResponse["questionId"] ~ "/putResponse/" ~ formUpdateResponse["response"].id ~ "",
+                                        'method': 'POST',
+                                        'data-id': formUpdateResponse["response"].id,
+                                        'id': 'formUpdateResponse' ~ formUpdateResponse["response"].id,
+                                        'class': 'formUpdateResponse form-group'
+                                    }
+                                }) }}
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].label, {
+                                    'id': "labelModifResponse" ~ formUpdateResponse["response"].id
+                                }) }}
+                                {{ form_label(formUpdateResponse['formUpdateResponse'], "Valeur") }}
+                                <select name="temperament" class="form-control temperamentModifResponse"
+                                        id="temperamentModifResponse{{ formUpdateResponse["response"].id }}">
+                                    {% for temperament in temperaments %}
+                                        {% if temperament.id == formUpdateResponse['response'].temperament.id %}
+                                            <option value="{{ temperament.id }}"
+                                                    selected>{{ temperament.name }}</option>
+                                        {% else %}
+                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <p class="temperament">TestGauche</p>
+                                <p class="valueBlockLeft"></p>
+                                <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
+                                <p class="opposedTemperament">TestDroite</p>
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].value, {
+                                    "label": false,
+                                    'id': "valueModifResponse" ~ formUpdateResponse["response"].id,
+                                    "attr": {
+                                        "class": "rangeInput",
+                                        "value": formUpdateResponse['response'].value,
+                                    }
+                                }) }}
+                                <div class="control-label"><strong>Image</strong></div>
+                                {% if formUpdateResponse["response"].image is not null %}
+                                    <img src="{{ asset(formUpdateResponse["response"].image.pathname) }}" alt="">
+                                {% endif %}
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].image, {
+                                    'label': false,
+                                    'id': "imageModifResponse" ~ formUpdateResponse["response"].id
+                                }) }}
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].question, {'attr': {'value': formUpdateResponse["questionId"]}}) }}
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].temperament, {'id': "tempModifResponse" ~ formUpdateResponse["response"].id}) }}
+                                {{ form_row(formUpdateResponse["formUpdateResponse"].save, {'attr': {
+                                    'label': false,
+                                    'class': "btn btn-primary form-control"}}) }}
+                                {{ form_end(formUpdateResponse["formUpdateResponse"]) }}
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endif %}

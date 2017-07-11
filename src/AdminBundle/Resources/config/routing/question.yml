@@ -34,7 +34,7 @@ admin_putResponse:
     path:     /{idQuestion}/putResponse/{idResponse}
     defaults:
         _controller: AdminBundle:Question:responseUpdate
-        method: PUT
+        method: POST
 
 admin_deleteResponse:
     path:     /{idQuestion}/deleteResponse/{idResponse}
