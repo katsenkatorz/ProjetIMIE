@@ -54,48 +54,6 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#modalResponse{{ question.id }}">Ajouter une réponse
                     </button>
-                    <!-- Modal Response -->
-                    <div id="modalResponse{{ question.id }}" class="modal fade" role="dialog"
-                         style="display: none;">
-                        <div class="modal-dialog">
-                            <!-- Modal Question content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Ajouter une réponse</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="post" class="form-group">
-                                        <label for="labelResponse{{ question.id }}">Label</label>
-                                        <input type="text" name="labelResponse" id="labelResponse{{ question.id }}"
-                                               class="form-control">
-
-                                        <label for="valueResponse{{ question.id }}">Type de personnalité</label>
-                                        <select name="temperament" class="form-control"
-                                                id="temperamentResponse{{ question.id }}">
-                                            {% for temperament in temperaments %}
-                                                <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <p class="temperament">TestGauche</p>
-                                        <p class="valueBlockLeft"></p>
-                                        <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                                        <p class="opposedTemperament">TestDroite</p>
-                                        <input type="range" name="valueResponse" id="valueResponse{{ question.id }}"
-                                               class="form-control rangeInput">
-
-                                        <label for="imageResponse{{ question.id }}">Image</label>
-                                        <input type="text" name="imageResponse" id="imageResponse{{ question.id }}"
-                                               class="form-control">
-                                        <input type="submit" name="Ajouter"
-                                               class="btn btn-primary form-control submitResponse"
-                                               id="{{ question.id }}">
-                                    </form>
-                                    <div class="modal-footer"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="modalConfirmDeleteQuestion{{ question.id }}" class="modalConfirmDeleteQuestion modal fade"
@@ -148,6 +106,54 @@
             {% endfor %}
         </div>
     </div>
+
+    {% for createResponseForm in createResponseForms %}
+        <!-- Modal Response -->
+        <div id="modalResponse{{ createResponseForm["questionId"] }}" class="modal fade" role="dialog"
+             style="display: none;">
+            <div class="modal-dialog">
+                <!-- Modal Question content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ajouter une réponse</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(createResponseForm["formResponse"], {
+                            'attr': {
+                                'action': "/admin/question/" ~ createResponseForm["questionId"] ~ "/postResponse",
+                                'id': 'formResponse' ~ createResponseForm["questionId"] }}) }}
+                        {{ form_row(createResponseForm["formResponse"].label, {'id': "labelResponse" ~ createResponseForm["questionId"] }) }}
+                        {{ form_label(createResponseForm['formResponse'], "Valeur") }}
+                        <select name="temperament" class="form-control"
+                                id="temperamentResponse{{ createResponseForm["questionId"] }}">
+                            {% for temperament in temperaments %}
+                                <option value="{{ temperament.id }}">{{ temperament.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <p class="temperament">TestGauche</p>
+                        <p class="valueBlockLeft"></p>
+                        <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
+                        <p class="opposedTemperament">TestDroite</p>
+                        {{ form_row(createResponseForm["formResponse"].value, {
+                            'label': false,
+                            'id': "valueResponse" ~ createResponseForm["questionId"],
+                            'attr': {
+                                'class': "rangeInput"
+                            }
+                        }) }}
+                        {{ form_row(createResponseForm["formResponse"].image, {"label": false,'id': "imageResponse" ~ createResponseForm["questionId"]}) }}
+                        {{ form_row(createResponseForm["formResponse"].question, {'attr': {'value': createResponseForm["questionId"]}}) }}
+                        {{ form_row(createResponseForm["formResponse"].temperament, {'id': "tempResponse" ~ createResponseForm["questionId"]}) }}
+                        {{ form_row(createResponseForm["formResponse"].save, {'attr': {'class': "btn btn-primary form-control submitResponse"}}) }}
+                        {{ form_end(createResponseForm["formResponse"]) }}
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
     <!-- Modal Question ID-->
     <div id="modalQuestion" class="modal fade" role="dialog" style="display: none;">
         <div class="modal-dialog">

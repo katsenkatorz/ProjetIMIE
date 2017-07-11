@@ -61,20 +61,24 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Response|bool
      */
-    public function postResponse($label, $value, $image, Question $question, Temperament $temperament)
+    public function postResponse($formResult)
     {
+        $em = $this->getEntityManager();
+        $question = $em->getRepository("AdminBundle:Question")->getQuestionById($formResult["question"]->getData());
+        $temperament = $em->getRepository("AdminBundle:Temperament")->getTemperamentById($formResult['temperament']->getData());
+        $value = $formResult['value']->getData();
 
         if (!$this->checkIfResponseAlreadyExist($value, $question, $temperament) && $value != 50)
         {
-            $em = $this->getEntityManager();
-
             $response = new Response();
 
-            $response->setLabel($label)
-                ->setValue($value)
-                ->setImage($image)
+            $response
+                ->setLabel($formResult['label']->getData())
+                ->setValue($formResult['value']->getData())
+                ->setImage($formResult['image']->getData())
                 ->setQuestion($question)
-                ->setTemperament($temperament);
+                ->setTemperament($temperament)
+                ->setUpdatedAt(new \DateTime());
 
             $em->persist($response);
             $em->flush();
@@ -89,24 +93,31 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * Modifie une réponse
      *
      * @param $id
-     * @param $label
-     * @param $value
-     * @param $image
-     * @param Temperament $temperament
+     * @param $form
      *
      * @return bool|object
      */
-    public function putResponse($id, $label, $value, $image, Temperament $temperament)
+    public function putResponse($id, $form)
     {
         $em = $this->getEntityManager();
-        if ($value != 50) {
+
+        $temperament = $em->getRepository("AdminBundle:Temperament")->getTemperamentById($form['temperament']->getData());
+        $value = $form['value']->getData();
+        $label = $form['label']->getData();
+        $image = $form['image']->getData();
+
+        if ($value != 0) {
             $response = $this->getResponseById($id);
 
             if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $temperament, $id)) {
                 $response->setLabel($label)
                     ->setValue($value)
-                    ->setImage($image)
+                    ->setUpdatedAt(new \DateTime())
                     ->setTemperament($temperament);
+
+                if(!is_null($image))
+                    $response->setImage($image);
+
 
                 $em->persist($response);
                 $em->flush();
@@ -140,10 +151,10 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function checkIfResponseAlreadyExist($value, Question $question, Temperament $temperament, $id = null)
     {
-        if ($value > 50) {
-            $query = "r.value > 50";
-        } else if ($value < 50) {
-            $query = "r.value < 50";
+        if ($value > 0) {
+            $query = "r.value > 0";
+        } else if ($value < 0) {
+            $query = "r.value < 0";
         }
 
         return $this->checkerProcess($query, $question, $temperament, $id);

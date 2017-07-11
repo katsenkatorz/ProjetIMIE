@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             new TestBundle\TestBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new HomeBundle\HomeBundle(),
+            new Grafikart\UploadBundle\UploadBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
