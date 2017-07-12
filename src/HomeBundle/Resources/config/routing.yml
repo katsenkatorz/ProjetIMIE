@@ -15,8 +15,11 @@ home_question2:
     defaults: { _controller: HomeBundle:Home:question2 }
 
 home_metier:
-    path:     /metier
-    defaults: { _controller: HomeBundle:Home:metier }
+    path:     /metier/{jobId}
+    defaults:
+        _controller: HomeBundle:Home:metier
+    requirements:
+        jobId: \d+
 
 home_mentionsLegales:
     path:     /mentionsLegales
