@@ -57,6 +57,9 @@
 /**
 TEMPERAMENT
  */
+.temperament{
+    float: left;
+}
 .opposedTemperament {
     float: right;
 }

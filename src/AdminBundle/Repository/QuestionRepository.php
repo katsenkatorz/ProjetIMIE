@@ -41,15 +41,21 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Question|bool
      */
-    public function postQuestion($label)
+    public function postQuestion($formQuestion)
     {
+        $label = $formQuestion['label']->getData();
+        $temperamentId = $formQuestion['temperament']->getData();
+
+        $temperament = $this->getEntityManager()->getRepository("AdminBundle:Temperament")->getTemperamentById($temperamentId);
+
         if(!$this->checkIfQuestionAlreadyExist($label))
         {
             $em = $this->getEntityManager();
 
             $question = new Question();
 
-            $question->setLabel($label);
+            $question->setLabel($label)
+                ->setTemperament($temperament);
 
             $em->persist($question);
             $em->flush();
@@ -63,17 +69,19 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Modifie une question
      *
-     * @param $id
-     * @param $label
-     *
+     * @param $formData
      * @return null|object
      */
-    public function putQuestion($id, $label)
+    public function putQuestion($id, $formData)
     {
+        $label = $formData['label'];
+        $temperament = $this->getEntityManager()->getRepository('AdminBundle:Temperament')->getTemperamentById($formData['temperament']);
+
         $em = $this->getEntityManager();
 
         $question = $this->getQuestionById($id);
-        $question->setLabel($label);
+        $question->setTemperament($temperament)
+            ->setLabel($label);
 
         $em->persist($question);
         $em->flush();

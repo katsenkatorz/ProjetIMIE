@@ -39,10 +39,33 @@ class Temperament
      */
     private $responses;
 
+    /**
+     * @var ArrayCollection
+     */
+    private $questions;
+
     public function __construct()
     {
         $this->jobPersonnalities = new ArrayCollection();
         $this->responses = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @param Question $questions
+     **/
+    public function setQuestions(Question $questions)
+    {
+        $this->questions->add($questions);
+        return $this;
     }
 
     /**
@@ -65,7 +88,7 @@ class Temperament
     /**
      * @return ArrayCollection
      */
-    public function getJobPersonnalities(): ArrayCollection
+    public function getJobPersonnalities()
     {
         return $this->jobPersonnalities;
     }

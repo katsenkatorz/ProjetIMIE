@@ -10,9 +10,9 @@
             {% for response in responses %}
                 <tr>
                     <td>{{ response.label }}</td>
-                    <td>{{ response.temperament.name }}</td>
-                    <td>{{ response.temperament.temperament }} {{ -response.value }}</td>
-                    <td>{{ response.temperament.opposedTemperament }} {{ response.value }}</td>
+                    <td>{{ response.question.temperament.name }}</td>
+                    <td>{{ response.question.temperament.temperament }} {{ -response.value }}</td>
+                    <td>{{ response.question.temperament.opposedTemperament }} {{ response.value }}</td>
                     <td>
                         {% if response.image is not null %}
                             <img src="{{ asset(response.image.pathname) }}" alt="">
@@ -85,17 +85,7 @@
                                     'id': "labelModifResponse" ~ formUpdateResponse["response"].id
                                 }) }}
                                 {{ form_label(formUpdateResponse['formUpdateResponse'], "Valeur") }}
-                                <select name="temperament" class="form-control temperamentModifResponse"
-                                        id="temperamentModifResponse{{ formUpdateResponse["response"].id }}">
-                                    {% for temperament in temperaments %}
-                                        {% if temperament.id == formUpdateResponse['response'].temperament.id %}
-                                            <option value="{{ temperament.id }}"
-                                                    selected>{{ temperament.name }}</option>
-                                        {% else %}
-                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
+
                                 <p class="temperament">TestGauche</p>
                                 <p class="valueBlockLeft"></p>
                                 <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
@@ -117,7 +107,6 @@
                                     'id': "imageModifResponse" ~ formUpdateResponse["response"].id
                                 }) }}
                                 {{ form_row(formUpdateResponse["formUpdateResponse"].question, {'attr': {'value': formUpdateResponse["questionId"]}}) }}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].temperament, {'id': "tempModifResponse" ~ formUpdateResponse["response"].id}) }}
                                 {{ form_row(formUpdateResponse["formUpdateResponse"].save, {'attr': {
                                     'label': false,
                                     'class': "btn btn-primary form-control"}}) }}

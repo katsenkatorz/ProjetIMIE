@@ -94,11 +94,28 @@
                                 <input type="text" name="labelModifQuestion"
                                        id="labelModifQuestion{{ question.id }}"
                                        class="form-control" value="{{ question.label }}">
+                                <label for="temperamentModifQuestion{{ question.id }}">Tempérament</label>
+                                <select name="temperament" class="form-control temperamentModifQuestion"
+                                        id="temperamentModifQuestion{{ question.id }}">
+                                    {% for temperament in temperaments %}
+                                        {% if temperament.id == question.temperament.id %}
+                                            <option value="{{ temperament.id }}"
+                                                    selected>{{ temperament.name }}</option>
+                                        {% else %}
+                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                <p class="temperament">TestGauche</p>
+                                <p class="opposedTemperament">TestDroite</p>
+                                <br>
+                            </form>
+                            <div class="modal-footer">
                                 <input type="submit" name="Ajouter"
                                        class="btn btn-primary form-control submitModifQuestion"
                                        id="{{ question.id }}">
-                            </form>
-                            <div class="modal-footer"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,7 +126,7 @@
 
     {% for createResponseForm in createResponseForms %}
         <!-- Modal Response -->
-        <div id="modalResponse{{ createResponseForm["questionId"] }}" class="modal fade" role="dialog"
+        <div id="modalResponse{{ createResponseForm["question"].id }}" class="modal fade" role="dialog"
              style="display: none;">
             <div class="modal-dialog">
                 <!-- Modal Question content-->
@@ -121,34 +138,27 @@
                     <div class="modal-body">
                         {{ form_start(createResponseForm["formResponse"], {
                             'attr': {
-                                'action': "/admin/question/" ~ createResponseForm["questionId"] ~ "/postResponse",
-                                'id': 'formResponse' ~ createResponseForm["questionId"] }}) }}
-                        {{ form_row(createResponseForm["formResponse"].label, {'id': "labelResponse" ~ createResponseForm["questionId"] }) }}
+                                'action': "/admin/question/" ~ createResponseForm["question"].id ~ "/postResponse",
+                                'id': 'formResponse' ~ createResponseForm["question"].id }}) }}
+                        {{ form_row(createResponseForm["formResponse"].label, {'id': "labelResponse" ~ createResponseForm["question"].id }) }}
                         {{ form_label(createResponseForm['formResponse'], "Valeur") }}
-                        <select name="temperament" class="form-control"
-                                id="temperamentResponse{{ createResponseForm["questionId"] }}">
-                            {% for temperament in temperaments %}
-                                <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <p class="temperament">TestGauche</p>
-                        <p class="valueBlockLeft"></p>
-                        <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                        <p class="opposedTemperament">TestDroite</p>
+
+                        <p class="temperament">{{ createResponseForm['question'].temperament.temperament }} <span class="valueBlockLeft"></span></p>
+                        <p class="opposedTemperament">{{ createResponseForm['question'].temperament.opposedTemperament }} <span class="valueBlockRight pull-right"></span></p>
                         {{ form_row(createResponseForm["formResponse"].value, {
                             'label': false,
-                            'id': "valueResponse" ~ createResponseForm["questionId"],
+                            'id': "valueResponse" ~ createResponseForm["question"].id,
                             'attr': {
                                 'class': "rangeInput"
                             }
                         }) }}
-                        {{ form_row(createResponseForm["formResponse"].image, {"label": false,'id': "imageResponse" ~ createResponseForm["questionId"]}) }}
-                        {{ form_row(createResponseForm["formResponse"].question, {'attr': {'value': createResponseForm["questionId"]}}) }}
-                        {{ form_row(createResponseForm["formResponse"].temperament, {'id': "tempResponse" ~ createResponseForm["questionId"]}) }}
+                        {{ form_row(createResponseForm["formResponse"].image, {"label": false,'id': "imageResponse" ~ createResponseForm["question"].id}) }}
+                        {{ form_row(createResponseForm["formResponse"].question, {'attr': {'value': createResponseForm["question"].id}}) }}
+                    </div>
+                    <div class="modal-footer">
                         {{ form_row(createResponseForm["formResponse"].save, {'attr': {'class': "btn btn-primary form-control submitResponse"}}) }}
                         {{ form_end(createResponseForm["formResponse"]) }}
                     </div>
-                    <div class="modal-footer"></div>
                 </div>
             </div>
         </div>
@@ -166,10 +176,21 @@
                 <div class="modal-body">
                     {{ form_start(formQuestion) }}
                     {{ form_row(formQuestion.label) }}
-                    {{ form_row(formQuestion.save) }}
-                    {{ form_end(formQuestion) }}
+                    <select name="temperament" class="form-control"
+                            id="temperamentQuestion">
+                        {% for temperament in temperaments %}
+                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <p class="temperament">TestGauche</p>
+                    <p class="opposedTemperament">TestDroite</p>
+                    {{ form_row(formQuestion.temperament, {'id': "tempQuestion" }) }}
+                    <br>
                 </div>
                 <div class="modal-footer">
+                    {{ form_row(formQuestion.save) }}
+                    {{ form_end(formQuestion) }}
                 </div>
             </div>
         </div>

@@ -17,11 +17,6 @@ function loadResponse(idQuestion, env, PanelTitle)
             // On affiche le résultat
             responseContent.html(result);
 
-            loadTemperament("#temperamentResponse"+idQuestion);
-
-            if(result.length > 0)
-                loadTemperament(".temperamentModifResponse");
-
             loadRangeInput(".rangeInput");
 
             $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
@@ -74,14 +69,6 @@ function loadResponse(idQuestion, env, PanelTitle)
             {
                 e.preventDefault();
 
-                var responseId = $(this).attr("data-id");
-                var temperament = $('#temperamentModifResponse' + responseId).val();
-                var hiddenTemp = document.querySelector('#tempModifResponse'+responseId);
-
-                hiddenTemp.value = temperament;
-
-                console.log($(this)[0]);
-
                 var formData = new FormData($(this)[0]);
 
                 // On appelle la route qui permet de sauvegarder les changements
@@ -128,23 +115,23 @@ function loadResponse(idQuestion, env, PanelTitle)
 
 function loadRangeInput(selector)
 {
-    $(selector).each(function ()
+    function changeValue(selector)
     {
-        var value = $(this).val();
-        var valueBlockRight = $(this).parent().prev().prev();
-        var valueBlockLeft = $(this).parent().prev().prev().prev();
+        var value = $(selector).val();
+        var valueBlockRight = $(selector).parent().prev().last();
+        var valueBlockLeft = $(selector).parent().prev().prev().last();
 
         valueBlockRight.html(value);
         valueBlockLeft.html(-value);
+    }
+
+    $(selector).each(function ()
+    {
+        changeValue($(this));
 
         $(this).unbind('click').bind('click', function ()
         {
-            var value = $(this).val();
-            var valueBlockRight = $(this).parent().prev().prev();
-            var valueBlockLeft = $(this).parent().prev().prev().prev();
-
-            valueBlockRight.html(value);
-            valueBlockLeft.html(-value);
+            changeValue($(this));
         });
     });
 }
@@ -159,8 +146,8 @@ function loadTemperament(selector)
             dataType: "json",
             success: function (result)
             {
-                var temperamentContainer = context.next();
-                var opposedTemperamentContainer = context.next().next().next().next();
+                var temperamentContainer = context.next().next();
+                var opposedTemperamentContainer = context.next().next().next();
 
                 temperamentContainer.html(result.temperament);
                 opposedTemperamentContainer.html(result.opposedTemperament);
@@ -182,9 +169,36 @@ function loadTemperament(selector)
     });
 }
 
+function refreshSelectInput(selectInput, hiddenInput)
+{
+    function changeValue(selectInput, hiddenInput)
+    {
+        var temperament = $(selectInput).val();
+        var hiddenTemp = document.querySelector(hiddenInput);
+
+        hiddenTemp.value = temperament;
+    }
+
+    loadTemperament(selectInput);
+    changeValue(selectInput, hiddenInput);
+
+    $(selectInput).unbind('change').bind('change', function ()
+    {
+        loadTemperament(selectInput);
+        changeValue(selectInput, hiddenInput)
+    });
+}
+
 $(document).ready(function ()
 {
     loadRangeInput(".rangeInput");
+    refreshSelectInput('#temperamentQuestion', '#tempQuestion');
+
+
+    $('.temperamentModifQuestion').each(function ()
+    {
+        loadTemperament("#"+$(this).attr("id"));
+    });
 
     // Pour chaque éléments qui contienne un liens a de classe getJobPersonnalityView
     $(".panel-title").unbind("click").bind("click", function ()
@@ -200,11 +214,6 @@ $(document).ready(function ()
         $('#formResponse' + idQuestion).unbind('submit').bind('submit', function (e)
         {
             e.preventDefault();
-
-            var temperament = $("#temperamentResponse" + idQuestion).val();
-            var hiddenTemp = document.querySelector('#tempResponse'+idQuestion);
-
-            hiddenTemp.value = temperament;
 
             var formData = new FormData($(this)[0]);
 
@@ -244,8 +253,6 @@ $(document).ready(function ()
                 }
             });
         });
-
-
     });
 
     $('.modalConfirmDeleteQuestion').unbind('show.bs.modal').bind('show.bs.modal', function (event)
@@ -266,13 +273,19 @@ $(document).ready(function ()
 
         var questionId = $(this).attr('id');
         var label = $("#labelModifQuestion" + questionId).val();
+        var temperament = $("#temperamentModifQuestion" + questionId).val();
         var responseContent = $(".responseContent" + questionId);
+
+        var formData = {
+            label: label,
+            temperament: temperament
+        };
 
         $.ajax({
             url: "/admin/question/put/"+questionId,
             type: "PUT",
             data: {
-                label: label
+                data: formData
             },
             success: function (result)
             {

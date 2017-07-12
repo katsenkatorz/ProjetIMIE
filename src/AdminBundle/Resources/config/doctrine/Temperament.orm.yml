@@ -26,8 +26,8 @@ AdminBundle\Entity\Temperament:
             targetEntity: AdminBundle\Entity\JobPersonnality
             mappedBy: temperament
             cascade: [persist, remove]
-        responses:
-            targetEntity: AdminBundle\Entity\Response
+        questions:
+            targetEntity: AdminBundle\Entity\Question
             mappedBy: temperament
             cascade: [persist, remove]
     lifecycleCallbacks: {  }

@@ -17,4 +17,8 @@ AdminBundle\Entity\Question:
             targetEntity: AdminBundle\Entity\Response
             mappedBy: question
             cascade: [persist, remove]
+    manyToOne:
+        temperament:
+            targetEntity: AdminBundle\Entity\Temperament
+            inversedBy: questions
     lifecycleCallbacks: {  }

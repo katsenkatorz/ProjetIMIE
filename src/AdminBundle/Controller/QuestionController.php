@@ -35,7 +35,7 @@ class QuestionController extends Controller
 
         if($formQuestion->isSubmitted() && $formQuestion->isValid())
         {
-            $QuestionRepo->postQuestion($formQuestion["label"]->getData());
+            $QuestionRepo->postQuestion($formQuestion);
         }
 
         $questions = $QuestionRepo->getQuestions();
@@ -43,7 +43,7 @@ class QuestionController extends Controller
         $createResponseForms = [];
         foreach ($questions as $question)
         {
-            $createResponseForms[] = ["questionId" => $question->getId(), "formResponse" => $this->createForm(ResponseType::class)->createView()];
+            $createResponseForms[] = ["question" => $question, "formResponse" => $this->createForm(ResponseType::class)->createView()];
         }
 
 
@@ -68,12 +68,12 @@ class QuestionController extends Controller
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
         $questionId = $request->attributes->get('idQuestion');
-        $label = $request->get('label');
+        $formData = $request->get('data');
 
-        if(!is_null($questionId) && !is_null($label))
+        if(!is_null($questionId) && !is_null($formData))
         {
-            $result = $QuestionRepo->putQuestion($questionId, $label);
-            return $this->json(["message" => "Le changement du nom de la question est bien effectué", "name" => $result->getLabel()]);
+            $result = $QuestionRepo->putQuestion($questionId, $formData);
+            return $this->json(["message" => "Le changement de la question est bien effectué", "name" => $result->getLabel()]);
         }
 
         return $this->json(["message" => "Erreur lors de la modification"]);
