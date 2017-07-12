@@ -1,0 +1,21 @@
+{% extends 'HomeBundle::base.html.twig' %}
+
+{% block title %} Mentions légales {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                {{ mentionsLegales.value|raw }}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}
