@@ -15,7 +15,8 @@
                         <h2>Tu es ...</h2>
                         <p>
                             Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
-                            sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
+                            sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias,
+                            ne
                             necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
                             alienis nimis implicari molestum esse; commodissimum esse quam laxissimas habenas habere
                             amicitiae, quas vel adducas, cum velis, vel remittas; caput enim esse ad beate vivendum
@@ -34,9 +35,12 @@
                             </a>
                             <h3>Titre</h3>
                             <p>
-                                Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
-                                sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
-                                necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
+                                Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia
+                                quaedam
+                                sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias
+                                amicitias, ne
+                                necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique
+                                rerum,
                                 alienis nimis implicari molestum esse.
                             </p>
                         </div>
@@ -62,5 +66,6 @@
     {% endblock %}
 {% endblock %}
 
-    {% block footer %}
-    {% endblock %}
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}
