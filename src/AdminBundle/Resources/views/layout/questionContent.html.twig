@@ -5,13 +5,15 @@
         <h2>Liste des questions</h2>
     </div>
     <div class="col-md-12">
-        <button type="button" class="btn btn-primary" data-toggle="modal"
+        <button type="button" class="btn btn-primary"
+                data-type="create"
+                data-toggle="modal"
                 data-target="#modalQuestion"><i class="fa fa-plus"></i> Ajouter une question
         </button>
         <div id="responseMessageContent" class="row hidden">
             <div class="col-md-12">
                 <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-type="create">
                         <span aria-hidden="true"><i class="fa fa-close"></i></span>
                     </button>
                     <p id="responseMessage"></p>
@@ -36,13 +38,19 @@
                 </h4>
                 <div class="pull-right inline-block">
                     <a class="btn btn-danger btn-sm" data-toggle="modal"
-                       data-target="#modalConfirmDeleteQuestion{{ question.id }}" data-id="{{ question.id }}"
+                       data-target="#modalConfirmDeleteQuestion" data-id="{{ question.id }}"
                        data-name="{{ question.label }}">
                         <i class="fa fa-trash fa-inverse fa-2x"></i>
                     </a>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                            data-target="#modalModifQuestion{{ question.id }}"><i
-                                class="fa fa-edit fa-inverse fa-2x"></i>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            data-type="update"
+                            data-id="{{ question.id }}"
+                            data-label="{{ question.label }}"
+                            data-temperament="{{ question.temperament.id }}"
+                            data-action="/admin/question/put/{{ question.id }}"
+                            data-toggle="modal"
+                            data-target="#modalQuestion">
+                        <i class="fa fa-edit fa-inverse fa-2x"></i>
                     </button>
                 </div>
             </div>
@@ -51,118 +59,82 @@
                  aria-labelledby="heading{{ question.id }}">
                 <div class="panel-body">
                     <div class="responseContent{{ question.id }}"></div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#modalResponse{{ question.id }}">Ajouter une réponse
+                    <button type="button" class="btn btn-primary"
+                            data-type="create"
+                            data-question="{{ question.id }}"
+                            data-action="/admin/question/{{ question.id }}/postResponse"
+                            data-temperament="{{ question.temperament.id }}"
+                            data-toggle="modal"
+                            data-target="#modalResponse">Ajouter une réponse
                     </button>
-                </div>
-            </div>
-            <div id="modalConfirmDeleteQuestion{{ question.id }}" class="modalConfirmDeleteQuestion modal fade"
-                 tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <p class="alert alert-danger"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                            <a id="confirm" type="button" class="btn btn-danger deleteQuestion"><i
-                                        class="fa fa-trash"></i>&nbsp;Oui</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Modal ModifQuestion -->
-            <div id="modalModifQuestion{{ question.id }}" class="modal fade" role="dialog"
-                 style="display: none;">
-                <div class="modal-dialog">
-                    <!-- Modal Question content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Modifier la question</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="post" class="form-group">
-                                <label for="labelModifQuestion{{ question.id }}">Label</label>
-                                <input type="text" name="labelModifQuestion"
-                                       id="labelModifQuestion{{ question.id }}"
-                                       class="form-control" value="{{ question.label }}">
-                                <label for="temperamentModifQuestion{{ question.id }}">Tempérament</label>
-                                <select name="temperament" class="form-control temperamentModifQuestion"
-                                        id="temperamentModifQuestion{{ question.id }}">
-                                    {% for temperament in temperaments %}
-                                        {% if temperament.id == question.temperament.id %}
-                                            <option value="{{ temperament.id }}"
-                                                    selected>{{ temperament.name }}</option>
-                                        {% else %}
-                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                                <br>
-                                <p class="temperament">TestGauche</p>
-                                <p class="opposedTemperament">TestDroite</p>
-                                <br>
-                            </form>
-                            <div class="modal-footer">
-                                <input type="submit" name="Ajouter"
-                                       class="btn btn-primary form-control submitModifQuestion"
-                                       id="{{ question.id }}">
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    {% for createResponseForm in createResponseForms %}
-        <!-- Modal Response -->
-        <div id="modalResponse{{ createResponseForm["question"].id }}" class="modal fade" role="dialog"
-             style="display: none;">
-            <div class="modal-dialog">
-                <!-- Modal Question content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ajouter une réponse</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(createResponseForm["formResponse"], {
-                            'attr': {
-                                'action': "/admin/question/" ~ createResponseForm["question"].id ~ "/postResponse",
-                                'id': 'formResponse' ~ createResponseForm["question"].id }}) }}
-                        {{ form_row(createResponseForm["formResponse"].label, {'id': "labelResponse" ~ createResponseForm["question"].id }) }}
-                        {{ form_label(createResponseForm['formResponse'], "Valeur") }}
-
-                        <p class="temperament">{{ createResponseForm['question'].temperament.temperament }} <span class="valueBlockLeft"></span></p>
-                        <p class="opposedTemperament">{{ createResponseForm['question'].temperament.opposedTemperament }} <span class="valueBlockRight pull-right"></span></p>
-                        {{ form_row(createResponseForm["formResponse"].value, {
-                            'label': false,
-                            'id': "valueResponse" ~ createResponseForm["question"].id,
-                            'attr': {
-                                'class': "rangeInput"
-                            }
-                        }) }}
-                        {{ form_row(createResponseForm["formResponse"].image, {"label": false,'id': "imageResponse" ~ createResponseForm["question"].id}) }}
-                        {{ form_row(createResponseForm["formResponse"].question, {'attr': {'value': createResponseForm["question"].id}}) }}
-                    </div>
-                    <div class="modal-footer">
-                        {{ form_row(createResponseForm["formResponse"].save, {'attr': {'class': "btn btn-primary form-control submitResponse"}}) }}
-                        {{ form_end(createResponseForm["formResponse"]) }}
-                    </div>
+    <!-- Modal Delete Question -->
+    <div id="modalConfirmDeleteQuestion" class="modalConfirmDeleteQuestion modal fade"
+         tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirm" type="button" class="btn btn-danger deleteQuestion"><i
+                                class="fa fa-trash"></i>&nbsp;Oui</a>
                 </div>
             </div>
         </div>
-    {% endfor %}
+    </div>
+
+    <!-- Modal Response -->
+    <div id="modalResponse" class="modal fade" role="dialog"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ajouter une réponse</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formResponse, {
+                        'attr': {
+                            'id': 'formResponse' }
+                    }) }}
+                    {{ form_row(formResponse.label, { 'id': "labelResponse" }) }}
+                    <p class="control-label" style="font-weight: bold">Valeur</p>
+                    <div>
+                        <p id="temperamentResponse" class="pull-left">Temperament</p>
+                        <p id="opposedTemperamentResponse" class="pull-right">Temperament opposé</p>
+                    </div>
+                    <br>
+                    <div>
+                        <p id="valueTempResponse" class="pull-left">LEFT</p>
+                        <p id="valueOpposedTempResponse" class="pull-right">RIGHT</p>
+                    </div>
+                    {{ form_row(formResponse.value, {
+                        'label': false,
+                        'id': "valueResponse",
+                    }) }}
+                    <p class="control-label" style="font-weight: bold">Image</p>
+                    {{ form_row(formResponse.image, {"label": false, 'id': "imageResponse"}) }}
+                    {{ form_row(formResponse.question, {'id': "idQuestionResponse"}) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_row(formResponse.save, {'attr': {'class': "btn btn-primary form-control submitResponse"}}) }}
+                    {{ form_end(formResponse) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Question ID-->
     <div id="modalQuestion" class="modal fade" role="dialog" style="display: none;">
@@ -171,20 +143,20 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ajouter une question</h4>
+                    <h4 class="modal-title" id="modalTitleQuestion">Ajouter une question</h4>
                 </div>
                 <div class="modal-body">
-                    {{ form_start(formQuestion) }}
+                    {{ form_start(formQuestion, {'attr': {'id': "formQuestion", 'action': "" }}) }}
                     {{ form_row(formQuestion.label) }}
                     <select name="temperament" class="form-control"
-                            id="temperamentQuestion">
+                            id="selectTemperamentQuestion">
                         {% for temperament in temperaments %}
                             <option value="{{ temperament.id }}">{{ temperament.name }}</option>
                         {% endfor %}
                     </select>
                     <br>
-                    <p class="temperament">TestGauche</p>
-                    <p class="opposedTemperament">TestDroite</p>
+                    <p id="temperamentQuestion" class="pull-left">TestGauche</p>
+                    <p id="opposedTemperamentQuestion" class="pull-right">TestDroite</p>
                     {{ form_row(formQuestion.temperament, {'id': "tempQuestion" }) }}
                     <br>
                 </div>

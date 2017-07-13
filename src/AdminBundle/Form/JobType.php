@@ -21,7 +21,7 @@ class JobType extends AbstractType
             ->add("maxSalary", IntegerType::class, ["label" => "Salaire maximum"])
             ->add("description", CKEditorType::class, ["label" => "Description du poste"])
             ->add('image', FileType::class, ['required' => false])
-            ->add("save", SubmitType::class, ["label" => "Créer un job"]);
+            ->add("save", SubmitType::class, ["label" => "Créer un métier"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

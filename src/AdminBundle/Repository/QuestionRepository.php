@@ -70,23 +70,28 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
      * Modifie une question
      *
      * @param $formData
-     * @return null|object
+     * @return bool|object
      */
     public function putQuestion($id, $formData)
     {
-        $label = $formData['label'];
-        $temperament = $this->getEntityManager()->getRepository('AdminBundle:Temperament')->getTemperamentById($formData['temperament']);
+        $label = $formData['label']->getData();
+        $temperament = $this->getEntityManager()->getRepository('AdminBundle:Temperament')->getTemperamentById($formData['temperament']->getData());
 
         $em = $this->getEntityManager();
-
         $question = $this->getQuestionById($id);
-        $question->setTemperament($temperament)
-            ->setLabel($label);
 
-        $em->persist($question);
-        $em->flush();
+        if($question)
+        {
+            $question->setTemperament($temperament)
+                ->setLabel($label);
 
-        return $question;
+            $em->persist($question);
+            $em->flush();
+
+            return $question;
+        }
+
+        return false;
     }
 
     /**
