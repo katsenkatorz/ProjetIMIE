@@ -15,7 +15,8 @@
                         <h2>Tu es ...</h2>
                         <p>
                             Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
-                            sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
+                            sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias,
+                            ne
                             necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
                             alienis nimis implicari molestum esse; commodissimum esse quam laxissimas habenas habere
                             amicitiae, quas vel adducas, cum velis, vel remittas; caput enim esse ad beate vivendum
@@ -29,31 +30,44 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <p>video</p>
                             <a href="#" class="thumbnail">
                                 <img src="{{ asset('assets/img/THUMB__cosi.jpg') }}" alt="...">
                             </a>
-                            <h3>Titre</h3>
+                            <h3>Titre Vidéo</h3>
                             <p>
-                                Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
-                                sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias, ne
-                                necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique rerum,
+                                Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia
+                                quaedam
+                                sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias
+                                amicitias, ne
+                                necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique
+                                rerum,
                                 alienis nimis implicari molestum esse.
                             </p>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <h3>Le tempérament du métier</h3>
-                    <a href="#" class="thumbnail">
-                        <img src="{{ asset('assets/img/graphEx.png') }}" alt="...">
-                    </a>
+                    <p>Métier : {{ job.name }}</p>
+                    <canvas id="myChart" width="800" height="600">
+
+                    </canvas>
                     <div class="row">
+                        {# jobs #}
                         <h3>Le salaire</h3>
-                        <p>
-                            Nam quibusdam, quos audio sapientes habitos in Graecia.
+                        <p class="pull-left">
+                            Salaire minimum :
+                            {{ job.minSalary }}€
                         </p>
+                        <p class="pull-right">
+                            Salaire maximum :
+                            {{ job.maxSalary }}€
+                        </p><br />
+                        {# img job #}
                         <a href="#" class="thumbnail">
-                            <img src="{{ asset('assets/img/THUMB__h13g.jpg') }}" alt="...">
+                            <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
                         </a>
                     </div>
                 </div>
@@ -62,5 +76,6 @@
     {% endblock %}
 {% endblock %}
 
-    {% block footer %}
-    {% endblock %}
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}

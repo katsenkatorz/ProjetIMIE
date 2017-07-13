@@ -29,21 +29,10 @@
                 {% for job in jobs %}
                     <div class="col-sm-4 col-md-4">
                         <a href="#" class="thumbnail">
-                            <img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="...">{{ job.name }}
+                            <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="job.name">
                         </a>
-
                     </div>
                 {% endfor %}
-                {#<div class="col-sm-4 col-md-4">#}
-                    {#<a href="#" class="thumbnail">#}
-                        {#<img src="{{ asset('assets/img/THUMB__h13g.jpg') }}" alt="...">#}
-                    {#</a>#}
-                {#</div>#}
-                {#<div class="col-sm-4 col-md-4">#}
-                    {#<a href="#" class="thumbnail">#}
-                        {#<img src="{{ asset('assets/img/THUMB__cosi.jpg') }}" alt="...">#}
-                    {#</a>#}
-                {#</div>#}
             </div>
             <div class="text-center">
                 <a class=" btn btn-primary btn-lg" href="{{ path('home_question1') }}">
@@ -55,4 +44,5 @@
 {% endblock %}
 
 {% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
 {% endblock %}

@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    <div xmlns="http://www.w3.org/1999/html">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
 <form action="{{ path("fos_user_security_check") }}" method="post">
@@ -25,5 +25,7 @@
         <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label><br>
     </div>
 
-    <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"/>
+    <input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"/>
+    <a class="btn btn-default pull-right" href="{{ path('fos_user_registration_register') }}" >M'enregistrer</a>
 </form>
+

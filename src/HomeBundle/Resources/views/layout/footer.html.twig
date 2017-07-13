@@ -1,0 +1,11 @@
+<footer>
+    <div class="text-center">
+        {% for parameter in parameters %}
+            {% if parameter.id == 4 %}
+                <a href="{{ path('home_mentionsLegales') }}">{{ parameter.label }}</a>
+            {% else %}
+                {{ parameter.value ~ ' | ' }}
+            {% endif %}
+        {% endfor %}
+    </div>
+</footer>

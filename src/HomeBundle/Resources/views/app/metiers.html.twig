@@ -1,0 +1,28 @@
+{% extends 'HomeBundle::base.html.twig' %}
+
+{% block title %} Les métiers {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                {% for job in jobs %}
+                    <div class="col-sm-4 col-md-4">
+                        <a href="#" class="thumbnail aJob">
+                            <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="job.name">
+                            <p class="text-center">{{ job.name }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}

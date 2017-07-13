@@ -2,9 +2,9 @@ home_homepage:
     path:     /
     defaults: { _controller: HomeBundle:Home:index }
 
-home_jobs:
-    path:     /jobs
-    defaults: { _controller: HomeBundle:Home:jobs }
+home_metiers:
+    path:     /metiers
+    defaults: { _controller: HomeBundle:Home:metiers }
 
 home_question1:
     path:     /question1
@@ -14,7 +14,15 @@ home_question2:
     path:     /question2
     defaults: { _controller: HomeBundle:Home:question2 }
 
-home_result:
-    path:     /result
-    defaults: { _controller: HomeBundle:Home:result }
+home_metier:
+    path:     /metier/{jobId}
+    defaults:
+        _controller: HomeBundle:Home:metier
+    requirements:
+        jobId: \d+
+
+home_mentionsLegales:
+    path:     /mentionsLegales
+    defaults: { _controller: HomeBundle:Home:mentionsLegales }
+
 
