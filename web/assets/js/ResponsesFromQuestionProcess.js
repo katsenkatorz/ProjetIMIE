@@ -17,106 +17,53 @@ function loadResponse(idQuestion, env, PanelTitle)
             // On affiche le résultat
             responseContent.html(result);
 
-            loadTemperament("#temperamentResponse"+idQuestion);
-
-            if(result.length > 0)
-                loadTemperament(".temperamentModifResponse");
-
             loadRangeInput(".rangeInput");
 
             $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
             {
                 var modal = $(this);
                 var button = $(event.relatedTarget);
+                var action = button.data('action');
+
                 var name = button.data('name');
 
                 modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
                 modal.find('.modal-body p').html('Etes-vous sûr de supprimer la réponse :&nbsp;<strong>' + name + '</strong>');
-            });
 
-            // Supression d'une réponse
-            $(".deleteResponseButton").unbind('click').bind('click', function (e)
-            {
-                e.preventDefault();
+                // Supression d'une réponse
+                $(".deleteResponseButton").unbind('click').bind('click', function (e)
+                {
+                    e.preventDefault();
 
-                var responseId = $(this).attr('data-id');
-                var idModal = $(this).attr('data-modalId');
-
-                $.ajax({
-                    url: "/admin/question/"+idQuestion+"/deleteResponse/"+responseId,
-                    type: "DELETE",
-                    success: function (result)
-                    {
-                        $(idModal).modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-
-                        $("#responseMessageContent")
-                            .fadeIn(250)
-                            .removeClass('hidden');
-                        $("#responseMessage").html(result.message);
-                        setTimeout(function ()
+                    $.ajax({
+                        url: action,
+                        type: "DELETE",
+                        success: function (result)
                         {
-                            $("#responseMessageContent").fadeOut(250);
-                        }, 5000);
+                            $('#modalConfirmDeleteResponse').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
 
-                        PanelTitle.trigger("click");
-                        setTimeout(function ()
-                        {
+                            $("#responseMessageContent")
+                                .fadeIn(250)
+                                .removeClass('hidden');
+                            $("#responseMessage").html(result.message);
+                            setTimeout(function ()
+                            {
+                                $("#responseMessageContent").fadeOut(250);
+                            }, 5000);
+
                             PanelTitle.trigger("click");
-                        }, 500);
-                    }
+                            setTimeout(function ()
+                            {
+                                PanelTitle.trigger("click");
+                            }, 500);
+                        }
+                    });
                 });
             });
 
-            // Au click sur valider du modal de modification d'une réponse
-            $(".formUpdateResponse").unbind('submit').bind('submit', function (e)
-            {
-                e.preventDefault();
 
-                var responseId = $(this).attr("data-id");
-                var temperament = $('#temperamentModifResponse' + responseId).val();
-                var hiddenTemp = document.querySelector('#tempModifResponse'+responseId);
-
-                hiddenTemp.value = temperament;
-
-                console.log($(this)[0]);
-
-                var formData = new FormData($(this)[0]);
-
-                // On appelle la route qui permet de sauvegarder les changements
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: "POST",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (result)
-                    {
-                        // Fermeture du modal en cas de success
-                        $('#modalModifResponse' + idQuestion).modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-
-                        $("#responseMessageContent")
-                            .fadeIn(250)
-                            .removeClass('hidden');
-
-                        $("#responseMessage").html(result.message);
-                        setTimeout(function ()
-                        {
-                            $("#responseMessageContent").fadeOut(250);
-                        }, 5000);
-
-                        PanelTitle.trigger("click");
-                        setTimeout(function()
-                        {
-                            PanelTitle.trigger("click");
-                        }, 500);
-                    }
-                });
-            });
 
         },
         error: function (error)
@@ -126,41 +73,43 @@ function loadResponse(idQuestion, env, PanelTitle)
     });
 }
 
-function loadRangeInput(selector)
+function loadRangeInput(inputRange)
 {
-    $(selector).each(function ()
+    function changeValue(inputRange)
     {
-        var value = $(this).val();
-        var valueBlockRight = $(this).parent().prev().prev();
-        var valueBlockLeft = $(this).parent().prev().prev().prev();
+        var value = $(inputRange).val();
+        var valueBlockRight = $('#valueTempResponse');
+        var valueBlockLeft = $("#valueOpposedTempResponse");
 
         valueBlockRight.html(value);
         valueBlockLeft.html(-value);
+    }
 
-        $(this).unbind('click').bind('click', function ()
+    $(inputRange).each(function ()
+    {
+        changeValue($(this));
+
+        $(this).unbind('change').bind('change', function ()
         {
-            var value = $(this).val();
-            var valueBlockRight = $(this).parent().prev().prev();
-            var valueBlockLeft = $(this).parent().prev().prev().prev();
-
-            valueBlockRight.html(value);
-            valueBlockLeft.html(-value);
+            changeValue($(this));
         });
     });
 }
 
-function loadTemperament(selector)
+function loadTemperament(idTemperament, temperamentDiv, opposedTempDiv, selectDiv)
 {
-    function getHomonyme(idTemperament, context)
+    selectDiv = selectDiv || false;
+
+    function getHomonyme(idTemperament, temperamentDiv, opposedTempDiv)
     {
         $.ajax({
-            url: "/admin/job/getTemperament/"+idTemperament,
+            url: "/admin/job/getTemperament/" + idTemperament,
             type: "GET",
             dataType: "json",
             success: function (result)
             {
-                var temperamentContainer = context.next();
-                var opposedTemperamentContainer = context.next().next().next().next();
+                var temperamentContainer = $(temperamentDiv);
+                var opposedTemperamentContainer = $(opposedTempDiv);
 
                 temperamentContainer.html(result.temperament);
                 opposedTemperamentContainer.html(result.opposedTemperament);
@@ -172,19 +121,88 @@ function loadTemperament(selector)
         });
     }
 
-    getHomonyme($(selector).val(), $(selector));
+    getHomonyme(idTemperament, temperamentDiv, opposedTempDiv);
 
-    $(selector).change(function ()
+    if (selectDiv)
     {
-        var id = $(this).val();
+        $(selectDiv).unbind('change').bind("change", function ()
+        {
+            var id = $(this).val();
 
-        getHomonyme(id, $(this));
+            getHomonyme(id, temperamentDiv, opposedTempDiv);
+        });
+    }
+}
+
+function refreshSelectInput(selectInput, hiddenInput)
+{
+    function changeValue(selectInput, hiddenInput)
+    {
+        var temperament = $(selectInput).val();
+        var hiddenTemp = document.querySelector(hiddenInput);
+
+        hiddenTemp.value = temperament;
+    }
+
+    changeValue(selectInput, hiddenInput);
+
+    $(selectInput).unbind('change').bind('change', function ()
+    {
+        changeValue(selectInput, hiddenInput)
+    });
+}
+
+function sendResponse(form, action, PanelTitle)
+{
+    $(form).unbind('submit').bind('submit', function (e)
+    {
+        e.preventDefault();
+
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: action,
+            type: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result)
+            {
+
+                // Fermeture du modal en cas de success
+                $('#modalResponse').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(result.message);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
+
+                PanelTitle.trigger("click");
+                setTimeout(function ()
+                {
+                    PanelTitle.trigger("click");
+                }, 500);
+            },
+            error: function (error)
+            {
+                console.log(error);
+            }
+        });
     });
 }
 
 $(document).ready(function ()
 {
-    loadRangeInput(".rangeInput");
+    loadRangeInput("#valueResponse");
+
+    refreshSelectInput('#selectTemperamentQuestion', '#tempQuestion');
 
     // Pour chaque éléments qui contienne un liens a de classe getJobPersonnalityView
     $(".panel-title").unbind("click").bind("click", function ()
@@ -196,55 +214,33 @@ $(document).ready(function ()
 
         loadResponse(idQuestion, env, PanelTitle);
 
-        // Ajout d'une réponse
-        $('#formResponse' + idQuestion).unbind('submit').bind('submit', function (e)
+        // Ajout/Modification d'une réponse
+        $('#modalResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
         {
-            e.preventDefault();
+            var button = $(event.relatedTarget);
+            var idQuestion = button.data('question');
+            var idTemperament = button.data('temperament');
+            var hiddenQuestion = $('#idQuestionResponse');
+            var action = button.data('action');
 
-            var temperament = $("#temperamentResponse" + idQuestion).val();
-            var hiddenTemp = document.querySelector('#tempResponse'+idQuestion);
+            hiddenQuestion.val(idQuestion);
 
-            hiddenTemp.value = temperament;
+            loadTemperament(idTemperament, "#temperamentResponse", "#opposedTemperamentResponse");
 
-            var formData = new FormData($(this)[0]);
+            if(button.data('type') === 'create')
+                sendResponse("#formResponse", action, PanelTitle);
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: "POST",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (result)
-                {
+            if(button.data('type') === 'update')
+            {
+                var value = button.data('value');
+                var label = button.data('label');
 
-                    // Fermeture du modal en cas de success
-                    $('#modalResponse' + idQuestion).modal('hide');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
+                $('#labelResponse').val(label);
+                $('#valueResponse').val(value);
 
-                    $("#responseMessageContent")
-                        .fadeIn(250)
-                        .removeClass('hidden');
-                    $("#responseMessage").html(result.message);
-                    setTimeout(function ()
-                    {
-                        $("#responseMessageContent").fadeOut(250);
-                    }, 5000);
-
-                    PanelTitle.trigger("click");
-                    setTimeout(function ()
-                    {
-                        PanelTitle.trigger("click");
-                    }, 500);
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                }
-            });
+                sendResponse("#formResponse", action, PanelTitle);
+            }
         });
-
 
     });
 
@@ -253,60 +249,107 @@ $(document).ready(function ()
         var modal = $(this);
         var button = $(event.relatedTarget);
         var name = button.data('name');
+        var questionId = button.data('id');
+
 
         modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
         modal.find('.modal-body p').html('Etes-vous sûr de supprimer la question :&nbsp;<strong>' + name + '</strong>');
-    });
 
+        // Suppresion d'une question
+        $(".deleteQuestion").unbind('click').bind('click', function (e)
+        {
+            e.preventDefault();
 
-    // Modification d'une question
-    $(".submitModifQuestion").unbind('click').bind('click', function (e)
-    {
-        e.preventDefault();
-
-        var questionId = $(this).attr('id');
-        var label = $("#labelModifQuestion" + questionId).val();
-        var responseContent = $(".responseContent" + questionId);
-
-        $.ajax({
-            url: "/admin/question/put/"+questionId,
-            type: "PUT",
-            data: {
-                label: label
-            },
-            success: function (result)
-            {
-                $('#modalModifQuestion' + questionId).modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-                $("#questionLabelDiv"+questionId).html(result.name);
-                $("#responseMessageContent")
-                    .fadeIn(250)
-                    .removeClass('hidden');
-                $("#responseMessage").html(result.message);
-                setTimeout(function ()
+            $.ajax({
+                url: "/admin/question/delete/" + questionId,
+                type: "DELETE",
+                success: function ()
                 {
-                    $("#responseMessageContent").fadeOut(250);
-                }, 5000);
-            }
+                    window.location = window.location.href;
+                }
+            });
         });
     });
 
-    // Suppresion d'une question
-    $(".deleteQuestion").unbind('click').bind('click', function (e)
+
+    $('#modalQuestion').unbind('show.bs.modal').bind('show.bs.modal', function (event)
     {
-        e.preventDefault();
+        var modal = $(this);
+        var button = $(event.relatedTarget);
 
-        var questionId = $(this).attr("data-id");
+        // Récupération des inputs
+        var hiddenTemp = $("#tempQuestion");
+        var selectTemp = $('#selectTemperamentQuestion');
+        var labelTemp = $('#question_label');
+        var submitButton = $('#question_save');
+        var modalTitle = $('#modalTitleQuestion');
+        var formQuestion = $('#formQuestion');
+        var idTempForCreate = selectTemp.val();
 
-        $.ajax({
-            url: "/admin/question/delete/"+questionId,
-            type: "DELETE",
-            success: function (result)
+        loadTemperament(idTempForCreate, "#temperamentQuestion", "#opposedTemperamentQuestion", "#selectTemperamentQuestion");
+
+        formQuestion.unbind('submit').bind('submit');
+        labelTemp.val("");
+        submitButton.html('Ajouter une question');
+        modalTitle.html("Ajouter une question");
+
+        if (button.data('type') === 'update')
+        {
+            // Récupération des data
+            var id = button.data('id');
+            var label = button.data('label');
+            var temperament = button.data('temperament');
+            var action = button.data('action');
+
+            // Mise à jours des inputs avec les data
+            submitButton.html("Modifier la question");
+            labelTemp.val(label);
+            modalTitle.html("Modifier une question");
+            selectTemp.val(temperament);
+            hiddenTemp.val(id);
+
+            refreshSelectInput('#selectTemperamentQuestion', '#tempQuestion');
+
+            loadTemperament(temperament, "#temperamentQuestion", "#opposedTemperamentQuestion", "#selectTemperamentQuestion");
+
+            // Requete ajax
+            formQuestion.unbind('submit').bind('submit', function (e)
             {
-                window.location = window.location.href;
-            }
-        });
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: action,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result)
+                    {
+                        modal.modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        $("#questionLabelDiv" + id).html(result.name);
+
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(result.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
+                    },
+                    error: function (error)
+                    {
+                        console.log(error);
+                    }
+                });
+            });
+        }
     });
+
 });

@@ -24,9 +24,31 @@ class Question
      */
     private $responses;
 
+    /**
+     * @var Temperament
+     */
+    private $temperament;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
+    }
+
+    /**
+     * @return Temperament
+     */
+    public function getTemperament()
+    {
+        return $this->temperament;
+    }
+
+    /**
+     * @param mixed $temperament
+     **/
+    public function setTemperament($temperament)
+    {
+        $this->temperament = $temperament;
+        return $this;
     }
 
     /**

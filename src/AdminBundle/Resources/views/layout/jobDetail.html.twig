@@ -5,7 +5,9 @@
         <h2>Liste des métiers</h2>
     </div>
     <div class="col-md-12">
-        <button type="button" class="btn btn-primary" data-toggle="modal"
+        <button type="button" class="btn btn-primary"
+                data-type="create"
+                data-toggle="modal"
                 data-target="#modalJob"><i class="fa fa-plus"></i> Ajouter un métier
         </button>
         <div id="responseMessageContent" class="row hidden">
@@ -33,12 +35,24 @@
                                aria-controls="collapse{{ job.id }}">{{ job.name }}</a>
                         </h4>
                         <div class="pull-right inline-block">
-                            <a class="btn btn-danger btn-sm" data-target="#modalDeleteJob{{ job.id }}"
+                            <a class="btn btn-danger btn-sm" data-target="#modalDeleteJob"
                                data-toggle="modal"
-                               data-name="{{ job.name }}" data-id="{{ job.id }}"><i
-                                        class="fa fa-trash fa-inverse fa-2x"></i></a>
-                            <a type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                               data-target="#modifJob{{ job.id }}"><i class="fa fa-edit fa-inverse fa-2x"></i></a>
+                               data-action="/admin/job/{{ job.id }}/delete"
+                               data-name="{{ job.name }}"
+                               data-job="{{ job.id }}">
+                                <i class="fa fa-trash fa-inverse fa-2x"></i>
+                            </a>
+                            <a type="button" class="btn btn-primary btn-sm updateJob"
+                               data-job="{{ job.id }}"
+                               data-description="{{ job.description }}"
+                               data-min-salary="{{ job.minSalary }}"
+                               data-max-salary="{{ job.maxSalary }}"
+                               data-name="{{ job.name }}"
+                               data-action="/admin/job/{{ job.id }}/put"
+                               data-toggle="modal"
+                               data-target="#modalUpdateJob">
+                                <i class="fa fa-edit fa-inverse fa-2x"></i>
+                            </a>
                         </div>
                     </div>
                     <div id="{{ job.id }}" class="panel-collapse collapse" role="tabpanel">
@@ -47,63 +61,29 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="modalDeleteJob{{ job.id }}" class="modalDeleteJob modal fade" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title"></h4>
-                            </div>
-                            <div class="modal-body">
-                                <p class="alert alert-danger"></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                <a id="confirm" data-id="{{ job.id }}" type="button" class="btn btn-danger deleteJob"><i
-                                            class="fa fa-trash"></i>&nbsp;Oui</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             {% endfor %}
         </div>
     </div>
 
-    {% for updateForm in updateForms %}
-        <div id="modifJob{{ updateForm.jobId }}" class="modal fade" role="dialog" style="display:none;">
-            <div class="modal-dialog">
-                <!-- Modal ModifJob content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modifier un métier</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        {{ form_start(updateForm.form, {
-                            'method': 'POST',
-                            'attr': {
-                                'class': 'formModifJob',
-                                'id': 'formModifJob'+ updateForm.jobId,
-                                'data-id': updateForm.jobId
-                            }
-                        }) }}
-                        {{ form_row(updateForm.form.name, {'id': 'modifName' ~ updateForm.jobId }) }}
-                        {{ form_row(updateForm.form.minSalary, {'id': 'modifMinSalary' ~ updateForm.jobId }) }}
-                        {{ form_row(updateForm.form.maxSalary, {'id': 'modifMaxSalary' ~ updateForm.jobId }) }}
-                        {{ form_row(updateForm.form.description, {'id': 'modifDescription' ~ updateForm.jobId }) }}
-                        {{ form_row(updateForm.form.image) }}
-                        {{ form_row(updateForm.form.save, {'label': 'Modifier', 'attr': {'class': 'btn btn-primary modifJob','data-id': updateForm.jobId }}) }}
-                        {{ form_end(updateForm.form) }}
-                    </div>
-                    <div class="modal-footer">
-                    </div>
+    <div id="modalDeleteJob" class="modalDeleteJob modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirm" type="button" class="btn btn-danger deleteJob"><i
+                                class="fa fa-trash"></i>&nbsp;Oui</a>
                 </div>
             </div>
         </div>
-    {% endfor %}
+    </div>
 
     <!-- Modal Job ID-->
     <div id="modalJob" class="modal fade" role="dialog" style="display:none;">
@@ -115,11 +95,52 @@
                     <h4 class="modal-title">Ajouter un métier</h4>
                 </div>
                 <div class="modal-body">
-                    {{ form_start(formJob) }}
-                    {{ form_widget(formJob) }}
+                    {{ form_start(formJob, {
+                        'method': 'POST',
+                        'attr': {
+                            'class': 'formJob',
+                            'id': 'formJob',
+                        }
+                    }) }}
+                    {{ form_row(formJob.name, {'id': 'nameInput' }) }}
+                    {{ form_row(formJob.minSalary, {'id': 'minSalaryInput' }) }}
+                    {{ form_row(formJob.maxSalary, {'id': 'maxSalaryInput' }) }}
+                    {{ form_row(formJob.description, {'id': 'descriptionInput' }) }}
+                    {{ form_row(formJob.image) }}
+                    {{ form_row(formJob.save, {'id': 'submitInput','attr': {'class': 'btn btn-primary modifJob' }}) }}
                     {{ form_end(formJob) }}
                 </div>
                 <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUpdateJob" class="modal fade" role="dialog" style="display:none;">
+        <div class="modal-dialog">
+            <!-- Modal Critic content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modifier un métier</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formUpdateJob, {
+                        'method': 'POST',
+                        'attr': {
+                            'class': 'formUpdateJob',
+                            'id': 'formUpdateJob',
+                        }
+                    }) }}
+                    {{ form_row(formUpdateJob.name, {'id': 'nameUpdateInput' }) }}
+                    {{ form_row(formUpdateJob.minSalary, {'id': 'minSalaryUpdateInput' }) }}
+                    {{ form_row(formUpdateJob.maxSalary, {'id': 'maxSalaryUpdateInput' }) }}
+                    {{ form_row(formUpdateJob.description, {'id': 'descriptionUpdateInput' }) }}
+                    {{ form_row(formUpdateJob.image) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_row(formUpdateJob.save, {'id': 'submitUpdateInput','attr': {'class': 'btn btn-primary modifJob ' }}) }}
+                    {{ form_end(formUpdateJob) }}
                 </div>
             </div>
         </div>

@@ -30,30 +30,25 @@ class QuestionController extends Controller
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
         $formQuestion = $this->createForm(QuestionType::class);
+        $formResponse = $this->createForm(ResponseType::class);
 
         $formQuestion->handleRequest($request);
 
         if($formQuestion->isSubmitted() && $formQuestion->isValid())
         {
-            $QuestionRepo->postQuestion($formQuestion["label"]->getData());
+            $QuestionRepo->postQuestion($formQuestion);
         }
 
         $questions = $QuestionRepo->getQuestions();
-
-        $createResponseForms = [];
-        foreach ($questions as $question)
-        {
-            $createResponseForms[] = ["questionId" => $question->getId(), "formResponse" => $this->createForm(ResponseType::class)->createView()];
-        }
 
 
         $temperaments = $TemperamentRepo->getTemperaments();
 
         return $this->render("AdminBundle:app:questions.html.twig", [
             "formQuestion" => $formQuestion->createView(),
+            "formResponse" => $formResponse->createView(),
             "questions" => $questions,
             "temperaments" => $temperaments,
-            "createResponseForms" => $createResponseForms,
         ]);
     }
 
@@ -68,12 +63,18 @@ class QuestionController extends Controller
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
         $questionId = $request->attributes->get('idQuestion');
-        $label = $request->get('label');
+        $formData = $this->createForm(QuestionType::class);
 
-        if(!is_null($questionId) && !is_null($label))
+        $formData->handleRequest($request);
+
+        if($formData->isSubmitted() && $formData->isValid())
         {
-            $result = $QuestionRepo->putQuestion($questionId, $label);
-            return $this->json(["message" => "Le changement du nom de la question est bien effectué", "name" => $result->getLabel()]);
+            $result = $QuestionRepo->putQuestion($questionId, $formData);
+
+            if($result)
+                return $this->json(["message" => "Le changement de la question est bien effectué", "name" => $result->getLabel()]);
+
+            return $this->json(["message" => "Il y a eu une erreur dans le changement de la question", "name" => $result->getLabel()]);
         }
 
         return $this->json(["message" => "Erreur lors de la modification"]);
@@ -109,27 +110,15 @@ class QuestionController extends Controller
     public function responsesAction(Request $request)
     {
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
-        $questionId = $request->attributes->get('idQuestion');
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
+        $questionId = $request->attributes->get('idQuestion');
 
         $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
-        $formUpdateResponses = [];
-
-        foreach($responses as $response)
-        {
-            $formUpdateResponses[] = [
-                "questionId" => $questionId,
-                "response" => $response,
-                "formUpdateResponse" => $this->createForm(ResponseType::class, $response)->createView()
-            ];
-        }
-
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
             "temperaments" => $temperaments,
-            "formUpdateResponses" => $formUpdateResponses,
         ]));
     }
 

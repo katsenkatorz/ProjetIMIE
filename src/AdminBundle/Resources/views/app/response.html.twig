@@ -10,9 +10,9 @@
             {% for response in responses %}
                 <tr>
                     <td>{{ response.label }}</td>
-                    <td>{{ response.temperament.name }}</td>
-                    <td>{{ response.temperament.temperament }} {{ -response.value }}</td>
-                    <td>{{ response.temperament.opposedTemperament }} {{ response.value }}</td>
+                    <td>{{ response.question.temperament.name }}</td>
+                    <td>{{ response.question.temperament.temperament }} {{ -response.value }}</td>
+                    <td>{{ response.question.temperament.opposedTemperament }} {{ response.value }}</td>
                     <td>
                         {% if response.image is not null %}
                             <img src="{{ asset(response.image.pathname) }}" alt="">
@@ -22,113 +22,54 @@
                     </td>
                     <td>
                         {# Modal modification #}
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#modalModifResponse{{ response.id }}"><i class="fa fa-edit"> Modifier</i>
+                        <button type="button" class="btn btn-primary"
+                                data-type="update"
+                                data-value="{{ response.value }}"
+                                data-label="{{ response.label }}"
+                                {% if response.image is not null %}
+                                    data-image="{{ response.image.pathname }}"
+                                {% endif %}
+                                data-question="{{ response.question.id }}"
+                                data-temperament="{{ response.question.temperament.id }}"
+                                data-action="/admin/question/{{ response.question.id }}/putResponse/{{ response.id }}"
+                                data-toggle="modal"
+                                data-target="#modalResponse">
+                            <i class="fa fa-edit"> Modifier</i>
                         </button>
                     </td>
                     <td>
                         <a class="btn btn-danger"
                            data-toggle="modal"
-                           data-target="#modalConfirmDeleteResponse{{ response.id }}"
+                           data-target="#modalConfirmDeleteResponse"
                            data-name="{{ response.label }}"
-                           data-id="{{ response.id }}"><i class="fa fa-trash"> Supprimer</i></a>
+                           data-action="/admin/question/{{ response.question.id }}/deleteResponse/{{ response.id }}">
+                        <i class="fa fa-trash"> Supprimer</i>
+                        </a>
                     </td>
                 </tr>
-                <div id="modalConfirmDeleteResponse{{ response.id }}" class="modalConfirmDeleteResponse modal fade"
-                     tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title"></h4>
-                            </div>
-                            <div class="modal-body">
-                                <p class="alert alert-danger"></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                                <a id="confirm" data-modalId="modalConfirmDeleteResponse{{ response.id }}"
-                                   data-id="{{ response.id }}" type="button"
-                                   class="deleteResponseButton btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             {% endfor %}
         </table>
+    </div>
 
-        {% if formUpdateResponses is not empty %}
-            {% for formUpdateResponse in formUpdateResponses %}
-                <!-- Modal Response ID-->
-                <div id="modalModifResponse{{ formUpdateResponse["response"].id }}" class="modal fade" role="dialog"
-                     style="display:none;">
-                    <div class="modal-dialog">
-                        <!-- Modal Critic content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modification de
-                                    : {{ formUpdateResponse['response'].label }}</h4>
-                            </div>
-                            <div class="modal-body">
-                                {{ form_start(formUpdateResponse["formUpdateResponse"],{
-                                    'attr': {
-                                        'action': "/admin/question/" ~ formUpdateResponse["questionId"] ~ "/putResponse/" ~ formUpdateResponse["response"].id ~ "",
-                                        'method': 'POST',
-                                        'data-id': formUpdateResponse["response"].id,
-                                        'id': 'formUpdateResponse' ~ formUpdateResponse["response"].id,
-                                        'class': 'formUpdateResponse form-group'
-                                    }
-                                }) }}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].label, {
-                                    'id': "labelModifResponse" ~ formUpdateResponse["response"].id
-                                }) }}
-                                {{ form_label(formUpdateResponse['formUpdateResponse'], "Valeur") }}
-                                <select name="temperament" class="form-control temperamentModifResponse"
-                                        id="temperamentModifResponse{{ formUpdateResponse["response"].id }}">
-                                    {% for temperament in temperaments %}
-                                        {% if temperament.id == formUpdateResponse['response'].temperament.id %}
-                                            <option value="{{ temperament.id }}"
-                                                    selected>{{ temperament.name }}</option>
-                                        {% else %}
-                                            <option value="{{ temperament.id }}">{{ temperament.name }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                                <p class="temperament">TestGauche</p>
-                                <p class="valueBlockLeft"></p>
-                                <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                                <p class="opposedTemperament">TestDroite</p>
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].value, {
-                                    "label": false,
-                                    'id': "valueModifResponse" ~ formUpdateResponse["response"].id,
-                                    "attr": {
-                                        "class": "rangeInput",
-                                        "value": formUpdateResponse['response'].value,
-                                    }
-                                }) }}
-                                <div class="control-label"><strong>Image</strong></div>
-                                {% if formUpdateResponse["response"].image is not null %}
-                                    <img src="{{ asset(formUpdateResponse["response"].image.pathname) }}" alt="">
-                                {% endif %}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].image, {
-                                    'label': false,
-                                    'id': "imageModifResponse" ~ formUpdateResponse["response"].id
-                                }) }}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].question, {'attr': {'value': formUpdateResponse["questionId"]}}) }}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].temperament, {'id': "tempModifResponse" ~ formUpdateResponse["response"].id}) }}
-                                {{ form_row(formUpdateResponse["formUpdateResponse"].save, {'attr': {
-                                    'label': false,
-                                    'class': "btn btn-primary form-control"}}) }}
-                                {{ form_end(formUpdateResponse["formUpdateResponse"]) }}
-                            </div>
-                            <div class="modal-footer">
-                            </div>
-                        </div>
-                    </div>
+    <div id="modalConfirmDeleteResponse" class="modalConfirmDeleteResponse modal fade"
+         tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
                 </div>
-            {% endfor %}
-        {% endif %}
+                <div class="modal-body">
+                    <p class="alert alert-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirm" type="button" class="deleteResponseButton btn btn-danger">
+                        <i class="fa fa-trash"></i>&nbsp;Oui
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}

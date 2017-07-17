@@ -25,7 +25,4 @@ AdminBundle\Entity\Response:
         question:
             targetEntity: AdminBundle\Entity\Question
             inversedBy: responses
-        temperament:
-            targetEntity: AdminBundle\Entity\Temperament
-            inversedBy: responses
     lifecycleCallbacks: {  }

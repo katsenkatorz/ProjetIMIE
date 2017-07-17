@@ -44,11 +44,6 @@ class Response
     private $question;
 
     /**
-     * @var Temperament
-     */
-    private $temperament;
-
-    /**
      * @var \DateTime
      */
     private $updatedAt;
@@ -101,23 +96,6 @@ class Response
     public function setQuestion($question)
     {
         $this->question = $question;
-        return $this;
-    }
-
-    /**
-     * @return Temperament
-     */
-    public function getTemperament()
-    {
-        return $this->temperament;
-    }
-
-    /**
-     * @param mixed $temperament
-     **/
-    public function setTemperament($temperament)
-    {
-        $this->temperament = $temperament;
         return $this;
     }
 

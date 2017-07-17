@@ -45,3 +45,7 @@
 
 # vendor
 /vendor/
+
+#image
+web/assets/img/imageJob
+web/assets/img/imageResponse

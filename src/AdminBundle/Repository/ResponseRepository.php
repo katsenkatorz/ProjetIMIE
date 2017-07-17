@@ -65,19 +65,19 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
         $question = $em->getRepository("AdminBundle:Question")->getQuestionById($formResult["question"]->getData());
-        $temperament = $em->getRepository("AdminBundle:Temperament")->getTemperamentById($formResult['temperament']->getData());
         $value = $formResult['value']->getData();
+        $image = $formResult['image']->getData();
+        $label = $formResult['label']->getData();
 
-        if (!$this->checkIfResponseAlreadyExist($value, $question, $temperament) && $value != 50)
+        if($question)
         {
             $response = new Response();
 
             $response
-                ->setLabel($formResult['label']->getData())
-                ->setValue($formResult['value']->getData())
-                ->setImage($formResult['image']->getData())
+                ->setLabel($label)
+                ->setValue($value)
+                ->setImage($image)
                 ->setQuestion($question)
-                ->setTemperament($temperament)
                 ->setUpdatedAt(new \DateTime());
 
             $em->persist($response);
@@ -101,29 +101,28 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $temperament = $em->getRepository("AdminBundle:Temperament")->getTemperamentById($form['temperament']->getData());
         $value = $form['value']->getData();
         $label = $form['label']->getData();
         $image = $form['image']->getData();
 
-        if ($value != 0) {
+        if ($value != 0)
+        {
             $response = $this->getResponseById($id);
 
-            if (!$this->checkIfResponseAlreadyExist($value, $response->getQuestion(), $temperament, $id)) {
-                $response->setLabel($label)
-                    ->setValue($value)
-                    ->setUpdatedAt(new \DateTime())
-                    ->setTemperament($temperament);
 
-                if(!is_null($image))
-                    $response->setImage($image);
+            $response->setLabel($label)
+                ->setValue($value)
+                ->setUpdatedAt(new \DateTime());
+
+            if (!is_null($image))
+                $response->setImage($image);
 
 
-                $em->persist($response);
-                $em->flush();
 
-                return $response;
-            }
+            $em->persist($response);
+            $em->flush();
+
+            return $response;
         }
         return false;
     }
@@ -143,25 +142,29 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * TODO: DELETE UNUSED METHOD
      * Renvois true si la réponse existe déjà
      *
      * @param $label
      *
      * @return bool
      */
-    public function checkIfResponseAlreadyExist($value, Question $question, Temperament $temperament, $id = null)
-    {
-        if ($value > 0) {
-            $query = "r.value > 0";
-        } else if ($value < 0) {
-            $query = "r.value < 0";
-        }
-
-        return $this->checkerProcess($query, $question, $temperament, $id);
-    }
+//    public function checkIfResponseAlreadyExist($value, Question $question, Temperament $temperament, $id = null)
+//    {
+//        if ($value > 0)
+//        {
+//            $query = "r.value > 0";
+//        }
+//        else if ($value < 0)
+//        {
+//            $query = "r.value < 0";
+//        }
+//
+//        return $this->checkerProcess($query, $question, $temperament, $id);
+//    }
 
     /**
-     *
+     * TODO: DELETE UNUSED METHOD
      * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
      * @param $string
      * @param $question
@@ -169,47 +172,53 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      * @param $id
      * @return bool
      */
-    private function checkerProcess($string, $question, $temperament, $id)
-    {
-        $responses = $this->getEntityManager()->createQueryBuilder()
-            ->select("r")
-            ->from("AdminBundle:Response", "r")
-            ->where("r.question = :question")
-            ->andWhere("r.temperament = :temperament")
-            ->andWhere($string)
-            ->setParameters([
-                ":question" => $question,
-                ":temperament" => $temperament,
-            ])
-            ->getQuery()
-            ->getResult();
-
-        /**
-         * True == Entité présente et non demandé en modification ==> modification refuser
-         * False == Entité non présente ou présente et demande de modification => Modification autoriser
-         */
-
-        $return = false;
-
-        // Si on a une réponse
-        if (count($responses)) {
-            // Si l'id présent en paramètre est null
-            if (is_null($id)) {
-                // On renvois true
-                $return = true;
-            } else {
-                // En renvois true
-                $return = true;
-
-                // Si l'id présent en paramètre correspond a celui d'un des résultats trouver on renvois false
-                foreach ($responses as $response) {
-                    if ($response->getId() == $id) {
-                        $return = false;
-                    }
-                }
-            }
-        }
-
-        return $return;
-    }
+//    private function checkerProcess($string, $question, $temperament, $id)
+//    {
+//        $responses = $this->getEntityManager()->createQueryBuilder()
+//            ->select("r")
+//            ->from("AdminBundle:Response", "r")
+//            ->where("r.question = :question")
+//            ->andWhere("r.temperament = :temperament")
+//            ->andWhere($string)
+//            ->setParameters([
+//                ":question" => $question,
+//                ":temperament" => $temperament,
+//            ])
+//            ->getQuery()
+//            ->getResult();
+//
+//        /**
+//         * True == Entité présente et non demandé en modification ==> modification refuser
+//         * False == Entité non présente ou présente et demande de modification => Modification autoriser
+//         */
+//
+//        $return = false;
+//
+//        // Si on a une réponse
+//        if (count($responses))
+//        {
+//            // Si l'id présent en paramètre est null
+//            if (is_null($id))
+//            {
+//                // On renvois true
+//                $return = true;
+//            }
+//            else
+//            {
+//                // En renvois true
+//                $return = true;
+//
+//                // Si l'id présent en paramètre correspond a celui d'un des résultats trouver on renvois false
+//                foreach ($responses as $response)
+//                {
+//                    if ($response->getId() == $id)
+//                    {
+//                        $return = false;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return $return;
+//    }
 }

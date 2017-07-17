@@ -23,25 +23,24 @@ class JobPersonnalityController extends Controller
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
-        $jobs = $JobRepository->getJobs();
-        $updateForms = [];
-
-        foreach($jobs as $job)
-        {
-            $updateForms[] = ["jobId" => $job->getId(),"form" => $this->createForm(JobType::class, $job)->createView()];
-        }
-
         // Création du formulaire pour créer un job
-        $job = new Job();
-        $formJob = $this->createForm(JobType::class, $job);
+        $formJob = $this->createForm(JobType::class);
+        $formUpdateJob = $this->createForm(JobType::class);
 
         // Récupération de la requête de création de job
         $formJob->handleRequest($request);
+        $formUpdateJob->handleRequest($request);
 
         // Traitement pour la création de job
         if ($formJob->isSubmitted() && $formJob->isValid())
         {
             $JobRepository->postJob($formJob);
+        }
+
+        // Traitement pour l'update de job
+        if ($formUpdateJob->isSubmitted() && $formUpdateJob->isValid())
+        {
+            $JobRepository->postJob($formUpdateJob);
         }
 
         // Récupération des jobs
@@ -50,7 +49,7 @@ class JobPersonnalityController extends Controller
         return $this->render("AdminBundle:app:jobs.html.twig", [
             "formJob" => $formJob->createView(),
             "jobs" => $jobs,
-            "updateForms" => $updateForms,
+            "formUpdateJob" => $formUpdateJob->createView()
         ]);
     }
 
@@ -81,17 +80,11 @@ class JobPersonnalityController extends Controller
         // Création des formulaires dans le tableau
         foreach ($jobPersonnalities as $key => $value)
         {
-            $arrayForm[$key] = $this->createForm(JobTemperamentType::class);
+            $arrayForm[$key] = $this->createForm(JobTemperamentType::class)->createView();
         }
 
         // Actualisation des jobPersonnalités
         $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
-
-        // Préparation des formulaires pour les vues
-        foreach ($arrayForm as $key => $form)
-        {
-            $arrayForm[$key] = $form->createView();
-        }
 
         return $this->json($this->renderView("AdminBundle:app:job.html.twig", [
             "forms" => $arrayForm,
@@ -214,7 +207,15 @@ class JobPersonnalityController extends Controller
         if($form->isValid() && $form->isSubmitted())
         {
             $job = $JobRepo->putJob($idJob, $form);
-            return $this->json(['message'=> "La modification du métier c'est bien effectué", "name" => $job->getName()]);
+            return $this->json([
+                'message'=> "La modification du métier c'est bien effectué",
+                "job" => [
+                    'name' => $job->getName(),
+                    'description' => $job->getDescription(),
+                    'maxSalary' => $job->getMaxSalary(),
+                    'minSalary' => $job->getMinSalary()
+                ]
+            ]);
         }
 
         return $this->json(['message'=> "Il y a eu une erreur lors de la modification du métier"]);

@@ -3,6 +3,7 @@ namespace AdminBundle\Form;
 
 use AdminBundle\Entity\Question;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,6 +14,7 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add("label", TextType::class, ["label" => "Intitulé de la question"])
+            ->add("temperament", HiddenType::class)
             ->add("save", SubmitType::class, ["label" => "Créer une question"]);
     }
 
