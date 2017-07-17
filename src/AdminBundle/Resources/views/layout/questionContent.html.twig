@@ -125,6 +125,9 @@
                         'id': "valueResponse",
                     }) }}
                     <p class="control-label" style="font-weight: bold">Image</p>
+                    <div id='loadingmessage' style='display:none'>
+                        <img src='{{ asset('assets/img/ajax-loader.gif') }}'/>
+                    </div>
                     {{ form_row(formResponse.image, {"label": false, 'id': "imageResponse"}) }}
                     {{ form_row(formResponse.question, {'id': "idQuestionResponse"}) }}
                 </div>

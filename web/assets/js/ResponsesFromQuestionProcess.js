@@ -11,65 +11,80 @@ function loadResponse(idQuestion, env, PanelTitle)
     $.ajax({
         url: "/admin/question/" + idQuestion + "/getResponse",
         type: "GET",
-        dataType: "json",
-        success: function (result)
+        dataType: "json"
+    }).done(function (result)
+    {
+        // On affiche le résultat
+        responseContent.html(result);
+
+        loadRangeInput(".rangeInput");
+
+        $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
         {
-            // On affiche le résultat
-            responseContent.html(result);
+            var modal = $(this);
+            var button = $(event.relatedTarget);
+            var action = button.data('action');
 
-            loadRangeInput(".rangeInput");
+            var name = button.data('name');
 
-            $('.modalConfirmDeleteResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+            modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
+            modal.find('.modal-body p').html('Etes-vous sûr de supprimer la réponse :&nbsp;<strong>' + name + '</strong>');
+
+            // Supression d'une réponse
+            $(".deleteResponseButton").unbind('click').bind('click', function (e)
             {
-                var modal = $(this);
-                var button = $(event.relatedTarget);
-                var action = button.data('action');
+                e.preventDefault();
 
-                var name = button.data('name');
-
-                modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
-                modal.find('.modal-body p').html('Etes-vous sûr de supprimer la réponse :&nbsp;<strong>' + name + '</strong>');
-
-                // Supression d'une réponse
-                $(".deleteResponseButton").unbind('click').bind('click', function (e)
+                $.ajax({
+                    url: action,
+                    type: "DELETE"
+                }).done(function (result)
                 {
-                    e.preventDefault();
+                    $("#responseMessageContent")
+                        .fadeIn(250)
+                        .removeClass('hidden');
+                    $("#responseMessage").html(result.message);
+                    setTimeout(function ()
+                    {
+                        $("#responseMessageContent").fadeOut(250);
+                    }, 5000);
 
-                    $.ajax({
-                        url: action,
-                        type: "DELETE",
-                        success: function (result)
-                        {
-                            $('#modalConfirmDeleteResponse').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
 
-                            $("#responseMessageContent")
-                                .fadeIn(250)
-                                .removeClass('hidden');
-                            $("#responseMessage").html(result.message);
-                            setTimeout(function ()
-                            {
-                                $("#responseMessageContent").fadeOut(250);
-                            }, 5000);
+                }).fail(function (error)
+                {
+                    $("#responseMessageContent")
+                        .fadeIn(250)
+                        .removeClass('hidden');
+                    $("#responseMessage").html(error.message);
+                    setTimeout(function ()
+                    {
+                        $("#responseMessageContent").fadeOut(250);
+                    }, 5000);
 
-                            PanelTitle.trigger("click");
-                            setTimeout(function ()
-                            {
-                                PanelTitle.trigger("click");
-                            }, 500);
-                        }
-                    });
+                }).always(function ()
+                {
+                    $('#modalConfirmDeleteResponse').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                    PanelTitle.trigger("click");
+                    setTimeout(function ()
+                    {
+                        PanelTitle.trigger("click");
+                    }, 500);
                 });
             });
-
-
-
-        },
-        error: function (error)
+        });
+    }).fail(function (error)
+    {
+        $("#responseMessageContent")
+            .fadeIn(250)
+            .removeClass('hidden');
+        $("#responseMessage").html(error.message);
+        setTimeout(function ()
         {
-            $("#responseMessage").html(error.statusText);
-        }
+            $("#responseMessageContent").fadeOut(250);
+        }, 5000);
     });
 }
 
@@ -105,19 +120,25 @@ function loadTemperament(idTemperament, temperamentDiv, opposedTempDiv, selectDi
         $.ajax({
             url: "/admin/job/getTemperament/" + idTemperament,
             type: "GET",
-            dataType: "json",
-            success: function (result)
-            {
-                var temperamentContainer = $(temperamentDiv);
-                var opposedTemperamentContainer = $(opposedTempDiv);
+            dataType: "json"
+        }).done(function (result)
+        {
+            var temperamentContainer = $(temperamentDiv);
+            var opposedTemperamentContainer = $(opposedTempDiv);
 
-                temperamentContainer.html(result.temperament);
-                opposedTemperamentContainer.html(result.opposedTemperament);
-            },
-            error: function (error)
+            temperamentContainer.html(result.temperament);
+            opposedTemperamentContainer.html(result.opposedTemperament);
+
+        }).fail(function (error)
+        {
+            $("#responseMessageContent")
+                .fadeIn(250)
+                .removeClass('hidden');
+            $("#responseMessage").html(error.message);
+            setTimeout(function ()
             {
-                console.log(error);
-            }
+                $("#responseMessageContent").fadeOut(250);
+            }, 5000);
         });
     }
 
@@ -167,33 +188,45 @@ function sendResponse(form, action, PanelTitle)
             cache: false,
             contentType: false,
             processData: false,
-            success: function (result)
+            beforeSend: function ()
             {
-
-                // Fermeture du modal en cas de success
-                $('#modalResponse').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-                $("#responseMessageContent")
-                    .fadeIn(250)
-                    .removeClass('hidden');
-                $("#responseMessage").html(result.message);
-                setTimeout(function ()
-                {
-                    $("#responseMessageContent").fadeOut(250);
-                }, 5000);
-
-                PanelTitle.trigger("click");
-                setTimeout(function ()
-                {
-                    PanelTitle.trigger("click");
-                }, 500);
-            },
-            error: function (error)
-            {
-                console.log(error);
+                $('#loadingmessage').show();
             }
+        }).done(function (result)
+        {
+
+            // Fermeture du modal en cas de success
+            $('#modalResponse').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+
+            $("#responseMessageContent")
+                .fadeIn(250)
+                .removeClass('hidden');
+            $("#responseMessage").html(result.message);
+            setTimeout(function ()
+            {
+                $("#responseMessageContent").fadeOut(250);
+            }, 5000);
+
+            PanelTitle.trigger("click");
+            setTimeout(function ()
+            {
+                PanelTitle.trigger("click");
+            }, 500);
+        }).fail(function (error)
+        {
+            $("#responseMessageContent")
+                .fadeIn(250)
+                .removeClass('hidden');
+            $("#responseMessage").html(error.message);
+            setTimeout(function ()
+            {
+                $("#responseMessageContent").fadeOut(250);
+            }, 5000);
+        }).always(function ()
+        {
+            $('#loadingmessage').hide();
         });
     });
 }
@@ -227,10 +260,10 @@ $(document).ready(function ()
 
             loadTemperament(idTemperament, "#temperamentResponse", "#opposedTemperamentResponse");
 
-            if(button.data('type') === 'create')
+            if (button.data('type') === 'create')
                 sendResponse("#formResponse", action, PanelTitle);
 
-            if(button.data('type') === 'update')
+            if (button.data('type') === 'update')
             {
                 var value = button.data('value');
                 var label = button.data('label');
@@ -241,7 +274,6 @@ $(document).ready(function ()
                 sendResponse("#formResponse", action, PanelTitle);
             }
         });
-
     });
 
     $('.modalConfirmDeleteQuestion').unbind('show.bs.modal').bind('show.bs.modal', function (event)
@@ -250,7 +282,6 @@ $(document).ready(function ()
         var button = $(event.relatedTarget);
         var name = button.data('name');
         var questionId = button.data('id');
-
 
         modal.find('.modal-title').text('Confirmation de la suppression de ' + name);
         modal.find('.modal-body p').html('Etes-vous sûr de supprimer la question :&nbsp;<strong>' + name + '</strong>');
@@ -262,11 +293,20 @@ $(document).ready(function ()
 
             $.ajax({
                 url: "/admin/question/delete/" + questionId,
-                type: "DELETE",
-                success: function ()
+                type: "DELETE"
+            }).done(function ()
+            {
+                window.location = window.location.href;
+            }).fail(function (error)
+            {
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(error.message);
+                setTimeout(function ()
                 {
-                    window.location = window.location.href;
-                }
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
             });
         });
     });
@@ -325,31 +365,36 @@ $(document).ready(function ()
                     data: formData,
                     cache: false,
                     contentType: false,
-                    processData: false,
-                    success: function (result)
-                    {
-                        modal.modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
+                    processData: false
+                }).done(function (result)
+                {
+                    modal.modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
 
-                        $("#questionLabelDiv" + id).html(result.name);
+                    $("#questionLabelDiv" + id).html(result.name);
 
-                        $("#responseMessageContent")
-                            .fadeIn(250)
-                            .removeClass('hidden');
-                        $("#responseMessage").html(result.message);
-                        setTimeout(function ()
-                        {
-                            $("#responseMessageContent").fadeOut(250);
-                        }, 5000);
-                    },
-                    error: function (error)
+                    $("#responseMessageContent")
+                        .fadeIn(250)
+                        .removeClass('hidden');
+                    $("#responseMessage").html(result.message);
+                    setTimeout(function ()
                     {
-                        console.log(error);
-                    }
+                        $("#responseMessageContent").fadeOut(250);
+                    }, 5000);
+
+                }).fail(function (error)
+                {
+                    $("#responseMessageContent")
+                        .fadeIn(250)
+                        .removeClass('hidden');
+                    $("#responseMessage").html(error.message);
+                    setTimeout(function ()
+                    {
+                        $("#responseMessageContent").fadeOut(250);
+                    }, 5000);
                 });
             });
         }
     });
-
 });

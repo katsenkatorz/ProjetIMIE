@@ -136,6 +136,9 @@
                     {{ form_row(formUpdateJob.minSalary, {'id': 'minSalaryUpdateInput' }) }}
                     {{ form_row(formUpdateJob.maxSalary, {'id': 'maxSalaryUpdateInput' }) }}
                     {{ form_row(formUpdateJob.description, {'id': 'descriptionUpdateInput' }) }}
+                    <div id='loadingmessage' style='display:none'>
+                        <img src='{{ asset('assets/img/ajax-loader.gif') }}'/>
+                    </div>
                     {{ form_row(formUpdateJob.image) }}
                 </div>
                 <div class="modal-footer">

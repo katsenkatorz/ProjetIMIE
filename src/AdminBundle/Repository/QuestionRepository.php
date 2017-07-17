@@ -75,10 +75,12 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
     public function putQuestion($id, $formData)
     {
         $label = $formData['label']->getData();
-        $temperament = $this->getEntityManager()->getRepository('AdminBundle:Temperament')->getTemperamentById($formData['temperament']->getData());
-
+        $tempId = $formData['temperament']->getData();
         $em = $this->getEntityManager();
+
+        $temperament = $em->getRepository('AdminBundle:Temperament')->getTemperamentById($tempId);
         $question = $this->getQuestionById($id);
+
 
         if($question)
         {
