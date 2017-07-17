@@ -81,7 +81,6 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
         $temperament = $em->getRepository('AdminBundle:Temperament')->getTemperamentById($tempId);
         $question = $this->getQuestionById($id);
 
-
         if($question)
         {
             $question->setTemperament($temperament)

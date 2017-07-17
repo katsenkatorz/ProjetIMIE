@@ -25,8 +25,8 @@
     <div class="col-md-12">
     <hr>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        {% for question in questions %}
         <div class="panel panel-default">
+            {% for question in questions %}
             <div class="panel-heading" role="tab" id="heading{{ question.id }}">
                 <h4 class="panel-title inline-block" data-id="{{ question.id }}">
                     <a role="button" id="questionLabelDiv{{ question.id }}" data-toggle="collapse"
