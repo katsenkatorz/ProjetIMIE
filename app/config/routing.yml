@@ -1,6 +1,6 @@
 home:
     resource: "@HomeBundle/Resources/config/routing.yml"
-    prefix:   /home
+    prefix:   /
 
 test:
     resource: "@TestBundle/Resources/config/routing.yml"
@@ -16,7 +16,7 @@ upload:
 
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /user
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
