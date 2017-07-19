@@ -17,8 +17,18 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
-                        <li><a class="active" href="{{ path('home_homepage') }}">Accueil</a></li>
-                        <li><a class="active" href="{{ path('home_metiers') }}">Métiers</a></li>
+                        <li class="
+                        {% if app.request.requestUri == path('home_homepage') %}
+                            active
+                        {% endif %}">
+                            <a href="{{ path('home_homepage') }}">Accueil</a>
+                        </li>
+                        <li class="
+                        {% if app.request.requestUri == path('home_metiers') %}
+                            active
+                        {% endif %}">
+                            <a href="{{ path('home_metiers') }}">Métiers</a>
+                        </li>
                     </ul>
                 </div>
             </div>
