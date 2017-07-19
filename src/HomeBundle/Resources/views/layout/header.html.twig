@@ -4,14 +4,23 @@
         <div class="container">
             <div class="row">
                 <div class="navbar-header">
-                    <a class="navbar-brand pull-left" href="{{ path('home_homepage') }}">
-                        <img alt="IMIE" src="{{ asset('') }}">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
+                        <img class="pull-left ico" alt="IMIE" src="{{ asset('favicon.ico') }}">
                     </a>
                 </div>
-                <ul class="nav navbar-nav pull-right">
-                    <li><a href="{{ path('home_homepage') }}">Accueil</a></li>
-                    <li><a href="{{ path('home_metiers') }}">Métiers</a></li>
-                </ul>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
+                        <li><a class="active" href="{{ path('home_homepage') }}">Accueil</a></li>
+                        <li><a class="active" href="{{ path('home_metiers') }}">Métiers</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
