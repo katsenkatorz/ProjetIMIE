@@ -1,16 +1,52 @@
-/* FOOTER */
+/* HTML */
 
 body {
-    background-color: #F3F2F0;
+    background-color: #ffffff;
     position: relative;
     margin: 0;
     padding-bottom: 6rem;
     min-height: 100%;
+    font-family: "HelveticaNeue";
+}
+
+h1, h2 {
+    font-family: "ZonaBlack";
 }
 
 html {
     height: 100%;
+    background-color: #aaaaaa;
 }
+
+/* HEADER */
+
+.navbar-nav > li > a {
+    padding-bottom: 25px;
+}
+
+.navbar-inverse {
+    background-color: #ea3d4f !important;
+    border: none;
+}
+
+.active-bottom {
+    border-bottom: solid 7px;
+    border-color: #ffef2b;
+}
+
+.navbar-toggle {
+    border: none;
+}
+
+.tab a {
+    margin-bottom: -15px;
+}
+
+.navbar-header, .navbar-brand, .tab a {
+    color: #FFFFFF !important;
+}
+
+/* FOOTER */
 
 footer {
     position: absolute;
@@ -36,10 +72,9 @@ footer {
     padding: 20px 0;
 }
 
-.imageBorder{
+.imageBorder {
     border: 1rem solid deepskyblue;
 }
-
 
 /* IMAGE HEADER */
 
@@ -50,4 +85,12 @@ footer {
 
 /* CHARTE GRAPHIQUE IMIE */
 
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeueLTStd-Bd.otf');
+}
 
+@font-face {
+    font-family: 'ZonaBlack';
+    src: url('../font/Zona Black.ttf')
+}

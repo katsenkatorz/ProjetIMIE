@@ -17,15 +17,15 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
-                        <li class="
+                        <li class="tab
                         {% if app.request.requestUri == path('home_homepage') %}
-                            active
+                            active-bottom
                         {% endif %}">
                             <a href="{{ path('home_homepage') }}">Accueil</a>
                         </li>
-                        <li class="
+                        <li class="tab
                         {% if app.request.requestUri == path('home_metiers') %}
-                            active
+                            active-bottom
                         {% endif %}">
                             <a href="{{ path('home_metiers') }}">Métiers</a>
                         </li>
