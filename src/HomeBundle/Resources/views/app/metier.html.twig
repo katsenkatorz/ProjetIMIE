@@ -64,7 +64,7 @@
                         <p class="pull-right">
                             Salaire maximum :
                             {{ job.maxSalary }}€
-                        </p><br />
+                        </p><br/>
                         {# img job #}
                         <a href="#" class="thumbnail">
                             <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
@@ -74,6 +74,11 @@
             </div>
         </div>
     {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/chart.js') }}"></script>
+    {{ parent() }}
 {% endblock %}
 
 {% block footer %}
