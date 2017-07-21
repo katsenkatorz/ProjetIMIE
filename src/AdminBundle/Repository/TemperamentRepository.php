@@ -22,6 +22,14 @@ class TemperamentRepository extends \Doctrine\ORM\EntityRepository
         return $this->findAll();
     }
 
+    public function getTemperamentsWithQueryBuilder()
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select("t.id, t.name, t.temperament, t.opposedTemperament")
+            ->from("AdminBundle:Temperament", "t")
+            ->getQuery()->getResult();
+    }
+
     /**
      * Renvois un temperaments grâce à sont id
      *

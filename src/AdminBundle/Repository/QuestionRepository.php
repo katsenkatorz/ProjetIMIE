@@ -35,16 +35,51 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param $temperamentId
+     * @return array
+     */
+    public function getQuestionByTemperamentId($temperamentId)
+    {
+        $array = [];
+        $temperament = $this->getEntityManager()->getRepository("AdminBundle:Temperament")->getTemperamentById($temperamentId);
+
+        $questions = $this->getEntityManager()->createQueryBuilder()
+            ->select("q.id, q.label")
+            ->from("AdminBundle:Question", "q")
+            ->where("q.temperament = :temperament")
+            ->setParameter(":temperament", $temperament)
+            ->getQuery()->getResult();
+
+
+
+        foreach($questions as $question)
+        {
+            $questionObject = $this->getQuestionById($question['id']);
+
+            $responses = $this->getEntityManager()->createQueryBuilder()
+                ->select("r.id, r.label, r.value, r.imageName")
+                ->from("AdminBundle:Response", "r")
+                ->where("r.question = :question")
+                ->setParameter(":question", $questionObject)
+                ->getQuery()->getResult();
+
+            $array[] = [$question, $responses];
+        }
+
+        return $array;
+    }
+
+    /**
      * Créer une question
      *
      * @param $label
      *
      * @return Question|bool
      */
-    public function postQuestion($formQuestion)
+    public function postQuestion($formQuestion, $temperament)
     {
         $label = $formQuestion['label']->getData();
-        $temperamentId = $formQuestion['temperament']->getData();
+        $temperamentId = $temperament;
 
         $temperament = $this->getEntityManager()->getRepository("AdminBundle:Temperament")->getTemperamentById($temperamentId);
 
@@ -72,10 +107,10 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
      * @param $formData
      * @return bool|object
      */
-    public function putQuestion($id, $formData)
+    public function putQuestion($id, $formData, $temperament)
     {
         $label = $formData['label']->getData();
-        $tempId = $formData['temperament']->getData();
+        $tempId = $temperament;
         $em = $this->getEntityManager();
 
         $temperament = $em->getRepository('AdminBundle:Temperament')->getTemperamentById($tempId);

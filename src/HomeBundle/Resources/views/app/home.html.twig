@@ -29,13 +29,16 @@
                 {% for job in jobs %}
                     <div class="col-sm-4 col-md-4">
                         <a href="#" class="thumbnail">
-                            <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="job.name">
+                            {% if job.image is not null %}
+                                <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="job.name">
+                            {% endif %}
+                            <p>{{ job.name }}</p>
                         </a>
                     </div>
                 {% endfor %}
             </div>
             <div class="text-center">
-                <a class=" btn btn-primary btn-lg" href="{{ path('home_question1') }}">
+                <a class=" btn btn-primary btn-lg" href="{{ path('home_quizz') }}">
                     Faire le test
                 </a>
             </div>

@@ -255,8 +255,12 @@ $(document).ready(function ()
             var idTemperament = button.data('temperament');
             var hiddenQuestion = $('#idQuestionResponse');
             var action = button.data('action');
+            var modalResponseTitle = $('#modalResponseTitle');
+            var responseSaveButton = $('#response_save');
 
             hiddenQuestion.val(idQuestion);
+            modalResponseTitle.html("Ajouter une réponse");
+            responseSaveButton.html("Ajouter une réponse");
 
             loadTemperament(idTemperament, "#temperamentResponse", "#opposedTemperamentResponse");
 
@@ -267,6 +271,9 @@ $(document).ready(function ()
             {
                 var value = button.data('value');
                 var label = button.data('label');
+
+                modalResponseTitle.html("Modifier une réponse");
+                responseSaveButton.html("Modifier une réponse");
 
                 $('#labelResponse').val(label);
                 $('#valueResponse').val(value);

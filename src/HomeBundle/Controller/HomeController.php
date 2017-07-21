@@ -39,20 +39,16 @@ class HomeController extends Controller
         ]);
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function question1Action()
+    public function quizzAction()
     {
-        return $this->render('HomeBundle:app:question1.html.twig');
+        return $this->render('HomeBundle:app:quizz.html.twig');
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function question2Action()
+    public function getQuestionSetAction()
     {
-        return $this->render('HomeBundle:app:question2.html.twig');
+        $questionSet = $this->get("GenerateQuestionSet")->getQuestionSet();
+
+        return $this->json($questionSet);
     }
 
     /**
@@ -79,11 +75,6 @@ class HomeController extends Controller
 
         $parameters = $ParamRepo->getParameters();
 
-//        $proprietaire = $ParamRepo->getParameterById(1);
-//        $address = $ParamRepo->getParameterById(2);
-//        $copyright = $ParamRepo->getParameterById(3);
-//        $mentionsLegales = $ParamRepo->getParameterById(4);
-
         return $this->render('HomeBundle:layout:footer.html.twig', [
             'parameters' => $parameters,
         ]);
@@ -97,7 +88,6 @@ class HomeController extends Controller
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
         $mentionsLegales = $ParamRepo->getParameterById(4);
-
 
         return $this->render('HomeBundle:app:mentionsLegales.html.twig', [
             'mentionsLegales' => $mentionsLegales,

@@ -36,7 +36,7 @@ class QuestionController extends Controller
 
         if($formQuestion->isSubmitted() && $formQuestion->isValid())
         {
-            $QuestionRepo->postQuestion($formQuestion);
+            $QuestionRepo->postQuestion($formQuestion, $request->get("temperament"));
         }
 
         $questions = $QuestionRepo->getQuestions();
@@ -63,13 +63,14 @@ class QuestionController extends Controller
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
 
         $questionId = $request->attributes->get('idQuestion');
+        $temperament = $request->get("temperament");
         $formData = $this->createForm(QuestionType::class);
 
         $formData->handleRequest($request);
 
         if($formData->isSubmitted() && $formData->isValid())
         {
-            $result = $QuestionRepo->putQuestion($questionId, $formData);
+            $result = $QuestionRepo->putQuestion($questionId, $formData, $temperament);
 
             if($result)
                 return $this->json(["message" => "Le changement de la question est bien effectué", "name" => $result->getLabel()]);

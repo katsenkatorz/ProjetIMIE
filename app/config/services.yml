@@ -14,3 +14,6 @@ services:
         arguments: ["@upload.annotation_reader", "@upload.handler"]
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+    GenerateQuestionSet:
+        class: AdminBundle\Service\GenerateQuestionSet
+        arguments: ["@doctrine.orm.entity_manager"]

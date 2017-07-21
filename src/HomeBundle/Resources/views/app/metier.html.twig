@@ -66,9 +66,11 @@
                             {{ job.maxSalary }}€
                         </p><br />
                         {# img job #}
-                        <a href="#" class="thumbnail">
-                            <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
-                        </a>
+                        {% if job.image is not null %}
+                            <a href="#" class="thumbnail">
+                                <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

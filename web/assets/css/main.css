@@ -85,9 +85,9 @@ input[type="range"]:before {
 }
 input[type="range"]:before {
     left:0em;
-    content: attr(min);
+
 }
 input[type="range"]:after {
     right: 0em;
-    content: attr(max);
+
 }

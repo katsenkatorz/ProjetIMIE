@@ -31,3 +31,8 @@ footer {
     background-color: #efefef;
     text-align: center;
 }
+
+.imageBorder{
+    border: 1rem solid deepskyblue;
+}
+
