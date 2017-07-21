@@ -64,7 +64,7 @@
                         <p class="pull-right">
                             Salaire maximum :
                             {{ job.maxSalary }}€
-                        </p><br />
+                        </p><br/>
                         {# img job #}
                         {% if job.image is not null %}
                             <a href="#" class="thumbnail">
@@ -76,6 +76,11 @@
             </div>
         </div>
     {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/chart.js') }}"></script>
+    {{ parent() }}
 {% endblock %}
 
 {% block footer %}
