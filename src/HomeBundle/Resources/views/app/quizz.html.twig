@@ -3,20 +3,17 @@
 {% block title %} Premier questionnaire {% endblock %}
 
 {% block header %}
-    <div class="container-fluid">
-        <div class="col-md-12 col-md-1"></div>
-        <a class="btn btn-default" href="{{ path('home_homepage') }}">
-            <i class="fa fa-home"></i>
-            <p>Retour à l'accueil</p>
-        </a>
-    </div>
+
 {% endblock %}
 
 {% block content %}
     {% block _HomeBundle %}
         <div class="container">
             <div class="row">
-                <div class="text-center">
+                <div class="question">
+                    <a class="btn btn-default btn-sm pull-right" href="{{ path('home_homepage') }}">
+                        <i class="fa fa-home">Accueil</i>
+                    </a>
                     <h1 id="questionLabel"></h1>
                     <div class="col-md-12">
                         <div class="progress">
@@ -40,6 +37,7 @@
 
 {% block javascripts %}
     <script src="{{ asset('assets/js/home/QuizzProcess.js') }}"></script>
+    <script src="{{ asset('assets/js/home/questionScroll.js') }}"></script>
 {% endblock %}
 
 {% block footer %}
