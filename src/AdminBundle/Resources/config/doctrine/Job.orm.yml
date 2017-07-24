@@ -21,7 +21,7 @@ AdminBundle\Entity\Job:
             type: integer
         imageName:
             type: string
-            length: '45'
+            length: '255'
             nullable: true
         updatedAt:
             type: datetime

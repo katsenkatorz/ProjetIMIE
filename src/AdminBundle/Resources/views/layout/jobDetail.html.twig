@@ -124,14 +124,14 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Modifier un métier</h4>
                 </div>
+                {{ form_start(formUpdateJob, {
+                    'method': 'POST',
+                    'attr': {
+                        'class': 'formUpdateJob',
+                        'id': 'formUpdateJob',
+                    }
+                }) }}
                 <div class="modal-body">
-                    {{ form_start(formUpdateJob, {
-                        'method': 'POST',
-                        'attr': {
-                            'class': 'formUpdateJob',
-                            'id': 'formUpdateJob',
-                        }
-                    }) }}
                     {{ form_row(formUpdateJob.name, {'id': 'nameUpdateInput' }) }}
                     {{ form_row(formUpdateJob.minSalary, {'id': 'minSalaryUpdateInput' }) }}
                     {{ form_row(formUpdateJob.maxSalary, {'id': 'maxSalaryUpdateInput' }) }}
@@ -143,8 +143,8 @@
                 </div>
                 <div class="modal-footer">
                     {{ form_row(formUpdateJob.save, {'id': 'submitUpdateInput','attr': {'class': 'btn btn-primary modifJob ' }}) }}
-                    {{ form_end(formUpdateJob) }}
                 </div>
+                {{ form_end(formUpdateJob) }}
             </div>
         </div>
     </div>
