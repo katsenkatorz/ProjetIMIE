@@ -22,3 +22,21 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+// var ctx = document.getElementById("myChart").getContext('2d');
+// var myChart = new Chart(ctx, {
+//     type: 'horizontalBar',
+//     data: {
+//         labels: ["Introverti", "Pensée", "Observateur", "Prospection", "Prudent"],
+//         datasets: [{
+//             data: [49, 89, 12, 56, 26]
+//         }]
+//     },
+//     options: {
+//         legend: { display: false },
+//         title: {
+//             display: true,
+//             text: 'Résultats du test'
+//         }
+//     }
+// });
