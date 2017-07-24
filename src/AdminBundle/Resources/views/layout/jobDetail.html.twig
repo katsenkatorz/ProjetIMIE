@@ -98,24 +98,25 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Ajouter un métier</h4>
                             </div>
+                            {{ form_start(formJob, {
+                                'method': 'POST',
+                                'attr': {
+                                    'class': 'formJob',
+                                    'id': 'formJob',
+                                }
+                            }) }}
                             <div class="modal-body">
-                                {{ form_start(formJob, {
-                                    'method': 'POST',
-                                    'attr': {
-                                        'class': 'formJob',
-                                        'id': 'formJob',
-                                    }
-                                }) }}
+
                                 {{ form_row(formJob.name, {'id': 'nameInput' }) }}
                                 {{ form_row(formJob.minSalary, {'id': 'minSalaryInput' }) }}
                                 {{ form_row(formJob.maxSalary, {'id': 'maxSalaryInput' }) }}
                                 {{ form_row(formJob.description, {'id': 'descriptionInput' }) }}
                                 {{ form_row(formJob.image) }}
                                 {{ form_row(formJob.save, {'id': 'submitInput','attr': {'class': 'btn btn-primary modifJob' }}) }}
-                                {{ form_end(formJob) }}
                             </div>
                             <div class="modal-footer">
                             </div>
+                            {{ form_end(formJob) }}
                         </div>
                     </div>
                 </div>
@@ -147,8 +148,8 @@
                             </div>
                             <div class="modal-footer">
                                 {{ form_row(formUpdateJob.save, {'id': 'submitUpdateInput','attr': {'class': 'btn btn-primary modifJob ' }}) }}
-                                {{ form_end(formUpdateJob) }}
                             </div>
+                            {{ form_end(formUpdateJob) }}
                         </div>
                     </div>
                 </div>

@@ -1,9 +1,6 @@
-$(document).ready(function ()
-{
-    getQuestionSetIntoLocalStorage(function ()
-    {
-        genQuizz(getCookie("lastQuestionToStart"), function()
-        {
+$(document).ready(function () {
+    getQuestionSetIntoLocalStorage(function () {
+        genQuizz(getCookie("lastQuestionToStart"), function () {
             getImageValue();
             showPrevButton();
             handleProgressBar();
@@ -18,8 +15,6 @@ $(document).ready(function ()
         // On récupère la questionSet
         var questionSet = JSON.parse(localStorage.getItem("questionSet" + number));
 
-        // console.log(questionSet);
-
         // On récupère le responseContainer
         var responseContainer = document.querySelector('#responseContainer');
 
@@ -29,100 +24,41 @@ $(document).ready(function ()
         // Permet de créer une id par réponse
         var i = 0;
 
-        if(questionSet.responses.length >= 4)
+        questionSet.responses.forEach(function (response)
         {
-            questionSet.responses.forEach(function (response)
-            {
-                // On crée la div qui gère le placement du quizz
-                var colDiv = document.createElement("div");
-                colDiv.className = "col-md-3 col-sm-3";
+            // On crée la div qui gère le placement du quizz
+            var colDiv = document.createElement("div");
+            colDiv.className = "col-md-6 col-sm-6";
 
-                // On crée la div qui contien la class thumbnail
-                var thumbnail = document.createElement("a");
-                thumbnail.className = "thumbnail";
+            // On crée la div qui contien la class thumbnail
+            var thumbnail = document.createElement("a");
+            thumbnail.className = "thumbnail imgContent";
+            thumbnail.setAttribute('data-value', response.value);
+            thumbnail.setAttribute('data-temperament', questionSet.idTemperament);
+            thumbnail.setAttribute('data-number', questionSet.questionNumber);
+            thumbnail.id = "imgContent" + i;
 
-                // On crée la div qui contient l'image de la réponse
-                var imgContent = document.createElement("img");
-                imgContent.setAttribute('data-value', response.value);
-                imgContent.setAttribute('data-temperament', questionSet.idTemperament);
-                imgContent.setAttribute('data-number', questionSet.questionNumber);
-                imgContent.className = "imgContent";
-                imgContent.id = "imgContent"+i;
-                imgContent.src = "assets/img/imageResponse/" + response.imageName;
-                imgContent.alt = response.imageName;
+            // On crée la div qui contient l'image de la réponse
+            var imgContent = document.createElement("img");
+            imgContent.src = "assets/img/imageResponse/" + response.imageName;
+            imgContent.alt = "Image indisponible";
 
-                // On crée la div qui contient le nom de l'image
-                var responseLabel = document.createElement('p');
-                responseLabel.innerHTML = response.label;
+            // On crée la div qui contient le nom de l'image
+            var responseLabel = document.createElement('p');
+            responseLabel.innerHTML = response.label;
 
-                // On ajoute l'image et sont nom au thumbnail
-                thumbnail.appendChild(imgContent);
-                thumbnail.appendChild(responseLabel);
+            // On ajoute l'image et sont nom au thumbnail
+            thumbnail.appendChild(imgContent);
+            thumbnail.appendChild(responseLabel);
 
-                // Puis le thumbnail a la div de placement
-                colDiv.appendChild(thumbnail);
+            // Puis le thumbnail a la div de placement
+            colDiv.appendChild(thumbnail);
 
-                // Et enfin la div de placement au responseContainer
-                responseContainer.appendChild(colDiv);
+            // Et enfin la div de placement au responseContainer
+            responseContainer.appendChild(colDiv);
 
-                i++;
-            });
-        }
-        else
-        {
-            var row = document.createElement("div");
-            row.className = "row";
-
-            var rangeInput = document.createElement("input");
-            rangeInput.className = "rangeInput form-control";
-            rangeInput.type = "range";
-
-            questionSet.responses.forEach(function (response)
-            {
-                // On crée la div qui gère le placement du quizz
-                var colDiv = document.createElement("div");
-                colDiv.className = "col-md-3 col-sm-3";
-
-                // On crée la div qui contien la class thumbnail
-                var thumbnail = document.createElement("a");
-                thumbnail.className = "thumbnail";
-
-                // On crée la div qui contient l'image de la réponse
-                var imgContent = document.createElement("img");
-                imgContent.setAttribute('data-value', response.value);
-                imgContent.setAttribute('data-temperament', questionSet.idTemperament);
-                imgContent.setAttribute('data-number', questionSet.questionNumber);
-                imgContent.src = "assets/img/imageResponse/" + response.imageName;
-                imgContent.alt = response.imageName;
-
-                if(i === 0)
-                    rangeInput.min = response.value;
-
-                if(i === 1)
-                    rangeInput.max = response.value;
-
-                // On crée la div qui contient le nom de l'image
-                var responseLabel = document.createElement('p');
-                responseLabel.innerHTML = response.label;
-
-                // On ajoute l'image et sont nom au thumbnail
-                thumbnail.appendChild(imgContent);
-                thumbnail.appendChild(responseLabel);
-
-                row.appendChild(thumbnail);
-
-                if(i === 0)
-                    row.appendChild(rangeInput);
-
-                // Puis le thumbnail a la div de placement
-                colDiv.appendChild(row);
-
-                // Et enfin la div de placement au responseContainer
-                responseContainer.appendChild(colDiv);
-
-                i++;
-            });
-        }
+            i++;
+        });
 
         // On appelle une callback pour les traitements synchrones
         callback();
@@ -137,7 +73,7 @@ $(document).ready(function ()
 
         progressBar.attr('aria-valuemax', localStorage.length);
         progressBar.attr('aria-valuenow', questionNumber);
-        progressBar.css("width", newWidth+"%");
+        progressBar.css("width", newWidth + "%");
     }
 
     // Récupère la value de l'image
@@ -160,7 +96,7 @@ $(document).ready(function ()
             };
 
             // On génère un cookie
-            setCookie("responseContent"+questionNumber, JSON.stringify(responseContent), 1);
+            setCookie("responseContent" + questionNumber, JSON.stringify(responseContent), 1);
 
             // On affiche le bouton next
             $('#next').show();
@@ -183,7 +119,7 @@ $(document).ready(function ()
         var questionNumber = getCookie("lastQuestionToStart");
 
         // Si la dernière réponse valider n'est pas la première, on affiche le bouton précedent
-        if(questionNumber > 0)
+        if (questionNumber > 0)
             $('#prev').show();
     }
 
@@ -197,28 +133,26 @@ $(document).ready(function ()
             var questionNumber = getCookie("lastQuestionToStart");
 
             // Pour eviter de dépasser le nombre de question
-            if(questionNumber < localStorage.length -1)
+            if (questionNumber < localStorage.length - 1)
             {
-                console.log(questionNumber);
                 // On met à jours le numéro de la question pour avoir celle de la suivante
                 // if(typeof JSON.parse(getCookie("responseContent"+questionNumber)) === undefined)
-                    setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
+                setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
 
                 // On reset le contenu de responseContainer
                 $('#responseContainer').html("");
 
-                console.log(getCookie("lastQuestionToStart"));
                 // On regénère le quizz
-                genQuizz(getCookie("lastQuestionToStart"), function()
+                genQuizz(getCookie("lastQuestionToStart"), function ()
                 {
                     getImageValue();
                     showPrevButton();
                     handleProgressBar();
-                    // selectRespondedResult();
+                    selectRespondedResult();
                 });
 
                 // On cache le bouton suivant
-                $(this).hide();
+                // $(this).hide();
             }
         });
     }
@@ -233,7 +167,7 @@ $(document).ready(function ()
             var questionNumber = getCookie("lastQuestionToStart");
 
             // Tant que le numeros de la question en cour est supérieur à 0
-            if(questionNumber > 0)
+            if (questionNumber > 0)
             {
                 // On fait -1 au cookie qui contient la question en cours
                 setCookie("lastQuestionToStart", parseInt(questionNumber) - 1, 1);
@@ -246,11 +180,11 @@ $(document).ready(function ()
                     getImageValue();
                     showPrevButton();
                     handleProgressBar();
-                    // selectRespondedResult();
+                    selectRespondedResult();
                 });
 
                 // Si la question qui est en cours est la première, on cache le bouton précedent
-                if(parseInt(getCookie("lastQuestionToStart")) === 0)
+                if (parseInt(getCookie("lastQuestionToStart")) === 0)
                     $(this).hide();
             }
         });
@@ -258,11 +192,21 @@ $(document).ready(function ()
 
     function selectRespondedResult()
     {
-        var unParsedResponseContent = getCookie("responseContent"+getCookie("lastQuestionToStart"));
-        var responseContent = JSON.parse(unParsedResponseContent);
+        var unParsedResponseContent = getCookie("responseContent" + getCookie("lastQuestionToStart"));
+        if (unParsedResponseContent.length > 0)
+        {
+            var responseContent = JSON.parse(unParsedResponseContent);
 
-        if(typeof responseContent !== undefined)
-            $("#"+responseContent.idImage).trigger('click');
+            if (typeof responseContent !== undefined)
+            {
+                $("#" + responseContent.idImage).trigger('click');
+                $('#next').show();
+            }
+        }
+        else
+        {
+            $('#next').hide();
+        }
     }
 });
 
@@ -278,8 +222,7 @@ function getQuestionSetIntoLocalStorage(callback)
             url: "/questionSet",
             type: "GET",
             async: false
-        }).done(function (result)
-        {
+        }).done(function (result) {
             var j = 0;
 
             result.forEach(function (questionSet)
@@ -289,8 +232,7 @@ function getQuestionSetIntoLocalStorage(callback)
                 // On récupère l'id du tempérament
                 arraySet.idTemperament = questionSet.temperament.id;
 
-                questionSet.questions.forEach(function (arrayQuestion)
-                {
+                questionSet.questions.forEach(function (arrayQuestion) {
                     // On récupère le numeros de la question
                     arraySet.questionNumber = arrayQuestion.questionNumber;
 
@@ -311,22 +253,27 @@ function getQuestionSetIntoLocalStorage(callback)
 }
 
 // Cookies handler functions
-function setCookie(cname, cvalue, exdays) {
+function setCookie(cname, cvalue, exdays)
+{
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires="+d.toUTCString();
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getCookie(cname) {
+function getCookie(cname)
+{
     var name = cname + "=";
     var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
+    for (var i = 0; i < ca.length; i++)
+    {
         var c = ca[i];
-        while (c.charAt(0) === ' ') {
+        while (c.charAt(0) === ' ')
+        {
             c = c.substring(1);
         }
-        if (c.indexOf(name) === 0) {
+        if (c.indexOf(name) === 0)
+        {
             return c.substring(name.length, c.length);
         }
     }

@@ -117,10 +117,20 @@ footer {
     padding: 20px 0;
 }
 
-.imageBorder {
-    border: 1rem solid deepskyblue;
+.imgContent{
+    box-shadow: 0 0 5px transparent;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid transparent;
 }
 
+.imageBorder{
+    box-shadow: 0 0 5px red;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid red;
+
+}
 /* IMAGE HEADER */
 
 .ico {
