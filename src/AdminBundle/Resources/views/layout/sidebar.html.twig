@@ -1,5 +1,5 @@
 <!--sidebar-menu-->
-<div id="sidebar"><a href="#" class="visible-phone hidden"><i class="icon icon-tasks"></i> Menu</a>
+<div id="sidebar"><a href="#" class="visible-phone hidden"><i class="fa fa-tasks"></i> Menu</a>
 
     <ul>
         <li class="{% if app.request.requestUri ==  path('admin_homepage')  %}
@@ -7,7 +7,7 @@
                     {% endif %}"
         >
             <a href="{{ path('admin_homepage') }}">
-                <i class="icon icon-home"></i>
+                <i class="fa fa-home"></i>
                 <span>Accueil</span>
             </a>
         </li>
@@ -16,7 +16,7 @@
         app.request.requestUri == path('admin_question') %}open {% endif %}submenu"
         >
             <a href="#">
-                <i class="icon icon-tasks"></i>
+                <i class="fa fa-tasks"></i>
                 <span>Gestion du site</span>
                 <i class="icon-caret-down"></i>
             </a>
@@ -26,7 +26,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_job_home') }}">
-                        <i class="icon icon-book"></i>
+                        <i class="fa fa-book"></i>
                         <span>Gestion des métiers</span>
                     </a>
                 </li>
@@ -35,7 +35,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_temperament_show') }}">
-                        <i class="icon-plus-sign-alt"></i>
+                        <i class="fa fa-plus-square"></i>
                         <span>Gestion des tempéraments</span>
                     </a>
                 </li>
@@ -44,7 +44,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_question') }}">
-                        <i class="icon icon-comment"></i>
+                        <i class="fa fa-comment"></i>
                         <span>Gestion des questions</span>
                     </a>
                 </li>
@@ -55,7 +55,7 @@
         app.request.requestUri == path('admin_mentionLegale') %}open {% endif %}submenu"
         >
             <a href="#">
-                <i class="icon icon-cog"></i>
+                <i class="fa fa-cog"></i>
                 <span>Paramétrage</span>
                 <i class="icon-caret-down"></i>
             </a>
@@ -65,7 +65,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_parameter') }}">
-                        <i class="icon icon-cogs"></i>
+                        <i class="fa fa-cogs"></i>
                         <span>Gestion du site</span>
                     </a>
                 </li>
@@ -74,7 +74,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_user') }}">
-                        <i class="icon icon-group"></i>
+                        <i class="fa fa-group"></i>
                         <span>Gestion des utilisateurs</span>
                     </a>
                 </li>
@@ -83,7 +83,7 @@
                     {% endif %}"
                 >
                     <a href="{{ path('admin_mentionLegale') }}">
-                        <i class="icon icon-suitcase"></i>
+                        <i class="fa fa-suitcase"></i>
                         <span>Mentions Légales</span>
                     </a>
                 </li>
