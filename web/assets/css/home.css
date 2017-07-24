@@ -27,6 +27,7 @@ html {
 .navbar-inverse {
     background-color: #ea3d4f !important;
     border: none;
+    border-radius: 0;
 }
 
 .active-bottom {
@@ -56,6 +57,12 @@ footer {
     padding: 1rem;
     background-color: #efefef;
     text-align: center;
+}
+
+/* HOME */
+
+.doTest {
+    padding: 30px 20px;
 }
 
 /* IMAGES JOB */
