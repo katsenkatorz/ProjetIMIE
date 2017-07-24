@@ -12,7 +12,7 @@ class MentionLegaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("value", CKEditorType::class, ["label" => "Intitulé de la question"])
+        $builder->add("value", CKEditorType::class, ["label" => "Vous pouvez entrer les mentiosn légales ici :"])
             ->add("save", SubmitType::class);
     }
 

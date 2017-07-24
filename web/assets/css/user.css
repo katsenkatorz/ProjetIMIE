@@ -1,11 +1,17 @@
 /**
 FORMULAIRE DE LOGIN
  */
+/* TITRES IMIE */
+h1, h2 {
+    font-family: "ZonaBlack";
+}
+
 body {
     background-image: url('../img/SiteFlou.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    font-family: "HelveticaNeue";
 }
 
 .container {
@@ -83,4 +89,15 @@ body {
 .confirmed {
     margin-top: 20px;
     text-align: center;
+}
+
+/* CHARTE GRAPHIQUE IMIE */
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeueLTStd-Bd.otf');
+}
+@font-face {
+    font-family: 'ZonaBlack';
+    src: url('../font/Zona Black.ttf')
 }
