@@ -86,7 +86,7 @@ class JobPersonnalityController extends Controller
         // Actualisation des jobPersonnalités
         $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
-        return $this->json($this->renderView("AdminBundle:app:job.html.twig", [
+        return $this->json($this->renderView("AdminBundle:layout:job.html.twig", [
             "forms" => $arrayForm,
             "job" => $job,
             "jobPersonnalities" => $jobPersonnalities
