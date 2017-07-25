@@ -1,9 +1,17 @@
+/*---------------------- HTML ----------------------*/
+
+h1, h2 {
+    font-family: "ZonaBlack";
+}
+
+/*---------------------- BODY ----------------------*/
+
 body {
     font-family: "HelveticaNeue";
 }
 
-h1, h2 {
-    font-family: "ZonaBlack";
+.btn-primary .btn-danger {
+    width: 100%;
 }
 
 .content-page {
@@ -11,18 +19,19 @@ h1, h2 {
     margin-right: 10px;
 }
 
-.btn-primary .btn-danger {
-    width: 100%;
+/*------- TEMPERAMENT -------*/
+
+.temperament{
+    float: left;
+}
+.opposedTemperament {
+    float: right;
 }
 
-.btn-right {
-    display: inline-block;
-    float: right;
-    margin-right: 25%;
-    margin-top: 40px;
-}
+/* PANEL  */
+
 .panel-heading.form-inline{
-   padding-top:5px;
+    padding-top:5px;
 }
 .panel-title  {
     padding-top:15px;
@@ -58,28 +67,7 @@ h1, h2 {
     margin-top:20px;
 }
 
-/**
-TEMPERAMENT
- */
-.temperament{
-    float: left;
-}
-.opposedTemperament {
-    float: right;
-}
-
-
-/**
-PARAMETRES
- */
-
-.param {
-    width: 50%;
-}
-
-/**
-RANGE
- */
+/* RANGE */
 
 input[type="range"] {
     position: relative;
@@ -97,10 +85,15 @@ input[type="range"]:before {
 }
 input[type="range"]:after {
     right: 0;
-
 }
 
-/* CHARTE GRAPHIQUE IMIE */
+/*------- PARAMETRES -------*/
+
+.param {
+    width: 50%;
+}
+
+/*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
 
 @font-face {
     font-family: 'HelveticaNeue';

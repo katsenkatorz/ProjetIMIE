@@ -1,4 +1,4 @@
-/* HTML */
+/*---------------------- HTML ----------------------*/
 
 body {
     background-color: #ffffff;
@@ -22,7 +22,7 @@ html {
     background-color: #aaaaaa;
 }
 
-/* HEADER */
+/*---------------------- HEADER ----------------------*/
 
 .navbar-nav > li > a {
     padding-bottom: 25px;
@@ -55,7 +55,14 @@ html {
     color: #FFFFFF !important;
 }
 
-/* FOOTER */
+/* IMAGE HEADER */
+
+.ico {
+    height: 25px;
+    margin-right: 10px;
+}
+
+/*---------------------- FOOTER ----------------------*/
 
 footer {
     position: absolute;
@@ -71,11 +78,11 @@ footer {
     padding-top: 20px;
 }
 
-/* BODY */
+/*---------------------- BODY ----------------------*/
 
 
 
-/* HOME */
+/*------- HOME -------*/
 
 .doTest {
     padding: 30px 20px;
@@ -84,14 +91,14 @@ footer {
     margin-bottom: 50px;
 }
 
-/* QUIZZ */
+/*------- QUIZZ -------*/
 
 .question {
     height: 120px;
     top: 100%;
     margin-top: -20px;
     padding-bottom: 20px;
-    background: #000;
+    background: #FFFFFF;
     text-align: center;
     transition: height 1s;
 }
@@ -107,20 +114,6 @@ footer {
     transition: height 1s;
 }
 
-/* IMAGES JOB */
-
-.imgJob {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    height: 150px !important;
-    width: 220px;
-}
-
-.aJob {
-    padding: 20px 0;
-}
-
 .imgContent{
     box-shadow: 0 0 5px transparent;
     padding: 3px 0px 3px 3px;
@@ -133,16 +126,25 @@ footer {
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 5px solid red;
-
-}
-/* IMAGE HEADER */
-
-.ico {
-    height: 25px;
-    margin-right: 10px;
 }
 
-/* CHARTE GRAPHIQUE IMIE */
+/*------- METIER (RESULTAT TEST) -------*/
+
+.imgJob {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 150px !important;
+    width: 220px;
+}
+
+/*------- METIERS -------*/
+
+.aJob {
+    padding: 20px 0;
+}
+
+/*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
 
 @font-face {
     font-family: 'HelveticaNeue';

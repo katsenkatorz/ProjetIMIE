@@ -1,10 +1,14 @@
-/**
-FORMULAIRE DE LOGIN
- */
-/* TITRES IMIE */
+/*---------------------- HTML ----------------------*/
+
 h1, h2 {
     font-family: "ZonaBlack";
 }
+
+.container {
+    margin-top: 100px;
+}
+
+/*---------------------- BODY ----------------------*/
 
 body {
     background-image: url('../img/SiteFlou.png');
@@ -14,9 +18,7 @@ body {
     font-family: "HelveticaNeue";
 }
 
-.container {
-    margin-top: 100px;
-}
+/*------- FORMULAIRE DE LOGIN -------*/
 
 .panel-heading {
     text-align: center;
@@ -38,32 +40,6 @@ body {
     background-color: #505050;
 }
 
-@media screen and (max-width: 640px) {
-    .login-form {
-        text-align: center;
-        color: #FFF;
-        width: 100% !important;
-        margin: auto;
-        padding-top: 10px;
-        padding-bottom: 200px;
-        padding-left: 40px;
-        padding-right: 40px;
-        background-color: #505050;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        width: calc(1170px - 220px);
-    }
-}
-
-@media (min-width: 992px) {
-    .container {
-        width: calc(970px - 220px);
-    }
-}
-
 .login-form input {
     margin-bottom: 15px;
 }
@@ -82,16 +58,26 @@ body {
     color: #21A4B2 !important;
 }
 
-::-moz-placeholder { /* Firefox 19+ */
-    text-align: center;
-}
-
 .confirmed {
     margin-top: 20px;
     text-align: center;
 }
 
-/* CHARTE GRAPHIQUE IMIE */
+@media screen and (max-width: 640px) {
+    .login-form {
+        text-align: center;
+        color: #FFF;
+        width: 100% !important;
+        margin: auto;
+        padding-top: 10px;
+        padding-bottom: 200px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background-color: #505050;
+    }
+}
+
+/*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
 
 @font-face {
     font-family: 'HelveticaNeue';

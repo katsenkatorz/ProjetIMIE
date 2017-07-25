@@ -12,16 +12,8 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        // Récupération des répository et manager
-        $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
-        $jobs = $JobRepository->getJobs();
-
-        $jobs = array_slice($jobs, 0, 3);
-
-        return $this->render('HomeBundle:app:home.html.twig', [
-            "jobs" => $jobs,
-        ]);
+        return $this->render('HomeBundle:app:home.html.twig');
     }
 
     /**
