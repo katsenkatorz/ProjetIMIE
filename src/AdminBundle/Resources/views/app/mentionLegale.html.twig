@@ -12,13 +12,13 @@
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-suitcase"></i>Mentions légales</a>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <h2>Mentions Légales</h2>
                     <hr />
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     {{ form_start(form, {'method': 'POST'}) }}
                     {{ form_row(form.value, {'attr': {'class': 'paramContent'} }) }}
                     {{ form_row(form.save, {'label': 'Sauvegarder', 'attr': {'class': 'btn btn-primary param','data-id': parameter.id, 'data-label': parameter.label}}) }}
