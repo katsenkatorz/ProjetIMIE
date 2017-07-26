@@ -3,7 +3,7 @@ home:
     prefix:   /
 
 test:
-    resource: "@TestBundle/Resources/config/routing.yml"
+    resource: "@TestProjetBundle/Resources/config/routing.yml"
     prefix:   /test
 
 admin:

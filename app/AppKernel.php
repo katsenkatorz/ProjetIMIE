@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new AdminBundle\AdminBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new TestBundle\TestBundle(),
+            new TestProjetBundle\TestProjetBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new HomeBundle\HomeBundle(),
             new Grafikart\UploadBundle\UploadBundle(),
