@@ -1,46 +1,61 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
-{% block title %} Premier questionnaire {% endblock %}
+{% block title %} Quizz {% endblock %}
 
 {% block header %}
-
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+              crossorigin="anonymous">
+    {% endblock %}
 {% endblock %}
 
 {% block content %}
     {% block _HomeBundle %}
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="question">
-                    <a class="btn btn-default btn-sm pull-left" href="{{ path('home_homepage') }}">
-                        <i class="fa fa-home"><span class="font">Accueil</span></i>
-                    </a>
-                    <h1 id="questionLabel" class="text-center"></h1>
-                    <div class="col-md-12">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                 aria-valuemax="100" style="width: 10%;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a class="btn btn-default btn-lg pull-left icoHome" href="{{ path('home_homepage') }}">
+                                <img class="imgQuizz" src="{{ asset('assets/img/imageHome/maison.png') }}">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="question">
+                                <h1 id="questionLabel" class="text-center"></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 prog">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                     aria-valuemax="100" style="width: 10%;">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr/>
         </div>
 
         <div class="container">
             <div class="row">
                 <div id="responseContainer" class="row"></div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <hr>
-                <div class="text-center">
-                    <a class="btn btn-warning btn-lg" id="prev" style="display: none;">Précedent</a>
-                    <a class="btn btn-danger btn-lg" id="next" style="display: none;">Suivant</a>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <br/>
+                        <a class="btn btn-warning btn-lg" id="prev" style="display: none;">Précedent</a>
+                        <a class="btn btn-danger btn-lg" id="next" style="display: none;">Suivant</a>
+                    </div>
                 </div>
-                <hr>
             </div>
         </div>
     {% endblock %}

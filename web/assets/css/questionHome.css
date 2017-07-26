@@ -1,10 +1,90 @@
+/*---------------------- HTML ----------------------*/
+
 body {
-    overflow: hidden;
+    font-family: "HelveticaNeue";
 }
 
-#content {
-    margin-top: 0 !important;
+h1, h2 {
+    font-family: "ZonaBlack";
+}
+
+.font {
+    font-family: "HelveticaNeue";
+}
+
+/*------- QUIZZ -------*/
+
+.question {
+    height: 150px;
+    top: 100%;
+    margin-top: 0;
+    text-align: center;
+    transition: height 1s;
+}
+
+.f-question {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    width: 100%;
+    height: 140px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+    transition: height 1s;
+}
+
+.imgContent{
+    box-shadow: 0 0 5px transparent;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid transparent;
+}
+
+.imageBorder{
+    box-shadow: 0 0 5px #FEF171;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid #FEED57;
+}
+
+.imgContent:hover {
+     border-color: #FEF171 !important;
+}
+
+.icoHome {
+    border: none;
+}
+
+.progress {
+    border: solid 1px #050505;
+    padding: 2px;
+    border-radius: 0;
+}
+
+.progress-bar {
+    background: #ea3d4f;
+}
+
+.imgQuizz {
+    width: 80px;
     height: 80px;
-    overflow: auto;
+}
+
+.subtitleQuizz {
+    color: black;
+}
+
+/*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeueLTStd-Bd.otf');
+}
+
+@font-face {
+    font-family: 'ZonaBlack';
+    src: url('../font/Zona Black.ttf')
 }
 
