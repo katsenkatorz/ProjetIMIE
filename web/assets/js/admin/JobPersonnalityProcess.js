@@ -93,120 +93,203 @@ function loadRangeInput(selector)
 
 $(document).ready(function ()
 {
+    $uploadCrop = $('#imageHandler').croppie({
+        enableExif: true,
+        viewport: {
+            width: 250,
+            height: 250,
+            type: 'square'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#imageJob').on('change', function ()
+    {
+        var reader = new FileReader();
+        reader.onload = function (e)
+        {
+            $uploadCrop.croppie('bind', {
+                url: e.target.result
+            }).then(function () {});
+
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+
     var JobPanel = $("a.getJobPersonnalityView");
 
     // Permet de nettoyer les champs du modal
     $('#modalJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
     {
+        var button = $(event.relatedTarget);
+        var action;
+
         var nameInput = $('#nameInput');
         var minSalaryInput = $('#minSalaryInput');
         var maxSalaryInput = $('#maxSalaryInput');
         var descriptionInput = CKEDITOR.instances.descriptionInput;
+        var submitInput = $('#submitInput');
 
-        nameInput.val("");
-        minSalaryInput.val("");
-        maxSalaryInput.val("");
-        descriptionInput.setData("");
-    });
-
-    // Permet de réaliser l'update d'un métier
-    $('#modalUpdateJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
-    {
-        // On récupère le modal et le button
-        var modal = $(this);
-        var button = $(event.relatedTarget);
-
-        // Récupération des formulaires
-        var nameInput = $('#nameUpdateInput');
-        var minSalaryInput = $('#minSalaryUpdateInput');
-        var maxSalaryInput = $('#maxSalaryUpdateInput');
-        var descriptionInput = CKEDITOR.instances.descriptionUpdateInput;
-        var submitInput = $('#submitUpdateInput');
-
-        // Récupération des data-attributes pour la modification
-        var action = button.data('action');
-        var jobId = button.data('job');
-        var minSalary = button.data('min-salary');
-        var maxSalary = button.data('max-salary');
-        var description = button.data('description');
-        var name = button.data('name');
-
-        // Assignation des valeurs aux inputs
-        nameInput.val(name);
-        minSalaryInput.val(minSalary);
-        maxSalaryInput.val(maxSalary);
-        descriptionInput.setData(description);
-        submitInput.html("Modifier");
-
-        // Requete ajax
-        $('#formUpdateJob').unbind('submit').bind('submit', function (e)
+        if(button.data('method') === "post")
         {
-            e.preventDefault();
+            action = button.data('action');
 
-            // Récupération de la zone ou afficher le résultat et des informations du formulaire
-            var resultContent = $('#descriptionContent' + jobId);
-            var formData = new FormData($(this)[0]);
+            nameInput.val("");
+            minSalaryInput.val("");
+            maxSalaryInput.val("");
+            descriptionInput.setData("");
 
-            $.ajax({
-                url: action,
-                type: "POST",
-                dataType: "json",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function ()
-                {
-                    $('#loadingmessage').show();
-                }
-            }).done(function (result)
+            submitInput.html('Créer un métier');
+
+            // Requete ajax
+            $('#formJob').unbind('submit').bind('submit', function (e)
             {
-                // Chargement de la vu partielle
-                loadPartielView(jobId, resultContent);
+                var that = this;
 
-                // Mise a jours du nom
-                $('#collapseTitle' + jobId).text(result.job.name);
-
-                // Mise a jours des data-attributes
-                button.attr('data-name', result.job.name);
-                button.attr('data-min-salary', result.job.minSalary);
-                button.attr('data-max-salary', result.job.maxSalary);
-                button.attr('data-description', result.job.description);
-
-                // Fermeture du modal
-                modal.modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-                // Chargement du message de succes
-                $("#responseMessageContent")
-                    .fadeIn(250)
-                    .removeClass('hidden');
-                $("#responseMessage").html(result.message);
-                setTimeout(function ()
+                $uploadCrop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function (resp)
                 {
-                    $("#responseMessageContent").fadeOut(250);
-                }, 5000);
-                setTimeout(function ()
-                {
-                    $("#responseMessageContent").addClass("hidden");
-                }, 2000);
-            }).fail(function (error)
-            {
-                // Affichage du message d'erreur
-                $("#responseMessageContent")
-                    .fadeIn(250)
-                    .removeClass('hidden');
-                $("#responseMessage").html(error.message);
-                setTimeout(function ()
-                {
-                    $("#responseMessageContent").fadeOut(250);
-                }, 5000);
-            }).always(function ()
-            {
-                $('#loadingmessage').hide();
+                    var formData = new FormData($(that)[0]);
+
+                    formData.append('croppedImage', resp);
+
+                    $.ajax({
+                        url: action,
+                        type: "POST",
+                        dataType: "json",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function ()
+                        {
+                            $('#loadingmessage').show();
+                        }
+                    }).done(function () {})
+                        .fail(function (error)
+                        {
+                            // Affichage du message d'erreur
+                            $("#responseMessageContent")
+                                .fadeIn(250)
+                                .removeClass('hidden');
+                            $("#responseMessage").html(error.message);
+                            setTimeout(function ()
+                            {
+                                $("#responseMessageContent").fadeOut(250);
+                            }, 5000);
+                        })
+                        .always(function ()
+                        {
+                            $('#loadingmessage').hide();
+                        });
+                });
             });
-        });
+        }
+
+        if(button.data('method') === "put")
+        {
+            // On récupère le modal et le button
+            var modal = $(this);
+
+            // Récupération des data-attributes pour la modification
+            action = button.data('action');
+
+            var jobId = button.data('job');
+            var minSalary = button.data('min-salary');
+            var maxSalary = button.data('max-salary');
+            var description = button.data('description');
+            var name = button.data('name');
+
+            // Assignation des valeurs aux inputs
+            nameInput.val(name);
+            minSalaryInput.val(minSalary);
+            maxSalaryInput.val(maxSalary);
+            descriptionInput.setData(description);
+            submitInput.html("Modifier");
+
+            // Requete ajax
+            $('#formJob').unbind('submit').bind('submit', function (e)
+            {
+                e.preventDefault();
+                var that = this;
+                var resultContent = $('#descriptionContent' + jobId);
+
+                $uploadCrop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function (resp)
+                {
+                    var formData = new FormData($(that)[0]);
+
+                    formData.append('croppedImage', resp);
+
+                    $.ajax({
+                        url: action,
+                        type: "POST",
+                        dataType: "json",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function ()
+                        {
+                            $('#loadingmessage').show();
+                        }
+                    }).done(function (result)
+                    {
+                        // Chargement de la vu partielle
+                        loadPartielView(jobId, resultContent);
+
+                        // Mise a jours du nom
+                        $('#collapseTitle' + jobId).text(result.job.name);
+
+                        // Mise a jours des data-attributes
+                        button.attr('data-name', result.job.name);
+                        button.attr('data-min-salary', result.job.minSalary);
+                        button.attr('data-max-salary', result.job.maxSalary);
+                        button.attr('data-description', result.job.description);
+
+                        // Fermeture du modal
+                        modal.modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+
+                        // Chargement du message de succes
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(result.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").addClass("hidden");
+                        }, 2000);
+                    }).fail(function (error)
+                    {
+                        // Affichage du message d'erreur
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(error.message);
+                        setTimeout(function ()
+                        {
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
+                    }).always(function ()
+                    {
+                        $('#loadingmessage').hide();
+                    });
+                });
+            });
+        }
     });
 
     // Traitement pour l'update de metier

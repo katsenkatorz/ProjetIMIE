@@ -47,5 +47,5 @@
 /vendor/
 
 #image
-web/assets/img/imageJob
-web/assets/img/imageResponse
+web/assets/img/imageJob/*
+web/assets/img/imageResponse/*

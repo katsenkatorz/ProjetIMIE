@@ -17,7 +17,7 @@ class DefaultController extends Controller
     }
     public function formTwoAction()
     {
-        return $this->render('TestBundle:app:formTwo.html.twig');
+        return $this->render('TestProjetBundle:app:formTwo.html.twig');
     }
 
     public function testRenderUploadImageAction()
@@ -27,14 +27,20 @@ class DefaultController extends Controller
 
     public function testUploadImageAction()
     {
-	    $data = $_POST['image'];
 
-	    list(, $data) = explode(';', $data);
-	    list(,$data)      = explode(',', $data);
+        if(array_key_exists('image', $_POST))
+        {
+            $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/';
+            $data = $_POST['image'];
 
-	    $data = base64_decode($data);
-	    $imageName = time().'.png';
-	    file_put_contents('D:/'.$imageName, $data);
+            list(, $data) = explode(';', $data);
+            list(,$data)  = explode(',', $data);
+
+            $data = base64_decode($data);
+            $imageName = time().'.png';
+            file_put_contents($pathToImage.$imageName, $data);
+
+        }
 
 	    return $this->render('TestProjetBundle:app:testUpload.html.twig');
     }

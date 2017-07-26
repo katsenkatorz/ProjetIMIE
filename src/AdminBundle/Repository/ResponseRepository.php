@@ -61,12 +61,14 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Response|bool
      */
-    public function postResponse($formResult)
+    public function postResponse($formResult, $imageInfo)
     {
+        $data = $imageInfo['image'];
+        $pathToImageFolder = $imageInfo['pathToImage'];
+
         $em = $this->getEntityManager();
         $question = $em->getRepository("AdminBundle:Question")->getQuestionById($formResult["question"]->getData());
         $value = $formResult['value']->getData();
-        $image = $formResult['image']->getData();
         $label = $formResult['label']->getData();
 
         if($question)
@@ -76,9 +78,20 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
             $response
                 ->setLabel($label)
                 ->setValue($value)
-                ->setImage($image)
                 ->setQuestion($question)
                 ->setUpdatedAt(new \DateTime());
+
+            if ($data !== "data:image/png;base64,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")
+            {
+                list(, $data) = explode(';', $data);
+                list(,$data)  = explode(',', $data);
+
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                $response->setImageName($imageName);
+            }
 
             $em->persist($response);
             $em->flush();
@@ -94,29 +107,42 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
      *
      * @param $id
      * @param $form
+     * @param $imageInfo
      *
      * @return bool|object
      */
-    public function putResponse($id, $form)
+    public function putResponse($id, $form, $imageInfo)
     {
+        $data = $imageInfo['image'];
+        $pathToImageFolder = $imageInfo['pathToImage'];
+
         $em = $this->getEntityManager();
 
         $value = $form['value']->getData();
         $label = $form['label']->getData();
-        $image = $form['image']->getData();
 
         if ($value != 0)
         {
             $response = $this->getResponseById($id);
 
-
             $response->setLabel($label)
                 ->setValue($value)
                 ->setUpdatedAt(new \DateTime());
 
-            if (!is_null($image))
-                $response->setImage($image);
+            if ($data !== "data:image/png;base64,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")
+            {
+                list(, $data) = explode(';', $data);
+                list(,$data)  = explode(',', $data);
 
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                if(!is_null($response->getImageName()))
+                    unlink($pathToImageFolder.$response->getImageName());
+
+                $response->setImageName($imageName);
+            }
 
 
             $em->persist($response);
@@ -140,85 +166,4 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
         $em->remove($response);
         $em->flush();
     }
-
-    /**
-     * TODO: DELETE UNUSED METHOD
-     * Renvois true si la réponse existe déjà
-     *
-     * @param $label
-     *
-     * @return bool
-     */
-//    public function checkIfResponseAlreadyExist($value, Question $question, Temperament $temperament, $id = null)
-//    {
-//        if ($value > 0)
-//        {
-//            $query = "r.value > 0";
-//        }
-//        else if ($value < 0)
-//        {
-//            $query = "r.value < 0";
-//        }
-//
-//        return $this->checkerProcess($query, $question, $temperament, $id);
-//    }
-
-    /**
-     * TODO: DELETE UNUSED METHOD
-     * Méthode factoriser pour voir si en base il n'éxiste pas une réponse avec un même type de personnalité pour une quéstion
-     * @param $string
-     * @param $question
-     * @param $temperament
-     * @param $id
-     * @return bool
-     */
-//    private function checkerProcess($string, $question, $temperament, $id)
-//    {
-//        $responses = $this->getEntityManager()->createQueryBuilder()
-//            ->select("r")
-//            ->from("AdminBundle:Response", "r")
-//            ->where("r.question = :question")
-//            ->andWhere("r.temperament = :temperament")
-//            ->andWhere($string)
-//            ->setParameters([
-//                ":question" => $question,
-//                ":temperament" => $temperament,
-//            ])
-//            ->getQuery()
-//            ->getResult();
-//
-//        /**
-//         * True == Entité présente et non demandé en modification ==> modification refuser
-//         * False == Entité non présente ou présente et demande de modification => Modification autoriser
-//         */
-//
-//        $return = false;
-//
-//        // Si on a une réponse
-//        if (count($responses))
-//        {
-//            // Si l'id présent en paramètre est null
-//            if (is_null($id))
-//            {
-//                // On renvois true
-//                $return = true;
-//            }
-//            else
-//            {
-//                // En renvois true
-//                $return = true;
-//
-//                // Si l'id présent en paramètre correspond a celui d'un des résultats trouver on renvois false
-//                foreach ($responses as $response)
-//                {
-//                    if ($response->getId() == $id)
-//                    {
-//                        $return = false;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $return;
-//    }
 }

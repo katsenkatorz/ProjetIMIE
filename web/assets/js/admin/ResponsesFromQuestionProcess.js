@@ -179,60 +179,95 @@ function sendResponse(form, action, PanelTitle)
     {
         e.preventDefault();
 
-        var formData = new FormData($(this)[0]);
+        var that = this;
 
-        $.ajax({
-            url: action,
-            type: "POST",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            beforeSend: function ()
-            {
-                $('#loadingmessage').show();
-            }
-        }).done(function (result)
+        $uploadCrop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (resp)
         {
+            var formData = new FormData($(that)[0]);
 
-            // Fermeture du modal en cas de success
-            $('#modalResponse').modal('hide');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
+            formData.append('croppedImage', resp);
 
-            $("#responseMessageContent")
-                .fadeIn(250)
-                .removeClass('hidden');
-            $("#responseMessage").html(result.message);
-            setTimeout(function ()
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function ()
+                {
+                    $('#loadingmessage').show();
+                }
+            }).done(function (result)
             {
-                $("#responseMessageContent").fadeOut(250);
-            }, 5000);
+                // Fermeture du modal en cas de success
+                $('#modalResponse').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
 
-            PanelTitle.trigger("click");
-            setTimeout(function ()
-            {
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(result.message);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
+
                 PanelTitle.trigger("click");
-            }, 500);
-        }).fail(function (error)
-        {
-            $("#responseMessageContent")
-                .fadeIn(250)
-                .removeClass('hidden');
-            $("#responseMessage").html(error.message);
-            setTimeout(function ()
+                setTimeout(function ()
+                {
+                    PanelTitle.trigger("click");
+                }, 500);
+            }).fail(function (error)
             {
-                $("#responseMessageContent").fadeOut(250);
-            }, 5000);
-        }).always(function ()
-        {
-            $('#loadingmessage').hide();
+                $("#responseMessageContent")
+                    .fadeIn(250)
+                    .removeClass('hidden');
+                $("#responseMessage").html(error);
+                setTimeout(function ()
+                {
+                    $("#responseMessageContent").fadeOut(250);
+                }, 5000);
+            }).always(function ()
+            {
+                $('#loadingmessage').hide();
+            });
         });
     });
 }
 
 $(document).ready(function ()
 {
+    $uploadCrop = $('#imageHandler').croppie({
+        enableExif: true,
+        viewport: {
+            width: 250,
+            height: 250,
+            type: 'square'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#imageResponse').on('change', function ()
+    {
+        var reader = new FileReader();
+        reader.onload = function (e)
+        {
+            $uploadCrop.croppie('bind', {
+                url: e.target.result
+            }).then(function () {});
+
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+
     loadRangeInput("#valueResponse");
 
     refreshSelectInput('#selectTemperamentQuestion', '#tempQuestion');

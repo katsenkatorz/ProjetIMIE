@@ -64,10 +64,13 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      * @param $formGetData
      * @return Job|bool
      */
-    public function postJob($formResult)
+    public function postJob($formResult, $imageInfo)
     {
         if(!$this->checkIfJobAlreadyExist($formResult['name']->getData(), $formResult['description']->getData()))
         {
+            $data = $imageInfo['image'];
+            $pathToImageFolder = $imageInfo['pathToImage'];
+
             $em = $this->getEntityManager();
             $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
             $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
@@ -75,8 +78,23 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $temperaments = $TemperamentRepo->getTemperaments();
 
             $job = new Job();
-            $job = $formResult->getData();
-            $job->setUpdatedAt(new \DateTime());
+            $job->setName($formResult['name']->getData())
+                ->setDescription($formResult['description']->getData())
+                ->setMaxSalary($formResult['maxSalary']->getData())
+                ->setMinSalary($formResult['minSalary']->getData())
+                ->setUpdatedAt(new \DateTime());
+
+            if ($data !== "data:image/png;base64,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")
+            {
+                list(, $data) = explode(';', $data);
+                list(,$data)  = explode(',', $data);
+
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                $job->setImageName($imageName);
+            }
 
             $em->persist($job);
             $em->flush();
@@ -104,8 +122,10 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool|object
      */
-    public function putJob($jobId, $form)
+    public function putJob($jobId, $form, $imageInfo)
     {
+        $data = $imageInfo['image'];
+        $pathToImageFolder = $imageInfo['pathToImage'];
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
 
@@ -113,7 +133,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $description = $form['description']->getData();
         $minsalary = $form['minSalary']->getData();
         $maxSalary = $form['maxSalary']->getData();
-        $image = $form['image']->getData();
 
         if($job)
         {
@@ -123,8 +142,20 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMaxSalary($maxSalary)
                 ->setUpdatedAt(new \DateTime());
 
-            if($image)
-                $job->setImage($image);
+            if ($data !== "data:image/png;base64,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")
+            {
+                list(, $data) = explode(';', $data);
+                list(,$data)  = explode(',', $data);
+
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                if(!is_null($job->getImageName()))
+                    unlink($pathToImageFolder.$job->getImageName());
+
+                $job->setImageName($imageName);
+            }
 
             $em->persist($job);
             $em->flush();

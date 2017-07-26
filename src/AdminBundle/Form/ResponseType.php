@@ -25,10 +25,6 @@ class ResponseType extends AbstractType
                     "value" => 0
                 ]
             ])
-            ->add("image", FileType::class, [
-                "label" => "Image",
-                "required" => false,
-            ])
             ->add("question", HiddenType::class)
             ->add("save", SubmitType::class, ["label" => "Créer une réponse"]);
     }
