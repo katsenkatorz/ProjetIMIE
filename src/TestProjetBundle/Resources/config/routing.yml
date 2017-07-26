@@ -1,0 +1,24 @@
+test_homepage:
+    path:     /
+    defaults:
+        _controller: TestProjetBundle:Default:home
+
+test_formOne:
+    path:     /formOne
+    defaults:
+        _controller: TestProjetBundle:Default:formOne
+
+test_formTwo:
+    path:     /formTwo
+    defaults:
+        _controller: TestProjetBundle:Default:formTwo
+
+test_RenderUpload:
+    path:     /renderUpload
+    defaults:
+        _controller: TestProjetBundle:Default:testRenderUploadImage
+
+test_Upload:
+    path:     /upload
+    defaults:
+        _controller: TestProjetBundle:Default:testUploadImage
