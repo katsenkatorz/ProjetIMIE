@@ -1,4 +1,5 @@
-$("document").ready(function ($) {
+$(document).ready(function () {
+
     var nav = $('.question');
     $(window).scroll(function () {
         if ($(this).scrollTop() < $(window).height()) {
