@@ -35,6 +35,13 @@ class JobPersonnalityRepository extends \Doctrine\ORM\EntityRepository
         return $this->findOneBy(["id" => $jpId]);
     }
 
+    public function getJobPersonnalityByJobId($jobId)
+    {
+        $job = $this->getEntityManager()->getRepository("AdminBundle:Job")->getJobById($jobId);
+
+        return $this->findBy(['job' => $job]);
+    }
+
     /**
      * Renvois un JobPersonnality choisie par sont job et sont personnality type
      *

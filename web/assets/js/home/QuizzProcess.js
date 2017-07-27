@@ -1,6 +1,9 @@
-$(document).ready(function () {
-    getQuestionSetIntoLocalStorage(function () {
-        genQuizz(getCookie("lastQuestionToStart"), function () {
+$(document).ready(function ()
+{
+    getQuestionSetIntoLocalStorage(function ()
+    {
+        genQuizz(getCookie("lastQuestionToStart"), function ()
+        {
             getImageValue();
             showPrevButton();
             handleProgressBar();
@@ -10,6 +13,8 @@ $(document).ready(function () {
     nextQuestionProcess();
     prevQuestionProcess();
 
+
+    // Génère le quizz sur la page
     function genQuizz(number, callback)
     {
         // On récupère la questionSet
@@ -100,7 +105,7 @@ $(document).ready(function () {
             setCookie("responseContent" + questionNumber, JSON.stringify(responseContent), 1);
 
             // On affiche le bouton next
-            $('#next').show();
+            $('#next').removeClass('disabled');
 
             // Sur chaque image, on enlève la classe imageBorder (qui permet d'afficher la sélection)
             $('.imgContent').each(function ()
@@ -121,7 +126,7 @@ $(document).ready(function () {
 
         // Si la dernière réponse valider n'est pas la première, on affiche le bouton précedent
         if (questionNumber > 0)
-            $('#prev').show();
+            $('#prev').removeClass('disabled');
     }
 
     // Fonction qui permet de passé à la question suivante
@@ -130,6 +135,8 @@ $(document).ready(function () {
         // Au click sur le bouton suivant
         $('#next').unbind('click').bind('click', function ()
         {
+            var href = $(this).data("href");
+
             // On récupère le numéro de la question en cours
             var questionNumber = getCookie("lastQuestionToStart");
 
@@ -137,7 +144,6 @@ $(document).ready(function () {
             if (questionNumber < localStorage.length - 1)
             {
                 // On met à jours le numéro de la question pour avoir celle de la suivante
-                // if(typeof JSON.parse(getCookie("responseContent"+questionNumber)) === undefined)
                 setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
 
                 // On reset le contenu de responseContainer
@@ -151,9 +157,24 @@ $(document).ready(function () {
                     handleProgressBar();
                     selectRespondedResult();
                 });
+            }
+            else
+            {
+                var responses = [];
 
-                // On cache le bouton suivant
-                // $(this).hide();
+                for (var i = 0; i < localStorage.length; i++)
+                {
+                    responses.push(JSON.parse(getCookie("responseContent" + i)));
+                }
+
+                $.ajax({
+                    url: href,
+                    type: "POST",
+                    data: {"responses": responses}
+                }).done(function (result)
+                {
+                    location.href = result.href;
+                })
             }
         });
     }
@@ -186,7 +207,7 @@ $(document).ready(function () {
 
                 // Si la question qui est en cours est la première, on cache le bouton précedent
                 if (parseInt(getCookie("lastQuestionToStart")) === 0)
-                    $(this).hide();
+                    $(this).addClass('disabled');
             }
         });
     }
@@ -201,18 +222,18 @@ $(document).ready(function () {
             if (typeof responseContent !== undefined)
             {
                 $("#" + responseContent.idImage).trigger('click');
-                $('#next').show();
+                $('#next').removeClass('disabled')
             }
         }
         else
         {
-            $('#next').hide();
+            $('#next').addClass('disabled');
         }
     }
 });
 
 /**
- * On récupère le tableau de questionSet et on le fragmente, puis on enregistre chaque fragment dans le localStorage
+ * On récupère le tableau de questionSet et on le fragmente, puis enregistre chaque fragment dans le localStorage
  */
 function getQuestionSetIntoLocalStorage(callback)
 {
@@ -223,7 +244,8 @@ function getQuestionSetIntoLocalStorage(callback)
             url: "/questionSet",
             type: "GET",
             async: false
-        }).done(function (result) {
+        }).done(function (result)
+        {
             var j = 0;
 
             result.forEach(function (questionSet)
@@ -233,7 +255,8 @@ function getQuestionSetIntoLocalStorage(callback)
                 // On récupère l'id du tempérament
                 arraySet.idTemperament = questionSet.temperament.id;
 
-                questionSet.questions.forEach(function (arrayQuestion) {
+                questionSet.questions.forEach(function (arrayQuestion)
+                {
                     // On récupère le numeros de la question
                     arraySet.questionNumber = arrayQuestion.questionNumber;
 
