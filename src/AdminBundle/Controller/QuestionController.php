@@ -14,6 +14,7 @@ use AdminBundle\Form\ResponseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 
 class QuestionController extends Controller
 {
@@ -131,8 +132,14 @@ class QuestionController extends Controller
      */
     public function responsePostAction(Request $request)
     {
+        $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageResponse/';
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
         $idQuestion = $request->attributes->get('idQuestion');
+
+        $imageInfo = [
+            'image' => $request->get('croppedImage'),
+            'pathToImage' => $pathToImage
+        ];
 
         $form = $this->createForm(ResponseType::class);
 
@@ -140,7 +147,7 @@ class QuestionController extends Controller
 
         if($form->isValid() && $form->isSubmitted())
         {
-            $ResponseRepo->postResponse($form);
+            $ResponseRepo->postResponse($form, $imageInfo);
 
             return $this->json([
                 "message" => "La création de la réponse c'est bien effectué",
@@ -148,7 +155,7 @@ class QuestionController extends Controller
             ]);
         }
 
-        return $this->render("AdminBundle:app:questions.html.twig");
+        return $this->json(["message" => "Erreur lors de la création de la réponse"]);
     }
 
     /**
@@ -159,6 +166,13 @@ class QuestionController extends Controller
      */
     public function responseUpdateAction(Request $request)
     {
+        $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageResponse/';
+
+        $imageInfo = [
+            'image' => $request->get('croppedImage'),
+            'pathToImage' => $pathToImage
+        ];
+
         $ResponseRepo = $this->getDoctrine()->getRepository("AdminBundle:Response");
 
         $responseId = $request->attributes->get('idResponse');
@@ -169,10 +183,10 @@ class QuestionController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $response = $ResponseRepo->putResponse($responseId, $form);
+            $response = $ResponseRepo->putResponse($responseId, $form, $imageInfo);
             if(!$response)
                 return $this->json([
-                    'message' => "Problème lors de l'enregistrement, vérifier que les informations entrées soit valide.\n Il ne peut pas y avoir deux fois le même type d'équilibre pour un tempérament."
+                    'message' => "Problème lors de l'enregistrement, vérifier que les informations entrées soit valide."
                 ]);
 
             return $this->json(["message" => "La modification de la réponse c'est bien effectué"]);

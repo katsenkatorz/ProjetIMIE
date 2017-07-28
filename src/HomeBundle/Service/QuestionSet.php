@@ -1,6 +1,6 @@
 <?php
 
-namespace AdminBundle\Service;
+namespace HomeBundle\Service;
 
 
 

@@ -15,5 +15,8 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
     GenerateQuestionSet:
-        class: AdminBundle\Service\GenerateQuestionSet
+        class: HomeBundle\Service\GenerateQuestionSet
+        arguments: ["@doctrine.orm.entity_manager"]
+    QuizzResolver:
+        class: HomeBundle\Service\QuizzResolver
         arguments: ["@doctrine.orm.entity_manager"]

@@ -25,22 +25,21 @@ class JobPersonnalityController extends Controller
 
         // Création du formulaire pour créer un job
         $formJob = $this->createForm(JobType::class);
-        $formUpdateJob = $this->createForm(JobType::class);
 
         // Récupération de la requête de création de job
         $formJob->handleRequest($request);
-        $formUpdateJob->handleRequest($request);
 
         // Traitement pour la création de job
         if ($formJob->isSubmitted() && $formJob->isValid())
         {
-            $JobRepository->postJob($formJob);
-        }
+            $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageJob/';
 
-        // Traitement pour l'update de job
-        if ($formUpdateJob->isSubmitted() && $formUpdateJob->isValid())
-        {
-            $JobRepository->postJob($formUpdateJob);
+            $imageInfo = [
+                'image' => $request->get('croppedImage'),
+                'pathToImage' => $pathToImage
+            ];
+
+            $JobRepository->postJob($formJob, $imageInfo);
         }
 
         // Récupération des jobs
@@ -49,7 +48,6 @@ class JobPersonnalityController extends Controller
         return $this->render("AdminBundle:app:jobs.html.twig", [
             "formJob" => $formJob->createView(),
             "jobs" => $jobs,
-            "formUpdateJob" => $formUpdateJob->createView()
         ]);
     }
 
@@ -206,7 +204,15 @@ class JobPersonnalityController extends Controller
 
         if($form->isValid() && $form->isSubmitted())
         {
-            $job = $JobRepo->putJob($idJob, $form);
+            $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageJob/';
+
+            $imageInfo = [
+                'image' => $request->get('croppedImage'),
+                'pathToImage' => $pathToImage
+            ];
+
+            $job = $JobRepo->putJob($idJob, $form, $imageInfo);
+
             return $this->json([
                 'message'=> "La modification du métier c'est bien effectué",
                 "job" => [

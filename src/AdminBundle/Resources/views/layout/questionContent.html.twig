@@ -128,8 +128,10 @@
                         <div id='loadingmessage' style='display:none'>
                             <img src='{{ asset('assets/img/ajax-loader.gif') }}'/>
                         </div>
+
                         <div id="imageHandler"></div>
-                        {{ form_row(formResponse.image, {"label": false, 'id': "imageResponse"}) }}
+                        <input type="file" id="imageResponse">
+
                         {{ form_row(formResponse.question, {'id': "idQuestionResponse"}) }}
                     </div>
                     <div class="modal-footer">

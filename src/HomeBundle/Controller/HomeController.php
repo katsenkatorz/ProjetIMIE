@@ -31,16 +31,37 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function quizzAction()
     {
         return $this->render('HomeBundle:app:quizz.html.twig');
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function getQuestionSetAction()
     {
         $questionSet = $this->get("GenerateQuestionSet")->getQuestionSet();
 
         return $this->json($questionSet);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function resolutionAction(Request $request)
+    {
+        $QuizzResolver = $this->get('QuizzResolver');
+
+        $QuizzResolver->setResultats($request->get('responses'));
+
+        $selectedJobId = $QuizzResolver->resolve();
+
+        return $this->json(['href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId])]);
     }
 
     /**
@@ -51,7 +72,7 @@ class HomeController extends Controller
         $jobId = $request->attributes->get('jobId');
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
-        $job = $JobRepository->getJobbyId($jobId);
+        $job = $JobRepository->getJobById($jobId);
 
         return $this->render('HomeBundle:app:metier.html.twig', [
             "job" => $job,

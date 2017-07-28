@@ -13,6 +13,11 @@ home_quizz:
     defaults:
         _controller: HomeBundle:Home:quizz
 
+home_quizz_resolution:
+    path:     /resolve
+    defaults:
+        _controller: HomeBundle:Home:resolution
+
 home_metier:
     path:     /metier/{jobId}
     defaults:

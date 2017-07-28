@@ -11,6 +11,8 @@
                     <button type="button" class="btn btn-primary"
                             data-type="create"
                             data-toggle="modal"
+                            data-action="/admin/job/"
+                            data-method="post"
                             data-target="#modalJob"><i class="fa fa-plus"></i> Ajouter un métier
                     </button>
                     <div id="responseMessageContent" class="row hidden">
@@ -55,7 +57,8 @@
                                                data-name="{{ job.name }}"
                                                data-action="/admin/job/{{ job.id }}/put"
                                                data-toggle="modal"
-                                               data-target="#modalUpdateJob">
+                                               data-method="put"
+                                               data-target="#modalJob">
                                                 <i class="fa fa-edit fa-inverse fa-2x"></i>
                                             </a>
                                         </div>
@@ -107,50 +110,23 @@
                                     }
                                 }) }}
                                 <div class="modal-body">
-
                                     {{ form_row(formJob.name, {'id': 'nameInput' }) }}
                                     {{ form_row(formJob.minSalary, {'id': 'minSalaryInput' }) }}
                                     {{ form_row(formJob.maxSalary, {'id': 'maxSalaryInput' }) }}
                                     {{ form_row(formJob.description, {'id': 'descriptionInput' }) }}
-                                    {{ form_row(formJob.image) }}
+
+                                    <div id='loadingmessage' style='display:none'>
+                                        <img src='{{ asset('assets/img/ajax-loader.gif') }}'/>
+                                    </div>
+
+                                    <div id="imageHandler"></div>
+                                    <input type="file" id="imageJob">
+
                                     {{ form_row(formJob.save, {'id': 'submitInput','attr': {'class': 'btn btn-primary modifJob' }}) }}
                                 </div>
                                 <div class="modal-footer">
                                 </div>
                                 {{ form_end(formJob) }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="modalUpdateJob" class="modal fade container" role="dialog" style="display:none;">
-                        <div class="modal-dialog-lg">
-                            <!-- Modal Critic content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Modifier un métier</h4>
-                                </div>
-                                <div class="modal-body">
-                                    {{ form_start(formUpdateJob, {
-                                        'method': 'POST',
-                                        'attr': {
-                                            'class': 'formUpdateJob',
-                                            'id': 'formUpdateJob',
-                                        }
-                                    }) }}
-                                    {{ form_row(formUpdateJob.name, {'id': 'nameUpdateInput' }) }}
-                                    {{ form_row(formUpdateJob.minSalary, {'id': 'minSalaryUpdateInput' }) }}
-                                    {{ form_row(formUpdateJob.maxSalary, {'id': 'maxSalaryUpdateInput' }) }}
-                                    {{ form_row(formUpdateJob.description, {'id': 'descriptionUpdateInput' }) }}
-                                    <div id='loadingmessage' style='display:none'>
-                                        <img src='{{ asset('assets/img/ajax-loader.gif') }}'/>
-                                    </div>
-                                    {{ form_row(formUpdateJob.image) }}
-                                </div>
-                                <div class="modal-footer">
-                                    {{ form_row(formUpdateJob.save, {'id': 'submitUpdateInput','attr': {'class': 'btn btn-primary modifJob ' }}) }}
-                                </div>
-                                {{ form_end(formUpdateJob) }}
                             </div>
                         </div>
                     </div>
