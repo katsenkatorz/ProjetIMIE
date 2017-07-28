@@ -74,7 +74,7 @@ h1, h2 {
 .question {
     width: calc(100% - 80px);
     padding: 30px 40px;
-    background: grey;
+    background: #FFFFFF;
     -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
     filter: drop-shadow(5px 4px 0 #ea3d4f);
     -moz-transition: 2s;
@@ -99,7 +99,7 @@ h1, h2 {
     height: 79px;
     top: 2px;
     right: -3%;
-    border-right: 27px solid grey;
+    border-right: 27px solid #FFFFFF;
     -moz-border-radius-bottomright: 370px 210px;
     -webkit-border-bottom-right-radius: 274px 300px;
     border-top-right-radius: 370px 200px;
