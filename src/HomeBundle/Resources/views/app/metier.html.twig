@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="col-md-7">
-                        <h2>Tu es ...</h2>
+                        <h2>Tu es {{ job.name }}</h2>
                         <p>
                             Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia quaedam
                             sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias amicitias,
@@ -24,9 +24,11 @@
                         </p>
                     </div>
                     <div class="col-md-5">
-                        <a href="#" class="thumbnail">
-                            <img src="{{ asset('assets/img/THUMB__t5j5.jpg') }}" alt="...">
-                        </a>
+                        {% if job.image is not null %}
+                            <a href="#" class="thumbnail">
+                                <img style="margin-top: 30px" class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -51,7 +53,7 @@
                 <div class="col-md-4">
                     <h3>Le tempérament du métier</h3>
                     <p>Métier : {{ job.name }}</p>
-                    <canvas id="myChart" width="800" height="600">
+                    <canvas id="myChart" width="1200" height="1000">
 
                     </canvas>
                     <div class="row">

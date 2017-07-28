@@ -109,6 +109,15 @@ footer {
     max-width: 239px !important;
 }
 
+.imgHome {
+    width: 120px;
+    height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 /*------- METIER (RESULTAT TEST) -------*/
 
 .imgJob {
