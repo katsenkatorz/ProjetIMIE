@@ -15,7 +15,7 @@
                     {% for job in jobs %}
                         <div class="col-md-4 col-sm-6">
                             <div class="thumbnail thumJob">
-                                <a href="{{ path('home_metier', {jobId: job.id} ) }}" class="text-center">
+                                <a href="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}" class="text-center">
                                     {% if job.image is not null %}
                                         <img style="height: 200px; width: 300px" class="" src="{{ asset(job.image.pathname) }}"
                                              alt="job.name">
