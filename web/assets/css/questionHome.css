@@ -14,14 +14,6 @@ h1, h2 {
 
 /*------- QUIZZ -------*/
 
-.question {
-    height: 150px;
-    top: 100%;
-    margin-top: 0;
-    text-align: center;
-    transition: height 1s;
-}
-
 .f-question {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 15px;
@@ -53,18 +45,19 @@ h1, h2 {
      border-color: #FEF171 !important;
 }
 
-.icoHome {
-    border: none;
-}
-
 .progress {
     border: solid 1px #050505;
     padding: 2px;
     border-radius: 0;
+    margin-top: 25px;
 }
 
 .progress-bar {
     background: #ea3d4f;
+}
+
+.icoHome {
+    border: none;
 }
 
 .imgQuizz {
@@ -74,6 +67,49 @@ h1, h2 {
 
 .subtitleQuizz {
     color: black;
+}
+
+/*--- Bubble BD ---*/
+
+.question {
+    width: calc(100% - 80px);
+    padding: 30px 40px;
+    background: grey;
+    -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
+    filter: drop-shadow(5px 4px 0 #ea3d4f);
+    -moz-transition: 2s;
+    -o-transition: 2s;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    border: solid #ea3d4f;
+}
+
+.question h1 {
+    vertical-align: middle;
+    padding: 0 20px;
+    font-size: 25px;
+}
+
+.question:after {
+    content: '';
+    width: 90px;
+    height: 79px;
+    top: 2px;
+    right: -3%;
+    border-right: 27px solid grey;
+    -moz-border-radius-bottomright: 370px 210px;
+    -webkit-border-bottom-right-radius: 274px 300px;
+    border-top-right-radius: 370px 200px;
+    -moz-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+    transform: rotate(179deg);
+    display: block;
+    position: absolute;
+    z-index: -1;
 }
 
 /*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
