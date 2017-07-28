@@ -245,8 +245,8 @@ $(document).ready(function ()
     $uploadCrop = $('#imageHandler').croppie({
         enableExif: true,
         viewport: {
-            width: 250,
-            height: 250,
+            width: 230,
+            height: 125,
             type: 'square'
         },
         boundary: {

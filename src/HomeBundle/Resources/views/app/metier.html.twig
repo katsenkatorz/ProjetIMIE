@@ -26,7 +26,8 @@
                     <div class="col-md-5">
                         {% if job.image is not null %}
                             <a href="#" class="thumbnail">
-                                <img style="margin-top: 30px" class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
+                                <img style="margin-top: 30px" class="imgJob image-responsive"
+                                     src="{{ asset(job.image.pathname) }}" alt="...">
                             </a>
                         {% endif %}
                     </div>
@@ -57,16 +58,22 @@
 
                     </canvas>
                     <div class="row">
-                        {# jobs #}
-                        <h3>Le salaire</h3>
-                        <p class="pull-left">
-                            Salaire minimum :
-                            {{ job.minSalary }}€
-                        </p>
-                        <p class="pull-right">
-                            Salaire maximum :
-                            {{ job.maxSalary }}€
-                        </p><br/>
+                        <div class="col-md-12">
+                            {# jobs #}
+                            <h3>Le salaire</h3>
+                            <table class="table table-condensed text-center">
+                                <tr>
+                                    <td>Salaire minimum</td>
+                                    <td>Salaire maximum</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ job.minSalary }}€</td>
+                                    <td>{{ job.maxSalary }}€</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
                         {# img job #}
                         {% if job.image is not null %}
                             <a href="#" class="thumbnail">

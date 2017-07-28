@@ -36,7 +36,7 @@ $(document).ready(function ()
             var colDiv = document.createElement("div");
             colDiv.className = "col-md-4 col-sm-6";
 
-            // On crée la div qui contien la class thumbnail
+            // On crée la div qui contient la class thumbnail
             var thumbnail = document.createElement("a");
             thumbnail.className = "thumbnail imgContent";
             thumbnail.setAttribute('data-value', response.value);
@@ -50,7 +50,7 @@ $(document).ready(function ()
             imgContent.alt = "Image indisponible";
 
             // On crée la div qui contient le nom de l'image
-            var responseLabel = document.createElement('h2');
+            var responseLabel = document.createElement('h3');
             responseLabel.className = "text-center subtitleQuizz";
             responseLabel.innerHTML = response.label;
 

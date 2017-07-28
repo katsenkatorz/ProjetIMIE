@@ -96,8 +96,8 @@ $(document).ready(function ()
     $uploadCrop = $('#imageHandler').croppie({
         enableExif: true,
         viewport: {
-            width: 250,
-            height: 250,
+            width: 230,
+            height: 125,
             type: 'square'
         },
         boundary: {
@@ -155,38 +155,38 @@ $(document).ready(function ()
                 }).then(function (resp)
                 {
                     var formData = new FormData($(that)[0]);
-
+                    console.log(resp);
                     formData.append('croppedImage', resp);
 
-                    $.ajax({
-                        url: action,
-                        type: "POST",
-                        dataType: "json",
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        beforeSend: function ()
-                        {
-                            $('#loadingmessage').show();
-                        }
-                    }).done(function () {})
-                        .fail(function (error)
-                        {
-                            // Affichage du message d'erreur
-                            $("#responseMessageContent")
-                                .fadeIn(250)
-                                .removeClass('hidden');
-                            $("#responseMessage").html(error.message);
-                            setTimeout(function ()
-                            {
-                                $("#responseMessageContent").fadeOut(250);
-                            }, 5000);
-                        })
-                        .always(function ()
-                        {
-                            $('#loadingmessage').hide();
-                        });
+                    // $.ajax({
+                    //     url: action,
+                    //     type: "POST",
+                    //     dataType: "json",
+                    //     data: formData,
+                    //     cache: false,
+                    //     contentType: false,
+                    //     processData: false,
+                    //     beforeSend: function ()
+                    //     {
+                    //         $('#loadingmessage').show();
+                    //     }
+                    // }).done(function () {})
+                    //     .fail(function (error)
+                    //     {
+                    //         // Affichage du message d'erreur
+                    //         $("#responseMessageContent")
+                    //             .fadeIn(250)
+                    //             .removeClass('hidden');
+                    //         $("#responseMessage").html(error.message);
+                    //         setTimeout(function ()
+                    //         {
+                    //             $("#responseMessageContent").fadeOut(250);
+                    //         }, 5000);
+                    //     })
+                    //     .always(function ()
+                    //     {
+                    //         $('#loadingmessage').hide();
+                    //     });
                 });
             });
         }
@@ -195,18 +195,17 @@ $(document).ready(function ()
         {
             // On récupère le modal et le button
             var modal = $(this);
-
             // Récupération des data-attributes pour la modification
             action = button.data('action');
-
             var jobId = button.data('job');
+
             var minSalary = button.data('min-salary');
             var maxSalary = button.data('max-salary');
             var description = button.data('description');
             var name = button.data('name');
-
             // Assignation des valeurs aux inputs
             nameInput.val(name);
+
             minSalaryInput.val(minSalary);
             maxSalaryInput.val(maxSalary);
             descriptionInput.setData(description);
@@ -216,6 +215,7 @@ $(document).ready(function ()
             $('#formJob').unbind('submit').bind('submit', function (e)
             {
                 e.preventDefault();
+
                 var that = this;
                 var resultContent = $('#descriptionContent' + jobId);
 
