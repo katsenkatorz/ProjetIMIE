@@ -7,6 +7,7 @@ $(document).ready(function ()
             getImageValue();
             showPrevButton();
             handleProgressBar();
+            genImg();
         });
     });
 
@@ -156,6 +157,7 @@ $(document).ready(function ()
                     showPrevButton();
                     handleProgressBar();
                     selectRespondedResult();
+                    genImg();
                 });
             }
             else
@@ -203,6 +205,7 @@ $(document).ready(function ()
                     showPrevButton();
                     handleProgressBar();
                     selectRespondedResult();
+                    genImg();
                 });
 
                 // Si la question qui est en cours est la première, on cache le bouton précedent
@@ -229,6 +232,25 @@ $(document).ready(function ()
         {
             $('#next').addClass('disabled');
         }
+    }
+
+    function genImg()
+    {
+        var imgs = [
+            'perso_pose2',
+            'perso_pose3',
+            'perso_pose4',
+            'perso_pose5',
+            'perso_pose6',
+            'perso_pose7',
+            'perso_pose8'
+        ];
+
+        var perso = document.querySelector('#perso');
+        var img = imgs[Math.floor(Math.random() * imgs.length)]
+
+        perso.src = "assets/img/perso/" + img + '.png';
+        console.log(img);
     }
 });
 

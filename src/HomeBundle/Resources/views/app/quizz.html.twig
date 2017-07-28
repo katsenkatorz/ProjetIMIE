@@ -29,9 +29,9 @@
                             <div class="question">
                                 <h1 id="questionLabel" class="text-center"></h1>
                             </div>
-                            <div class="col-md-4 col-sm-4">
-                                <img src="{{ asset('assets/img/perso/') }}" alt="">
-                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <img id="perso" src="" alt="" width="250" height="280">
                         </div>
                     </div>
                     <div class="row">
@@ -55,8 +55,9 @@
                 <div class="col-md-12">
                     <div class="text-center">
                         <br/>
-                        <a class="btn btn-warning btn-lg disabled" id="prev" >Précedent</a>
-                        <a class="btn btn-danger btn-lg disabled" id="next" data-href="{{ path('home_quizz_resolution') }}" >Suivant</a>
+                        <a class="btn btn-warning btn-lg disabled" id="prev">Précedent</a>
+                        <a class="btn btn-danger btn-lg disabled" id="next"
+                           data-href="{{ path('home_quizz_resolution') }}">Suivant</a>
                     </div>
                 </div>
             </div>
