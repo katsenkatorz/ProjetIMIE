@@ -175,6 +175,9 @@ $(document).ready(function ()
                     data: {"responses": responses}
                 }).done(function (result)
                 {
+                    localStorage.clear();
+                    deleteAllCookies();
+
                     location.href = result.href;
                 })
             }
@@ -247,10 +250,9 @@ $(document).ready(function ()
         ];
 
         var perso = document.querySelector('#perso');
-        var img = imgs[Math.floor(Math.random() * imgs.length)]
+        var img = imgs[Math.floor(Math.random() * imgs.length)];
 
         perso.src = "assets/img/perso/" + img + '.png';
-        console.log(img);
     }
 });
 
@@ -326,6 +328,17 @@ function getCookie(cname)
     return "";
 }
 
+function deleteAllCookies()
+{
+    var cookies = document.cookie.split(";");
 
+    for (var i = 0; i < cookies.length; i++)
+    {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}
 
 

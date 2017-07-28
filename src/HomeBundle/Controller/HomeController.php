@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         $selectedJobId = $QuizzResolver->resolve();
 
-        return $this->json(['href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId])]);
+        return $this->json(['href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId, 'bool' => 1])]);
     }
 
     /**
@@ -70,12 +70,15 @@ class HomeController extends Controller
     public function metierAction(Request $request)
     {
         $jobId = $request->attributes->get('jobId');
-        $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
+        $bool = $request->attributes->get('bool');
 
-        $job = $JobRepository->getJobById($jobId);
+        $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
+        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality")->getJobPersonnalityByJobId($jobId);
 
         return $this->render('HomeBundle:app:metier.html.twig', [
             "job" => $job,
+            "jobPersonnalities" => $jobPersonnalities,
+            'bool' => $bool
         ]);
     }
 

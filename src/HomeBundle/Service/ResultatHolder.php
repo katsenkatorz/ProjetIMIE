@@ -10,7 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @description Utiliser pour stocker les résultats des questions d'un même tempérament
  * @package HomeBundle\Service
  */
-class ResultatHolder{
+class ResultatHolder
+{
 
     /**
      * @var integer
@@ -44,10 +45,26 @@ class ResultatHolder{
      */
     public function getValueAverage()
     {
-        $moyPosValue = array_sum($this->posValues->toArray())/sizeof($this->posValues->toArray());
-        $moyNegValue = array_sum($this->negValues->toArray())/sizeof($this->negValues->toArray());
+        $taillePosValue = sizeof($this->posValues->toArray());
+        $tailleNegValue = sizeof($this->negValues->toArray());
 
-        return round(($moyNegValue + $moyPosValue) / 2);
+        if ($tailleNegValue == 0)
+        {
+            $moyenneFinal = array_sum($this->posValues->toArray()) / $taillePosValue;
+        }
+        else if ($taillePosValue == 0)
+        {
+            $moyenneFinal = array_sum($this->negValues->toArray()) / $tailleNegValue;
+        }
+        else
+        {
+            $moyPosValue = array_sum($this->posValues->toArray()) / $taillePosValue;
+            $moyNegValue = array_sum($this->negValues->toArray()) / $tailleNegValue;
+
+            $moyenneFinal = round(($moyNegValue + $moyPosValue) / 2);
+        }
+
+        return $moyenneFinal;
     }
 
     /**
