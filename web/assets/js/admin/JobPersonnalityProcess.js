@@ -155,38 +155,38 @@ $(document).ready(function ()
                 }).then(function (resp)
                 {
                     var formData = new FormData($(that)[0]);
-                    console.log(resp);
+
                     formData.append('croppedImage', resp);
 
-                    // $.ajax({
-                    //     url: action,
-                    //     type: "POST",
-                    //     dataType: "json",
-                    //     data: formData,
-                    //     cache: false,
-                    //     contentType: false,
-                    //     processData: false,
-                    //     beforeSend: function ()
-                    //     {
-                    //         $('#loadingmessage').show();
-                    //     }
-                    // }).done(function () {})
-                    //     .fail(function (error)
-                    //     {
-                    //         // Affichage du message d'erreur
-                    //         $("#responseMessageContent")
-                    //             .fadeIn(250)
-                    //             .removeClass('hidden');
-                    //         $("#responseMessage").html(error.message);
-                    //         setTimeout(function ()
-                    //         {
-                    //             $("#responseMessageContent").fadeOut(250);
-                    //         }, 5000);
-                    //     })
-                    //     .always(function ()
-                    //     {
-                    //         $('#loadingmessage').hide();
-                    //     });
+                    $.ajax({
+                        url: action,
+                        type: "POST",
+                        dataType: "json",
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function ()
+                        {
+                            $('#loadingmessage').show();
+                        }
+                    }).done(function () {})
+                        .fail(function (error)
+                        {
+                            // Affichage du message d'erreur
+                            $("#responseMessageContent")
+                                .fadeIn(250)
+                                .removeClass('hidden');
+                            $("#responseMessage").html(error.message);
+                            setTimeout(function ()
+                            {
+                                $("#responseMessageContent").fadeOut(250);
+                            }, 5000);
+                        })
+                        .always(function ()
+                        {
+                            $('#loadingmessage').hide();
+                        });
                 });
             });
         }
