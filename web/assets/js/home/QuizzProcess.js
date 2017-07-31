@@ -261,7 +261,7 @@ $(document).ready(function ()
  */
 function getQuestionSetIntoLocalStorage(callback)
 {
-    if (localStorage.length < 1)
+    if (localStorage.length < 1 || getCookie("lastQuestionToStart").length <= 0)
     {
         setCookie("lastQuestionToStart", 0, 1);
         $.ajax({
