@@ -10,6 +10,12 @@ admin_putParameters:
         _controller: AdminBundle:Main:updateParameters
         method: POST
 
+admin_putValueOfParameters:
+    path:     /putValue/{idParameter}
+    defaults:
+        _controller: AdminBundle:Main:resizeImageHandler
+        method: PUT
+
 admin_mentionLegale:
     path:     /mentionLegale
     defaults:

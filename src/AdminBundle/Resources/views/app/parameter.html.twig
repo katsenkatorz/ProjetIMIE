@@ -7,9 +7,7 @@
 
 
 {% block _AdminBundle %}
-
     {% include "AdminBundle:layout:sidebar.html.twig" %}
-
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-cogs"></i>Gestion du site</a>
@@ -20,20 +18,33 @@
                 <div class="col-md-12">
                     <h2>Gestion du site</h2>
                     <hr/>
+                    <div id="responseMessageContent" class="row hidden">
+                        <div class="col-md-12">
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                </button>
+                                <p id="responseMessage"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <form class="form-group" action="" method="post">
-
-                        {% for parameter in parameters %}
-                            <label class="hidden">{{ parameter.label }}id{{ parameter.id }}</label>
-                            <div class="form-group">
-                                <label class="param-title"
-                                       data-label="{{ parameter.label }}">{{ parameter.label }}</label>
-                                <input title="" type="text" class="param form-control" name="{{ parameter.label }}Value"
-                                       value="{{ parameter.value }}" data-id="{{ parameter.id }}">
-                            </div>
-                        {% endfor %}
-
+                        <div class="col-md-12">
+                            {% for parameter in parameters %}
+                                <div class="form-group">
+                                    <label class="param-title"
+                                           id="parameterLabel{{ parameter.id }}">{{ parameter.label }}</label>
+                                    <input title="" type="text" class="param form-control"
+                                           id="parameterValue{{ parameter.id }}"
+                                           name="{{ parameter.label }}Value"
+                                           value="{{ parameter.value }}"
+                                           data-id="{{ parameter.id }}"
+                                           data-label="{{ parameter.label }}">
+                                </div>
+                            {% endfor %}
+                        </div>
                     </form>
                 </div>
             </div>

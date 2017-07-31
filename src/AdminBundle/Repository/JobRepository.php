@@ -74,6 +74,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
             $em = $this->getEntityManager();
             $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
             $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+            $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
 
             $temperaments = $TemperamentRepo->getTemperaments();
 
@@ -84,7 +85,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMinSalary($formResult['minSalary']->getData())
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOUAAAB8CAYAAACWoHedAAADCUlEQVR4Xu3TQREAAAgCQelf2hr3WBMwi+wcAQIpgaXSCEOAwBmlJyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg6BBzNcAH1h5ASLAAAAAElFTkSuQmCC")
+            if ($data !== $blankImageData)
             {
                 list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);
@@ -128,6 +129,8 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         $pathToImageFolder = $imageInfo['pathToImage'];
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
+        $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
+
 
         $name = $form['name']->getData();
         $description = $form['description']->getData();
@@ -142,7 +145,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMaxSalary($maxSalary)
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOUAAAB8CAYAAACWoHedAAADCUlEQVR4Xu3TQREAAAgCQelf2hr3WBMwi+wcAQIpgaXSCEOAwBmlJyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg6BBzNcAH1h5ASLAAAAAElFTkSuQmCC")
+            if ($data !== $blankImageData)
             {
                 list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);

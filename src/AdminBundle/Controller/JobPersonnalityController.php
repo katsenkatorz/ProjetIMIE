@@ -23,6 +23,9 @@ class JobPersonnalityController extends Controller
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
+        // Récupération des paramètres d'image
+        $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
+
         // Création du formulaire pour créer un job
         $formJob = $this->createForm(JobType::class);
 
@@ -48,6 +51,7 @@ class JobPersonnalityController extends Controller
         return $this->render("AdminBundle:app:jobs.html.twig", [
             "formJob" => $formJob->createView(),
             "jobs" => $jobs,
+            "imageParam" => $imageParam,
         ]);
     }
 
@@ -69,6 +73,9 @@ class JobPersonnalityController extends Controller
         // Récupération du job gràce à l'id
         $job = $JobRepository->getJobById($idJob);
 
+        // Récupération des paramètres d'image
+        $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
+
         // Récupération des jobPersonnality correspondant au job
         $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
 
@@ -87,7 +94,8 @@ class JobPersonnalityController extends Controller
         return $this->json($this->renderView("AdminBundle:layout:job.html.twig", [
             "forms" => $arrayForm,
             "job" => $job,
-            "jobPersonnalities" => $jobPersonnalities
+            "jobPersonnalities" => $jobPersonnalities,
+            "imageParam" => $imageParam
         ]));
     }
 

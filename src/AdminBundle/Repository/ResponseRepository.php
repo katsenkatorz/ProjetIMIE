@@ -68,6 +68,8 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
 
         $em = $this->getEntityManager();
         $question = $em->getRepository("AdminBundle:Question")->getQuestionById($formResult["question"]->getData());
+        $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
+
         $value = $formResult['value']->getData();
         $label = $formResult['label']->getData();
 
@@ -81,7 +83,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 ->setQuestion($question)
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOUAAAB8CAYAAACWoHedAAADCUlEQVR4Xu3TQREAAAgCQelf2hr3WBMwi+wcAQIpgaXSCEOAwBmlJyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg6BBzNcAH1h5ASLAAAAAElFTkSuQmCC")
+            if ($data !== $blankImageData)
             {
                 list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);
@@ -117,6 +119,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
         $pathToImageFolder = $imageInfo['pathToImage'];
 
         $em = $this->getEntityManager();
+        $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
 
         $value = $form['value']->getData();
         $label = $form['label']->getData();
@@ -129,7 +132,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 ->setValue($value)
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOUAAAB8CAYAAACWoHedAAADCUlEQVR4Xu3TQREAAAgCQelf2hr3WBMwi+wcAQIpgaXSCEOAwBmlJyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg4Bo/QDBGICRhkrRBwCRukHCMQEjDJWiDgEjNIPEIgJGGWsEHEIGKUfIBATMMpYIeIQMEo/QCAmYJSxQsQhYJR+gEBMwChjhYhDwCj9AIGYgFHGChGHgFH6AQIxAaOMFSIOAaP0AwRiAkYZK0QcAkbpBwjEBIwyVog4BIzSDxCICRhlrBBxCBilHyAQEzDKWCHiEDBKP0AgJmCUsULEIWCUfoBATMAoY4WIQ8Ao/QCBmIBRxgoRh4BR+gECMQGjjBUiDgGj9AMEYgJGGStEHAJG6QcIxASMMlaIOASM0g8QiAkYZawQcQgYpR8gEBMwylgh4hAwSj9AICZglLFCxCFglH6AQEzAKGOFiEPAKP0AgZiAUcYKEYeAUfoBAjEBo4wVIg6BBzNcAH1h5ASLAAAAAElFTkSuQmCC")
+            if ($data !== $blankImageData)
             {
                 list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);
