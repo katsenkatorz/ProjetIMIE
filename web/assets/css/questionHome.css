@@ -101,7 +101,7 @@ h1, h2 {
 .question:after {
     content: '';
     width: 90px;
-    height: 79px;
+    height: 65px;
     top: 2px;
     right: -3%;
     border-right: 27px solid #FFFFFF;
