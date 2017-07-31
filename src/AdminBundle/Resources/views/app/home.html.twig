@@ -14,11 +14,19 @@
         <div id="content-header">
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-home"></i>Accueil</a>
             </div>
-            {% include "AdminBundle:layout:actionBoxes.html.twig" %}
+            <canvas id="pieChart" width="1200" height="1000">
+
+            </canvas>
         </div>
     </div>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/admin/chartHome.js') }}"></script>
+{% endblock %}
+
 
 
 
