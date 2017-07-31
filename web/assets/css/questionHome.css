@@ -14,6 +14,23 @@ h1, h2 {
 
 /*------- QUIZZ -------*/
 
+.nextQuestion {
+    padding: 15px 20px;
+    box-shadow: 5px 5px 5px #6B2929;
+    border-radius: 0;
+    margin-bottom: 50px;
+    background-color: #EA3D50;
+    margin-left: 2px;
+}
+
+.previousQuestion {
+    padding: 15px 20px;
+    box-shadow: 5px 5px 5px #184759;
+    border-radius: 0;
+    margin-bottom: 50px;
+    background-color: #3fbfef;
+}
+
 .imgContent{
     box-shadow: 0 0 5px transparent;
     padding: 3px 0px 3px 3px;
@@ -22,14 +39,14 @@ h1, h2 {
 }
 
 .imageBorder{
-    box-shadow: 0 0 5px #FEF171;
+    box-shadow: 0 0 5px #3fbfef;
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
-    border: 5px solid #FEED57;
+    border: 5px solid #3fbfef;
 }
 
 .imgContent:hover {
-     border-color: #FEF171 !important;
+     border-color: #3fbfef !important;
 }
 
 .progress {
