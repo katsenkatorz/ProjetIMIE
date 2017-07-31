@@ -34,6 +34,15 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
         return $this->findOneBy(['id' => $id]);
     }
 
+    public function getParametersWithoutMentionsLegales()
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select("p")
+            ->from("AdminBundle:Parameters", "p")
+            ->where("p.label != 'mentions legales'")
+            ->getQuery()->getResult();
+    }
+
     public function postParameters($label, $value)
     {
         $em = $this->getEntityManager();
@@ -50,7 +59,7 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Modifie les paramètres
+     * Modifie un paramètre
      *
      * @param $id
      * @param $label
@@ -58,7 +67,7 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
      *
      * return null|object
      */
-    public function putParameters($id,$label, $value)
+    public function putParameter($id,$label, $value)
     {
         $em = $this->getEntityManager();
         $parameters = $this->getParameterById($id);
@@ -69,6 +78,31 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
 
         return $parameters;
+    }
+
+    /**
+     * Modifie la value d'un paramètre via sont id
+     *
+     * @param $id
+     * @param $value
+     */
+    public function putValueOfParameterById($id, $value)
+    {
+        $bool = false;
+        $em = $this->getEntityManager();
+        $parameter = $this->getParameterById($id);
+
+        if($parameter)
+        {
+            $parameter->setValue($value);
+
+            $em->persist($parameter);
+            $em->flush();
+
+            $bool = true;
+        }
+
+        return $bool;
     }
 
     /**

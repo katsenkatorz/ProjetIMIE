@@ -36,7 +36,9 @@ class HomeController extends Controller
      */
     public function quizzAction()
     {
-        return $this->render('HomeBundle:app:quizz.html.twig');
+        $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
+
+        return $this->render('HomeBundle:app:quizz.html.twig', ['imageParam' => $imageParam]);
     }
 
     /**

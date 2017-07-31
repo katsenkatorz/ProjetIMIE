@@ -15,7 +15,7 @@
                     <td>{{ response.question.temperament.opposedTemperament }} {{ response.value }}</td>
                     <td>
                         {% if response.image is not null %}
-                            <img src="{{ asset(response.image.pathname) }}" alt="" width="230px" height="125px">
+                            <img src="{{ asset(response.image.pathname) }}" alt="" width="{{ imageParam.width }}px" height="{{ imageParam.height }}px">
                         {% else %}
                             <p>Pas d'image</p>
                         {% endif %}

@@ -30,6 +30,8 @@ class QuestionController extends Controller
         $QuestionRepo = $this->getDoctrine()->getRepository("AdminBundle:Question");
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
 
+        $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
+
         $formQuestion = $this->createForm(QuestionType::class);
         $formResponse = $this->createForm(ResponseType::class);
 
@@ -50,6 +52,7 @@ class QuestionController extends Controller
             "formResponse" => $formResponse->createView(),
             "questions" => $questions,
             "temperaments" => $temperaments,
+            "imageParam" => $imageParam
         ]);
     }
 
@@ -115,12 +118,14 @@ class QuestionController extends Controller
         $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
         $questionId = $request->attributes->get('idQuestion');
 
+        $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
         $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
 
         return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
             "temperaments" => $temperaments,
+            "imageParam" => $imageParam
         ]));
     }
 

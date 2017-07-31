@@ -67,17 +67,7 @@ class MainController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParameters();
-
-        $parameters = array_slice($parameters, 0, count($parameters) - 1);
-
-        foreach ($parameters as $parameter) {
-            $arrayParams[$parameter->getLabel()] = [
-                $parameter->getLabel() . "id",
-                $parameter->getLabel(),
-                $parameter->getLabel() . "Value"
-            ];
-        }
+        $parameters = $ParamRepo->getParametersWithoutMentionsLegales();
 
         return $this->render('AdminBundle:app:parameter.html.twig', [
             "parameters" => $parameters
@@ -94,14 +84,13 @@ class MainController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParameters();
-
         $parameterId = $request->attributes->get('idParameter');
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if (!is_null($parameterId) && !is_null($label) && !is_null($value)) {
-            $ParamRepo->putParameters($parameterId, $label, $value);
+        if (!is_null($parameterId) && !is_null($label) && !is_null($value))
+        {
+            $ParamRepo->putParameter($parameterId, $label, $value);
         }
 
 
@@ -138,5 +127,25 @@ class MainController extends Controller
             "parameter" => $parameter,
             "form" => $form->createView()
         ]);
+    }
+
+
+    /**
+     * Modifie le paramètre de la taille de l'image
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function resizeImageHandlerAction(Request $request)
+    {
+        $paramId = $request->attributes->get('idParameter');
+
+        $value = $request->get('value');
+
+        $bool = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->putValueOfParameterById($paramId, $value);
+
+        if($bool)
+            return $this->json(['message' => "Modification(s) bien effectuée(s)"]);
+
+        return $this->json(['message' => "Erreur lors de la modification"]);
     }
 }

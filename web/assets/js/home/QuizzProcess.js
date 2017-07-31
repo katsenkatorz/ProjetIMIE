@@ -48,6 +48,10 @@ $(document).ready(function ()
             var imgContent = document.createElement("img");
             imgContent.src = "assets/img/imageResponse/" + response.imageName;
             imgContent.alt = "Image indisponible";
+            imgContent.width = document.querySelector('#widthInput').value;
+            imgContent.height = document.querySelector('#heightInput').value;
+            imgContent.style.width = document.querySelector('#widthInput').value;
+            imgContent.style.height = document.querySelector('#heightInput').value;
 
             // On crée la div qui contient le nom de l'image
             var responseLabel = document.createElement('h3');
