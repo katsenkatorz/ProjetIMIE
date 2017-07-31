@@ -1,15 +1,13 @@
-$(document).ready(function ()
-{
+$(document).ready(function () {
     var inputs = document.querySelectorAll(".dataHolder");
 
     var labels = [];
     var values = [];
 
-    inputs.forEach(function (elem)
-    {
+    inputs.forEach(function (elem) {
         labels.push(elem.dataset.type);
 
-        if(elem.value < 0)
+        if (elem.value < 0)
             elem.value = -elem.value;
 
         values.push(parseInt(elem.value));
@@ -32,10 +30,16 @@ $(document).ready(function ()
             }]
         },
         options: {
-            legend: { display: false },
+            legend: {display: false},
             title: {
                 display: true,
                 text: 'Résultats du test'
+            },
+            scale: {
+                ticks: {
+                    beginAtZero: true,
+                    max: 100
+                }
             }
         }
     });
