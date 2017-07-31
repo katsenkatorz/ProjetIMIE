@@ -34,6 +34,22 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
         return $this->findOneBy(['id' => $id]);
     }
 
+    public function getNumberOfQuestionByTemperament()
+    {
+        $em = $this->getEntityManager();
+        $temperaments = $em->getRepository("AdminBundle:Temperament")->getTemperaments();
+        $array = [];
+
+        foreach($temperaments as $temperament)
+        {
+            $questions = $this->findBy(['temperament' => $temperament]);
+
+            $array[$temperament->getName()] = count($questions);
+        }
+
+        return $array;
+    }
+
     /**
      * @param $temperamentId
      * @return array

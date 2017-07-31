@@ -136,14 +136,12 @@ $(document).ready(function(){
 });
 
 function menuActive(ul) {
-    console.log('titi');
     if($(window).width() > 468)
     {
         ul.css({'display':'block'});
         $('#content-header .btn-group').css({width:'auto'});
     }
     if($(window).width() < 955) {
-        console.log('toto');
         $('#sidebar > ul li.open ul').css({'display': 'none'});
     }
     if($(window).width() > 955)

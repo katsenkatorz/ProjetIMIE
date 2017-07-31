@@ -26,7 +26,9 @@ class MainController extends Controller
      */
     public function homeAction(Request $request)
     {
-        return $this->render('AdminBundle:app:home.html.twig');
+        $questions = $this->getDoctrine()->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
+
+        return $this->render('AdminBundle:app:home.html.twig', ["questions" => $questions]);
     }
 
     /**

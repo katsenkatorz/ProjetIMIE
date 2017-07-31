@@ -2,10 +2,6 @@
 
 {% block title %}{{ 'Accueil' }}{% endblock %}
 
-
-
-
-
 {% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
@@ -17,6 +13,10 @@
         </div>
         <canvas id="pieChart" width="1200" height="1000"></canvas>
     </div>
+
+    {% for key, question in questions %}
+        <input type="hidden" class="dataHolder" data-type="{{ key }}" value="{{ question }}">
+    {% endfor %}
 
 {% endblock %}
 
