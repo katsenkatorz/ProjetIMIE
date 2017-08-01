@@ -22,14 +22,47 @@ $(document).ready(function () {
         }
     }
 
-    var ctx = document.getElementById("barChart").getContext('2d');
-    var barChart = new Chart(ctx, {
+    var ctxTemp = document.getElementById("tempChart").getContext('2d');
+    var tempChart = new Chart(ctxTemp, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
                 label: "Questions par Tempéraments",
                 backgroundColor: backgroundColor,
+                data: values
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Nombre de question : '+ labels.length
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        beginAtZero: true,
+                        max: values.length,
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
+    });
+    var ctxUser = document.getElementById("userChart").getContext('2d');
+    var userChart = new Chart(ctxUser, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Questions par Tempéraments",
                 data: values
             }]
         },
