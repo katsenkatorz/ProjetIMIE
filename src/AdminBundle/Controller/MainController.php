@@ -69,7 +69,7 @@ class MainController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParametersWithoutMentionsLegales();
+        $parameters = $ParamRepo->getParametersWithout(4);
 
         return $this->render('AdminBundle:app:parameter.html.twig', [
             "parameters" => $parameters

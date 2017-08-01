@@ -34,12 +34,12 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
         return $this->findOneBy(['id' => $id]);
     }
 
-    public function getParametersWithoutMentionsLegales()
+    public function getParametersWithout($param)
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select("p")
             ->from("AdminBundle:Parameters", "p")
-            ->where("p.label != 'mentions legales'")
+            ->where("p.id != $param")
             ->getQuery()->getResult();
     }
 
