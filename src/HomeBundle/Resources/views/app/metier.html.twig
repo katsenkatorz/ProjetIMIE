@@ -11,41 +11,47 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="col-md-7">
-                        {% if bool != 0 %}
-                            <img src="{{ asset('assets/img/persoResponse/perso_pose1.png') }}" alt="" width="250px" height="280px">
-                            <h2>Tu es {{ job.name }} !</h2>
-                        {% else %}
-                            <h2>{{ job.name }}</h2>
-                        {% endif %}
-                        {{ job.description|raw }}
-                    </div>
-                    <div class="col-md-5">
-                        {% if job.image is not null %}
-                            <a href="#" class="thumbnail">
-                                <img style="margin-top: 30px" class="imgJob image-responsive"
-                                     src="{{ asset(job.image.pathname) }}" alt="...">
-                            </a>
-                        {% endif %}
-                    </div>
-                    {#<div class="row">#}
-                        {#<div class="col-md-12">#}
-                            {#<p>video</p>#}
-                            {#<a href="#" class="thumbnail">#}
-                                {#<img src="{{ asset('assets/img/THUMB__cosi.jpg') }}" alt="...">#}
-                            {#</a>#}
-                            {#<h3>Titre Vidéo</h3>#}
-                            {#<p>#}
-                                {#Nam quibusdam, quos audio sapientes habitos in Graecia, placuisse opinor mirabilia#}
-                                {#quaedam#}
-                                {#sed nihil est quod illi non persequantur argutiis): partim fugiendas esse nimias#}
-                                {#amicitias, ne#}
-                                {#necesse sit unum sollicitum esse pro pluribus; satis superque esse sibi suarum cuique#}
-                                {#rerum,#}
-                                {#alienis nimis implicari molestum esse.#}
-                            {#</p>#}
-                        {#</div>#}
-                    {#</div>#}
+                    {% if bool != 0 %}
+                        <div class="row">
+                            <div class="col-md-7">
+                                <img src="{{ asset('assets/img/persoResponse/perso_pose1.png') }}" alt="" width="250px"
+                                     height="280px">
+                                <h2>Tu es {{ job.name }} !</h2>
+                            </div>
+                            <div class="col-md-5">
+                                {% if job.image is not null %}
+                                    <a href="#" class="thumbnail">
+                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                             src="{{ asset(job.image.pathname) }}" alt="...">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ job.description|raw }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>{{ job.name }}</h2>
+                            </div>
+                            <div class="col-md-12">
+                                {% if job.image is not null %}
+                                    <a href="#" class="thumbnail">
+                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                             src="{{ asset(job.image.pathname) }}" alt="...">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ job.description|raw }}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="col-md-4">
@@ -81,15 +87,17 @@
                 </div>
             </div>
         </div>
-        
+
         {% for jobPersonnality in jobPersonnalities %}
             {% if jobPersonnality.value < 0 %}
-                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}" data-type="{{ jobPersonnality.temperament.temperament }}">
+                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}"
+                       data-type="{{ jobPersonnality.temperament.temperament }}">
             {% else %}
-                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}" data-type="{{ jobPersonnality.temperament.opposedTemperament }}">
+                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}"
+                       data-type="{{ jobPersonnality.temperament.opposedTemperament }}">
             {% endif %}
         {% endfor %}
-        
+
     {% endblock %}
 {% endblock %}
 
