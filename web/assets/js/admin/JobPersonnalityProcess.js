@@ -68,6 +68,7 @@ function loadPartielView(idJob, resultContent)
     });
 }
 
+
 function loadRangeInput(selector)
 {
     $(selector).each(function ()
@@ -91,9 +92,35 @@ function loadRangeInput(selector)
     });
 }
 
-$(document).ready(function ()
+function clearInput(source, crop)
 {
-    $uploadCrop = $('#imageHandler').croppie({
+    var $form = $('<form>');
+    var $targ = source.clone().appendTo($form);
+    $form[0].reset();
+    source.replaceWith($targ);
+
+    crop.croppie('destroy');
+}
+
+function addEventToImageInput(selector, crop)
+{
+    selector.unbind('change').bind('change', function ()
+    {
+        var reader = new FileReader();
+        reader.onload = function (e)
+        {
+            crop.croppie('bind', {
+                url: e.target.result
+            }).then(function () {});
+
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+}
+
+function createUploadCrop(selector)
+{
+    return selector.croppie({
         enableExif: true,
         viewport: {
             width: $('#widthInput').val(),
@@ -105,25 +132,21 @@ $(document).ready(function ()
             height: 300
         }
     });
+}
 
-    $('#imageJob').on('change', function ()
-    {
-        var reader = new FileReader();
-        reader.onload = function (e)
-        {
-            $uploadCrop.croppie('bind', {
-                url: e.target.result
-            }).then(function () {});
-
-        };
-        reader.readAsDataURL(this.files[0]);
-    });
+$(document).ready(function ()
+{
 
     var JobPanel = $("a.getJobPersonnalityView");
 
     // Permet de nettoyer les champs du modal
     $('#modalJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
     {
+        var fileInput = $("#imageJob");
+
+        $uploadCrop = createUploadCrop($('#imageHandler'));
+        addEventToImageInput(fileInput, $uploadCrop);
+
         var button = $(event.relatedTarget);
         var action;
 
@@ -170,9 +193,13 @@ $(document).ready(function ()
                         {
                             $('#loadingmessage').show();
                         }
-                    }).done(function () {})
+                    }).done(function ()
+                    {
+                        clearInput(fileInput, $uploadCrop);
+                    })
                         .fail(function (error)
                         {
+                            clearInput(fileInput, $uploadCrop);
                             // Affichage du message d'erreur
                             $("#responseMessageContent")
                                 .fadeIn(250)
@@ -242,6 +269,7 @@ $(document).ready(function ()
                         }
                     }).done(function (result)
                     {
+                        clearInput(fileInput, $uploadCrop);
                         // Chargement de la vu partielle
                         loadPartielView(jobId, resultContent);
 
@@ -274,6 +302,7 @@ $(document).ready(function ()
                         }, 2000);
                     }).fail(function (error)
                     {
+                        clearInput(fileInput, $uploadCrop);
                         // Affichage du message d'erreur
                         $("#responseMessageContent")
                             .fadeIn(250)
