@@ -2,51 +2,56 @@
     <div class="table-responsive" xmlns="http://www.w3.org/1999/html">
         <table class="table">
             <th>Label</th>
-            <th>Name</th>
-            <th>Tempérament</th>
-            <th>Tempérament opposés</th>
+            <th>Sous-tempérament</th>
             <th>Image</th>
             <th colspan="2">Action</th>
             {% for response in responses %}
-                <tr>
+                <tr class="text-center">
                     <td>{{ response.label }}</td>
-                    <td>{{ response.question.temperament.name }}</td>
-                    <td>{{ response.question.temperament.temperament }} {{ -response.value }}</td>
-                    <td>{{ response.question.temperament.opposedTemperament }} {{ response.value }}</td>
+                    {% if response.value >= 0 %}
+                        <td>{{ response.question.temperament.temperament }} {{ response.value }}</td>
+                    {% else %}
+                        <td>{{ response.question.temperament.opposedTemperament }} {{ -response.value }}</td>
+                    {% endif %}
                     <td>
                         {% if response.image is not null %}
-                            <img src="{{ asset(response.image.pathname) }}" alt="" width="{{ imageParam.width }}px" height="{{ imageParam.height }}px">
+                            <img src="{{ asset(response.image.pathname) }}" alt="" width="{{ imageParam.width }}px"
+                                 height="{{ imageParam.height }}px">
                         {% else %}
                             <p>Pas d'image</p>
                         {% endif %}
                     </td>
                     <td>
                         {# Modal modification #}
-                        <button type="button" class="btn btn-primary"
-                                data-type="update"
-                                data-value="{{ response.value }}"
-                                data-label="{{ response.label }}"
-                                {% if response.image is not null %}
-                                    data-image="{{ response.image.pathname }}"
-                                {% endif %}
-                                data-question="{{ response.question.id }}"
-                                data-temperament="{{ response.question.temperament.id }}"
-                                data-action="/admin/question/{{ response.question.id }}/putResponse/{{ response.id }}"
-                                data-toggle="modal"
-                                data-target="#modalResponse">
-                            <i class="fa fa-edit"></i>
-                            Modifier
-                        </button>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary"
+                                    data-type="update"
+                                    data-value="{{ response.value }}"
+                                    data-label="{{ response.label }}"
+                                    {% if response.image is not null %}
+                                        data-image="{{ response.image.pathname }}"
+                                    {% endif %}
+                                    data-question="{{ response.question.id }}"
+                                    data-temperament="{{ response.question.temperament.id }}"
+                                    data-action="/admin/question/{{ response.question.id }}/putResponse/{{ response.id }}"
+                                    data-toggle="modal"
+                                    data-target="#modalResponse">
+                                <i class="fa fa-edit"></i>
+                                Modifier
+                            </button>
+                        </div>
                     </td>
                     <td>
-                        <a class="btn btn-danger"
-                           data-toggle="modal"
-                           data-target="#modalConfirmDeleteResponse"
-                           data-name="{{ response.label }}"
-                           data-action="/admin/question/{{ response.question.id }}/deleteResponse/{{ response.id }}">
-                        <i class="fa fa-trash"></i>
-                            Supprimer
-                        </a>
+                       <div class="col-md-12">
+                           <a class="btn btn-danger"
+                              data-toggle="modal"
+                              data-target="#modalConfirmDeleteResponse"
+                              data-name="{{ response.label }}"
+                              data-action="/admin/question/{{ response.question.id }}/deleteResponse/{{ response.id }}">
+                               <i class="fa fa-trash"></i>
+                               Supprimer
+                           </a>
+                       </div>
                     </td>
                 </tr>
             {% endfor %}
