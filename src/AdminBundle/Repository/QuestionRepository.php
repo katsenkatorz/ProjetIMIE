@@ -79,7 +79,8 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter(":question", $questionObject)
                 ->getQuery()->getResult();
 
-            $array[] = [$question, $responses];
+            if(count($responses) >= 2)
+                $array[] = [$question, $responses];
         }
 
         return $array;

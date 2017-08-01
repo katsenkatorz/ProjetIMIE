@@ -203,6 +203,7 @@ function sendResponse(form, action, PanelTitle)
                 }
             }).done(function (result)
             {
+                clearInput($('#imageResponse'), $uploadCrop);
                 // Fermeture du modal en cas de success
                 $('#modalResponse').modal('hide');
                 $('body').removeClass('modal-open');
@@ -224,6 +225,8 @@ function sendResponse(form, action, PanelTitle)
                 }, 500);
             }).fail(function (error)
             {
+                clearInput($('#imageResponse'), $uploadCrop);
+
                 $("#responseMessageContent")
                     .fadeIn(250)
                     .removeClass('hidden');
@@ -240,9 +243,35 @@ function sendResponse(form, action, PanelTitle)
     });
 }
 
-$(document).ready(function ()
+function clearInput(source, crop)
 {
-    $uploadCrop = $('#imageHandler').croppie({
+    var $form = $('<form>');
+    var $targ = source.clone().appendTo($form);
+    $form[0].reset();
+    source.replaceWith($targ);
+
+    crop.croppie('destroy');
+}
+
+function addEventToImageInput(selector, crop)
+{
+    selector.unbind('change').bind('change', function ()
+    {
+        var reader = new FileReader();
+        reader.onload = function (e)
+        {
+            crop.croppie('bind', {
+                url: e.target.result
+            }).then(function () {});
+
+        };
+        reader.readAsDataURL(this.files[0]);
+    });
+}
+
+function createUploadCrop(selector)
+{
+    return selector.croppie({
         enableExif: true,
         viewport: {
             width: $('#widthInput').val(),
@@ -254,20 +283,10 @@ $(document).ready(function ()
             height: 300
         }
     });
+}
 
-    $('#imageResponse').on('change', function ()
-    {
-        var reader = new FileReader();
-        reader.onload = function (e)
-        {
-            $uploadCrop.croppie('bind', {
-                url: e.target.result
-            }).then(function () {});
-
-        };
-        reader.readAsDataURL(this.files[0]);
-    });
-
+$(document).ready(function ()
+{
     loadRangeInput("#valueResponse");
 
     refreshSelectInput('#selectTemperamentQuestion', '#tempQuestion');
@@ -285,6 +304,10 @@ $(document).ready(function ()
         // Ajout/Modification d'une réponse
         $('#modalResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
         {
+            var fileInput = $('#imageResponse');
+            $uploadCrop = createUploadCrop($('#imageHandler'));
+            addEventToImageInput(fileInput, $uploadCrop);
+
             var button = $(event.relatedTarget);
             var idQuestion = button.data('question');
             var idTemperament = button.data('temperament');
