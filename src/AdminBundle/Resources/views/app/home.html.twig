@@ -11,7 +11,16 @@
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-home"></i>Accueil</a>
             </div>
         </div>
-        <canvas id="pieChart" width="1200" height="1000"></canvas>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="pieChart" width="500" height="300"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="" width="500" height="300"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
     {% for key, question in questions %}
