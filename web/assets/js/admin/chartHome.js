@@ -22,13 +22,13 @@ $(document).ready(function () {
         }
     }
 
-    var ctx = document.getElementById("pieChart").getContext('2d');
-    var pieChart = new Chart(ctx, {
-        type: 'pie',
+    var ctx = document.getElementById("barChart").getContext('2d');
+    var barChart = new Chart(ctx, {
+        type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: "Population (millions)",
+                label: "Questions par Tempéraments",
                 backgroundColor: backgroundColor,
                 data: values
             }]
@@ -36,7 +36,23 @@ $(document).ready(function () {
         options: {
             title: {
                 display: true,
-                text: 'Nombre de question ajoutées'
+                text: 'Nombre de question : '+ labels.length
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true,
+                    ticks: {
+                        beginAtZero: true,
+                        max: values.length,
+                        stepSize: 1
+                    }
+                }]
             }
         }
     });
