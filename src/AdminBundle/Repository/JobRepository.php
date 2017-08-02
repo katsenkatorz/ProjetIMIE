@@ -85,10 +85,9 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMinSalary($formResult['minSalary']->getData())
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== $blankImageData)
+            if ($data !== $blankImageData && !is_null($data))
             {
-                list(, $data) = explode(';', $data);
-                list(,$data)  = explode(',', $data);
+                list(, $data)  = explode(',', $data);
 
                 $data = base64_decode($data);
                 $imageName = time().'.png';

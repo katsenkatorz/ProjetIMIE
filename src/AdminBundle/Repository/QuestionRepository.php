@@ -42,9 +42,24 @@ class QuestionRepository extends \Doctrine\ORM\EntityRepository
 
         foreach($temperaments as $temperament)
         {
+            $validNumber = 0;
+            $invalidNumber = 0;
+
             $questions = $this->findBy(['temperament' => $temperament]);
 
-            $array[$temperament->getName()] = count($questions);
+            foreach($questions as $question)
+            {
+                if(count($question->getResponses()) >= 2)
+                {
+                    $validNumber++;
+                }
+                else
+                {
+                    $invalidNumber++;
+                }
+            }
+
+            $array[$temperament->getName()] = ["valid" => $validNumber, "nonValid" => $invalidNumber];
         }
 
         return $array;

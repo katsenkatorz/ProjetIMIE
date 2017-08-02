@@ -34,10 +34,14 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Questions par tempéraments</h3>
+                            <h3 class="panel-title">Question par type</h3>
                         </div>
                         <div class="panel-body">
-                            <canvas id="tempChart" width="400" height="200"></canvas>
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <p id="valid"></p>
+                                <p id="nonValid"></p>
+                            </div>
+                            <canvas id="tempChart" width="400" height="300"></canvas>
                         </div>
                     </div>
                 </div>
@@ -66,7 +70,7 @@
     </div>
 
     {% for key, question in questions %}
-        <input type="hidden" class="dataHolder" data-type="{{ key }}" value="{{ question }}">
+        <input type="hidden" class="dataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}" data-nonvalid="{{ question['nonValid'] }}">
     {% endfor %}
 
 {% endblock %}

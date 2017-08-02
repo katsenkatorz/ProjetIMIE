@@ -177,9 +177,8 @@ $(document).ready(function ()
                     size: 'viewport'
                 }).then(function (resp)
                 {
+                    $('#dataCroppedImage').val(resp);
                     var formData = new FormData($(that)[0]);
-
-                    formData.append('croppedImage', resp);
 
                     $.ajax({
                         url: action,
@@ -251,9 +250,8 @@ $(document).ready(function ()
                     size: 'viewport'
                 }).then(function (resp)
                 {
+                    $('#dataCroppedImage').val(resp);
                     var formData = new FormData($(that)[0]);
-
-                    formData.append('croppedImage', resp);
 
                     $.ajax({
                         url: action,
