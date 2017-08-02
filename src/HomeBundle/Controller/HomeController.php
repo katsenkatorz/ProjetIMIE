@@ -111,4 +111,10 @@ class HomeController extends Controller
             'mentionsLegales' => $mentionsLegales,
         ]);
     }
+
+    public function cookiesAction()
+    {
+        return $this->render('HomeBundle:app:cookies.html.twig');
+    }
+
 }
