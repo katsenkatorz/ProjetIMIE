@@ -8,11 +8,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MentionLegaleType extends AbstractType
+class ParameterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add("value", CKEditorType::class, ["label" => "Vous pouvez entrer les mentiosn légales ici :"])
+        $builder->add("value", CKEditorType::class)
             ->add("save", SubmitType::class);
     }
 

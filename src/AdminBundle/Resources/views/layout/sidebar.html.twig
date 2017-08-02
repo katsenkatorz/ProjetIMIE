@@ -87,6 +87,15 @@
                         <span>Mentions Légales</span>
                     </a>
                 </li>
+                <li class="{% if app.request.requestUri == path('admin_homePresentation') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_homePresentation') }}">
+                        <i class="fa fa-suitcase"></i>
+                        <span>Texte de présentation</span>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

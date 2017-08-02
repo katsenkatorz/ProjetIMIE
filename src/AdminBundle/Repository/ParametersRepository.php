@@ -36,11 +36,37 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
 
     public function getParametersWithout($param)
     {
-        return $this->getEntityManager()->createQueryBuilder()
+        $result = "";
+
+        $obj = $this->getEntityManager()->createQueryBuilder()
             ->select("p")
-            ->from("AdminBundle:Parameters", "p")
-            ->where("p.id != $param")
-            ->getQuery()->getResult();
+            ->from("AdminBundle:Parameters", "p");
+
+        if(is_numeric($param))
+        {
+            $result = $obj->where("p.id != $param")
+                          ->getQuery()->getResult();
+        }
+
+        if(is_array($param))
+        {
+            foreach($param as $par)
+            {
+                if($param[0] === $par)
+                {
+                    $obj->where("p.id != $par");
+                }
+                else
+                {
+                    $obj->andWhere("p.id != $par");
+                }
+            }
+
+            $result = $obj->getQuery()->getResult();
+        }
+
+        return $result;
+
     }
 
     public function postParameters($label, $value)
