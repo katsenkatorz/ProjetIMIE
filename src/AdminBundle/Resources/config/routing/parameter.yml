@@ -21,3 +21,8 @@ admin_mentionLegale:
     defaults:
         _controller: AdminBundle:Main:mentionLegale
         method: POST
+
+admin_homePresentation:
+    path:     /homePresentation
+    defaults:
+        _controller: AdminBundle:Main:homePresentation

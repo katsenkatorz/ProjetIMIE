@@ -12,8 +12,12 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
+        $parameter = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->getParameterById(6);
 
-        return $this->render('HomeBundle:app:home.html.twig');
+
+        return $this->render('HomeBundle:app:home.html.twig', [
+            'parameter' => $parameter
+        ]);
     }
 
     /**
@@ -91,7 +95,7 @@ class HomeController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParametersWithout(5);
+        $parameters = $ParamRepo->getParametersWithout([5, 6]);
 
         return $this->render('HomeBundle:layout:footer.html.twig', [
             'parameters' => $parameters,
