@@ -4,6 +4,12 @@
 
 {% block header %}
     {% include 'HomeBundle:layout:header.html.twig' %}
+    {# Plugin facebook #}
+    <meta property="og:url"           content="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="QuizzIMIE" />
+    <meta property="og:description"   content="Mon résultat est : {{ job.name }} ! Faites le test !" />
+    <meta property="og:image"         content="http://127.0.0.1:8000/metier/{{ job.id }}" />
 {% endblock %}
 
 {% block content %}
@@ -30,6 +36,21 @@
                         <div class="row">
                             <div class="col-md-12">
                                 {{ job.description|raw }}
+                            </div>
+                            <div
+                                class="fb-share-button"
+                                data-href="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}"
+                                data-layout="button"
+                                data-size="large"
+                                data-mobile-iframe="true">
+                                <a
+                                    id="sharedBtn"
+                                    class="fb-xfbml-parse-ignore btn btn-primary"
+                                    target="_blank"
+                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F127.0.0.1%3A8000%2Fmetier%2F11%2F1%23&amp;src=sdkpreparse">
+                                    <i class="fa fa-facebook-square"></i>
+                                    Partager
+                                </a>
                             </div>
                         </div>
                     {% else %}
@@ -104,6 +125,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/chartResult.js') }}"></script>
+    <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
 {% endblock %}
 
 {% block footer %}
