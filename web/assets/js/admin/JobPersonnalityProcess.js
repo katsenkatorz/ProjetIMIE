@@ -138,9 +138,15 @@ $(document).ready(function ()
 {
 
     var JobPanel = $("a.getJobPersonnalityView");
+    var modalJob = $('#modalJob');
+
+    modalJob.unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event)
+    {
+        clearInput($("#imageJob"), $uploadCrop);
+    });
 
     // Permet de nettoyer les champs du modal
-    $('#modalJob').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+    modalJob.unbind('show.bs.modal').bind('show.bs.modal', function (event)
     {
         var fileInput = $("#imageJob");
 
@@ -192,10 +198,7 @@ $(document).ready(function ()
                         {
                             $('#loadingmessage').show();
                         }
-                    }).done(function ()
-                    {
-                        clearInput(fileInput, $uploadCrop);
-                    })
+                    }).done(function () {})
                         .fail(function (error)
                         {
                             clearInput(fileInput, $uploadCrop);
@@ -250,6 +253,7 @@ $(document).ready(function ()
                     size: 'viewport'
                 }).then(function (resp)
                 {
+                    console.log(resp);
                     $('#dataCroppedImage').val(resp);
                     var formData = new FormData($(that)[0]);
 
@@ -267,7 +271,6 @@ $(document).ready(function ()
                         }
                     }).done(function (result)
                     {
-                        clearInput(fileInput, $uploadCrop);
                         // Chargement de la vu partielle
                         loadPartielView(jobId, resultContent);
 
@@ -300,7 +303,6 @@ $(document).ready(function ()
                         }, 2000);
                     }).fail(function (error)
                     {
-                        clearInput(fileInput, $uploadCrop);
                         // Affichage du message d'erreur
                         $("#responseMessageContent")
                             .fadeIn(250)

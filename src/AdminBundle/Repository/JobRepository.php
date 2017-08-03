@@ -146,7 +146,6 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             if ($data !== $blankImageData)
             {
-                list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);
 
                 $data = base64_decode($data);
