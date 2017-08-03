@@ -1,0 +1,56 @@
+{% extends "HomeBundle::base.html.twig" %}
+
+{% block title %} Nous avons des cookies ! {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h1>Conditions d'utilisation des cookies</h1>
+
+                    <h2>Qu’est- ce qu’un cookie ?</h2>
+                    <p>
+                        Un cookie est un simple fichier texte envoyé à votre navigateur via notre site. Il ne met pas en péril votre vie privée ni votre sécurité et ne peut transporter aucun virus.
+                    </p>
+
+                    <h2>Pourquoi utiliser des cookies ?</h2>
+                    <p>
+                        Certains cookies de notre site sont utiles voire indispensables pour votre navigation sur internet car ils permettent d’améliorer votre expérience utilisateur en vous proposant des services. A aucun moment l’utilisation de cookies ne vous ait imposée et vous pouvez à tout moment refuser leur utilisation.
+                    </p>
+
+                    <h2>Quels types de cookies sont utilisés sur notre site ?</h2>
+                    <p>
+                        Comme sur la plupart des sites internet, notre site utilise des cookies qui peuvent être classés en 2 catégories.
+                    </p>
+                    <ul>
+                        <li>Les cookies de mesure d’audience</li>
+                        <li>Les cookies de fonctionnalité</li>
+                    </ul>
+
+                    <h3>- Les cookies de mesure d’audience</h3>
+                    <p>
+                        Ces cookies recueillent de manière anonyme des informations lors de vos visites sur notre site. Leur objectif est de permettre l’analyse des comportements de navigation sur le site à des fins d’optimisation.
+                    </p>
+
+                    <h3>- Les cookies de fonctionnalité</h3>
+                    <p>
+                        Ils nous permettent d’archiver vos préférences de navigation sur notre site en conservant en mémoire les différents choix que vous avez effectués lors de votre dernière visite. Nous pouvons ainsi vous les proposer à nouveau pour simplifier votre navigation sur notre site.
+                        Ex : Le partage de pages et/ou d’article sur les réseaux sociaux.
+                    </p>
+                    <p>
+                        Les données de navigation collectées au moyen de ces cookies tiers sont ensuite utilisées par les régies publicitaires qui agissent pour leur propre compte. Nous veillons à ce que ces sociétés traitent les données collectées sur notre site dans le respect de la loi "Informatique, fichiers et libertés" du 6 janvier 1978 en s’engageant à sécuriser et garder confidentielles les données traitées. Vous pouvez à tout moment refuser l’utilisation de ces cookies.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}

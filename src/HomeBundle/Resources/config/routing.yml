@@ -27,6 +27,11 @@ home_metier:
         jobId: \d+
         bool: \d
 
+home_cookies:
+    path:     /cookies
+    defaults:
+        _controller: HomeBundle:Home:cookies
+
 home_mentionsLegales:
     path:     /mentionsLegales
     defaults:
