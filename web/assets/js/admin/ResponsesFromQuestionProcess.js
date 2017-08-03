@@ -203,7 +203,6 @@ function sendResponse(form, action, PanelTitle)
                 }
             }).done(function (result)
             {
-                clearInput($('#imageResponse'), $uploadCrop);
                 // Fermeture du modal en cas de success
                 $('#modalResponse').modal('hide');
                 $('body').removeClass('modal-open');
@@ -225,8 +224,6 @@ function sendResponse(form, action, PanelTitle)
                 }, 500);
             }).fail(function (error)
             {
-                clearInput($('#imageResponse'), $uploadCrop);
-
                 $("#responseMessageContent")
                     .fadeIn(250)
                     .removeClass('hidden');
@@ -301,8 +298,15 @@ $(document).ready(function ()
 
         loadResponse(idQuestion, env, PanelTitle);
 
+        var modalResponse = $('#modalResponse');
+
+        modalResponse.unbind('hidden.bs.modal').bind('hidden.bs.modal' ,function ()
+        {
+            clearInput($('#imageResponse'), $uploadCrop);
+        });
+
         // Ajout/Modification d'une réponse
-        $('#modalResponse').unbind('show.bs.modal').bind('show.bs.modal', function (event)
+        modalResponse.unbind('show.bs.modal').bind('show.bs.modal', function (event)
         {
             var fileInput = $('#imageResponse');
             $uploadCrop = createUploadCrop($('#imageHandler'));
