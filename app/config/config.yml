@@ -110,7 +110,7 @@ ivory_ck_editor:
     jquery: true
     configs:
         my_config:
-            toolbar: full
+            toolbar: standard
 
 
 

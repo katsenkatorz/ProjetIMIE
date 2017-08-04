@@ -14,7 +14,6 @@ $(document).ready(function ()
     nextQuestionProcess();
     prevQuestionProcess();
 
-
     // Génère le quizz sur la page
     function genQuizz(number, callback)
     {
@@ -80,9 +79,9 @@ $(document).ready(function ()
     {
         var progressBar = $('.progress-bar');
         var questionNumber = parseInt(getCookie("lastQuestionToStart")) + 1;
-        var newWidth = (questionNumber * 100) / localStorage.length;
+        var newWidth = (questionNumber * 100) / getCookie("NumberOfQuestion");
 
-        progressBar.attr('aria-valuemax', localStorage.length);
+        progressBar.attr('aria-valuemax', getCookie("NumberOfQuestion"));
         progressBar.attr('aria-valuenow', questionNumber);
         progressBar.css("width", newWidth + "%");
     }
@@ -146,7 +145,7 @@ $(document).ready(function ()
             var questionNumber = getCookie("lastQuestionToStart");
 
             // Pour eviter de dépasser le nombre de question
-            if (questionNumber < localStorage.length - 1)
+            if (questionNumber < getCookie("NumberOfQuestion") - 1)
             {
                 // On met à jours le numéro de la question pour avoir celle de la suivante
                 setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
@@ -168,7 +167,7 @@ $(document).ready(function ()
             {
                 var responses = [];
 
-                for (var i = 0; i < localStorage.length; i++)
+                for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
                 {
                     responses.push(JSON.parse(getCookie("responseContent" + i)));
                 }
@@ -265,7 +264,7 @@ $(document).ready(function ()
  */
 function getQuestionSetIntoLocalStorage(callback)
 {
-    if (localStorage.length < 1 || getCookie("lastQuestionToStart").length <= 0)
+    if (getCookie("NumberOfQuestion") <= 0 || getCookie("lastQuestionToStart").length <= 0)
     {
         setCookie("lastQuestionToStart", 0, 1);
         $.ajax({
@@ -299,6 +298,8 @@ function getQuestionSetIntoLocalStorage(callback)
                     j++;
                 });
             });
+
+            setCookie("NumberOfQuestion", j);
         });
     }
     callback();
