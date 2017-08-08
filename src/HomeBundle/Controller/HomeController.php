@@ -42,6 +42,20 @@ class HomeController extends Controller
     {
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
+        $key = '6LeRpSsUAAAAAEf7hX5n9zp-9iaM2mgAUs0_HkGZ';
+        $response = $_POST['g-recaptcha-response'];
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $gapi = 'https://www.google.com/recaptcha/api/siteverify?secret='. $key .'$response='. $response .'$remoteip=' . $ip;
+
+        $json = json_decode(file_get_contents($gapi), true);
+
+        if (!$json['success']) {
+            foreach ($json['error-codes'] as $error)
+            {
+                echo $error .'<br />';
+            }
+        }
+
         return $this->render('HomeBundle:app:quizz.html.twig', ['imageParam' => $imageParam]);
     }
 
@@ -119,6 +133,11 @@ class HomeController extends Controller
     public function cookiesAction()
     {
         return $this->render('HomeBundle:app:cookies.html.twig');
+    }
+
+    public function recaptchaAction()
+    {
+
     }
 
 }

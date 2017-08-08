@@ -2,6 +2,11 @@
 
 {% block title %} Quizz {% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
 {% block header %}
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.css') }}">
@@ -58,6 +63,14 @@
                            data-href="{{ path('home_quizz_resolution') }}">Suivant</a>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <form action="#">
+                    <div
+                        class="g-recaptcha"
+                        data-sitekey="6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq">
+                    </div>
+                </form>
             </div>
         </div>
 
