@@ -1,0 +1,23 @@
+AdminBundle\Entity\Visitor:
+    type: entity
+    table: VISITOR
+    repositoryClass: AdminBundle\Repository\VisitorRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        ip:
+            type: string
+            length: 255
+        browser:
+            type: string
+            length: 255
+        country:
+            type: string
+            length: 255
+        connexionDate:
+            type: datetime
+    lifecycleCallbacks: {  }

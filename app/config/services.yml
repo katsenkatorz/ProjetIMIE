@@ -20,3 +20,8 @@ services:
     QuizzResolver:
         class: HomeBundle\Service\QuizzResolver
         arguments: ["@doctrine.orm.entity_manager"]
+    UserInformationHandler:
+        class: AdminBundle\Service\UserInformationHandler
+        arguments: ["@doctrine.orm.entity_manager", "@request_stack", "@session"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

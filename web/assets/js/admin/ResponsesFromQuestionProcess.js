@@ -15,7 +15,7 @@ function loadResponse(idQuestion, env, PanelTitle)
     }).done(function (result)
     {
         // On affiche le résultat
-        responseContent.html(result);
+        responseContent.html(result.view);
 
         loadRangeInput(".rangeInput");
 
@@ -75,6 +75,15 @@ function loadResponse(idQuestion, env, PanelTitle)
                 });
             });
         });
+
+        var questionId = result.questionId;
+        var addResponseButton = $('#responseButton'+questionId);
+
+        addResponseButton.show();
+
+        if(result.responseNumber >= 6)
+            addResponseButton.hide();
+
     }).fail(function (error)
     {
         $("#responseMessageContent")
@@ -466,4 +475,5 @@ $(document).ready(function ()
             });
         }
     });
+
 });

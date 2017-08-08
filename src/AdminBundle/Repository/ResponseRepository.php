@@ -75,30 +75,37 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
 
         if($question)
         {
-            $response = new Response();
-
-            $response
-                ->setLabel($label)
-                ->setValue($value)
-                ->setQuestion($question)
-                ->setUpdatedAt(new \DateTime());
-
-            if ($data !== $blankImageData)
+            if(count($question->getResponses()) < 6)
             {
-                list(, $data) = explode(';', $data);
-                list(,$data)  = explode(',', $data);
+                $response = new Response();
 
-                $data = base64_decode($data);
-                $imageName = time().'.png';
-                file_put_contents($pathToImageFolder.$imageName, $data);
+                $response
+                    ->setLabel($label)
+                    ->setValue($value)
+                    ->setQuestion($question)
+                    ->setUpdatedAt(new \DateTime());
 
-                $response->setImageName($imageName);
+                if ($data !== $blankImageData)
+                {
+                    list(, $data) = explode(';', $data);
+                    list(,$data)  = explode(',', $data);
+
+                    $data = base64_decode($data);
+                    $imageName = time().'.png';
+                    file_put_contents($pathToImageFolder.$imageName, $data);
+
+                    $response->setImageName($imageName);
+                }
+
+                $em->persist($response);
+                $em->flush();
+
+                return $response;
             }
-
-            $em->persist($response);
-            $em->flush();
-
-            return $response;
+            else
+            {
+                return false;
+            }
         }
 
         return false;

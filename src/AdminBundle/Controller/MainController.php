@@ -12,14 +12,35 @@ class MainController extends Controller
     /**
      * Affiche la page d'acceuil de l'administration
      *
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function homeAction(Request $request)
+    public function homeAction()
     {
         $questions = $this->getDoctrine()->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
 
-        return $this->render('AdminBundle:app:home.html.twig', ["questions" => $questions]);
+        $visitorByCountry = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getNumberOfConnectionByCountry();
+
+        $registeredYears = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getRegisteredYears();
+
+        return $this->render('AdminBundle:app:home.html.twig', [
+            "questions" => $questions,
+            "visitorsByCountry" => $visitorByCountry,
+            "registeredYears" => $registeredYears
+        ]);
+    }
+
+    /**
+     * Renvois les données visiteurs par années
+     *
+     * @return JsonResponse
+     */
+    public function visitorAction(Request $request)
+    {
+        $year = $request->attributes->get('year');
+
+        $visitorByYear = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getVisitorBy("MONTH", $year);
+
+        return $this->json($visitorByYear);
     }
 
     /**

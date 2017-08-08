@@ -121,12 +121,16 @@ class QuestionController extends Controller
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
         $temperaments = $TemperamentRepo->getTemperaments();
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
+        $responseNumber = count($responses);
 
-        return $this->json($this->renderView("AdminBundle:app:response.html.twig", [
+        return $this->json(['view' => $this->renderView("AdminBundle:app:response.html.twig", [
             "responses" => $responses,
             "temperaments" => $temperaments,
-            "imageParam" => $imageParam
-        ]));
+            "imageParam" => $imageParam,
+        ]),
+        'responseNumber' => $responseNumber,
+        'questionId' => $questionId
+        ]);
     }
 
     /**

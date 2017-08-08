@@ -22,7 +22,18 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Visites utilisateurs</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="panel-title">Visites utilisateurs pour l'année:</h3>
+                                </div>
+                                <div class="col-md-6">
+                                    <select name="registedYear" id="registedYear" class="form-control" style="width: 20%">
+                                        {% for registeredYear in registeredYears %}
+                                            <option value="{{ registeredYear.year }}">{{ registeredYear.year }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <canvas id="userChart" width="500" height="100"></canvas>
@@ -41,17 +52,17 @@
                                 <p id="valid"></p>
                                 <p id="nonValid"></p>
                             </div>
-                            <canvas id="tempChart" width="400" height="300"></canvas>
+                            <canvas id="questionByType" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">NA</h3>
+                            <h3 class="panel-title">Nombre de visiteur par pays</h3>
                         </div>
                         <div class="panel-body">
-                            <canvas id="" width="400" height="200"></canvas>
+                            <canvas id="visitorByCountry" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
@@ -70,7 +81,11 @@
     </div>
 
     {% for key, question in questions %}
-        <input type="hidden" class="dataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}" data-nonvalid="{{ question['nonValid'] }}">
+        <input type="hidden" class="questionDataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}" data-nonvalid="{{ question['nonValid'] }}">
+    {% endfor %}
+
+    {% for visitorByCountry in visitorsByCountry %}
+        <input type="hidden" class="visitorCountryDataHolder" data-country="{{ visitorByCountry['country'] }}" data-value="{{ visitorByCountry[1] }}">
     {% endfor %}
 
 {% endblock %}
