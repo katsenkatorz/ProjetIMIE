@@ -76,6 +76,16 @@ class VisitorRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getScalarResult();
     }
 
+    public function getBrowser()
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('v.browser, count(v)')
+            ->from('AdminBundle:Visitor', 'v')
+            ->groupBy("v.browser")
+            ->getQuery()->getScalarResult();
+
+    }
+
     /**
      * @param $ip
      * @param $browser

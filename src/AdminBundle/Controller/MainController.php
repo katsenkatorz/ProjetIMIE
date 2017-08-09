@@ -2,6 +2,8 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\AdminBundle;
+use AdminBundle\Entity\Visitor;
 use AdminBundle\Form\ParameterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,6 +43,18 @@ class MainController extends Controller
         $visitorByYear = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getVisitorBy("MONTH", $year);
 
         return $this->json($visitorByYear);
+    }
+
+    /**
+     * Renvoie les données visiteurs par browser (navigateur)
+     *
+     * @return JsonResponse
+     */
+    public function browserAction()
+    {
+        $browser = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getBrowser();
+
+        return $this->json($browser);
     }
 
     /**

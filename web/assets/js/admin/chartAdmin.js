@@ -4,12 +4,15 @@ $(document).ready(function () {
 
     genVisitorByCountry();
 
+    genVisitorByBrowser();
+
     var selectYearInput = $('#registedYear');
 
     genVisitorByYear(selectYearInput.val());
 
     selectYearInput.unbind('change').bind('change', function ()
     {
+        console.log($(this));
         genVisitorByYear($(this).val());
     });
 });
@@ -108,6 +111,63 @@ function genVisitorByYear(year)
                             stepSize: 10
                         }
                     }]
+                }
+            }
+        });
+
+    }).fail(function (error)
+    {
+        console.log("error");
+    })
+}
+
+function genVisitorByBrowser(browser)
+{
+    $.ajax({
+        url: "/admin/browser",
+        method: "GET"
+    }).done(function (data)
+    {
+
+
+        var values = [];
+        var labels = [];
+
+        data.forEach(function (elem)
+        {
+            values.push(elem['1']);
+            labels.push(elem['browser']);
+        });
+
+        var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
+
+        if(values.length > backgroundColor.length)
+        {
+            var colorLength = backgroundColor.length;
+            var interval = values.length - colorLength;
+
+            for(var i = 0; i < interval; i++)
+            {
+                backgroundColor.push(backgroundColor[i]);
+            }
+        }
+
+        // On génère le graphique
+        var ctxNav = document.getElementById("navChart").getContext('2d');
+        var navChart = new Chart(ctxNav, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: backgroundColor,
+                    label: "Navigateurs utilisés",
+                    data: values
+                }]
+            },
+            options: {
+                title: {
+                    display: false,
+                    text: 'Navigateurs utilisés'
                 }
             }
         });

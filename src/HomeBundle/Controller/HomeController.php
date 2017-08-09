@@ -43,7 +43,8 @@ class HomeController extends Controller
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
         $key = '6LeRpSsUAAAAAEf7hX5n9zp-9iaM2mgAUs0_HkGZ';
-        $response = $_POST['g-recaptcha-response'];
+//        $response = $_POST['g-recaptcha-response'];
+        $response = 'g-recaptcha-response';
         $ip = $_SERVER['REMOTE_ADDR'];
         $gapi = 'https://www.google.com/recaptcha/api/siteverify?secret='. $key .'$response='. $response .'$remoteip=' . $ip;
 
