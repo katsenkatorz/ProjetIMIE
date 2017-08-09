@@ -5,15 +5,10 @@ $(document).ready(function ()
         genQuizz(getCookie("lastQuestionToStart"), function ()
         {
             getImageValue();
-            showPrevButton();
             handleProgressBar();
             genImg();
         });
     });
-
-    nextQuestionProcess();
-    prevQuestionProcess();
-
 
     // Génère le quizz sur la page
     function genQuizz(number, callback)
@@ -79,6 +74,7 @@ $(document).ready(function ()
             thumbnail.setAttribute('data-value', response.value);
             thumbnail.setAttribute('data-temperament', questionSet.idTemperament);
             thumbnail.setAttribute('data-number', questionSet.questionNumber);
+            thumbnail.setAttribute('data-href', document.querySelector("#hrefInput").value);
             thumbnail.id = "imgContent" + i;
 
             // On crée la div qui contient l'image de la réponse
@@ -132,6 +128,7 @@ $(document).ready(function ()
             var questionNumber = $(this).data("number");
             var temperamentId = $(this).data("temperament");
             var idImage = $(this).attr('id');
+            var href = $(this).data("href");
 
             // On les met dans un tableau
             var responseContent = {
@@ -143,135 +140,49 @@ $(document).ready(function ()
             // On génère un cookie
             setCookie("responseContent" + questionNumber, JSON.stringify(responseContent), 1);
 
-            // On affiche le bouton next
-            $('#next').removeClass('disabled');
+            nextQuestion(questionNumber, href);
+        });
+    }
 
-            // Sur chaque image, on enlève la classe imageBorder (qui permet d'afficher la sélection)
-            $('.imgContent').each(function ()
+    function nextQuestion(questionNumber, href)
+    {
+        // Pour eviter de dépasser le nombre de question
+        if (questionNumber < getCookie("NumberOfQuestion") - 1)
+        {
+            // On met à jours le numéro de la question pour avoir celle de la suivante
+            setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
+
+            // On reset le contenu de responseContainer
+            $('#responseContainer').html("");
+
+            // On regénère le quizz
+            genQuizz(getCookie("lastQuestionToStart"), function ()
             {
-                $(this).removeClass("imageBorder");
+                getImageValue();
+                handleProgressBar();
+                genImg();
             });
-
-            // Sur l'image sur laquelle on a cliquer on ajoute imageBorder
-            $(this).addClass("imageBorder");
-        });
-    }
-
-    // Fonction qui permet d'afficher le bouton précédent
-    function showPrevButton()
-    {
-        // On récupère le cookie qui contient le numéro de la dernière réponse valider
-        var questionNumber = getCookie("lastQuestionToStart");
-
-        // Si la dernière réponse valider n'est pas la première, on affiche le bouton précedent
-        if (questionNumber > 0)
-            $('#prev').removeClass('disabled');
-    }
-
-    // Fonction qui permet de passé à la question suivante
-    function nextQuestionProcess()
-    {
-        // Au click sur le bouton suivant
-        $('#next').unbind('click').bind('click', function ()
-        {
-            var href = $(this).data("href");
-
-            // On récupère le numéro de la question en cours
-            var questionNumber = getCookie("lastQuestionToStart");
-
-            // Pour eviter de dépasser le nombre de question
-            if (questionNumber < getCookie("NumberOfQuestion") - 1)
-            {
-                // On met à jours le numéro de la question pour avoir celle de la suivante
-                setCookie("lastQuestionToStart", parseInt(questionNumber) + 1, 1);
-
-                // On reset le contenu de responseContainer
-                $('#responseContainer').html("");
-
-                // On regénère le quizz
-                genQuizz(getCookie("lastQuestionToStart"), function ()
-                {
-                    getImageValue();
-                    showPrevButton();
-                    handleProgressBar();
-                    selectRespondedResult();
-                    genImg();
-                });
-            }
-            else
-            {
-                var responses = [];
-
-                for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
-                {
-                    responses.push(JSON.parse(getCookie("responseContent" + i)));
-                }
-
-                $.ajax({
-                    url: href,
-                    type: "POST",
-                    data: {"responses": responses}
-                }).done(function (result)
-                {
-                    localStorage.clear();
-                    deleteAllCookies();
-
-                    location.href = result.href;
-                })
-            }
-        });
-    }
-
-    // Fonction qui permet de revenir à la question précedente
-    function prevQuestionProcess()
-    {
-        // Au clic sur le bouton précédent
-        $('#prev').unbind('click').bind('click', function ()
-        {
-            // On récupère le numeros de la question en cours
-            var questionNumber = getCookie("lastQuestionToStart");
-
-            // Tant que le numeros de la question en cour est supérieur à 0
-            if (questionNumber > 0)
-            {
-                // On fait -1 au cookie qui contient la question en cours
-                setCookie("lastQuestionToStart", parseInt(questionNumber) - 1, 1);
-
-                // On reset le responseContainer
-                $('#responseContainer').html("");
-                // On le remplis avec la question précédente
-                genQuizz(getCookie("lastQuestionToStart"), function ()
-                {
-                    getImageValue();
-                    showPrevButton();
-                    handleProgressBar();
-                    selectRespondedResult();
-                    genImg();
-                });
-
-                // Si la question qui est en cours est la première, on cache le bouton précedent
-                if (parseInt(getCookie("lastQuestionToStart")) === 0)
-                    $(this).addClass('disabled');
-            }
-        });
-    }
-
-    function selectRespondedResult()
-    {
-        var unParsedResponseContent = getCookie("responseContent" + getCookie("lastQuestionToStart"));
-        if (unParsedResponseContent.length > 0)
-        {
-            var responseContent = JSON.parse(unParsedResponseContent);
-
-            if (typeof responseContent !== undefined)
-            {
-                $("#" + responseContent.idImage).trigger('click');
-                $('#next').removeClass('disabled')
-            }
         }
         else
         {
-            $('#next').addClass('disabled');
+            var responses = [];
+
+            for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
+            {
+                responses.push(JSON.parse(getCookie("responseContent" + i)));
+            }
+
+            $.ajax({
+                url: href,
+                type: "POST",
+                data: {"responses": responses}
+            }).done(function (result)
+            {
+                localStorage.clear();
+                deleteAllCookies();
+
+                location.href = result.href;
+            })
         }
     }
 

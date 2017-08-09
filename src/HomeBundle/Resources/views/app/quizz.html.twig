@@ -55,16 +55,6 @@
                 <div id="responseContainer" class="row"></div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="text-center">
-                        <br/>
-                        <a class="previousQuestion btn btn-primary btn-lg disabled" id="prev">Précedent</a>
-                        <a class="nextQuestion btn btn-danger btn-lg disabled" id="next"
-                           data-href="{{ path('home_quizz_resolution') }}">Suivant</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <form action="#">
                     <div
                         class="g-recaptcha"
@@ -76,6 +66,7 @@
 
         <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
         <input type="hidden" id="heightInput" value="{{ imageParam.height }}">
+        <input type="hidden" id="hrefInput" value="{{ path('home_quizz_resolution') }}">
     {% endblock %}
 {% endblock %}
 
