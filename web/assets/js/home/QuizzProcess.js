@@ -14,6 +14,7 @@ $(document).ready(function ()
     nextQuestionProcess();
     prevQuestionProcess();
 
+
     // Génère le quizz sur la page
     function genQuizz(number, callback)
     {
@@ -26,6 +27,38 @@ $(document).ready(function ()
         // On écrit le numeros de la question
         document.querySelector("#questionLabel").innerHTML = questionSet.questionLabel;
 
+        // On récupère le nombre de réponse
+        var responseLength = questionSet.responses.length;
+
+        // Traitement spécial en fonction du nombre de réponse
+        switch(responseLength)
+        {
+            case 2:
+                handleResponse(questionSet, "col-md-6");
+                break;
+            case 3:
+                handleResponse(questionSet, "col-md-4");
+                break;
+            case 4:
+                handleResponse(questionSet, "col-md-6");
+                break;
+            case 5:
+                handleResponse(questionSet, "col-md-4", true);
+                break;
+            case 6:
+                handleResponse(questionSet, "col-md-4");
+                break;
+        }
+
+        // On appelle une callback pour les traitements synchrones
+        callback();
+    }
+
+    function handleResponse(questionSet, colDivClassName, bool)
+    {
+        // Booléen étant a true lorsque on a une question à 5 réponse
+        bool = bool || false;
+
         // Permet de créer une id par réponse
         var i = 0;
 
@@ -33,7 +66,12 @@ $(document).ready(function ()
         {
             // On crée la div qui gère le placement du quizz
             var colDiv = document.createElement("div");
-            colDiv.className = "col-md-4 col-sm-6";
+
+            colDiv.className = colDivClassName;
+
+            // Si on a une question a 5 réponse
+            if(bool && i === 3)
+                colDiv.className = colDivClassName+" col-md-offset-2";
 
             // On crée la div qui contient la class thumbnail
             var thumbnail = document.createElement("a");
@@ -57,7 +95,7 @@ $(document).ready(function ()
             responseLabel.className = "text-center subtitleQuizz";
             responseLabel.innerHTML = response.label;
 
-            // On ajoute l'image et sont nom au thumbnail
+            // On ajoute l'image et son nom au thumbnail
             thumbnail.appendChild(imgContent);
             thumbnail.appendChild(responseLabel);
 
@@ -69,9 +107,6 @@ $(document).ready(function ()
 
             i++;
         });
-
-        // On appelle une callback pour les traitements synchrones
-        callback();
     }
 
     // Permet de gérer la progression du questionnaire
