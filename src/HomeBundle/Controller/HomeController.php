@@ -12,11 +12,14 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $parameter = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->getParameterById(6);
+        $parameterRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
+        $description = $parameterRepo->getParameterById(6);
+        $title = $parameterRepo->getParameterById(7);
 
         return $this->render('HomeBundle:app:home.html.twig', [
-            'parameter' => $parameter
+            'title' => $title,
+            'description' => $description
         ]);
     }
 
