@@ -80,6 +80,8 @@ function genVisitorByYear(year)
             values.push(yearlyMonthValue[elem]);
         });
 
+        var max = Math.max(values);
+
         // On génère le graphique
         var ctxUser = document.getElementById("userChart").getContext('2d');
         var userChart = new Chart(ctxUser, {
@@ -108,7 +110,7 @@ function genVisitorByYear(year)
                         stacked: true,
                         ticks: {
                             beginAtZero: true,
-                            stepSize: 10
+                            stepSize: max
                         }
                     }]
                 }
@@ -270,6 +272,8 @@ function genQuestionByType()
         }
     }
 
+    var max = Math.max(values);
+
     document.querySelector("#valid").innerHTML = "Nombre de question valide: "+values[0].sum();
     document.querySelector("#nonValid").innerHTML = "Nombre de question non valide: "+values[1].sum();
 
@@ -304,7 +308,7 @@ function genQuestionByType()
                     stacked: true,
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 10
+                        stepSize: max
                     }
                 }]
             }

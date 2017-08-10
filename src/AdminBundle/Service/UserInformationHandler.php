@@ -55,7 +55,7 @@ class UserInformationHandler extends Controller
 
                     $this->session->set("client-browser", $browser);
 
-                    if(is_null($country))
+                    if(is_null($country) || $country === '')
                         $country = "Indefinis";
 
                     $this->session->set("client-country", $country);
