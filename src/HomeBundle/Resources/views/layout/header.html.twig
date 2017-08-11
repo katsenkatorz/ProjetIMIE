@@ -1,17 +1,17 @@
 <header>
     {#<!--Header-part-->#}
-    <nav class="navbar navbar-inverse navbar-fixed">
+    <nav class="navbar navbar-fixed" style="background-color: {{ primary.value }}">
         <div class="container">
             <div class="row">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    <button style="border-color: {{ secondary.value }}" type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                             data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
+                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
+                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
+                    <a style="color: {{ text.value }}" class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
                         <img class="pull-left ico" alt="IMIE" src="{{ asset('favicon.ico') }}">
                     </a>
                 </div>
@@ -20,20 +20,20 @@
                         <li class="tab
                         {% if app.request.requestUri == path('home_homepage') %}
                             active-bottom
-                        {% endif %}">
-                            <a href="{{ path('home_homepage') }}">Accueil</a>
+                        {% endif %}" style="border-color: {{ secondary.value }}">
+                            <a href="{{ path('home_homepage') }}" style="color: {{ text.value }}">Accueil</a>
                         </li>
                         <li class="tab
                         {% if app.request.requestUri == path('home_metiers') %}
                             active-bottom
-                        {% endif %}">
-                            <a href="{{ path('home_metiers') }}">Métiers</a>
+                        {% endif %}" style="border-color: {{ secondary.value }}">
+                            <a href="{{ path('home_metiers') }}" style="color: {{ text.value }}">Métiers</a>
                         </li>
                         <li class="tab
                         {% if app.request.requestUri == path('home_quizz') %}
                             active-bottom
-                        {% endif %}">
-                            <a href="{{ path('home_quizz') }}">Quizz</a>
+                        {% endif %}" style="border-color: {{ secondary.value }}">
+                            <a href="{{ path('home_quizz') }}" style="color: {{ text.value }}">Quizz</a>
                         </li>
                     </ul>
                 </div>
