@@ -33,7 +33,7 @@ html {
 }
 
 .navbar-inverse {
-    background-color: #ea3d4f !important;
+    background-color: #ea3d4f;
     border: none;
     border-radius: 0;
 }
@@ -56,7 +56,7 @@ html {
 }
 
 .navbar-header, .navbar-brand, .tab a {
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }
 
 /* IMAGE HEADER */

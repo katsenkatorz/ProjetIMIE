@@ -26,3 +26,13 @@ admin_homePresentation:
     path:     /homePresentation
     defaults:
         _controller: AdminBundle:Main:homePresentation
+
+admin_color:
+    path:     /color
+    defaults:
+        _controller: AdminBundle:Main:color
+
+admin_putColor:
+    path:     /putColor
+    defaults:
+        _controller: AdminBundle:Main:putColor

@@ -113,7 +113,7 @@ class HomeController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParametersWithout([5, 6]);
+        $parameters = $ParamRepo->getParametersWithout([5, 6, 7, 8, 9, 10]);
 
         return $this->render('HomeBundle:layout:footer.html.twig', [
             'parameters' => $parameters,

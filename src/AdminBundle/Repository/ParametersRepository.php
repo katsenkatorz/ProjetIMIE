@@ -42,22 +42,16 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
             ->select("p")
             ->from("AdminBundle:Parameters", "p");
 
-        if(is_numeric($param))
-        {
+        if (is_numeric($param)) {
             $result = $obj->where("p.id != $param")
-                          ->getQuery()->getResult();
+                ->getQuery()->getResult();
         }
 
-        if(is_array($param))
-        {
-            foreach($param as $par)
-            {
-                if($param[0] === $par)
-                {
+        if (is_array($param)) {
+            foreach ($param as $par) {
+                if ($param[0] === $par) {
                     $obj->where("p.id != $par");
-                }
-                else
-                {
+                } else {
                     $obj->andWhere("p.id != $par");
                 }
             }
@@ -71,17 +65,25 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
 
     public function postParameters($label, $value)
     {
-        $em = $this->getEntityManager();
 
-        $parameters = new Parameters();
+        if (!is_null($label) && !is_null($value)) {
+            $em = $this->getEntityManager();
 
-        $parameters->setLabel($label);
-        $parameters->setValue($value);
+            $parameters = new Parameters();
 
-        $em->persist($parameters);
-        $em->flush();
+            $parameters->setLabel($label);
+            $parameters->setValue($value);
 
-        return $parameters;
+            $em->persist($parameters);
+            $em->flush();
+
+            return $parameters;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     /**
@@ -93,7 +95,7 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
      *
      * return null|object
      */
-    public function putParameter($id,$label, $value)
+    public function putParameter($id, $label, $value)
     {
         $em = $this->getEntityManager();
         $parameters = $this->getParameterById($id);
@@ -118,8 +120,7 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $parameter = $this->getParameterById($id);
 
-        if($parameter)
-        {
+        if ($parameter) {
             $parameter->setValue($value);
 
             $em->persist($parameter);
@@ -165,7 +166,7 @@ class ParametersRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
-        if(count($isHereOrNot))
+        if (count($isHereOrNot))
             return true;
 
         return false;
