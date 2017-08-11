@@ -29,21 +29,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <form class="form-group" action="" method="post">
-                        <div class="col-md-12">
-                            {% for parameter in parameters %}
-                                <div class="form-group">
-                                    <label class="param-title"
-                                           id="parameterLabel{{ parameter.id }}">{{ parameter.label }}</label>
-                                    <input title="" type="text" class="param form-control"
-                                           id="parameterValue{{ parameter.id }}"
-                                           name="{{ parameter.label }}Value"
-                                           value="{{ parameter.value }}"
-                                           data-id="{{ parameter.id }}"
-                                           data-label="{{ parameter.label }}">
-                                </div>
-                            {% endfor %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% for parameter in parameters %}
+                                    <div class="form-group">
+                                        <label class="param-title"
+                                               id="parameterLabel{{ parameter.id }}">{{ parameter.label }}</label>
+                                        <input title="" type="text" class="form-control"
+                                               id="parameterValue{{ parameter.id }}"
+                                               name="{{ parameter.label }}Value"
+                                               value="{{ parameter.value }}"
+                                               data-id="{{ parameter.id }}"
+                                               data-label="{{ parameter.label }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </form>
                 </div>

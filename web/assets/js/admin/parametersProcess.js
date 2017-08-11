@@ -133,24 +133,44 @@ $(document).ready(function () {
         var imageResizerHolder = document.createElement('div');
         imageResizerHolder.className = "col-md-12";
 
+        // Pour contenir le message d'alert
+        var rowWarning = document.createElement("div");
+        rowWarning.className = "row";
+
+        // Pour contenir le message d'alert
+        var alertContentMd = document.createElement('div');
+        alertContentMd.className = "col-md-12";
+
+        // Pour contenir le message d'alert
+        var alertContent = document.createElement('div');
+        alertContent.className = "alert alert-warning";
+
         // Créer la zone de message d'alerte
         var alertMessage = document.createElement("p");
-        alertMessage.innerHTML = "Attention, tout changement de largeur et/ou de hauteur n'affecte pas les images déjà ajouté !";
-        alertMessage.style.color = 'red';
+        alertMessage.innerHTML = "<i class='fa fa-warning'></i>&nbspAttention, tout changement de largeur et/ou de hauteur n'affecte pas les images déjà ajouté !";
+        alertMessage.style.color = '';
 
         // Créer l'input qui va contenir la largueur
         var widthInput = document.createElement("input");
-        widthInput.className = "param form-control numberInput";
+        widthInput.className = "form-control numberInput";
         widthInput.type = "number";
         widthInput.value = widthValue;
         widthInput.id = "widthInput";
 
         // Créer l'input qui va contenir la hauteur
         var heightInput = document.createElement("input");
-        heightInput.className = "param form-control numberInput";
+        heightInput.className = "form-control numberInput";
         heightInput.type = "number";
         heightInput.value = heightValue;
         heightInput.id = "heightInput";
+
+        // Pour contenir le width
+        var widthMd = document.createElement("div");
+        widthMd.className = "col-md-12";
+
+        // Pour contenir la height
+        var heightMd = document.createElement('div');
+        heightMd.className = "col-md-12";
 
         // Créer le label pour l'input qui va contenir la largeur
         var widthLabel = document.createElement('label');
@@ -169,12 +189,22 @@ $(document).ready(function () {
         // Imbrication des divs
         imageResizerHolder.append(imageResizer);
 
-        inputWidthHeightHolder.append(alertMessage);
-        inputWidthHeightHolder.append(widthLabel);
-        inputWidthHeightHolder.append(widthInput);
-        inputWidthHeightHolder.append(document.createElement("br"));
-        inputWidthHeightHolder.append(heightLabel);
-        inputWidthHeightHolder.append(heightInput);
+        alertContent.appendChild(alertMessage);
+
+        alertContentMd.appendChild(alertContent);
+
+        rowWarning.appendChild(alertContentMd);
+
+        widthMd.appendChild(widthLabel);
+        widthMd.appendChild(widthInput);
+
+        heightMd.appendChild(heightLabel);
+        heightMd.appendChild(heightInput);
+
+        rowWarning.append(widthMd);
+        rowWarning.append(heightMd);
+
+        inputWidthHeightHolder.append(rowWarning);
 
         divRow.append(inputWidthHeightHolder);
         divRow.append(imageResizerHolder);
