@@ -4,7 +4,8 @@
 
 {% block head %}
     {{ parent() }}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    {#<script src='https://www.google.com/recaptcha/api.js'></script>#}
+    <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -13,7 +14,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
               integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-              crossorigin="anonymous">
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
     {% endblock %}
 {% endblock %}
 
@@ -54,14 +56,14 @@
             <div class="row">
                 <div id="responseContainer" class="row"></div>
             </div>
-            <div class="row">
-                <form action="#">
-                    <div
-                        class="g-recaptcha"
-                        data-sitekey="6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq">
-                    </div>
-                </form>
-            </div>
+            {#<div class="row">#}
+                {#<form action="#">#}
+                    {#<div#}
+                        {#class="g-recaptcha"#}
+                        {#data-sitekey="6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq">#}
+                    {#</div>#}
+                {#</form>#}
+            {#</div>#}
         </div>
 
         <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
@@ -71,6 +73,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('assets/js/home/pageTransitions.js') }}"></script>
     <script src="{{ asset('assets/js/home/QuizzProcess.js') }}"></script>
     <script src="{{ asset('assets/js/home/questionScroll.js') }}"></script>
 {% endblock %}
