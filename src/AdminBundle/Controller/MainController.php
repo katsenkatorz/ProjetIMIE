@@ -2,6 +2,8 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\AdminBundle;
+use AdminBundle\Entity\Visitor;
 use AdminBundle\Form\ParameterType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,6 +46,18 @@ class MainController extends Controller
     }
 
     /**
+     * Renvoie les données visiteurs par browser (navigateur)
+     *
+     * @return JsonResponse
+     */
+    public function browserAction()
+    {
+        $browser = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getBrowser();
+
+        return $this->json($browser);
+    }
+
+    /**
      * Affiche la page de gestion des utilisateurs
      *
      * @param Request $request
@@ -81,7 +95,7 @@ class MainController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParametersWithout([4, 6]);
+        $parameters = $ParamRepo->getParametersWithout([4, 6, 8, 9, 10]);
 
         return $this->render('AdminBundle:app:parameter.html.twig', [
             "parameters" => $parameters
@@ -102,8 +116,7 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if (!is_null($parameterId) && !is_null($label) && !is_null($value))
-        {
+        if (!is_null($parameterId) && !is_null($label) && !is_null($value)) {
             $ParamRepo->putParameter($parameterId, $label, $value);
         }
 
@@ -128,8 +141,7 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -157,8 +169,7 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -186,9 +197,58 @@ class MainController extends Controller
 
         $bool = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->putValueOfParameterById($paramId, $value);
 
-        if($bool)
+        if ($bool)
             return $this->json(['message' => "Modification(s) bien effectuée(s)"]);
 
         return $this->json(['message' => "Erreur lors de la modification"]);
+    }
+
+    public function colorAction()
+    {
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
+
+        return $this->render('AdminBundle:app:color.html.twig', [
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
+        ]);
+    }
+
+    public function putColorAction(Request $request)
+    {
+        $id = $request->get('id');
+        $label = $request->get('label');
+        $value = $request->get('value');
+
+        if(!is_null($label) && !is_null($value) && !is_null($id))
+        {
+            $paramRepo = $this->getDoctrine()->getRepository('AdminBundle:Parameters');
+
+            $color = $paramRepo->putParameter($id, $label, $value);
+
+            if (!$color )
+            {
+                return $this->json([
+                    'message' => 'Erreur lors de la modification.'
+                ]);
+            }
+            else
+            {
+                return $this->json([
+                    'message' => 'Modification bien effectuée.',
+                    'color' => $color
+                ]);
+            }
+        }
+        return $this->json([
+            'message' => 'Erreur lors de la modification.'
+        ]);
+
+
     }
 }

@@ -17,9 +17,16 @@ class HomeController extends Controller
         $description = $parameterRepo->getParameterById(6);
         $title = $parameterRepo->getParameterById(7);
 
+        $primary = $parameterRepo->getParameterById(8);
+        $secondary = $parameterRepo->getParameterById(9);
+        $text = $parameterRepo->getParameterById(10);
+
         return $this->render('HomeBundle:app:home.html.twig', [
             'title' => $title,
-            'description' => $description
+            'description' => $description,
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
         ]);
     }
 
@@ -28,6 +35,12 @@ class HomeController extends Controller
      */
     public function metiersAction()
     {
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
 
@@ -35,6 +48,9 @@ class HomeController extends Controller
 
         return $this->render('HomeBundle:app:metiers.html.twig', [
             "jobs" => $jobs,
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
         ]);
     }
 
@@ -92,6 +108,12 @@ class HomeController extends Controller
      */
     public function metierAction(Request $request)
     {
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
         $jobId = $request->attributes->get('jobId');
         $bool = $request->attributes->get('bool');
 
@@ -99,6 +121,9 @@ class HomeController extends Controller
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality")->getJobPersonnalityByJobId($jobId);
 
         return $this->render('HomeBundle:app:metier.html.twig', [
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
             "job" => $job,
             "jobPersonnalities" => $jobPersonnalities,
             'bool' => $bool
@@ -112,7 +137,7 @@ class HomeController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
-        $parameters = $ParamRepo->getParametersWithout([5, 6]);
+        $parameters = $ParamRepo->getParametersWithout([5, 6, 7, 8, 9, 10]);
 
         return $this->render('HomeBundle:layout:footer.html.twig', [
             'parameters' => $parameters,
@@ -126,21 +151,32 @@ class HomeController extends Controller
     {
         $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
 
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
         $mentionsLegales = $ParamRepo->getParameterById(4);
 
         return $this->render('HomeBundle:app:mentionsLegales.html.twig', [
             'mentionsLegales' => $mentionsLegales,
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
         ]);
     }
 
     public function cookiesAction()
     {
-        return $this->render('HomeBundle:app:cookies.html.twig');
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
+        return $this->render('HomeBundle:app:cookies.html.twig', [
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
+        ]);
     }
-
-    public function recaptchaAction()
-    {
-
-    }
-
 }

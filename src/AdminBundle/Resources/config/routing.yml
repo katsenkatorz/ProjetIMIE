@@ -28,3 +28,8 @@ admin_visitor:
     path:     /visitors/{year}
     defaults:
         _controller: AdminBundle:Main:visitor
+
+admin_browser:
+    path:     /browser
+    defaults:
+        _controller: AdminBundle:Main:browser

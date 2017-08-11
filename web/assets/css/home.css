@@ -32,8 +32,12 @@ html {
     padding-bottom: 25px;
 }
 
-.navbar-inverse {
-    background-color: #ea3d4f !important;
+.navbar-nav > li > a:hover {
+    background-color: transparent;
+}
+
+.navbar-fixed {
+    background-color: #ea3d4f;
     border: none;
     border-radius: 0;
 }
@@ -56,7 +60,7 @@ html {
 }
 
 .navbar-header, .navbar-brand, .tab a {
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }
 
 /* IMAGE HEADER */
@@ -90,10 +94,11 @@ footer {
 
 .doTest {
     padding: 30px 20px;
-    box-shadow: 5px 5px 5px #6B2929;
+    box-shadow: 5px 5px 5px #505050;
     border-radius: 0;
     margin-bottom: 50px;
     background-color: #EA3D50;
+    border: none;
 }
 
 .subtitleHome {

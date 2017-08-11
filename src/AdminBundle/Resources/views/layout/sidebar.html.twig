@@ -50,9 +50,13 @@
                 </li>
             </ul>
         </li>
-        <li class="{% if app.request.requestUri == path('admin_parameter') or
+        <li class="{%
+        if app.request.requestUri == path('admin_parameter') or
         app.request.requestUri == path('admin_user') or
-        app.request.requestUri == path('admin_mentionLegale') %}open {% endif %}submenu"
+        app.request.requestUri == path('admin_mentionLegale') or
+        app.request.requestUri == path('admin_homePresentation') or
+        app.request.requestUri == path('admin_color')
+        %}open {% endif %}submenu"
         >
             <a href="#">
                 <i class="fa fa-cog"></i>
@@ -94,6 +98,15 @@
                     <a href="{{ path('admin_homePresentation') }}">
                         <i class="fa fa-bookmark"></i>
                         <span>Texte de présentation</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_color') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_color') }}">
+                        <i class="fa fa-paint-brush"></i>
+                        <span>Gestion couleurs</span>
                     </a>
                 </li>
             </ul>
