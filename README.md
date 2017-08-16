@@ -7,7 +7,12 @@ Il faut aussi que geoip v1.1.0 minimum soit installer sur le serveur.
 
 Package installer:
 
-composer require beberlei/DoctrineExtensions
-composer require egeloen/ckeditor-bundle
-composer require thadafinser/user-agent-parser
-composer require whichbrowser/parser
+- composer require beberlei/DoctrineExtensions
+- composer require egeloen/ckeditor-bundle
+- composer require thadafinser/user-agent-parser
+- composer require whichbrowser/parser
+
+
+MAMP OSX :
+
+- sudo pecl install http://pecl.php.net/get/geoip-1.1.1.tgz
