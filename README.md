@@ -7,10 +7,10 @@ Il faut aussi que geoip v1.1.0 minimum soit installer sur le serveur.
 
 Package installer:
 
-- composer require beberlei/DoctrineExtensions
-- composer require egeloen/ckeditor-bundle
-- composer require thadafinser/user-agent-parser
-- composer require whichbrowser/parser
+- beberlei/DoctrineExtensions
+- egeloen/ckeditor-bundle
+- thadafinser/user-agent-parser
+- whichbrowser/parser
 
 
 MAMP OSX :
