@@ -123,7 +123,7 @@ class QuestionController extends Controller
         $responses = $ResponseRepo->getResponseByQuestionId($questionId);
         $responseNumber = count($responses);
 
-        return $this->json(['view' => $this->renderView("AdminBundle:app:response.html.twig", [
+        return $this->json(['view' => $this->renderView("AdminBundle:layout:response.html.twig", [
             "responses" => $responses,
             "temperaments" => $temperaments,
             "imageParam" => $imageParam,

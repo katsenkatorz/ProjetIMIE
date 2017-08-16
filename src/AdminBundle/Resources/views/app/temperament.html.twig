@@ -1,19 +1,8 @@
 {% extends 'AdminBundle::base.html.twig' %}
 {% block title %}{{ 'Gestion des tempéraments' }}{% endblock %}
 
-{% block head %}
-    {{ parent() }}
-{% endblock %}
+{% block _AdminBundle %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block header %}
-    {% include "AdminBundle:layout:header.html.twig" %}
-{% endblock %}
-
-{% block content %}
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
     <div id="content">
