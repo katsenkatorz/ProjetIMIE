@@ -61,6 +61,12 @@ class HomeController extends Controller
     {
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
+
+        $primary = $ParamRepo->getParameterById(8);
+        $secondary = $ParamRepo->getParameterById(9);
+        $text = $ParamRepo->getParameterById(10);
+
 //        $key = '6LeRpSsUAAAAAEf7hX5n9zp-9iaM2mgAUs0_HkGZ';
 //        $response = $_POST['g-recaptcha-response'];
 //        $ip = $_SERVER['REMOTE_ADDR'];
@@ -75,7 +81,12 @@ class HomeController extends Controller
 //            }
 //        }
 
-        return $this->render('HomeBundle:app:quizz.html.twig', ['imageParam' => $imageParam]);
+        return $this->render('HomeBundle:app:quizz.html.twig', [
+            'imageParam' => $imageParam,
+            "primary" => $primary,
+            "secondary" => $secondary,
+            "text" => $text,
+        ]);
     }
 
     /**
