@@ -19,10 +19,14 @@
                     <hr />
                 </div>
                 <div class="col-md-6">
-                    {{ form_start(form, {'method': 'POST'}) }}
-                    {{ form_row(form.value, {'label': 'Vous pouvez modifier le texte de présentation ici', 'attr': {'class': 'paramContent'} }) }}
-                    {{ form_row(form.save, {'label': 'Sauvegarder', 'attr': {'class': 'btn btn-primary param','data-id': parameter.id, 'data-label': parameter.label}}) }}
-                    {{ form_end(form) }}
+                    {% if parameter is not null and parameter.label is not null %}
+                        {{ form_start(form, {'method': 'POST'}) }}
+                        {{ form_row(form.value, {'label': 'Vous pouvez modifier le texte de présentation ici', 'attr': {'class': 'paramContent'} }) }}
+                        {{ form_row(form.save, {'label': 'Sauvegarder', 'attr': {'class': 'btn btn-primary param','data-id': parameter.id, 'data-label': parameter.label}}) }}
+                        {{ form_end(form) }}
+                    {% else %}
+                        <p>Erreur lors du chargement de la base de données</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
