@@ -19,6 +19,16 @@ body {
     margin-right: 10px;
 }
 
+body {
+    overflow: hidden;
+}
+
+#content {
+    margin-top: 0 !important;
+    height: 80px;
+    overflow: auto;
+}
+
 /*------- TEMPERAMENT / METIERS -------*/
 
 .temperament{

@@ -2,21 +2,10 @@
 
 {% block title %}{{ 'Gestion des questions' }}{% endblock %}
 
-{% block head %}
-    {{ parent() }}
-{% endblock %}
+{% block _AdminBundle %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/questionAdmin.css') }}">
-    {{ parent() }}
-{% endblock %}
-
-{% block header %}
-    {% include "AdminBundle:layout:header.html.twig" %}
-{% endblock %}
-
-{% block content %}
     {% include "AdminBundle:layout:sidebar.html.twig" %}
+
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-comment"></i>Gestion questions</a>

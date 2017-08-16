@@ -2,20 +2,7 @@
 
 {% block title %}{{ 'Gestion des métiers' }}{% endblock %}
 
-{% block head %}
-    {{ parent() }}
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}">
-    {{ parent() }}
-{% endblock %}
-
-{% block header %}
-    {% include "AdminBundle:layout:header.html.twig" %}
-{% endblock %}
-
-{% block content %}
+{% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
 
