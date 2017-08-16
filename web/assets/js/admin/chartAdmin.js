@@ -1,29 +1,48 @@
 $(document).ready(function () {
 
-    genQuestionByType();
-
-    genVisitorByCountry();
-
-    genVisitorByBrowser();
-
     var selectYearInput = $('#registedYear');
 
     genVisitorByYear(selectYearInput.val());
 
-    selectYearInput.unbind('change').bind('change', function ()
-    {
-        console.log($(this));
+    selectYearInput.unbind('change').bind('change', function () {
         genVisitorByYear($(this).val());
     });
+
+    modifySize("#userChart", function () {
+        genQuestionByType();
+
+        genVisitorByCountry();
+
+        genVisitorByBrowser();
+    })
 });
 
-function genVisitorByYear(year)
-{
+function modifySize(idTarget, callback) {
+    var target = document.querySelector(idTarget);
+
+    if ($(window).width() <= 768) {
+        target.height = 100;
+    }
+    else {
+        target.height = 20;
+    }
+
+    $(window).unbind('resize').bind('resize', function () {
+        if ($(window).width() <= 768) {
+            target.height = 100;
+        }
+        else {
+            target.height = 20;
+        }
+    });
+    callback();
+}
+
+function genVisitorByYear(year) {
     $.ajax({
-        url: "/admin/visitors/"+year,
+        url: "/admin/visitors/" + year,
         method: "GET"
-    }).done(function (data)
-    {
+    }).done(function (data) {
 
         // On crée un tableau de référence pour les mois
         var monthsName = [
@@ -59,8 +78,7 @@ function genVisitorByYear(year)
         };
 
         // Pour chaque valeur réçus
-        data.forEach(function (elem)
-        {
+        data.forEach(function (elem) {
             // On récupère la valeur du mois pour avoir la string correspondante
             elem.month = monthsName[elem.month];
 
@@ -75,8 +93,7 @@ function genVisitorByYear(year)
         monthsName.splice(0, 1);
 
         // A partir du tableau de référence on stocke les valeurs ordonnées pour chaque mois
-        monthsName.forEach(function (elem)
-        {
+        monthsName.forEach(function (elem) {
             values.push(yearlyMonthValue[elem]);
         });
 
@@ -90,11 +107,12 @@ function genVisitorByYear(year)
                 labels: monthsName,
                 datasets: [{
                     backgroundColor: "#3e95cd",
-                    label: "Questions par Tempéraments",
+                    label: "utilisateurs mensuels",
                     data: values
                 }]
             },
             options: {
+                responsive: true,
                 title: {
                     display: true,
                     text: 'Nombre de visiteur par année'
@@ -117,39 +135,33 @@ function genVisitorByYear(year)
             }
         });
 
-    }).fail(function (error)
-    {
+    }).fail(function (error) {
         console.log("error");
     })
 }
 
-function genVisitorByBrowser(browser)
-{
+function genVisitorByBrowser(browser) {
     $.ajax({
         url: "/admin/browser",
         method: "GET"
-    }).done(function (data)
-    {
+    }).done(function (data) {
 
 
         var values = [];
         var labels = [];
 
-        data.forEach(function (elem)
-        {
+        data.forEach(function (elem) {
             values.push(elem['1']);
             labels.push(elem['browser']);
         });
 
         var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
 
-        if(values.length > backgroundColor.length)
-        {
+        if (values.length > backgroundColor.length) {
             var colorLength = backgroundColor.length;
             var interval = values.length - colorLength;
 
-            for(var i = 0; i < interval; i++)
-            {
+            for (var i = 0; i < interval; i++) {
                 backgroundColor.push(backgroundColor[i]);
             }
         }
@@ -167,6 +179,7 @@ function genVisitorByBrowser(browser)
                 }]
             },
             options: {
+                responsive: true,
                 title: {
                     display: false,
                     text: 'Navigateurs utilisés'
@@ -174,34 +187,29 @@ function genVisitorByBrowser(browser)
             }
         });
 
-    }).fail(function (error)
-    {
+    }).fail(function (error) {
         console.log("error");
     })
 }
 
 
-function genVisitorByCountry()
-{
+function genVisitorByCountry() {
     var inputs = document.querySelectorAll(".visitorCountryDataHolder");
 
     var labels = [];
     var values = [];
     var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
 
-    inputs.forEach(function (elem)
-    {
+    inputs.forEach(function (elem) {
         labels.push(elem.dataset.country);
         values.push(parseInt(elem.dataset.value))
     });
 
-    if(values.length > backgroundColor.length)
-    {
+    if (values.length > backgroundColor.length) {
         var colorLength = backgroundColor.length;
         var interval = values.length - colorLength;
 
-        for(var i = 0; i < interval; i++)
-        {
+        for (var i = 0; i < interval; i++) {
             backgroundColor.push(backgroundColor[i]);
         }
     }
@@ -212,8 +220,7 @@ function genVisitorByCountry()
         type: 'polarArea',
         data: {
             labels: labels,
-            datasets:
-            [{
+            datasets: [{
                 backgroundColor: backgroundColor,
                 data: values
             }]
@@ -241,8 +248,7 @@ function genVisitorByCountry()
 }
 
 
-function genQuestionByType()
-{
+function genQuestionByType() {
     var inputs = document.querySelectorAll(".questionDataHolder");
 
     var labels = [];
@@ -251,8 +257,7 @@ function genQuestionByType()
     var unValid = [];
     var backgroundColor = ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"];
 
-    inputs.forEach(function (elem)
-    {
+    inputs.forEach(function (elem) {
         labels.push(elem.dataset.type);
         valid.push(parseInt(elem.dataset.valid));
         unValid.push(parseInt(elem.dataset.nonvalid))
@@ -261,21 +266,19 @@ function genQuestionByType()
     values.push(valid);
     values.push(unValid);
 
-    if(values.length > backgroundColor.length)
-    {
+    if (values.length > backgroundColor.length) {
         var colorLength = backgroundColor.length;
         var interval = values.length - colorLength;
 
-        for(var i = 0; i < interval; i++)
-        {
+        for (var i = 0; i < interval; i++) {
             backgroundColor.push(backgroundColor[i]);
         }
     }
 
     var max = Math.max(values);
 
-    document.querySelector("#valid").innerHTML = "Nombre de question valide: "+values[0].sum();
-    document.querySelector("#nonValid").innerHTML = "Nombre de question non valide: "+values[1].sum();
+    document.querySelector("#valid").innerHTML = "Nombre de question valide: " + values[0].sum();
+    document.querySelector("#nonValid").innerHTML = "Nombre de question non valide: " + values[1].sum();
 
     var ctxTemp = document.getElementById("questionByType").getContext('2d');
     new Chart(ctxTemp, {
@@ -317,9 +320,9 @@ function genQuestionByType()
 }
 
 
-Array.prototype.sum = function(selector) {
+Array.prototype.sum = function (selector) {
     if (typeof selector !== 'function') {
-        selector = function(item) {
+        selector = function (item) {
             return item;
         }
     }

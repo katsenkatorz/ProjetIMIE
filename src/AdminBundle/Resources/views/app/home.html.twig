@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <h1>Tableau de bord</h1>
-                    <hr />
+                    <hr/>
                 </div>
             </div>
             <div class="row">
@@ -26,8 +26,9 @@
                                 <div class="col-md-4">
                                     <h3 class="panel-title">Visites utilisateurs pour l'année:</h3>
                                 </div>
-                                <div class="col-md-6">
-                                    <select name="registedYear" id="registedYear" class="form-control" style="width: 20%">
+                                <div class="col-md-6 col-sm-12">
+                                    <select name="registedYear" id="registedYear" class="form-control"
+                                            style="width: 20%">
                                         {% for registeredYear in registeredYears %}
                                             <option value="{{ registeredYear.year }}">{{ registeredYear.year }}</option>
                                         {% endfor %}
@@ -81,11 +82,13 @@
     </div>
 
     {% for key, question in questions %}
-        <input type="hidden" class="questionDataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}" data-nonvalid="{{ question['nonValid'] }}">
+        <input type="hidden" class="questionDataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}"
+               data-nonvalid="{{ question['nonValid'] }}">
     {% endfor %}
 
     {% for visitorByCountry in visitorsByCountry %}
-        <input type="hidden" class="visitorCountryDataHolder" data-country="{{ visitorByCountry['country'] }}" data-value="{{ visitorByCountry[1] }}">
+        <input type="hidden" class="visitorCountryDataHolder" data-country="{{ visitorByCountry['country'] }}"
+               data-value="{{ visitorByCountry[1] }}">
     {% endfor %}
 
 {% endblock %}
