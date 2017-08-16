@@ -4,6 +4,7 @@ $(document).ready(function () {
         var id = $(this).attr('data-id');
         var label = $(this).attr("title");
         var value = $(this).val();
+        var timeout = "";
 
         $.ajax({
             url: "/admin/parameter/putColor",
@@ -18,7 +19,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(result.message);
-            setTimeout(function () {
+            timeout = setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         }).fail(function (error) {
@@ -26,7 +27,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(error.message);
-            setTimeout(function () {
+            timeout = setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         });
