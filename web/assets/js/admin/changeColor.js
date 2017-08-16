@@ -5,8 +5,7 @@ $(document).ready(function () {
         var label = $(this).attr("title");
         var value = $(this).val();
 
-        if(typeof timeout !== undefined)
-            window.clearTimeout(timeout);
+        window.clearTimeout(window.timeout);
 
         $.ajax({
             url: "/admin/parameter/putColor",
@@ -21,7 +20,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(result.message);
-            var timeout = window.setTimeout = setTimeout(function () {
+            window.timeout = window.setTimeout = setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         }).fail(function (error) {
@@ -29,7 +28,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(error.message);
-            var timeout = window.setTimeout(function () {
+            window.timeout = window.setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         });
