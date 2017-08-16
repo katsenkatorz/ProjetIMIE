@@ -1,11 +1,9 @@
 $(document).ready(function () {
 
-    $(".color").unbind('change').bind('change', function () {
+    $(".color").unbind('blur').bind('blur', function () {
         var id = $(this).attr('data-id');
         var label = $(this).attr("title");
         var value = $(this).val();
-
-        window.clearTimeout(window.timeout);
 
         $.ajax({
             url: "/admin/parameter/putColor",
@@ -20,7 +18,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(result.message);
-            window.timeout = window.setTimeout = setTimeout(function () {
+            setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         }).fail(function (error) {
@@ -28,7 +26,7 @@ $(document).ready(function () {
                 .fadeIn(250)
                 .removeClass('hidden');
             $("#responseMessage").html(error.message);
-            window.timeout = window.setTimeout(function () {
+            window.setTimeout(function () {
                 $("#responseMessageContent").fadeOut(250);
             }, 5000);
         });
