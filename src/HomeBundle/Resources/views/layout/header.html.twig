@@ -1,43 +1,86 @@
 <header>
-    {#<!--Header-part-->#}
-    <nav class="navbar navbar-fixed" style="background-color: {{ primary.value }}">
-        <div class="container">
-            <div class="row">
-                <div class="navbar-header">
-                    <button style="border-color: {{ secondary.value }}" type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
-                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
-                        <span style="background-color: {{ text.value }}" class="icon-bar"></span>
-                    </button>
-                    <a style="color: {{ text.value }}" class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
-                        <img class="pull-left ico" alt="IMIE" src="{{ asset('favicon.ico') }}">
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
-                        <li class="tab
+
+    {% if (primary is not null and text is not null and secondary is not null) and (primary.value is not null and secondary.value is not null and text.value is not null) %}
+        <nav class="navbar navbar-fixed" style="background-color: {{ primary.value }}">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header">
+                        <button style="border-color: {{ secondary.value }}" type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span style="background-color: {{ text.value }}" class="icon-bar"></span>
+                            <span style="background-color: {{ text.value }}" class="icon-bar"></span>
+                            <span style="background-color: {{ text.value }}" class="icon-bar"></span>
+                        </button>
+                        <a style="color: {{ text.value }}" class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
+                            <img class="pull-left ico" alt="IMIE" src="{{ asset('favicon.ico') }}">
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
+                            <li class="tab
                         {% if app.request.requestUri == path('home_homepage') %}
                             active-bottom
                         {% endif %}" style="border-color: {{ secondary.value }}">
-                            <a href="{{ path('home_homepage') }}" style="color: {{ text.value }}">Accueil</a>
-                        </li>
-                        <li class="tab
+                                <a href="{{ path('home_homepage') }}" style="color: {{ text.value }}">Accueil</a>
+                            </li>
+                            <li class="tab
                         {% if app.request.requestUri == path('home_metiers') %}
                             active-bottom
                         {% endif %}" style="border-color: {{ secondary.value }}">
-                            <a href="{{ path('home_metiers') }}" style="color: {{ text.value }}">Métiers</a>
-                        </li>
-                        <li class="tab
+                                <a href="{{ path('home_metiers') }}" style="color: {{ text.value }}">Métiers</a>
+                            </li>
+                            <li class="tab
                         {% if app.request.requestUri == path('home_quizz') %}
                             active-bottom
                         {% endif %}" style="border-color: {{ secondary.value }}">
-                            <a href="{{ path('home_quizz') }}" style="color: {{ text.value }}">Quizz</a>
-                        </li>
-                    </ul>
+                                <a href="{{ path('home_quizz') }}" style="color: {{ text.value }}">Quizz</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    {% else %}
+        <nav class="navbar navbar-fixed" style="background-color: #ea3d4f">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header">
+                        <button style="border-color: #ffef2b" type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span style="background-color: #ffffff" class="icon-bar"></span>
+                            <span style="background-color: #ffffff" class="icon-bar"></span>
+                            <span style="background-color: #ffffff" class="icon-bar"></span>
+                        </button>
+                        <a style="color: #ffffff" class="navbar-brand pull-left" href="{{ path('home_homepage') }}">NOM DU SITE
+                            <img class="pull-left ico" alt="IMIE" src="{{ asset('favicon.ico') }}">
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav pull-right" id="bs-example-navbar-collapse-1">
+                            <li class="tab
+                        {% if app.request.requestUri == path('home_homepage') %}
+                            active-bottom
+                        {% endif %}" style="border-color: #ffef2b">
+                                <a href="{{ path('home_homepage') }}" style="color: #ffffff">Accueil</a>
+                            </li>
+                            <li class="tab
+                        {% if app.request.requestUri == path('home_metiers') %}
+                            active-bottom
+                        {% endif %}" style="border-color: #ffef2b">
+                                <a href="{{ path('home_metiers') }}" style="color: #ffffff">Métiers</a>
+                            </li>
+                            <li class="tab
+                        {% if app.request.requestUri == path('home_quizz') %}
+                            active-bottom
+                        {% endif %}" style="border-color: #ffef2b">
+                                <a href="{{ path('home_quizz') }}" style="color: #ffffff">Quizz</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 </header>

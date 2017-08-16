@@ -29,20 +29,24 @@
                             </div>
                         </div>
                     </div>
-                    <form class="form-actions" action="">
-                        <div class="form-group">
-                            <label for="{{ primary.label }}">{{ primary.label }}</label>
-                            <input data-id="{{ primary.id }}" value="{{ primary.value }}" id="color-primary" class="form-control color" type="color" title="couleur primaire">
-                        </div>
-                        <div class="form-group">
-                            <label for="{{ secondary.label }}">{{ secondary.label }}</label>
-                            <input data-id="{{ secondary.id }}" value="{{ secondary.value }}" id="color-secondary" class="form-control color" type="color" title="{{ secondary.label }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="{{ text.label }}">{{ text.label }}</label>
-                            <input data-id="{{ text.id }}" value="{{ text.value }}" id="color-text" class="form-control color" type="color" title="couleur du texte">
-                        </div>
-                    </form>
+                    {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                        <form class="form-actions" action="">
+                            <div class="form-group">
+                                <label for="{{ primary.label }}">{{ primary.label }}</label>
+                                <input data-id="{{ primary.id }}" value="{{ primary.value }}" id="color-primary" class="form-control color" type="color" title="couleur primaire">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ secondary.label }}">{{ secondary.label }}</label>
+                                <input data-id="{{ secondary.id }}" value="{{ secondary.value }}" id="color-secondary" class="form-control color" type="color" title="{{ secondary.label }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ text.label }}">{{ text.label }}</label>
+                                <input data-id="{{ text.id }}" value="{{ text.value }}" id="color-text" class="form-control color" type="color" title="couleur du texte">
+                            </div>
+                        </form>
+                    {% else %}
+                        <p class="error_ex">Erreur lors du chargement de la base de données</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

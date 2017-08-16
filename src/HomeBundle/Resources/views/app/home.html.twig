@@ -25,37 +25,64 @@
 
                     <div class="col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <div style="border-color: {{ primary.value }}" class="thumbHome">
-                                <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/rapide.png') }}" alt="">
-                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Rapide</h3>
-                            </div>
+                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                <div style="border-color: {{ primary.value }}" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/rapide.png') }}" alt="">
+                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Rapide</h3>
+                                </div>
+                            {% else %}
+                                <div style="border-color: #ea3d4f" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/rapide.png') }}" alt="">
+                                    <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleHome">Rapide</h3>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <div style="border-color: {{ primary.value }}" class="thumbHome">
-                                <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/instructif.png') }}" alt="">
-                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Instructif</h3>
-                            </div>
+                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                <div style="border-color: {{ primary.value }}" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/instructif.png') }}" alt="">
+                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Instructif</h3>
+                                </div>
+                            {% else %}
+                                <div style="border-color: #ea3d4f" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/instructif.png') }}" alt="">
+                                    <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleHome">Instructif</h3>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="col-md-4 col-sm-4">
                         <div class="thumbnail">
-                            <div style="border-color: {{ primary.value }}" class="thumbHome">
-                                <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/ludique.png') }}" alt="">
-                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Ludique</h3>
-                            </div>
+                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                <div style="border-color: {{ primary.value }}" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/ludique.png') }}" alt="">
+                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleHome">Ludique</h3>
+                                </div>
+                            {% else %}
+                                <div style="border-color: #ea3d4f" class="thumbHome">
+                                    <img class="img-responsive imgHome" src="{{ asset('assets/img/imageHome/ludique.png') }}" alt="">
+                                    <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleHome">Ludique</h3>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
                 </div>
             </div>
             <div class="text-center">
-                <a style="background-color: {{ primary.value }}; color: {{ text.value }}" class=" btn btn-danger btn-lg doTest" href="{{ path('home_quizz') }}">
-                    Faire le test !
-                </a>
+                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                    <a style="background-color: {{ primary.value }}; color: {{ text.value }}" class=" btn btn-danger btn-lg doTest" href="{{ path('home_quizz') }}">
+                        Faire le test !
+                    </a>
+                {% else %}
+                    <a style="background-color: #ea3d4f; color: #ffffff" class=" btn btn-danger btn-lg doTest" href="{{ path('home_quizz') }}">
+                        Faire le test !
+                    </a>
+                {% endif %}
             </div>
         </div>
     {% endblock %}
