@@ -21,7 +21,8 @@
                     <div id="responseMessageContent" class="row hidden">
                         <div class="col-md-12">
                             <div class="alert alert-success alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-type="create">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                        data-type="create">
                                     <span aria-hidden="true"><i class="fa fa-close"></i></span>
                                 </button>
                                 <p id="responseMessage"></p>
@@ -32,16 +33,28 @@
                         <form class="form-actions" action="">
                             <div class="form-group">
                                 <label for="{{ primary.label }}">{{ primary.label }}</label>
-                                <input data-id="{{ primary.id }}" value="{{ primary.value }}" id="color-primary" class="form-control color" type="color" title="couleur primaire">
+                                <input data-id="{{ primary.id }}" value="{{ primary.value }}" id="color-primary"
+                                       class="form-control color" type="color" title="{{ primary.label }}">
                             </div>
+                            <button class="btn btn-primary colorSubmit" data-inputid="color-primary">Sauvegarder</button>
+
+                            <hr>
+
                             <div class="form-group">
                                 <label for="{{ secondary.label }}">{{ secondary.label }}</label>
-                                <input data-id="{{ secondary.id }}" value="{{ secondary.value }}" id="color-secondary" class="form-control color" type="color" title="{{ secondary.label }}">
+                                <input data-id="{{ secondary.id }}" value="{{ secondary.value }}" id="color-secondary"
+                                       class="form-control color" type="color" title="{{ secondary.label }}">
                             </div>
+                            <button class="btn btn-primary colorSubmit" data-inputid="color-secondary">Sauvegarder</button>
+
+                            <hr>
+
                             <div class="form-group">
                                 <label for="{{ text.label }}">{{ text.label }}</label>
-                                <input data-id="{{ text.id }}" value="{{ text.value }}" id="color-text" class="form-control color" type="color" title="couleur du texte">
+                                <input data-id="{{ text.id }}" value="{{ text.value }}" id="color-text"
+                                       class="form-control color" type="color" title="{{ primary.label }}">
                             </div>
+                            <button class="btn btn-primary colorSubmit" data-inputid="color-text">Sauvegarder</button>
                         </form>
                     {% else %}
                         <p class="error_ex">Erreur lors du chargement de la base de données</p>
