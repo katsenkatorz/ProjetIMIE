@@ -1,0 +1,38 @@
+admin_parameter:
+    path:     /
+    defaults:
+        _controller: AdminBundle:Main:parameters
+        method: [GET, POST]
+
+admin_putParameters:
+    path:     /put/{idParameter}
+    defaults:
+        _controller: AdminBundle:Main:updateParameters
+        method: POST
+
+admin_putValueOfParameters:
+    path:     /putValue/{idParameter}
+    defaults:
+        _controller: AdminBundle:Main:resizeImageHandler
+        method: PUT
+
+admin_mentionLegale:
+    path:     /mentionLegale
+    defaults:
+        _controller: AdminBundle:Main:mentionLegale
+        method: POST
+
+admin_homePresentation:
+    path:     /homePresentation
+    defaults:
+        _controller: AdminBundle:Main:homePresentation
+
+admin_color:
+    path:     /color
+    defaults:
+        _controller: AdminBundle:Main:color
+
+admin_putColor:
+    path:     /putColor
+    defaults:
+        _controller: AdminBundle:Main:putColor

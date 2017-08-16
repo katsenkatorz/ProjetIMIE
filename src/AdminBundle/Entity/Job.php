@@ -3,9 +3,13 @@
 namespace AdminBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Grafikart\UploadBundle\Annotation\Uploadable;
+use Grafikart\UploadBundle\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Job
+ * @Uploadable()
  */
 class Job
 {
@@ -24,9 +28,31 @@ class Job
      */
     private $description;
 
-    private $salaireMin;
+    /**
+     * @var integer
+     */
+    private $minSalary;
 
-    private $salaireMax;
+    /**
+     * @var integer
+     */
+    private $maxSalary;
+
+    /**
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @UploadableField(filename="imageName", path="assets/img/imageJob")
+     * @Assert\Image(maxWidth="2000", maxHeight="2000")
+     */
+    private $image;
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     private $jobPersonnalities;
 
@@ -36,36 +62,87 @@ class Job
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getSalaireMin()
+    public function getUpdatedAt(): \DateTime
     {
-        return $this->salaireMin;
+        return $this->updatedAt;
     }
 
     /**
-     * @param mixed $salaireMin
+     * @param \DateTime $updatedAt
      **/
-    public function setSalaireMin($salaireMin)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
-        $this->salaireMin = $salaireMin;
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+    /**
+     * @param string $imageName
+     **/
+    public function setImageName(string $imageName)
+    {
+        $this->imageName = $imageName;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getSalaireMax()
+    public function getImage()
     {
-        return $this->salaireMax;
+        return $this->image;
     }
 
     /**
-     * @param mixed $salaireMax
+     * @param mixed $image
      **/
-    public function setSalaireMax($salaireMax)
+    public function setImage($image)
     {
-        $this->salaireMax = $salaireMax;
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getMinSalary()
+    {
+        return $this->minSalary;
+    }
+
+    /**
+     * @param integer $minSalary
+     **/
+    public function setMinSalary($minSalary)
+    {
+        $this->minSalary = $minSalary;
+        return $this;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getmaxSalary()
+    {
+        return $this->maxSalary;
+    }
+
+    /**
+     * @param integer $maxSalary
+     **/
+    public function setMaxSalary($maxSalary)
+    {
+        $this->maxSalary = $maxSalary;
         return $this;
     }
 

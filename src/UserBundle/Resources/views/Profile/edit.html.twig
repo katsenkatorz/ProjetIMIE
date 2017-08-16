@@ -1,0 +1,9 @@
+{% extends "UserBundle:Group:edit.html.twig" %}
+
+{% block title %}{{ 'Edition de profil' }}{% endblock %}
+
+{% block fos_user_content %}
+    {% include "UserBundle:Profile:edit_content.html.twig" %}
+{% endblock fos_user_content %}
+
+

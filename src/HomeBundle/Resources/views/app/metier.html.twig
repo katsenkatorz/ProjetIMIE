@@ -1,0 +1,133 @@
+{% extends 'HomeBundle::base.html.twig' %}
+
+{% block title %} Résultat {% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+    {# Plugin facebook #}
+    <meta property="og:url"           content="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="QuizzIMIE" />
+    <meta property="og:description"   content="Mon résultat est : {{ job.name }} ! Faites le test !" />
+    <meta property="og:image"         content="http://127.0.0.1:8000/metier/{{ job.id }}" />
+{% endblock %}
+
+{% block content %}
+    {% block _HomeBundle %}
+        <div class="container content">
+            <div class="row">
+                <div class="col-md-8">
+                    {% if bool != 0 %}
+                        <div class="row">
+                            <div class="col-md-7">
+                                <img src="{{ asset('assets/img/persoResponse/perso_pose1.png') }}" alt="" width="250px"
+                                     height="280px">
+                                <h2>Tu es {{ job.name }} !</h2>
+                            </div>
+                            <div class="col-md-5">
+                                {% if job.image is not null %}
+                                    <a href="#" class="thumbnail">
+                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                             src="{{ asset(job.image.pathname) }}" alt="...">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ job.description|raw }}
+                            </div>
+                            <div
+                                class="fb-share-button"
+                                data-href="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}"
+                                data-layout="button"
+                                data-size="large"
+                                data-mobile-iframe="true">
+                                <a
+                                    id="sharedBtn"
+                                    class="fb-xfbml-parse-ignore btn btn-primary"
+                                    target="_blank"
+                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F127.0.0.1%3A8000%2Fmetier%2F11%2F1%23&amp;src=sdkpreparse">
+                                    <i class="fa fa-facebook-square"></i>
+                                    Partager
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>{{ job.name }}</h2>
+                            </div>
+                            <div class="col-md-12">
+                                {% if job.image is not null %}
+                                    <a href="#" class="thumbnail">
+                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                             src="{{ asset(job.image.pathname) }}" alt="...">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ job.description|raw }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Le tempérament du métier</h3>
+                    <p>Métier : {{ job.name }}</p>
+                    <canvas id="myChart" width="500" height="300">
+
+                    </canvas>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# jobs #}
+                            <h3>Le salaire brut mensuel</h3>
+                            <table class="table table-condensed text-center">
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>Maximum</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ job.minSalary }}€</td>
+                                    <td>{{ job.maxSalary }}€</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {# img job #}
+                        {% if job.image is not null %}
+                            <a href="#" class="thumbnail">
+                                <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for jobPersonnality in jobPersonnalities %}
+            {% if jobPersonnality.value < 0 %}
+                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}"
+                       data-type="{{ jobPersonnality.temperament.temperament }}">
+            {% else %}
+                <input type="hidden" class="dataHolder" value="{{ jobPersonnality.value }}"
+                       data-type="{{ jobPersonnality.temperament.opposedTemperament }}">
+            {% endif %}
+        {% endfor %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/home/chartResult.js') }}"></script>
+    <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
+{% endblock %}
+
+{% block footer %}
+    {{ render(controller('HomeBundle:Home:renderFooter')) }}
+{% endblock %}

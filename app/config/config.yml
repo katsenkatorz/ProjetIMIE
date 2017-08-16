@@ -4,11 +4,13 @@ imports:
     - { resource: services.yml }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@TestProjetBundle/Resources/config/services.yml" }
+    - { resource: "@HomeBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: fr
 
 framework:
     #esi: ~
@@ -20,7 +22,7 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: true
     templating:
         engines: ['twig']
     default_locale: '%locale%'
@@ -39,6 +41,9 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+          - 'bootstrap_3_layout.html.twig'
+          # resources: ['bootstrap_3_horizontal_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -61,6 +66,11 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            string_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -80,14 +90,6 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
-    profile:
-        form:
-            type:               fos_user_profile
-            name:               fos_user_profile_form
-    change_password:
-        form:
-            type:               fos_user_change_password
-            name:               fos_user_change_password_form
     registration:
         confirmation:
             from_email: # Use this node only if you don't want the global email address for the confirmation email
@@ -95,8 +97,6 @@ fos_user:
                 sender_name:    ...
             enabled:    false # change to true for required email confirmation
             template:   FOSUserBundle:Registration:email.txt.twig
-        form:
-            name:               fos_user_registration_form
     resetting:
         token_ttl: 86400
         email:
@@ -104,9 +104,6 @@ fos_user:
                 address:        ...
                 sender_name:    ...
             template:   FOSUserBundle:Resetting:email.txt.twig
-        form:
-            type:               fos_user_resetting
-            name:               fos_user_resetting_form
     service:
         mailer:                 fos_user.mailer.default
         email_canonicalizer:    fos_user.util.canonicalizer.default
@@ -114,15 +111,11 @@ fos_user:
         token_generator:        fos_user.util.token_generator.default
         user_manager:           fos_user.user_manager.default
 
-assetic:
-    debug:          '%kernel.debug%'
-    use_controller: '%kernel.debug%'
-    filters:
-        scssphp:
-            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
-        jsqueeze: ~
-        cssrewrite: ~
-
+ivory_ck_editor:
+    jquery: true
+    configs:
+        my_config:
+            toolbar: standard
 
 
 

@@ -1,0 +1,42 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block title %}{{ 'Gestion des métiers' }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}">
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
+{% endblock %}
+
+{% block content %}
+
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb">
+                <a title="" class="tip-bottom"><i class="fa fa-book"></i>Gestion métiers</a>
+            </div>
+        </div>
+        <div class="content-page">
+            {% include "AdminBundle:layout:jobDetail.html.twig" %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/admin/JobPersonnalityProcess.js') }}"></script>
+{% endblock javascripts %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

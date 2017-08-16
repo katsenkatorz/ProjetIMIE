@@ -1,0 +1,61 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block title %}{{ 'Gestion des utilisateurs' }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
+{% endblock %}
+
+{% block content %}
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-group"></i>Gestion utilisateurs</a>
+            </div>
+        </div>
+        <div class="content-page">
+            <h2>Gestion des utilisateurs</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <th>Pseudonyme</th>
+                    <th>Rôle</th>
+                    <th>Action</th>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{% if user.roles|length > 1 %} Administrateur {% else %} Utilisateur {% endif %}</td>
+                            <td>
+                                {% if user.roles|length > 1 %}
+                                    <form action="{{ path('admin_user') }}" method="post">
+                                        <input class="form-control" type="hidden" name="userId" value="{{ user.id }}">
+                                        <input class="btn btn-danger" style="width: 100%" type="submit"
+                                               value="Downgrade user" name="down">
+                                    </form>
+                                {% else %}
+                                    <form action="{{ path('admin_user') }}" method="post">
+                                        <input class="form-control" type="hidden" name="userId" value="{{ user.id }}">
+                                        <input class="btn btn-primary" style="width: 100%" type="submit"
+                                               value="Upgrade user"
+                                               name="up">
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

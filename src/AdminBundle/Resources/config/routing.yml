@@ -1,4 +1,35 @@
+admin_temperament:
+    resource:   "@AdminBundle/Resources/config/routing/temperament.yml"
+    prefix:     /temperament
+
+admin_jobs:
+    resource:   "@AdminBundle/Resources/config/routing/job.yml"
+    prefix:     /job
+
+admin_questions:
+    resource:   "@AdminBundle/Resources/config/routing/question.yml"
+    prefix:     /question
+
+admin_parameters:
+    resource:   "@AdminBundle/Resources/config/routing/parameter.yml"
+    prefix:     /parameter
+
 admin_homepage:
-    path:     /home
+    path:     /
     defaults:
         _controller: AdminBundle:Main:home
+
+admin_user:
+    path:     /user
+    defaults:
+        _controller: AdminBundle:Main:user
+
+admin_visitor:
+    path:     /visitors/{year}
+    defaults:
+        _controller: AdminBundle:Main:visitor
+
+admin_browser:
+    path:     /browser
+    defaults:
+        _controller: AdminBundle:Main:browser

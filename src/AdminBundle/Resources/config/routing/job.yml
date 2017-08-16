@@ -1,0 +1,38 @@
+admin_job_home:
+    path:     /
+    defaults:
+        _controller: AdminBundle:JobPersonnality:jobs
+        method: [GET, POST]
+
+admin_job:
+    path:     /{idJob}
+    defaults:
+        _controller: AdminBundle:JobPersonnality:job
+        method: [GET, POST]
+    requirements:
+        idJob: \d+
+
+admin_deleteJob:
+    path:     /{idJob}/delete
+    defaults:
+        _controller: AdminBundle:JobPersonnality:deleteJob
+        method: DELETE
+
+admin_putJob:
+    path:     /{idJob}/put
+    defaults:
+        _controller: AdminBundle:JobPersonnality:putJob
+        method: POST
+
+admin_save:
+    path:     /{idJob}/saveTemperament
+    defaults:
+        _controller: AdminBundle:JobPersonnality:saveJobPersonnality
+        method: POST
+
+
+admin_getTemperament:
+    path:     /getTemperament/{idTemperament}
+    defaults:
+        _controller: AdminBundle:JobPersonnality:getTemperament
+        method: GET

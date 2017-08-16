@@ -1,0 +1,82 @@
+{% if responses is not empty %}
+    <div class="table-responsive" xmlns="http://www.w3.org/1999/html">
+        <table class="table">
+            <th>Label</th>
+            <th>Sous-tempérament</th>
+            <th>Image</th>
+            <th colspan="2">Action</th>
+            {% for response in responses %}
+                <tr class="text-center">
+                    <td>{{ response.label }}</td>
+                    {% if response.value >= 0 %}
+                        <td>{{ response.question.temperament.temperament }} {{ response.value }}</td>
+                    {% else %}
+                        <td>{{ response.question.temperament.opposedTemperament }} {{ -response.value }}</td>
+                    {% endif %}
+                    <td>
+                        {% if response.image is not null %}
+                            <img src="{{ asset(response.image.pathname) }}" alt="" width="{{ imageParam.width }}px"
+                                 height="{{ imageParam.height }}px">
+                        {% else %}
+                            <p>Pas d'image</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {# Modal modification #}
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary"
+                                    data-type="update"
+                                    data-value="{{ response.value }}"
+                                    data-label="{{ response.label }}"
+                                    {% if response.image is not null %}
+                                        data-image="{{ response.image.pathname }}"
+                                    {% endif %}
+                                    data-question="{{ response.question.id }}"
+                                    data-temperament="{{ response.question.temperament.id }}"
+                                    data-action="/admin/question/{{ response.question.id }}/putResponse/{{ response.id }}"
+                                    data-toggle="modal"
+                                    data-target="#modalResponse">
+                                <i class="fa fa-edit"></i>
+                                Modifier
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                       <div class="col-md-12">
+                           <a class="btn btn-danger"
+                              data-toggle="modal"
+                              data-target="#modalConfirmDeleteResponse"
+                              data-name="{{ response.label }}"
+                              data-action="/admin/question/{{ response.question.id }}/deleteResponse/{{ response.id }}">
+                               <i class="fa fa-trash"></i>
+                               Supprimer
+                           </a>
+                       </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="modalConfirmDeleteResponse" class="modalConfirmDeleteResponse modal fade"
+         tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirm" type="button" class="deleteResponseButton btn btn-danger">
+                        <i class="fa fa-trash"></i>&nbsp;Oui
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,15 @@
+{% extends 'TestProjetBundle::base.html.twig' %}
+
+{% block title %}{{ 'home' }}{% endblock %}
+
+
+
+
+{% block _TestBundle %}
+
+    <div style="padding-top: 25%; text-align: center">
+        <p><a href="{{ path('test_formOne') }}"><i class="fa fa-bars"></i> <span>1er formulaire</span></a></p>
+        <p style="padding-top: 20px"><a href="{{ path('test_formTwo') }}"><i class="fa fa-bars"></i> <span>2nd formulaire</span></a></p>
+    </div>
+
+{% endblock %}

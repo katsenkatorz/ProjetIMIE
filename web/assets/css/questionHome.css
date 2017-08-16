@@ -1,0 +1,164 @@
+/*---------------------- HTML ----------------------*/
+
+body {
+    font-family: "HelveticaNeue";
+}
+
+h1, h2 {
+    font-family: "ZonaBlack";
+}
+
+.font {
+    font-family: "HelveticaNeue";
+}
+
+/*------- QUIZZ -------*/
+
+.nextQuestion {
+    padding: 15px 20px;
+    box-shadow: 5px 5px 5px #6B2929;
+    border-radius: 0;
+    margin-bottom: 50px;
+    background-color: #EA3D50;
+    margin-left: 2px;
+}
+
+.previousQuestion {
+    padding: 15px 20px;
+    box-shadow: 5px 5px 5px #184759;
+    border-radius: 0;
+    margin-bottom: 50px;
+    background-color: #3fbfef;
+}
+
+.imgContent{
+    box-shadow: 0 0 5px transparent;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid transparent;
+}
+
+.imageBorder{
+    box-shadow: 0 0 5px #3fbfef;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 5px solid #3fbfef;
+}
+
+.imgContent:hover {
+     border-color: #3fbfef !important;
+}
+
+.progress {
+    border: solid 1px #050505;
+    padding: 2px;
+    border-radius: 0;
+    margin-top: 25px;
+}
+
+.progress-bar {
+    background: #ea3d4f;
+}
+
+.icoHome {
+    border: none;
+}
+
+.imgQuizz {
+    width: 80px;
+    height: 80px;
+}
+
+.subtitleQuizz {
+    color: black;
+}
+
+#perso {
+    position: absolute;
+    top: -85px;
+}
+
+/*--- Bubble BD ---*/
+
+.f-question {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    width: 100%;
+    height: 140px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+    transition: height 1s;
+}
+
+.question h1 {
+    vertical-align: middle;
+    padding: 0 20px;
+    font-size: 25px;
+}
+
+.question {
+    width: calc(100% - 80px);
+    padding: 30px 40px;
+    background: #FFFFFF;
+    -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
+    filter: drop-shadow(5px 4px 0 #ea3d4f);
+    -moz-transition: 2s;
+    -o-transition: 2s;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    border: solid #ea3d4f;
+}
+
+.question:after {
+    content: '';
+    width: 90px;
+    height: 65px;
+    top: 2px;
+    right: -3%;
+    border-right: 27px solid #FFFFFF;
+    -moz-border-radius-bottomright: 370px 210px;
+    -webkit-border-bottom-right-radius: 274px 300px;
+    border-top-right-radius: 370px 200px;
+    -moz-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+    transform: rotate(179deg);
+    display: block;
+    position: absolute;
+    z-index: -1;
+}
+
+@media screen and (max-width: 770px){
+    .question {
+        width: 100%;
+        border: 1px black;
+        filter: none;
+    }
+
+    .question:after {
+        display: none;
+    }
+
+    #perso {
+        display: none;
+    }
+}
+
+/*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeueLTStd-Bd.otf');
+}
+
+@font-face {
+    font-family: 'ZonaBlack';
+    src: url('../font/Zona Black.ttf')
+}
+

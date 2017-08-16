@@ -1,0 +1,32 @@
+{% extends 'TestProjetBundle::base.html.twig' %}
+
+{% block title %}{{ 'FormOne' }}{% endblock %}
+
+
+
+
+
+{% block _TestBundle %}
+
+    <body>
+    <h1 style="text-align: center; color: white">Question : Quelle image préférez-vous ?</h1>
+    <div class="container">
+        <form class="img-group">
+
+            <input class="hidden" title="img" type="radio" name="radio" checked/>
+            <img class="selected1" src="{{ asset('assets/img/THUMB__cosi.jpg') }}">
+
+            <input class="hidden" title="img" type="radio" name="radio" checked/>
+            <img class="selected2" src="{{ asset('assets/img/THUMB__h13g.jpg') }}">
+
+            <input class="hidden" title="img" type="radio" name="radio" checked/>
+            <img class="selected3" src="{{ asset('assets/img/THUMB__t5j5.jpg') }}">
+
+            <input class="hidden" title="img" type="radio" name="radio" checked/>
+            <img class="selected4" src="{{ asset('assets/img/OuiNon.jpg') }}">
+
+            <input class="btn btn-success" type="submit" value="Suivant" title="Suivant">
+        </form>
+    </div>
+    </body>
+{% endblock %}

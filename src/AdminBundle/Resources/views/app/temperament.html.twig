@@ -1,0 +1,192 @@
+{% extends 'AdminBundle::base.html.twig' %}
+{% block title %}{{ 'Gestion des tempéraments' }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% include "AdminBundle:layout:header.html.twig" %}
+{% endblock %}
+
+{% block content %}
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb">
+                <a title="" class="tip-bottom"><i class="fa fa-plus-square"></i>Gestion tempéraments</a>
+            </div>
+        </div>
+        <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Liste des tempéraments</h2>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTemperament">
+                            <i class="fa fa-plus"></i> Ajouter un tempérament
+                        </button>
+                        {% for message in app.flashes('message') %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div id="responseMessageContent" class="row hidden">
+                            <div class="col-md-12">
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                    </button>
+                                    <p id="responseMessage"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            {% for temperament in temperaments %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title  inline-block">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ temperament.id }}" aria-expanded="true" aria-controls="collapse-{{ temperament.id }}" id="temperamentTitle{{ temperament.id }}">
+                                                {{ temperament.name }}
+                                            </a>
+                                        </h4>
+                                        <div class="pull-right  inline-block">
+                                            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalConfirm" data-href="{{ path('temperament_delete',  {'idTemperament': temperament.id} ) }}" data-name="{{ temperament.name }}" data-id="{{ temperament.id }}">
+                                                <i class="fa fa-trash fa-inverse fa-2x"></i>
+                                            </a>
+                                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalUpdateTemperament{{ temperament.id }}">
+                                                <i class="fa fa-edit fa-inverse fa-2x"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="collapse-{{ temperament.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <p class="col-xs-3 text-right">
+                                                    <strong>Tempérament</strong>
+                                                </p>
+                                                <p class="col-xs-offset-6 col-xs-3">
+                                                    <strong>Tempérament opposé</strong>
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-xs-3 text-right" id="temperament{{ temperament.id }}">
+                                                    {{ temperament.temperament }}
+                                                </p>
+                                                <div class="col-xs-6">
+                                                    <div class="pull-left arrow-left">
+                                                    </div>
+                                                    <div class="horyzontal-line pull-left"></div>
+                                                    <div class="arrow-right pull-left">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3" id="opposedTemperament{{ temperament.id }}">
+                                                    {{ temperament.opposedTemperament }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="modalUpdateTemperament{{ temperament.id }}" class="modal fade" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Créer un temprérament</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="" method="post" class="form-group">
+                                                    <label for="nameUpdate{{ temperament.id }}">Nom du type</label>
+                                                    <input type="text" name="name" id="nameUpdate{{ temperament.id }}" class="form-control" value="{{ temperament.name }}">
+
+                                                    <label for="temperamentUpdate{{ temperament.id }}">Tempérament</label>
+                                                    <input type="text" name="temperament" id="temperamentUpdate{{ temperament.id }}" class="form-control" value="{{ temperament.temperament }}">
+
+                                                    <label for="opposedTemperamentUpdate{{ temperament.id }}">Tempérament opposés</label>
+                                                    <input type="text" name="opposedTemperament" id="opposedTemperamentUpdate{{ temperament.id }}" class="form-control" value="{{ temperament.opposedTemperament }}">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="updateButton btn btn-primary" data-id="{{ temperament.id }}" >Modifier</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalTemperament" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Créer un tempérament</h4>
+                </div>
+                {{ form_start(formPT) }}
+                <div class="modal-body">
+                    {{ form_label(formPT.name) }}
+                    {{ form_widget(formPT.name) }}
+                    {{ form_label(formPT.temperament) }}
+                    {{ form_widget(formPT.temperament) }}
+                    {{ form_label(formPT.opposedTemperament) }}
+                    {{ form_widget(formPT.opposedTemperament) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_widget(formPT.save, {'attr': {'class': 'btn-primary'}}) }}
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                </div>
+                {{ form_end(formPT) }}
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="modalConfirm" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirm" type="button" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/admin/TemperamentProcess.js') }}"></script>
+{% endblock javascripts %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

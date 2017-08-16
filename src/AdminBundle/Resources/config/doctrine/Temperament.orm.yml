@@ -1,0 +1,33 @@
+AdminBundle\Entity\Temperament:
+    type: entity
+    table: TEMPERAMENT
+    repositoryClass: AdminBundle\Repository\TemperamentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '45'
+            unique: true
+        temperament:
+            type: string
+            length: '45'
+            unique: true
+        opposedTemperament:
+            type: string
+            length: '45'
+            unique: true
+    oneToMany:
+        jobPersonnalities:
+            targetEntity: AdminBundle\Entity\JobPersonnality
+            mappedBy: temperament
+            cascade: [persist, remove]
+        questions:
+            targetEntity: AdminBundle\Entity\Question
+            mappedBy: temperament
+            cascade: [persist, remove]
+    lifecycleCallbacks: {  }

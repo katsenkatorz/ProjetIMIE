@@ -1,0 +1,116 @@
+<!--sidebar-menu-->
+<div id="sidebar"><a href="#" class="visible-phone hidden"><i class="fa fa-tasks"></i> Menu</a>
+
+    <ul>
+        <li class="{% if app.request.requestUri ==  path('admin_homepage')  %}
+                    active
+                    {% endif %}"
+        >
+            <a href="{{ path('admin_homepage') }}">
+                <i class="fa fa-home"></i>
+                <span>Accueil</span>
+            </a>
+        </li>
+        <li class="{% if app.request.requestUri == path('admin_job_home') or
+        app.request.requestUri == path('admin_temperament_show') or
+        app.request.requestUri == path('admin_question') %}open {% endif %}submenu"
+        >
+            <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Gestion du site</span>
+                <i class="icon-caret-down"></i>
+            </a>
+            <ul class="nav-group">
+                <li class="{% if app.request.requestUri == path('admin_job_home') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_job_home') }}">
+                        <i class="fa fa-book"></i>
+                        <span>Gestion métiers</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_temperament_show') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_temperament_show') }}">
+                        <i class="fa fa-plus-square"></i>
+                        <span>Gestion tempéraments</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_question') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_question') }}">
+                        <i class="fa fa-comment"></i>
+                        <span>Gestion questions</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="{%
+        if app.request.requestUri == path('admin_parameter') or
+        app.request.requestUri == path('admin_user') or
+        app.request.requestUri == path('admin_mentionLegale') or
+        app.request.requestUri == path('admin_homePresentation') or
+        app.request.requestUri == path('admin_color')
+        %}open {% endif %}submenu"
+        >
+            <a href="#">
+                <i class="fa fa-cog"></i>
+                <span>Paramétrage</span>
+                <i class="icon-caret-down"></i>
+            </a>
+            <ul class="nav-group">
+                <li class="{% if app.request.requestUri == path('admin_parameter') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_parameter') }}">
+                        <i class="fa fa-cogs"></i>
+                        <span>Gestion paramètres</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_user') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_user') }}">
+                        <i class="fa fa-group"></i>
+                        <span>Gestion utilisateurs</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_mentionLegale') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_mentionLegale') }}">
+                        <i class="fa fa-suitcase"></i>
+                        <span>Mentions Légales</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_homePresentation') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_homePresentation') }}">
+                        <i class="fa fa-bookmark"></i>
+                        <span>Texte de présentation</span>
+                    </a>
+                </li>
+                <li class="{% if app.request.requestUri == path('admin_color') %}
+                    active
+                    {% endif %}"
+                >
+                    <a href="{{ path('admin_color') }}">
+                        <i class="fa fa-paint-brush"></i>
+                        <span>Gestion couleurs</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!--sidebar-menu-->

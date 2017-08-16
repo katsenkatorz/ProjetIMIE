@@ -57,29 +57,59 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Créer un nouveau job et le renvois
+     * Créer aussi les jobs Personnality pour le job avec une valeur par default a 50
      *
      * @param $name
      * @param $description
-     * @param $salaireMax
-     * @param $salaireMin
-     *
-     * @return Job
+     * @param $formGetData
+     * @return Job|bool
      */
-    public function postJob($name, $description, $salaireMax, $salaireMin)
+    public function postJob($formResult, $imageInfo)
     {
-        $em = $this->getEntityManager();
+        if(!$this->checkIfJobAlreadyExist($formResult['name']->getData(), $formResult['description']->getData()))
+        {
+            $data = $imageInfo['image'];
+            $pathToImageFolder = $imageInfo['pathToImage'];
 
-        $job = new Job();
-        $job->setName($name)
-            ->setDescription($description)
-            ->setSalaireMax($salaireMax)
-            ->setSalaireMin($salaireMin);
+            $em = $this->getEntityManager();
+            $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
+            $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+            $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
 
-        $em->persist($job);
-        $em->flush();
+            $temperaments = $TemperamentRepo->getTemperaments();
 
-        return $job;
+            $job = new Job();
+            $job->setName($formResult['name']->getData())
+                ->setDescription($formResult['description']->getData())
+                ->setMaxSalary($formResult['maxSalary']->getData())
+                ->setMinSalary($formResult['minSalary']->getData())
+                ->setUpdatedAt(new \DateTime());
+
+            if ($data !== $blankImageData && !is_null($data))
+            {
+                list(, $data)  = explode(',', $data);
+
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                $job->setImageName($imageName);
+            }
+
+            $em->persist($job);
+            $em->flush();
+
+            foreach ($temperaments as $temperament)
+            {
+                $JobPersonnalityRepo->postJobPersonnality(0, $job, $temperament);
+            }
+
+            return $job;
+        }
+
+        return false;
     }
+
 
     /**
      * Modifie un job
@@ -92,17 +122,41 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return bool|object
      */
-    public function putJob($jobId, $name, $description, $salaireMax, $salaireMin)
+    public function putJob($jobId, $form, $imageInfo)
     {
+        $data = $imageInfo['image'];
+        $pathToImageFolder = $imageInfo['pathToImage'];
         $em = $this->getEntityManager();
         $job = $this->getJobById($jobId);
+        $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
 
-        if(!is_null($job) && (!is_null($name) && !is_null($description) && !is_null($salaireMax) && !is_null($salaireMin)))
+
+        $name = $form['name']->getData();
+        $description = $form['description']->getData();
+        $minsalary = $form['minSalary']->getData();
+        $maxSalary = $form['maxSalary']->getData();
+
+        if($job)
         {
             $job->setName($name)
                 ->setDescription($description)
-                ->setSalaireMax($salaireMax)
-                ->setSalaireMin($salaireMin);
+                ->setMinSalary($minsalary)
+                ->setMaxSalary($maxSalary)
+                ->setUpdatedAt(new \DateTime());
+
+            if ($data !== $blankImageData)
+            {
+                list(,$data)  = explode(',', $data);
+
+                $data = base64_decode($data);
+                $imageName = time().'.png';
+                file_put_contents($pathToImageFolder.$imageName, $data);
+
+                if(!is_null($job->getImageName()))
+                    unlink($pathToImageFolder.$job->getImageName());
+
+                $job->setImageName($imageName);
+            }
 
             $em->persist($job);
             $em->flush();
@@ -135,6 +189,32 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Renvois true si le métier existe déjà
+     *
+     * @param $name
+     * @param $description
+     *
+     * @return bool
+     */
+    public function checkIfJobAlreadyExist($name, $description)
+    {
+        $isHereOrNot = $this->getEntityManager()->createQueryBuilder()
+            ->select("j")
+            ->from("AdminBundle:Job", "j")
+            ->where("j.name = :name")
+            ->andWhere("j.description = :description")
+            ->setParameter(":name", $name)
+            ->setParameter(":description", $description)
+            ->getQuery()
+            ->getResult();
+
+        if(count($isHereOrNot))
+            return true;
 
         return false;
     }

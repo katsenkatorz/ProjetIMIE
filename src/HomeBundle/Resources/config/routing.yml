@@ -1,0 +1,46 @@
+home_homepage:
+    path:     /
+    defaults:
+        _controller: HomeBundle:Home:index
+
+home_metiers:
+    path:     /metiers
+    defaults:
+        _controller: HomeBundle:Home:metiers
+
+home_quizz:
+    path:     /quizz
+    defaults:
+        _controller: HomeBundle:Home:quizz
+
+home_quizz_resolution:
+    path:     /resolve
+    defaults:
+        _controller: HomeBundle:Home:resolution
+
+home_metier:
+    path:     /metier/{jobId}/{bool}
+    defaults:
+        _controller: HomeBundle:Home:metier
+        bool: 0
+    requirements:
+        jobId: \d+
+        bool: \d
+
+home_cookies:
+    path:     /cookies
+    defaults:
+        _controller: HomeBundle:Home:cookies
+
+home_mentionsLegales:
+    path:     /mentionsLegales
+    defaults:
+        _controller: HomeBundle:Home:mentionsLegales
+
+home_getQuestionSet:
+    path:     /questionSet
+    defaults:
+        _controller: HomeBundle:Home:getQuestionSet
+        method: GET
+
+

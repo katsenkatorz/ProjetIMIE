@@ -1,0 +1,39 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block title %}{{ 'Texte de présentation' }}{% endblock %}
+
+
+{% block _AdminBundle %}
+
+    {% include "AdminBundle:layout:sidebar.html.twig" %}
+
+    <div id="content">
+        <div id="content-header">
+            <div id="breadcrumb"><a title="" class="tip-bottom"><i class="fa fa-suitcase"></i>Texte de présentation</a>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Text de présentation</h2>
+                    <hr />
+                </div>
+                <div class="col-md-6">
+                    {% if parameter is not null and parameter.label is not null %}
+                        {{ form_start(form, {'method': 'POST'}) }}
+                        {{ form_row(form.value, {'label': 'Vous pouvez modifier le texte de présentation ici', 'attr': {'class': 'paramContent'} }) }}
+                        {{ form_row(form.save, {'label': 'Sauvegarder', 'attr': {'class': 'btn btn-primary param','data-id': parameter.id, 'data-label': parameter.label}}) }}
+                        {{ form_end(form) }}
+                    {% else %}
+                        <p>Erreur lors du chargement de la base de données</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

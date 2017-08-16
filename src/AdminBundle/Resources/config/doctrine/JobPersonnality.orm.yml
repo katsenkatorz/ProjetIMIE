@@ -1,6 +1,6 @@
 AdminBundle\Entity\JobPersonnality:
     type: entity
-    table: null
+    table: JOB_PERSONNALITY
     repositoryClass: AdminBundle\Repository\JobPersonnalityRepository
     id:
         id:
@@ -15,7 +15,7 @@ AdminBundle\Entity\JobPersonnality:
         job:
             targetEntity: AdminBundle\Entity\Job
             inversedBy: jobPersonnalities
-        personnalityType:
-            targetEntity: AdminBundle\Entity\PersonnalityType
+        temperament:
+            targetEntity: AdminBundle\Entity\Temperament
             inversedBy: jobPersonnalities
     lifecycleCallbacks: {  }
