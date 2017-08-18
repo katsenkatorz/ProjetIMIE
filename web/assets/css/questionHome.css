@@ -46,7 +46,7 @@ h1, h2 {
 }
 
 .imgContent:hover {
-     border-color: #3fbfef !important;
+     border-color: #000 !important;
 }
 
 .progress {

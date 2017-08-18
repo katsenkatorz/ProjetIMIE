@@ -31,9 +31,21 @@
                             </a>
                         </div>
                         <div class="col-md-8 col-sm-8">
-                            <div class="question pull-right">
+                            {% if (primary is not null) %}
+                            <div class="question pull-right" style="
+                                    border: solid {{ primary.value }};
+                                    -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
+                                    filter: drop-shadow(5px 4px 0 {{ primary.value }});">
                                 <h3 id="questionLabel" class="text-center"></h3>
                             </div>
+                            {% else %}
+                            <div class="question pull-right" style="
+                                    border: solid #ea3d4f;
+                                    -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
+                                    filter: drop-shadow(5px 4px 0 #ea3d4f);">
+                                <h3 id="questionLabel" class="text-center"></h3>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <img id="perso" src="" alt="" width="200" height="230">
@@ -42,9 +54,15 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 prog">
                             <div class="progress">
+                            {% if (primary is not null) %}
                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                     aria-valuemax="100" style="width: 10%;">
+                                     aria-valuemax="100" style="width: 10%; background: {{ primary.value }}">
                                 </div>
+                                {% else %}
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                         aria-valuemax="100" style="width: 10%; background: #ea3d4f">
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
