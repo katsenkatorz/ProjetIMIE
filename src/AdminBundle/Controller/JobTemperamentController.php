@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class JobPersonnalityController extends Controller
+class JobTemperamentController extends Controller
 {
     /**
      * Affiche la page de gestion des jobs
@@ -65,7 +65,7 @@ class JobPersonnalityController extends Controller
     {
         // Récupération des répository
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
-        $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
+        $JobTemperamentRepository = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament");
 
         // Récupération de l'id du job passé dans l'url
         $idJob = $request->attributes->get("idJob");
@@ -76,8 +76,8 @@ class JobPersonnalityController extends Controller
         // Récupération des paramètres d'image
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
-        // Récupération des jobPersonnality correspondant au job
-        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
+        // Récupération des jobTemperament correspondant au job
+        $jobPersonnalities = $JobTemperamentRepository->getTemperamentsByJobId($idJob);
 
         // Initialisation du tableau de formulaire
         $arrayForm = [];
@@ -89,7 +89,7 @@ class JobPersonnalityController extends Controller
         }
 
         // Actualisation des jobPersonnalités
-        $jobPersonnalities = $JobPersonnalityRepository->getTemperamentsByJobId($idJob);
+        $jobPersonnalities = $JobTemperamentRepository->getTemperamentsByJobId($idJob);
 
         return $this->json($this->renderView("AdminBundle:layout:job.html.twig", [
             "forms" => $arrayForm,
@@ -105,7 +105,7 @@ class JobPersonnalityController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function saveJobPersonnalityAction(Request $request)
+    public function saveJobTemperamentAction(Request $request)
     {
         // Récupération des éléments du formulaire
         $jobId = $request->attributes->get('idJob');
@@ -113,10 +113,10 @@ class JobPersonnalityController extends Controller
         $value = $request->get('value');
 
         // Récupération du répository
-        $JobPersonnalityRepository = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality");
+        $JobTemperamentRepository = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament");
 
         // Sauvegarde de la modification
-        $bool = $JobPersonnalityRepository->putJobPersonnalityByPtidAndJobId($value, $jobId, $temperamentId);
+        $bool = $JobTemperamentRepository->putJobTemperamentByTempIdAndJobId($value, $jobId, $temperamentId);
 
         if (!$bool)
         {

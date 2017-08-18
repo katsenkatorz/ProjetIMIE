@@ -118,7 +118,7 @@ class HomeController extends Controller
         $bool = $request->attributes->get('bool');
 
         $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
-        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobPersonnality")->getJobPersonnalityByJobId($jobId);
+        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
 
         return $this->render('HomeBundle:app:metier.html.twig', [
             "primary" => $primary,

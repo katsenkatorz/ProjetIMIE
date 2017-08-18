@@ -1,7 +1,7 @@
-AdminBundle\Entity\JobPersonnality:
+AdminBundle\Entity\JobTemperament:
     type: entity
-    table: JOB_PERSONNALITY
-    repositoryClass: AdminBundle\Repository\JobPersonnalityRepository
+    table: JOB_TEMPERAMENT
+    repositoryClass: AdminBundle\Repository\JobTemperamentRepository
     id:
         id:
             type: integer
@@ -14,8 +14,8 @@ AdminBundle\Entity\JobPersonnality:
     manyToOne:
         job:
             targetEntity: AdminBundle\Entity\Job
-            inversedBy: jobPersonnalities
+            inversedBy: jobTemperaments
         temperament:
             targetEntity: AdminBundle\Entity\Temperament
-            inversedBy: jobPersonnalities
+            inversedBy: jobTemperaments
     lifecycleCallbacks: {  }

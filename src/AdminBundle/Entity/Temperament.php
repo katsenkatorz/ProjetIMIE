@@ -32,7 +32,7 @@ class Temperament
     /**
      * @var ArrayCollection
      */
-    private $jobPersonnalities;
+    private $jobTemperaments;
 
     /**
      * @var ArrayCollection
@@ -46,7 +46,7 @@ class Temperament
 
     public function __construct()
     {
-        $this->jobPersonnalities = new ArrayCollection();
+        $this->jobTemperaments = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->questions = new ArrayCollection();
     }
@@ -88,17 +88,17 @@ class Temperament
     /**
      * @return ArrayCollection
      */
-    public function getJobPersonnalities()
+    public function getJobTemperaments()
     {
-        return $this->jobPersonnalities;
+        return $this->jobTemperaments;
     }
 
     /**
-     * @param JobPersonnality $jobPersonnalities
+     * @param JobTemperament $jobTemperaments
      **/
-    public function setJobPersonnalities(JobPersonnality $jobPersonnalities)
+    public function setJobTemperaments(JobTemperament $jobTemperaments)
     {
-        $this->jobPersonnalities->add($jobPersonnalities);
+        $this->jobTemperaments->add($jobTemperaments);
         return $this;
     }
 

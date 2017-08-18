@@ -57,7 +57,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Créer un nouveau job et le renvois
-     * Créer aussi les jobs Personnality pour le job avec une valeur par default a 50
+     * Créer aussi les jobs Temperament pour le job avec une valeur par default a 50
      *
      * @param $name
      * @param $description
@@ -73,7 +73,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             $em = $this->getEntityManager();
             $TemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:Temperament");
-            $JobPersonnalityRepo = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+            $JobTemperamentRepo = $this->getEntityManager()->getRepository("AdminBundle:JobTemperament");
             $blankImageData = json_decode($em->getRepository("AdminBundle:Parameters")->getParameterById(5)->getValue(), true)['emptyImageString'];
 
             $temperaments = $TemperamentRepo->getTemperaments();
@@ -101,7 +101,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
 
             foreach ($temperaments as $temperament)
             {
-                $JobPersonnalityRepo->postJobPersonnality(0, $job, $temperament);
+                $JobTemperamentRepo->postJobTemperament(0, $job, $temperament);
             }
 
             return $job;

@@ -23,9 +23,8 @@ class TemperamentController extends Controller
 	 */
 	public function temperamentAction(Request $request)
 	{
-		$em              = $this->getDoctrine()->getManager();
-		$temperaments    = $em->getRepository('AdminBundle:Temperament')->findAll();
-		$TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
+        $TemperamentRepo = $this->getDoctrine()->getRepository("AdminBundle:Temperament");
+        $temperaments    = $TemperamentRepo->findAll();
 
 		// Création du formulaire pour les Type de personnalité
 		$formPT = $this->createForm(TemperamentType::class);

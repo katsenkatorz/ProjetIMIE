@@ -54,11 +54,11 @@ class Job
      */
     private $updatedAt;
 
-    private $jobPersonnalities;
+    private $jobTemperaments;
 
     public function __construct()
     {
-        $this->jobPersonnalities = new ArrayCollection();
+        $this->jobTemperaments = new ArrayCollection();
     }
 
     /**
@@ -151,17 +151,17 @@ class Job
     /**
      * @return ArrayCollection
      */
-    public function getJobPersonnalities()
+    public function getJobTemperaments()
     {
-        return $this->jobPersonnalities;
+        return $this->jobTemperaments;
     }
 
     /**
-     * @param JobPersonnality $jobPersonnalities
+     * @param JobTemperament $jobTemperaments
      **/
-    public function setJobPersonnalities(JobPersonnality $jobPersonnalities)
+    public function setJobTemperaments(JobTemperament $jobTemperaments)
     {
-        $this->jobPersonnalities->add($jobPersonnalities);
+        $this->jobTemperaments->add($jobTemperaments);
         return $this;
     }
 

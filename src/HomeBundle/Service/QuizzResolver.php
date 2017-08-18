@@ -27,12 +27,38 @@ class QuizzResolver{
     }
 
     /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResultats()
+    {
+        return $this->resultats;
+    }
+
+    /**
+     * @param $resultats
+     * @return $this
+     */
+    public function setResultats($resultats)
+    {
+        $this->resultats = $resultats;
+        return $this;
+    }
+
+    /**
      * @description Renvois l'id du métier correspondant au résultat du test
      * @return int
      */
     public function resolve()
     {
-        $jobPersonnalityRepo = $this->em->getRepository("AdminBundle:JobPersonnality");
+        $jobTemperamentRepo = $this->em->getRepository("AdminBundle:JobTemperament");
         $jobs = $this->em->getRepository("AdminBundle:Job")->getJobs();
         $array = [];
 
@@ -42,19 +68,19 @@ class QuizzResolver{
             // On récupère l'id du job
             $jobId = $job->getId();
             // Avec cet id on récupère les personnalités métiers
-            $jobPersonnalities = $jobPersonnalityRepo->getJobPersonnalityByJobId($jobId);
+            $jobTemperaments = $jobTemperamentRepo->getJobTemperamentByJobId($jobId);
 
             // On prépare un tableau pour chaque métier
             $array[$jobId] = [];
 
-            foreach($jobPersonnalities as $jobPersonnality)
+            foreach($jobTemperaments as $jobTemperament)
             {
                 // Pour chaque résultat
                 foreach($this->orderResult() as $resultat)
                 {
                     // Pour chaque temperament, on ajoute l'écart entre la valeur métier et la valeur moyenne des réponses
-                    if($jobPersonnality->getTemperament()->getId() == $resultat->getTemperamentId())
-                        array_push($array[$jobId], abs($jobPersonnality->getValue() - $resultat->getValueAverage()));
+                    if($jobTemperament->getTemperament()->getId() == $resultat->getTemperamentId())
+                        array_push($array[$jobId], abs($jobTemperament->getValue() - $resultat->getValueAverage()));
                 }
             }
 
@@ -105,31 +131,5 @@ class QuizzResolver{
         }
 
         return $resultatHolders;
-    }
-
-    /**
-     * @return EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
-
-    /**
-     * @return array
-     */
-    public function getResultats()
-    {
-        return $this->resultats;
-    }
-
-    /**
-     * @param $resultats
-     * @return $this
-     */
-    public function setResultats($resultats)
-    {
-        $this->resultats = $resultats;
-        return $this;
     }
 }

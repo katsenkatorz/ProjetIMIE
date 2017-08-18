@@ -27,8 +27,8 @@ AdminBundle\Entity\Job:
             type: datetime
             nullable: true
     oneToMany:
-        jobPersonnalities:
-            targetEntity: AdminBundle\Entity\JobPersonnality
+        jobTemperaments:
+            targetEntity: AdminBundle\Entity\JobTemperament
             mappedBy: job
             cascade: [persist, remove]
     lifecycleCallbacks: {  }

@@ -6,7 +6,7 @@ namespace AdminBundle\Entity;
 /**
  * JobPersonnality
  */
-class JobPersonnality
+class JobTemperament
 {
     /**
      * @var int
@@ -71,7 +71,7 @@ class JobPersonnality
      *
      * @param integer $value
      *
-     * @return JobPersonnality
+     * @return JobTemperament
      */
     public function setValue($value)
     {
