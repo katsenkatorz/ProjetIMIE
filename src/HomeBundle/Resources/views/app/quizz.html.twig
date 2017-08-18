@@ -31,7 +31,7 @@
                             </a>
                         </div>
                         <div class="col-md-8 col-sm-8">
-                            {% if (primary is not null) %}
+                            {% if primary is not null and primary.value is not null %}
                             <div class="question pull-right" style="
                                     border: solid {{ primary.value }};
                                     -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
@@ -54,7 +54,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 prog">
                             <div class="progress">
-                            {% if (primary is not null) %}
+                            {% if primary is not null and primary.value is not null %}
                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
                                      aria-valuemax="100" style="width: 10%; background: {{ primary.value }}">
                                 </div>
@@ -84,8 +84,13 @@
             {#</div>#}
         </div>
 
-        <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
-        <input type="hidden" id="heightInput" value="{{ imageParam.height }}">
+        {% if imageParam is not null and imageParam.width is not null and imageParam.height is not null %}
+            <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
+            <input type="hidden" id="heightInput" value="{{ imageParam.height }}">
+        {% else %}
+            <input type="hidden" id="widthInput" value="250">
+            <input type="hidden" id="heightInput" value="250">
+        {% endif %}
         <input type="hidden" id="hrefInput" value="{{ path('home_quizz_resolution') }}">
     {% endblock %}
 {% endblock %}
