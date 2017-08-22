@@ -110,7 +110,9 @@
                                     }
                                 }) }}
                                 <div class="modal-body">
-                                    {{ form_row(formJob.name, {'id': 'nameInput' }) }}
+                                    {{ form_label(formJob.name) }}
+                                    <div class="small">( 45 caractères maximum )</div>
+                                    {{ form_widget(formJob.name, {'id': 'nameInput', 'attr' : {'maxlength' : '45'}}) }}
                                     {{ form_row(formJob.minSalary, {'id': 'minSalaryInput' }) }}
                                     {{ form_row(formJob.maxSalary, {'id': 'maxSalaryInput' }) }}
                                     {{ form_row(formJob.description, {'id': 'descriptionInput' }) }}

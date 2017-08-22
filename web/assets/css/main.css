@@ -31,6 +31,11 @@ body {
 
 /*------- TEMPERAMENT / METIERS -------*/
 
+.small {
+    font-size: 10px;
+    color: red;
+}
+
 .temperament{
     float: left;
 }

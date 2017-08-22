@@ -138,11 +138,12 @@
                 {{ form_start(formPT) }}
                 <div class="modal-body">
                     {{ form_label(formPT.name) }}
-                    {{ form_widget(formPT.name) }}
+                    {{ form_widget(formPT.name, { 'attr' : {'maxlength' : '45'} } ) }}
                     {{ form_label(formPT.temperament) }}
-                    {{ form_widget(formPT.temperament) }}
+                    {{ form_widget(formPT.temperament, { 'attr' : {'maxlength' : '45'} } ) }}
                     {{ form_label(formPT.opposedTemperament) }}
-                    {{ form_widget(formPT.opposedTemperament) }}
+                    {{ form_widget(formPT.opposedTemperament, { 'attr' : {'maxlength' : '45'} } ) }}
+
                 </div>
                 <div class="modal-footer">
                     {{ form_widget(formPT.save, {'attr': {'class': 'btn-primary'}}) }}
