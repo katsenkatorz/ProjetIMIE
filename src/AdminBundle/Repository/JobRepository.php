@@ -85,7 +85,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMinSalary($formResult['minSalary']->getData())
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== $blankImageData && !is_null($data))
+            if ($data !== $blankImageData && !is_null($data) && $data !== '')
             {
                 list(, $data)  = explode(',', $data);
 
@@ -144,7 +144,7 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
                 ->setMaxSalary($maxSalary)
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== $blankImageData)
+            if ($data !== $blankImageData && !is_null($data) && $data !== '')
             {
                 list(,$data)  = explode(',', $data);
 
