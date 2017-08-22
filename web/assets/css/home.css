@@ -81,11 +81,16 @@ footer {
     padding: 1rem;
     background-color: #efefef;
     text-align: center;
+    font-size: 12px;
 }
 
 .footer {
     padding-top: 3%;
     background-color: #efefef;
+}
+
+#cookieChoiceInfo {
+    font-size: 10px;
 }
 
 /*---------------------- BODY ----------------------*/
@@ -150,6 +155,9 @@ footer {
 }
 
 .subtitle {
+    margin-bottom: 20px;
+    font-size: 16px;
+    height: 60px;
     text-decoration: none;
     color: #000000;
 }
