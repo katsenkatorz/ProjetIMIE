@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    database_name: Projet_IMIE_Test
+
 framework:
     test: ~
     session:

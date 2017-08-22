@@ -20,7 +20,6 @@ admin_mentionLegale:
     path:     /mentionLegale
     defaults:
         _controller: AdminBundle:Main:mentionLegale
-        method: POST
 
 admin_homePresentation:
     path:     /homePresentation
