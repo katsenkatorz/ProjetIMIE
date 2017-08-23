@@ -203,19 +203,20 @@ class MainController extends Controller
         return $this->json(['message' => "Erreur lors de la modification"]);
     }
 
+    /**
+     * Permet de modifier les couleurs depuis l'interface administrateur
+     * On récupère le service correspondant
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function colorAction()
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
-
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         return $this->render('AdminBundle:app:color.html.twig', [
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 

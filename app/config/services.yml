@@ -25,3 +25,6 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "@request_stack", "@session"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    admin.parametersColorHandler:
+        class: AdminBundle\Service\ParametersColorHandler
+        arguments: ["@Doctrine.orm.entity_manager"]
