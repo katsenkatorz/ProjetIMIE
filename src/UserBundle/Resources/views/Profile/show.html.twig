@@ -1,17 +1,27 @@
 {% extends "UserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
+{% block title %}{{ 'Information utilisateur' }}{% endblock %}
 
-    <div class="login-form">
-
-        <div class="fos_user_user_show">
-            <p>Utilisateur : {{ user.username }}</p>
-            <p>Email : {{ user.email }}</p>
+    {% block fos_user_content %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Informations utilisateur</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h4>Utilisateur : {{ user.username }}</h4>
+                        <h4>Email : {{ user.email }}</h4>
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-default" href="{{ path('admin_homepage') }}">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="{{ path('admin_homepage') }}"><i class="icon icon-home"></i> <span>Retour à l'accueil</span></a>
-
-    </div>
-
-{% endblock fos_user_content %}
+    {% endblock fos_user_content %}
 
 
