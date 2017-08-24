@@ -1,6 +1,6 @@
 /*---------------------- HTML ----------------------*/
 
-h1, h2 {
+h1, h2, h3, h4 {
     font-family: "ZonaBlack";
 }
 
@@ -16,65 +16,6 @@ body {
     background-size: cover;
     background-attachment: fixed;
     font-family: "HelveticaNeue";
-}
-
-/*------- FORMULAIRE DE LOGIN -------*/
-
-.panel-heading {
-    text-align: center;
-    text-transform: uppercase;
-    font-family: 'Open Sans', sans-serif;
-}
-
-.login-form {
-    text-align: center;
-    color: #FFF;
-    width: 50% !important;
-    margin-top: 50px;
-    margin-left: 25%;
-    margin-right: 25%;
-    padding-top: 10px;
-    padding-bottom: 150px;
-    padding-left: 40px;
-    padding-right: 40px;
-    background-color: #505050;
-}
-
-.login-form input {
-    margin-bottom: 15px;
-}
-
-.login-title {
-    padding-bottom: 200px;
-    color: #FFF;
-    text-decoration: underline;
-}
-
-.login-redirect a {
-    color: #909090 !important;
-}
-
-.login-redirect a:hover, a:focus {
-    color: #21A4B2 !important;
-}
-
-.confirmed {
-    margin-top: 20px;
-    text-align: center;
-}
-
-@media screen and (max-width: 640px) {
-    .login-form {
-        text-align: center;
-        color: #FFF;
-        width: 100% !important;
-        margin: auto;
-        padding-top: 10px;
-        padding-bottom: 200px;
-        padding-left: 40px;
-        padding-right: 40px;
-        background-color: #505050;
-    }
 }
 
 /*---------------------- CHARTE GRAPHIQUE IMIE ----------------------*/

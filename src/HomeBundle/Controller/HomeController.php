@@ -17,16 +17,14 @@ class HomeController extends Controller
         $description = $parameterRepo->getParameterById(6);
         $title = $parameterRepo->getParameterById(7);
 
-        $primary = $parameterRepo->getParameterById(8);
-        $secondary = $parameterRepo->getParameterById(9);
-        $text = $parameterRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         return $this->render('HomeBundle:app:home.html.twig', [
             'title' => $title,
             'description' => $description,
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
@@ -35,11 +33,7 @@ class HomeController extends Controller
      */
     public function metiersAction()
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
@@ -48,9 +42,9 @@ class HomeController extends Controller
 
         return $this->render('HomeBundle:app:metiers.html.twig', [
             "jobs" => $jobs,
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
@@ -61,11 +55,7 @@ class HomeController extends Controller
     {
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
 //        $key = '6LeRpSsUAAAAAEf7hX5n9zp-9iaM2mgAUs0_HkGZ';
 //        $response = $_POST['g-recaptcha-response'];
@@ -83,9 +73,9 @@ class HomeController extends Controller
 
         return $this->render('HomeBundle:app:quizz.html.twig', [
             'imageParam' => $imageParam,
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
@@ -132,11 +122,7 @@ class HomeController extends Controller
      */
     public function metierAction(Request $request)
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $jobId = $request->attributes->get('jobId');
         $bool = $request->attributes->get('bool');
@@ -145,9 +131,9 @@ class HomeController extends Controller
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
 
         return $this->render('HomeBundle:app:metier.html.twig', [
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
             "job" => $job,
             "jobPersonnalities" => $jobPersonnalities,
             'bool' => $bool
@@ -173,19 +159,15 @@ class HomeController extends Controller
      */
     public function mentionsLegalesAction()
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $mentionsLegales = $ParamRepo->getParameterById(4);
 
         return $this->render('HomeBundle:app:mentionsLegales.html.twig', [
             'mentionsLegales' => $mentionsLegales,
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
@@ -194,16 +176,12 @@ class HomeController extends Controller
      */
     public function cookiesAction()
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         return $this->render('HomeBundle:app:cookies.html.twig', [
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
