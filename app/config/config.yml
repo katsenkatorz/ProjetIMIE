@@ -96,6 +96,11 @@ fos_user:
                 sender_name:    ...
             enabled:    false # change to true for required email confirmation
             template:   FOSUserBundle:Registration:email.txt.twig
+    change_password:
+        form:
+            type:               FOS\UserBundle\Form\Type\ChangePasswordFormType # or 'fos_user_change_password' on Symfony < 2.8
+            name:               fos_user_change_password_form
+            validation_groups:  [ChangePassword, Default]
     resetting:
         token_ttl: 86400
         email:

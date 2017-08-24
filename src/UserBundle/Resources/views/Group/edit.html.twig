@@ -22,6 +22,7 @@
                     {% block fos_user_content %}
                         {% include "UserBundle:Group:edit_content.html.twig" %}
                     {% endblock fos_user_content %}
+                    <a href="{{ path('fos_user_change_password') }}" class="btn btn-default">Mettre à jour le mot de passe</a>
                 </div>
             </div>
         </div>
