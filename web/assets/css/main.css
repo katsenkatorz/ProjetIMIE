@@ -31,6 +31,12 @@ body {
 
 /*------- TEMPERAMENT / METIERS -------*/
 
+#user-nav > ul > li > a {
+    color: #FFF;
+}
+
+/*------- TEMPERAMENT / METIERS -------*/
+
 .small {
     font-size: 10px;
     color: red;
