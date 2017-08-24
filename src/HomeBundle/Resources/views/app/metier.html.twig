@@ -43,6 +43,7 @@
                                         data-size="large"
                                         data-mobile-iframe="true">
                                     <a
+                                            data-href="{{ path('home_setShared') }}"
                                             id="sharedBtn"
                                             class="fb-xfbml-parse-ignore btn btn-primary"
                                             target="_blank"
@@ -124,7 +125,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/home/chartResult.js') }}"></script>
+    <script src="{{ asset('assets/js/home/metierProcess.js') }}"></script>
     <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
 {% endblock %}
 

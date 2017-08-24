@@ -69,7 +69,7 @@ class VisitorRepository extends \Doctrine\ORM\EntityRepository
         $lower = strtolower($string);
 
         return $this->getEntityManager()->createQueryBuilder()
-            ->select("$string(v.connexionDate) as $lower,count(v)")
+            ->select("$string(v.connexionDate) as $lower,count(v) as number")
             ->from("AdminBundle:Visitor", "v")
             ->where("YEAR(v.connexionDate) = $year")
             ->groupBy($lower)
@@ -84,6 +84,52 @@ class VisitorRepository extends \Doctrine\ORM\EntityRepository
             ->groupBy("v.browser")
             ->getQuery()->getScalarResult();
 
+    }
+
+    public function getVisitorsWhoSharedAndThoseWhoDont()
+    {
+        $visitorWhoShared = $this->getEntityManager()->createQueryBuilder()
+            ->select('count(v) as shared')
+            ->from('AdminBundle:Visitor', 'v')
+            ->where('v.hasShared = true')
+            ->andWhere('v.hasCompleteTest = true')
+            ->getQuery()->getSingleScalarResult();
+
+        $visitorWhoDont = $this->getEntityManager()->createQueryBuilder()
+            ->select('count(v) as notshared')
+            ->from('AdminBundle:Visitor', 'v')
+            ->where('v.hasShared = false')
+            ->andWhere('v.hasCompleteTest = true')
+            ->getQuery()->getSingleScalarResult();
+
+        return ["Shared" => $visitorWhoShared, "DontShared" => $visitorWhoDont];
+    }
+
+    public function getVisitorsForQuizzInformation($param, $year)
+    {
+        if(!is_null($year))
+        {
+            $request = $this->getEntityManager()->createQueryBuilder()
+                ->select('MONTH(v.connexionDate) as month, count(v) as number')
+                ->from('AdminBundle:Visitor', 'v');
+
+            if(is_null($param))
+            {
+                $request->where("v.hasCompleteTest is NULL");
+            }
+            else
+            {
+                $request->where("v.hasCompleteTest = $param");
+            }
+
+            return $request->andWhere(" YEAR(v.connexionDate) = $year")
+                ->groupBy('month')
+                ->getQuery()->getScalarResult();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -114,6 +160,67 @@ class VisitorRepository extends \Doctrine\ORM\EntityRepository
         {
             return false;
         }
+    }
+
+    /**
+     * Permet de définir quand un visiteur à partager sont résultat
+     *
+     * @param $id
+     * @return bool|object
+     */
+    public function setSharedToTrue($id)
+    {
+        if(!is_null($id))
+        {
+            $em = $this->getEntityManager();
+
+            $visitor = $em->getRepository("AdminBundle:Visitor")->getVisitorById($id);
+
+            if($visitor->getHasShared() !== true && !is_null($visitor))
+            {
+                $visitor->setHasShared(true);
+
+                $em->persist($visitor);
+                $em->flush();
+
+                return $visitor;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Permet de définir quand un visiteur à commencer/terminer le quizz
+     *
+     * @param $id
+     * @param $bool
+     * @return bool|object
+     */
+    public function setQuizzCompletion($id, $bool)
+    {
+        if(!is_null($id))
+        {
+            $em = $this->getEntityManager();
+
+            $visitor = $em->getRepository("AdminBundle:Visitor")->getVisitorById($id);
+
+            if($visitor->getHasCompleteTest() !== true  && !is_null($visitor))
+            {
+                $visitor->setHasCompleteTest($bool);
+
+                $em->persist($visitor);
+                $em->flush();
+
+                return $visitor;
+            }
+
+            return false;
+        }
+
+        return false;
     }
 
 }

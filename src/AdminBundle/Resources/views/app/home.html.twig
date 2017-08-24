@@ -19,25 +19,28 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-3 col-md-o">
+                    <p>Choix de l'année:</p>
+                </div>
+                <div class="col-md-4">
+                    <select name="registedYear" id="registedYear" class="form-control"
+                            style="width: 20%">
+                        {% for registeredYear in registeredYears %}
+                            <option value="{{ registeredYear.year }}">{{ registeredYear.year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3 class="panel-title">Visites utilisateurs pour l'année:</h3>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <select name="registedYear" id="registedYear" class="form-control"
-                                            style="width: 20%">
-                                        {% for registeredYear in registeredYears %}
-                                            <option value="{{ registeredYear.year }}">{{ registeredYear.year }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
+                            <h3 class="panel-title">Quizz finis par rapport à ceux non finis</h3>
                         </div>
+
                         <div class="panel-body">
-                            <canvas id="userChart" width="100" height="20"></canvas>
+                            <canvas id="getNbTestChart" width="200" height="150"></canvas>
                         </div>
                     </div>
                 </div>
@@ -46,10 +49,56 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Tests complétés et commencés</h3>
+                            <h3 class="panel-title">Visiteur venant sur le site sans faire le quizz</h3>
                         </div>
                         <div class="panel-body">
-                            <canvas id="getNbTestChart" width="200" height="150"></canvas>
+                            <canvas id="unstartedTestChart" width="200" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Question par type</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <table class="table table-condensed text-center">
+                                    <tr>
+                                        <td>Question valide</td>
+                                        <td>Question non valide</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="valid"></td>
+                                        <td id="nonValid"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <canvas id="questionByType" width="200" height="138"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Métier Valide</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <table class="table table-condensed text-center">
+                                    <tr>
+                                        <td>Métier valide</td>
+                                        <td>Métier non valide</td>
+                                    </tr>
+                                    <tr>
+                                        <td ></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <canvas id="questionByType" width="200" height="138"></canvas>
                         </div>
                     </div>
                 </div>
@@ -58,14 +107,10 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Question par type</h3>
+                            <h3 class="panel-title">Navigateurs utilisés</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="col-md-12 col-lg-12 col-sm-12">
-                                <p id="valid"></p>
-                                <p id="nonValid"></p>
-                            </div>
-                            <canvas id="questionByType" width="200" height="138"></canvas>
+                            <canvas id="navChart" width="200" height="150"></canvas>
                         </div>
                     </div>
                 </div>
@@ -82,36 +127,31 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Navigateurs utilisés</h3>
-                        </div>
-                        <div class="panel-body">
-                            <canvas id="navChart" width="200" height="150"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 col-sm-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Tests partagés</h3>
+                            <h3 class="panel-title">Résultat partagés</h3>
                         </div>
                         <div class="panel-body">
                             <canvas id="sharedChart" width="200" height="150"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Tests non commencés</h3>
+                            <h3 class="panel-title">Visites utilisateurs</h3>
                         </div>
+
                         <div class="panel-body">
-                            <canvas id="unstartedTestChart" width="200" height="150"></canvas>
+                            <canvas id="userChart" width="100" height="20"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <hr>
     </div>
+
 
     {% for key, question in questions %}
         <input type="hidden" class="questionDataHolder" data-type="{{ key }}" data-valid="{{ question['valid'] }}"
@@ -123,12 +163,17 @@
                data-value="{{ visitorByCountry[1] }}">
     {% endfor %}
 
+    {% if visitorWhoSharedAndThoseWhoDont is not null %}
+        {% for key, visitor in visitorWhoSharedAndThoseWhoDont %}
+            <input type="hidden" id="visitorWho{{ key }}" data-number="{{ visitor }}">
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('assets/js/admin/chartAdmin.js') }}"></script>
-{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('assets/js/admin/chartAdmin.js') }}"></script>
+    {% endblock %}
 
 
 

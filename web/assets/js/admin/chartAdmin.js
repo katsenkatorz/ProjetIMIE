@@ -1,39 +1,64 @@
+var userChart;
+var testChart;
+var nonStartedChart;
+
 $(document).ready(function () {
 
+    var targets = ["#userChart", "#getNbTestChart", "#unstartedTestChart"];
     var selectYearInput = $('#registedYear');
 
-    genVisitorByYear(selectYearInput.val());
+    selectYearInput.val(new Date().getFullYear());
 
-    selectYearInput.unbind('change').bind('change', function () {
+    userChart = genVisitorByYear(selectYearInput.val());
+    testChart = genAchieveAndUnAchieveTest(selectYearInput.val());
+    nonStartedChart = genUnstartedTest(selectYearInput.val());
+
+
+    selectYearInput.unbind('change').bind('change', function ()
+    {
+        userChart.destroy();
+        testChart.destroy();
+        nonStartedChart.destroy();
+
         genVisitorByYear($(this).val());
+        genAchieveAndUnAchieveTest($(this).val());
+        genUnstartedTest($(this).val());
     });
 
-    modifySize("#userChart", function () {
+
+    modifySize(targets, function () {
         genQuestionByType();
 
         genVisitorByCountry();
 
         genVisitorByBrowser();
-    })
+
+        genSharedTest();
+    });
+
 });
 
-function modifySize(idTarget, callback) {
-    var target = document.querySelector(idTarget);
+function modifySize(targets, callback)
+{
+    targets.forEach(function (idTarget)
+    {
+        var target = document.querySelector(idTarget);
 
-    if ($(window).width() <= 768) {
-        target.height = 100;
-    }
-    else {
-        target.height = 20;
-    }
-
-    $(window).unbind('resize').bind('resize', function () {
         if ($(window).width() <= 768) {
             target.height = 100;
         }
         else {
             target.height = 20;
         }
+
+        $(window).unbind('resize').bind('resize', function () {
+            if ($(window).width() <= 768) {
+                target.height = 100;
+            }
+            else {
+                target.height = 20;
+            }
+        });
     });
     callback();
 }
@@ -44,71 +69,20 @@ function genVisitorByYear(year) {
         method: "GET"
     }).done(function (data) {
 
-        // On crée un tableau de référence pour les mois
-        var monthsName = [
-            "",
-            "Janvier",
-            "Fevrier",
-            "Mars",
-            "Avril",
-            "Mai",
-            "Juin",
-            "Juillet",
-            "Aout",
-            "Septembre",
-            "Octobre",
-            "Novembre",
-            "Decembre"
-        ];
+        var result = orderValueToMonth(data);
 
-        // On crée un tableau de référence mois => valeur
-        var yearlyMonthValue = {
-            "Janvier": 0,
-            "Fevrier": 0,
-            "Mars": 0,
-            "Avril": 0,
-            "Mai": 0,
-            "Juin": 0,
-            "Juillet": 0,
-            "Aout": 0,
-            "Septembre": 0,
-            "Octobre": 0,
-            "Novembre": 0,
-            "Decembre": 0
-        };
-
-        // Pour chaque valeur réçus
-        data.forEach(function (elem) {
-            // On récupère la valeur du mois pour avoir la string correspondante
-            elem.month = monthsName[elem.month];
-
-            // On remplis le tableau de référence avec les nouvelles values
-            yearlyMonthValue[elem.month] = parseInt(elem[1]);
-        });
-
-        // On prépare le tableau qui va avoir les values
-        var values = [];
-
-        // On retire le premier index du tableau
-        monthsName.splice(0, 1);
-
-        // A partir du tableau de référence on stocke les valeurs ordonnées pour chaque mois
-        monthsName.forEach(function (elem) {
-            values.push(yearlyMonthValue[elem]);
-        });
-
-        var max = Math.max(values);
+        var max = Math.max(result.values);
 
         // On génère le graphique
         var ctxUser = document.getElementById("userChart").getContext('2d');
-        var userChart = new Chart(ctxUser, {
+        userChart = new Chart(ctxUser, {
             type: 'line',
             data: {
-                labels: monthsName,
+                labels: result.month,
                 datasets: [{
                     backgroundColor: "#3e95cd",
                     label: "utilisateurs mensuels",
-                    data: values
+                    data: result.values
                 }]
             },
             options: {
@@ -137,91 +111,187 @@ function genVisitorByYear(year) {
 
     }).fail(function (error) {
         console.log("error");
-    })
+    });
+
+    return userChart;
 }
 
-function sharedTest() {
-    var ctxShare = document.getElementById("sharedChart").getContext("2d");
-    window.myHorizontalBar = new Chart(ctxShare, {
-        type: 'horizontalBar',
-        data: horizontalBarChartData,
+function genSharedTest()
+{
+    var hiddenSharedInput = $('#visitorWhoShared');
+    var numberShared = hiddenSharedInput.data('number');
+
+    var hiddenDontSharedInput = $('#visitorWhoDontShared');
+    var numberDontShared = hiddenDontSharedInput.data('number');
+
+    var backgroundColor = ["#3e95cd", "#c45850"];
+
+    // On génère le graphique
+    var ctxNav = document.getElementById("sharedChart").getContext('2d');
+    sharedChart = new Chart(ctxNav, {
+        type: 'pie',
+        data: {
+            labels: ['Partagés', 'Non partagés'],
+            datasets: [{
+                backgroundColor: backgroundColor,
+                data: [numberShared, numberDontShared]
+            }]
+        },
         options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-                rectangle: {
-                    borderWidth: 2
-                }
-            },
             responsive: true,
-            legend: {
-                position: 'right'
-            },
             title: {
-                display: true,
-                text: 'Chart.js Horizontal Bar Chart'
+                display: false,
+                text: 'Nombre de tests partagés par rapport au nombre de tests réalisés'
             }
         }
     });
+
+    return sharedChart;
 }
 
-function getNbTest() {
-    var ctxGetNbTest = document.getElementById("getNbTestChart").getContext("2d");
-    window.myHorizontalBar = new Chart(ctxGetNbTest, {
-        type: 'horizontalBar',
-        data: horizontalBarChartData,
-        options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-                rectangle: {
-                    borderWidth: 2
-                }
-            },
-            responsive: true,
-            legend: {
-                position: 'right'
-            },
-            title: {
-                display: true,
-                text: 'Chart.js Horizontal Bar Chart'
+function genAchieveAndUnAchieveTest(year)
+{
+    var backgroundColor;
+    var max;
+
+    $.ajax({
+        url: '/admin/visitors/quizz/'+year+'/0',
+        method: 'GET'
+    }).done(function (data)
+    {
+        var achieveData = orderValueToMonth(data.value);
+
+        $.ajax({
+            url: '/admin/visitors/quizz/'+year+'/1',
+            method: 'GET'
+        }).done(function (data)
+        {
+            var unAchieveData = orderValueToMonth(data.value);
+
+            if(achieveData.values.length > unAchieveData.values.length)
+            {
+                backgroundColor = createBackgroundColor(achieveData.values);
+                max = Math.max(achieveData.values);
             }
-        }
-    });
+            else
+            {
+                backgroundColor = createBackgroundColor(unAchieveData.values);
+                max = Math.max(unAchieveData.values);
+            }
+
+            var ctxTemp = document.getElementById("getNbTestChart").getContext('2d');
+            testChart = new Chart(ctxTemp, {
+                type: 'line',
+                data: {
+                    labels: achieveData.month,
+                    datasets: [
+                        {
+                            label: 'Quizz non finis',
+                            borderColor: "#cd1e10",
+                            data: unAchieveData.values,
+                            fill: false,
+                            pointRadius: 10
+                        },
+                        {
+                            label: 'Quizz finis',
+                            borderColor: "#3e95cd",
+                            data: achieveData.values,
+                            fill: false,
+                            pointRadius: 10
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: false
+                        }],
+                        yAxes: [{
+                            stacked: false,
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: max
+                            }
+                        }]
+                    },
+                    elements: {
+                        point: {
+                            pointStyle: 'crossRot'
+                        }
+                    }
+                }
+            });
+        }).fail(function () {});
+    }).fail(function () {});
+
+    return testChart;
 }
 
-function unstartedTest() {
-    var ctxUnstartedTest = document.getElementById("unstartedTestChart").getContext("2d");
-    window.myHorizontalBar = new Chart(ctxUnstartedTest, {
-        type: 'line',
-        data: lineChartData,
-        options: {
-            // Elements options apply to all of the options unless overridden in a dataset
-            // In this case, we are setting the border of each horizontal bar to be 2px wide
-            elements: {
-                rectangle: {
-                    borderWidth: 2
+function genUnstartedTest(year)
+{
+
+    $.ajax({
+        url: '/admin/visitors/quizz/'+year+'/2',
+        method: 'GET'
+    }).done(function (data)
+    {
+        var unStartedData = orderValueToMonth(data.value);
+
+        var max = Math.max(unStartedData.values);
+
+        var ctxTemp = document.getElementById("unstartedTestChart").getContext('2d');
+        nonStartedChart = new Chart(ctxTemp, {
+            type: 'line',
+            data: {
+                labels: unStartedData.month,
+                datasets: [{
+                    label: 'Quizz non finis',
+                    borderColor: "#3e95cd",
+                    data: unStartedData.values,
+                    fill: false,
+                    pointRadius: 10
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: max
+                        }
+                    }]
+                },
+                elements: {
+                    point: {
+                        pointStyle: 'rectRot',
+                        backgroundColor: "#3e95cd"
+                    }
                 }
-            },
-            responsive: true,
-            legend: {
-                position: 'right'
-            },
-            title: {
-                display: true,
-                text: 'Chart.js Line Chart'
             }
-        }
-    });
+        });
+    }).fail(function () {});
+
+    return nonStartedChart;
 }
 
 function genVisitorByBrowser(browser) {
     $.ajax({
         url: "/admin/browser",
         method: "GET"
-    }).done(function (data) {
-
-
+    }).done(function (data)
+    {
         var values = [];
         var labels = [];
 
@@ -230,16 +300,7 @@ function genVisitorByBrowser(browser) {
             labels.push(elem['browser']);
         });
 
-        var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
-
-        if (values.length > backgroundColor.length) {
-            var colorLength = backgroundColor.length;
-            var interval = values.length - colorLength;
-
-            for (var i = 0; i < interval; i++) {
-                backgroundColor.push(backgroundColor[i]);
-            }
-        }
+        var backgroundColor = createBackgroundColor(values);
 
         // On génère le graphique
         var ctxNav = document.getElementById("navChart").getContext('2d');
@@ -292,7 +353,7 @@ function genVisitorByCountry() {
     var ctxTemp = document.getElementById("visitorByCountry").getContext('2d');
 
     new Chart(ctxTemp, {
-        type: 'polarArea',
+        type: 'pie',
         data: {
             labels: labels,
             datasets: [{
@@ -302,25 +363,13 @@ function genVisitorByCountry() {
         },
         options: {
             responsive: true,
-            legend: {
-                position: 'right'
-            },
             title: {
-                display: true
-            },
-            scale: {
-                ticks: {
-                    beginAtZero: true
-                },
-                reverse: false
-            },
-            animation: {
-                animateRotate: false,
-                animateScale: true
+                display: false
             }
         }
     });
 }
+
 
 
 function genQuestionByType() {
@@ -352,8 +401,8 @@ function genQuestionByType() {
 
     var max = Math.max(values);
 
-    document.querySelector("#valid").innerHTML = "Nombre de question valide: " + values[0].sum();
-    document.querySelector("#nonValid").innerHTML = "Nombre de question non valide: " + values[1].sum();
+    document.querySelector("#valid").innerHTML = values[0].sum();
+    document.querySelector("#nonValid").innerHTML = values[1].sum();
 
     var ctxTemp = document.getElementById("questionByType").getContext('2d');
     new Chart(ctxTemp, {
@@ -394,6 +443,81 @@ function genQuestionByType() {
     });
 }
 
+function orderValueToMonth(array)
+{
+    // On crée un tableau de référence pour les mois
+    var monthsName = [
+        "",
+        "Janvier",
+        "Fevrier",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Aout",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Decembre"
+    ];
+
+    // On crée un tableau de référence mois => valeur
+    var yearlyMonthValue = {
+        "Janvier": 0,
+        "Fevrier": 0,
+        "Mars": 0,
+        "Avril": 0,
+        "Mai": 0,
+        "Juin": 0,
+        "Juillet": 0,
+        "Aout": 0,
+        "Septembre": 0,
+        "Octobre": 0,
+        "Novembre": 0,
+        "Decembre": 0
+    };
+
+    // Pour chaque valeur réçus
+    array.forEach(function (elem) {
+        // On récupère la valeur du mois pour avoir la string correspondante
+        elem.month = monthsName[elem.month];
+
+        // On remplis le tableau de référence avec les nouvelles values
+        yearlyMonthValue[elem.month] = parseInt(elem.number);
+    });
+
+    // On prépare le tableau qui va avoir les values
+    var values = [];
+
+    // On retire le premier index du tableau
+    monthsName.splice(0, 1);
+
+    // A partir du tableau de référence on stocke les valeurs ordonnées pour chaque mois
+    monthsName.forEach(function (elem) {
+        values.push(yearlyMonthValue[elem]);
+    });
+
+    return {month: monthsName, values: values};
+}
+
+
+function createBackgroundColor(values)
+{
+    var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
+
+    if (values.length > backgroundColor.length)
+    {
+        var colorLength = backgroundColor.length;
+        var interval = values.length - colorLength;
+
+        for (var i = 0; i < interval; i++) {
+            backgroundColor.push(backgroundColor[i]);
+        }
+    }
+
+    return backgroundColor;
+}
 
 Array.prototype.sum = function (selector) {
     if (typeof selector !== 'function') {
