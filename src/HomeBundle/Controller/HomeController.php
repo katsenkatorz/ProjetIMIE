@@ -84,7 +84,14 @@ class HomeController extends Controller
      */
     public function getQuestionSetAction()
     {
+        // Génération du set de question
         $questionSet = $this->get("GenerateQuestionSet")->getQuestionSet();
+
+        // Récupération de l'id du visiteur
+        $visitorId = $this->container->get('session')->get('client-id');
+
+        // Sauvegarde de l'information que l'utilisateur à commencer le test
+        $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setQuizzCompletion($visitorId, false);
 
         return $this->json($questionSet);
     }
@@ -100,6 +107,12 @@ class HomeController extends Controller
         $QuizzResolver->setResultats($request->get('responses'));
 
         $selectedJobId = $QuizzResolver->resolve();
+
+        // Récupération de l'id du visiteur
+        $visitorId = $this->container->get('session')->get('client-id');
+
+        // Sauvegarde de l'information que l'utilisateur à finis le test
+        $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setQuizzCompletion($visitorId, true);
 
         return $this->json(['href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId, 'bool' => 1])]);
     }
@@ -159,6 +172,9 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function cookiesAction()
     {
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
@@ -168,5 +184,19 @@ class HomeController extends Controller
             "secondary" => $colors['secondary'],
             "text" => $colors['text'],
         ]);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function setSharedAction()
+    {
+        // Récupération de l'id du visiteur
+        $visitorId = $this->container->get('session')->get('client-id');
+
+        // Sauvegarde de l'information que l'utilisateur à finis le test
+        $visitor = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setSharedToTrue($visitorId);
+
+        return $this->json([]);
     }
 }

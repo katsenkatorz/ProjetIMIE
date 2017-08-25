@@ -43,4 +43,8 @@ home_getQuestionSet:
         _controller: HomeBundle:Home:getQuestionSet
         method: GET
 
-
+home_setShared:
+    path:     /setShared
+    defaults:
+        _controller: HomeBundle:Home:setShared
+        method: POST

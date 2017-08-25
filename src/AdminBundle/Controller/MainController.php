@@ -18,17 +18,44 @@ class MainController extends Controller
      */
     public function homeAction()
     {
-        $questions = $this->getDoctrine()->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
+        $em = $this->getDoctrine();
+        $visitorRepo = $em->getRepository("AdminBundle:Visitor");
 
-        $visitorByCountry = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getNumberOfConnectionByCountry();
-
-        $registeredYears = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getRegisteredYears();
+        $questions = $em->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
+        $visitorByCountry = $visitorRepo->getNumberOfConnectionByCountry();
+        $registeredYears = $visitorRepo->getRegisteredYears();
+        $visitorWhoSharedAndThoseWhoDont = $visitorRepo->getVisitorsWhoSharedAndThoseWhoDont();
 
         return $this->render('AdminBundle:app:home.html.twig', [
             "questions" => $questions,
             "visitorsByCountry" => $visitorByCountry,
-            "registeredYears" => $registeredYears
+            "registeredYears" => $registeredYears,
+            "visitorWhoSharedAndThoseWhoDont" => $visitorWhoSharedAndThoseWhoDont,
         ]);
+    }
+
+    public function visitorQuizzAction(Request $request)
+    {
+        $visitorRepo = $this->getDoctrine()->getRepository("AdminBundle:Visitor");
+        $param = $request->attributes->get('param');
+        $year = $request->attributes->get('year');
+
+        $returnResult = null;
+
+        switch ($param)
+        {
+            case 0:
+                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
+                break;
+            case 1:
+                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
+                break;
+            case 2:
+                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
+                break;
+        }
+
+        return $this->json(["message" => "Ok", "value" => $returnResult]);
     }
 
     /**
