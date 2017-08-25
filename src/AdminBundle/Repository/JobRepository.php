@@ -219,4 +219,89 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return false;
     }
 
+    /**
+     * Incrémente le champ deliveredByQuizz d'un métier
+     *
+     * @param $jobId
+     * @return bool|null|object
+     */
+    public function incrementDeliveredByQuizzWithJobId($jobId)
+    {
+        $em = $this->getEntityManager();
+        $job = $this->findOneBy(['id' => $jobId]);
+
+        if(!is_null($job))
+        {
+            $job->setDeliveredByQuizz($job->getDeliveredByQuizz()+1);
+
+            $em->persist($job);
+            $em->flush();
+
+            return $job;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retourne un tableau des différents métiers avec leurs pourcentage de sortie du quizz
+     *
+     * @return array|bool
+     */
+    public function getMostDeliveredJobByQuizz()
+    {
+        $jobs = $this->getEntityManager()->createQueryBuilder()
+            ->select("j.name, j.deliveredByQuizz")
+            ->from('AdminBundle:Job', "j")
+            ->getQuery()->getResult();
+
+
+        $totalDelivered = 0;
+        $result = [];
+
+        foreach($jobs as $job)
+        {
+            $totalDelivered += $job['deliveredByQuizz'];
+        }
+
+        if($totalDelivered !== 0)
+        {
+            foreach($jobs as $job)
+            {
+                $percentage = ($job['deliveredByQuizz'] * 100) / $totalDelivered;
+
+                $roundPercentage = round($percentage, 1);
+
+                $result[] = [
+                    "jobName" => $job['name'],
+                    "percentage" => $roundPercentage
+                ];
+
+            }
+
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Permet de reset les compteurs de tout les métiers
+     */
+    public function resetMostDeliveredQuizz()
+    {
+        $em = $this->getEntityManager();
+        $jobs = $this->findAll();
+
+        foreach($jobs as $job)
+        {
+            $job->setDeliveredByQuizz(0);
+
+            $em->persist($job);
+        }
+
+        $em->flush();
+    }
 }

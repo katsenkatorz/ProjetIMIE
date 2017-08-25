@@ -38,3 +38,13 @@ admin_browser:
     path:     /browser
     defaults:
         _controller: AdminBundle:Main:browser
+
+admin_mostDeliveredJob:
+    path:     /deliveredJob
+    defaults:
+        _controller: AdminBundle:Main:getMostDeliveredJobByQuizz
+
+admin_resetMostDeliveredJob:
+    path:     /deliveredJob/reset
+    defaults:
+        _controller: AdminBundle:Main:resetMostDeliveredJobByQuizz

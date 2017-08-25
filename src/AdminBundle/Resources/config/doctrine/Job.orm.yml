@@ -26,6 +26,8 @@ AdminBundle\Entity\Job:
         updatedAt:
             type: datetime
             nullable: true
+        deliveredByQuizz:
+            type: integer
     oneToMany:
         jobTemperaments:
             targetEntity: AdminBundle\Entity\JobTemperament

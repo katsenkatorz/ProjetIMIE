@@ -19,26 +19,36 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-md-o">
-                    <p>Choix de l'année:</p>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
+                    <label for="registedYear">Choix de l'année:</label>
                     <select name="registedYear" id="registedYear" class="form-control"
-                            style="width: 20%">
+                            style="width: 20%; margin-bottom:5px;">
                         {% for registeredYear in registeredYears %}
                             <option value="{{ registeredYear.year }}">{{ registeredYear.year }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
-
+            <hr>
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Quizz finis par rapport à ceux non finis</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Quizz finis par rapport à ceux non finis</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet d'avoir un differentiel entre les personnes qui ont commencé le quizz et ceux qui l'ont terminé. Concrètement c'est un révélateur de l'interêt des utilisateurs pour le quizz."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
                         <div class="panel-body">
                             <canvas id="getNbTestChart" width="200" height="150"></canvas>
                         </div>
@@ -49,7 +59,20 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Visiteur venant sur le site sans faire le quizz</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Visiteur venant sur le site sans faire le quizz</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de savoir le nombre de visiteurs venus sur le site qui n'ont pas réalisé le quizz."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <canvas id="unstartedTestChart" width="200" height="150"></canvas>
@@ -61,7 +84,20 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Question par type</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Question par type</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de savoir le nombre de questions qui sont susceptibles d'être utilisées dans le quizz."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-12 col-lg-12 col-sm-12">
@@ -83,22 +119,28 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Métier Valide</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="col-md-12 col-lg-12 col-sm-12">
-                                <table class="table table-condensed text-center">
-                                    <tr>
-                                        <td>Métier valide</td>
-                                        <td>Métier non valide</td>
-                                    </tr>
-                                    <tr>
-                                        <td ></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Résultat des métiers</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de montrer les métiers les plus retournés en résultat du quizz."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <canvas id="questionByType" width="200" height="138"></canvas>
+                        </div>
+                        <div class="panel-body" id="jobPanelBody">
+                            <div class="col-md-4 col-md-offset-4">
+                                <button class="btn"
+                                        data-target="#confirmResetJob"
+                                        data-toggle="modal">Remettre à zero la statistique</button>
+                            </div>
+                            <canvas id="jobChart" width="200" height="138"></canvas>
                         </div>
                     </div>
                 </div>
@@ -107,7 +149,20 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Navigateurs utilisés</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Navigateurs utilisés</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de montrer les navigateurs utilisés par les visiteurs."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <canvas id="navChart" width="200" height="150"></canvas>
@@ -117,7 +172,20 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Nombre de visiteur par pays</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Visiteur par pays</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de savoir l'origine géographique des utilisateurs."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <canvas id="visitorByCountry" width="200" height="150"></canvas>
@@ -127,7 +195,20 @@
                 <div class="col-md-4 col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Résultat partagés</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Résultat partagés</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de savoir la proportion des utilisateurs qui ont partagé leurs résultats après avoir terminé le quizz."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <canvas id="sharedChart" width="200" height="150"></canvas>
@@ -139,9 +220,21 @@
                 <div class="col-md-12 col-sm-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Visites utilisateurs</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h3 class="panel-title">Visites utilisateurs</h3>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <button class="btn pull-right"
+                                            data-toggle="tooltip"
+                                            data-placement="left"
+                                            title="Cette zone permet de savoir le nombre de visiteurs total du site."
+                                    >
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
                         <div class="panel-body">
                             <canvas id="userChart" width="100" height="20"></canvas>
                         </div>
@@ -150,6 +243,25 @@
             </div>
         </div>
         <hr>
+    </div>
+
+    <div id="confirmResetJob" class="modal fade container" tabindex="-1" role="dialog">
+        <div class="modal-dialog-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirmation de remise à zero</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger">Etes vous sûr de vouloir remettre cette statistique à zero ? Cette action est irréversible, elle n'est à utiliser qu'en cas de changement majeur du quizz</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <a id="confirmReset" type="button" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Oui</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 

@@ -34,6 +34,36 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * Permet de récupérer les statistiques de métiers renvoyer
+     *
+     * @return JsonResponse
+     */
+    public function getMostDeliveredJobByQuizzAction()
+    {
+        $jobs = $this->getDoctrine()->getRepository("AdminBundle:Job")->getMostDeliveredJobByQuizz();
+
+        return $this->json($jobs);
+    }
+
+    /**
+     * Permet de reset les statistiques de métiers renvoyer
+     *
+     * @return JsonResponse
+     */
+    public function resetMostDeliveredJobByQuizzAction()
+    {
+        $this->getDoctrine()->getRepository("AdminBundle:Job")->resetMostDeliveredQuizz();
+
+        return $this->json([]);
+    }
+
+    /**
+     * Permet de récuperer les informations d'utilisation du quizz
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function visitorQuizzAction(Request $request)
     {
         $visitorRepo = $this->getDoctrine()->getRepository("AdminBundle:Visitor");

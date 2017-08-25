@@ -108,6 +108,9 @@ class HomeController extends Controller
 
         $selectedJobId = $QuizzResolver->resolve();
 
+        // Incrémentation du métiers pour le suivie du quizz
+        $this->getDoctrine()->getRepository("AdminBundle:Job")->incrementDeliveredByQuizzWithJobId($selectedJobId);
+
         // Récupération de l'id du visiteur
         $visitorId = $this->container->get('session')->get('client-id');
 

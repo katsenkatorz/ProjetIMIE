@@ -1,32 +1,47 @@
+// Définition des variables pour contenir les charts qui doivent être reset
 var userChart;
 var testChart;
 var nonStartedChart;
+var jobChart;
 
-$(document).ready(function () {
+$(document).ready(function ()
+{
+    // Activation des tooltips
+    $('[data-toggle="tooltip"]').tooltip();
 
+    // Préparation du tableau pour les charts date-dépendant
     var targets = ["#userChart", "#getNbTestChart", "#unstartedTestChart"];
+
+    // Selection de l'input type select
     var selectYearInput = $('#registedYear');
+    // Récupération de l'année en cours
+    var year = new Date().getFullYear();
 
-    selectYearInput.val(new Date().getFullYear());
+    // On place le select sur l'année en cours
+    selectYearInput.val(year);
 
-    userChart = genVisitorByYear(selectYearInput.val());
-    testChart = genAchieveAndUnAchieveTest(selectYearInput.val());
-    nonStartedChart = genUnstartedTest(selectYearInput.val());
+    // On crée les premiers chart avec l'année en cours
+    userChart = genVisitorByYear(year);
+    testChart = genAchieveAndUnAchieveTest(year);
+    nonStartedChart = genUnstartedTest(year);
 
-
+    // Au changement d'années dans le select, on recharge les graphiques
     selectYearInput.unbind('change').bind('change', function ()
     {
         userChart.destroy();
         testChart.destroy();
         nonStartedChart.destroy();
 
-        genVisitorByYear($(this).val());
-        genAchieveAndUnAchieveTest($(this).val());
-        genUnstartedTest($(this).val());
+        userChart = genVisitorByYear($(this).val());
+        testChart = genAchieveAndUnAchieveTest($(this).val());
+        nonStartedChart = genUnstartedTest($(this).val());
     });
 
 
-    modifySize(targets, function () {
+    // Permet d'appliquer un redimensionnement en fonction de la taille du navigateur
+    modifySize(targets, function ()
+    {
+        // On charge les autres graphiques
         genQuestionByType();
 
         genVisitorByCountry();
@@ -34,28 +49,52 @@ $(document).ready(function () {
         genVisitorByBrowser();
 
         genSharedTest();
+
+        jobChart = genJobChart();
     });
 
+    // Permet de reset la statistique de métier retourner par le quizz
+    $('#confirmReset').unbind('click').bind('click', function ()
+    {
+        $.ajax({
+            url: "/admin/deliveredJob/reset",
+            method: "POST"
+        }).done(function ()
+        {
+            $('#confirmResetJob').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+
+            jobChart.destroy();
+            jobChart = genJobChart();
+        })
+    });
 });
 
+// Rend la taille des charts dépendant de la taille de la fenetre
 function modifySize(targets, callback)
 {
     targets.forEach(function (idTarget)
     {
         var target = document.querySelector(idTarget);
 
-        if ($(window).width() <= 768) {
+        if ($(window).width() <= 768)
+        {
             target.height = 100;
         }
-        else {
+        else
+        {
             target.height = 20;
         }
 
-        $(window).unbind('resize').bind('resize', function () {
-            if ($(window).width() <= 768) {
+        $(window).unbind('resize').bind('resize', function ()
+        {
+            if ($(window).width() <= 768)
+            {
                 target.height = 100;
             }
-            else {
+            else
+            {
                 target.height = 20;
             }
         });
@@ -63,11 +102,75 @@ function modifySize(targets, callback)
     callback();
 }
 
-function genVisitorByYear(year) {
+// Génère le chart des métiers
+function genJobChart()
+{
+    $.ajax({
+        url: "/admin/deliveredJob",
+        method: "GET"
+    }).done(function (data)
+    {
+        if (data !== false)
+        {
+            var labels = [];
+            var values = [];
+
+            data.forEach(function (elem)
+            {
+                labels.push(elem.jobName);
+                values.push(elem.percentage)
+            });
+
+            var backgroundColor = createBackgroundColor(values);
+
+            var ctxJob = document.getElementById("jobChart").getContext('2d');
+            jobChart = new Chart(ctxJob, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: values,
+                        backgroundColor: backgroundColor
+                    }],
+                    labels: labels
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: false,
+                        text: ''
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+        else
+        {
+            var divJob = document.getElementById("jobPanelBody");
+            divJob.innerHTML = "Il n'y a pas eu pour l'instant de quizz completer";
+        }
+
+
+    }).fail(function (data)
+    {
+    });
+
+    return jobChart;
+}
+
+// Génère le chart des visiteurs totals par année
+function genVisitorByYear(year)
+{
     $.ajax({
         url: "/admin/visitors/" + year,
         method: "GET"
-    }).done(function (data) {
+    }).done(function (data)
+    {
 
         var result = orderValueToMonth(data);
 
@@ -88,7 +191,7 @@ function genVisitorByYear(year) {
             options: {
                 responsive: true,
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Nombre de visiteur par année'
                 },
                 legend: {
@@ -109,13 +212,15 @@ function genVisitorByYear(year) {
             }
         });
 
-    }).fail(function (error) {
+    }).fail(function (error)
+    {
         console.log("error");
     });
 
     return userChart;
 }
 
+// Génère le chart pour le nombre de résultat du quizz partager ou non
 function genSharedTest()
 {
     var hiddenSharedInput = $('#visitorWhoShared');
@@ -149,26 +254,27 @@ function genSharedTest()
     return sharedChart;
 }
 
+// Génère le chart pour le nombre de test terminer et non terminer
 function genAchieveAndUnAchieveTest(year)
 {
     var backgroundColor;
     var max;
 
     $.ajax({
-        url: '/admin/visitors/quizz/'+year+'/0',
+        url: '/admin/visitors/quizz/' + year + '/1',
         method: 'GET'
     }).done(function (data)
     {
         var achieveData = orderValueToMonth(data.value);
 
         $.ajax({
-            url: '/admin/visitors/quizz/'+year+'/1',
+            url: '/admin/visitors/quizz/' + year + '/0',
             method: 'GET'
         }).done(function (data)
         {
             var unAchieveData = orderValueToMonth(data.value);
 
-            if(achieveData.values.length > unAchieveData.values.length)
+            if (achieveData.values.length > unAchieveData.values.length)
             {
                 backgroundColor = createBackgroundColor(achieveData.values);
                 max = Math.max(achieveData.values);
@@ -225,17 +331,22 @@ function genAchieveAndUnAchieveTest(year)
                     }
                 }
             });
-        }).fail(function () {});
-    }).fail(function () {});
+        }).fail(function ()
+        {
+        });
+    }).fail(function ()
+    {
+    });
 
     return testChart;
 }
 
+// Génère le chart pour les visiteurs qui ne sont pas du tout aller faire le test
 function genUnstartedTest(year)
 {
 
     $.ajax({
-        url: '/admin/visitors/quizz/'+year+'/2',
+        url: '/admin/visitors/quizz/' + year + '/2',
         method: 'GET'
     }).done(function (data)
     {
@@ -249,7 +360,7 @@ function genUnstartedTest(year)
             data: {
                 labels: unStartedData.month,
                 datasets: [{
-                    label: 'Quizz non finis',
+                    label: 'Curieux',
                     borderColor: "#3e95cd",
                     data: unStartedData.values,
                     fill: false,
@@ -281,12 +392,16 @@ function genUnstartedTest(year)
                 }
             }
         });
-    }).fail(function () {});
+    }).fail(function ()
+    {
+    });
 
     return nonStartedChart;
 }
 
-function genVisitorByBrowser(browser) {
+// Génère le chart pour la proportion de navigateur
+function genVisitorByBrowser(browser)
+{
     $.ajax({
         url: "/admin/browser",
         method: "GET"
@@ -295,14 +410,14 @@ function genVisitorByBrowser(browser) {
         var values = [];
         var labels = [];
 
-        data.forEach(function (elem) {
+        data.forEach(function (elem)
+        {
             values.push(elem['1']);
             labels.push(elem['browser']);
         });
 
         var backgroundColor = createBackgroundColor(values);
 
-        // On génère le graphique
         var ctxNav = document.getElementById("navChart").getContext('2d');
         var navChart = new Chart(ctxNav, {
             type: 'pie',
@@ -323,29 +438,34 @@ function genVisitorByBrowser(browser) {
             }
         });
 
-    }).fail(function (error) {
+    }).fail(function (error)
+    {
         console.log("error");
     })
 }
 
-
-function genVisitorByCountry() {
+// Génère le chart du nombre de visiteur par pays
+function genVisitorByCountry()
+{
     var inputs = document.querySelectorAll(".visitorCountryDataHolder");
 
     var labels = [];
     var values = [];
     var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
 
-    inputs.forEach(function (elem) {
+    inputs.forEach(function (elem)
+    {
         labels.push(elem.dataset.country);
         values.push(parseInt(elem.dataset.value))
     });
 
-    if (values.length > backgroundColor.length) {
+    if (values.length > backgroundColor.length)
+    {
         var colorLength = backgroundColor.length;
         var interval = values.length - colorLength;
 
-        for (var i = 0; i < interval; i++) {
+        for (var i = 0; i < interval; i++)
+        {
             backgroundColor.push(backgroundColor[i]);
         }
     }
@@ -370,18 +490,18 @@ function genVisitorByCountry() {
     });
 }
 
-
-
-function genQuestionByType() {
+// Génère le chart qui donne l'information sur le nombre de question valide
+function genQuestionByType()
+{
     var inputs = document.querySelectorAll(".questionDataHolder");
 
     var labels = [];
     var values = [];
     var valid = [];
     var unValid = [];
-    var backgroundColor = ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"];
 
-    inputs.forEach(function (elem) {
+    inputs.forEach(function (elem)
+    {
         labels.push(elem.dataset.type);
         valid.push(parseInt(elem.dataset.valid));
         unValid.push(parseInt(elem.dataset.nonvalid))
@@ -390,14 +510,7 @@ function genQuestionByType() {
     values.push(valid);
     values.push(unValid);
 
-    if (values.length > backgroundColor.length) {
-        var colorLength = backgroundColor.length;
-        var interval = values.length - colorLength;
-
-        for (var i = 0; i < interval; i++) {
-            backgroundColor.push(backgroundColor[i]);
-        }
-    }
+    var backgroundColor = createBackgroundColor(values);
 
     var max = Math.max(values);
 
@@ -443,6 +556,7 @@ function genQuestionByType() {
     });
 }
 
+// Réorganise les values pour les chart qui sont sur une année
 function orderValueToMonth(array)
 {
     // On crée un tableau de référence pour les mois
@@ -479,7 +593,8 @@ function orderValueToMonth(array)
     };
 
     // Pour chaque valeur réçus
-    array.forEach(function (elem) {
+    array.forEach(function (elem)
+    {
         // On récupère la valeur du mois pour avoir la string correspondante
         elem.month = monthsName[elem.month];
 
@@ -494,14 +609,15 @@ function orderValueToMonth(array)
     monthsName.splice(0, 1);
 
     // A partir du tableau de référence on stocke les valeurs ordonnées pour chaque mois
-    monthsName.forEach(function (elem) {
+    monthsName.forEach(function (elem)
+    {
         values.push(yearlyMonthValue[elem]);
     });
 
     return {month: monthsName, values: values};
 }
 
-
+// Permet de crée un tableau de backgroundColor dynamique en fonction du nombre de valeurs demander
 function createBackgroundColor(values)
 {
     var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
@@ -511,7 +627,8 @@ function createBackgroundColor(values)
         var colorLength = backgroundColor.length;
         var interval = values.length - colorLength;
 
-        for (var i = 0; i < interval; i++) {
+        for (var i = 0; i < interval; i++)
+        {
             backgroundColor.push(backgroundColor[i]);
         }
     }
@@ -519,14 +636,19 @@ function createBackgroundColor(values)
     return backgroundColor;
 }
 
-Array.prototype.sum = function (selector) {
-    if (typeof selector !== 'function') {
-        selector = function (item) {
+// Permet de faire la somme d'un tableau
+Array.prototype.sum = function (selector)
+{
+    if (typeof selector !== 'function')
+    {
+        selector = function (item)
+        {
             return item;
         }
     }
     var sum = 0;
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < this.length; i++)
+    {
         sum += parseFloat(selector(this[i]));
     }
     return sum;

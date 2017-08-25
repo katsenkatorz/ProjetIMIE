@@ -54,11 +54,36 @@ class Job
      */
     private $updatedAt;
 
+    /**
+     * @var ArrayCollection
+     */
     private $jobTemperaments;
+
+    /**
+     * @var integer
+     */
+    private $deliveredByQuizz;
 
     public function __construct()
     {
         $this->jobTemperaments = new ArrayCollection();
+        $this->deliveredByQuizz = 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveredByQuizz()
+    {
+        return $this->deliveredByQuizz;
+    }
+
+    /**
+     * @param int $deliveredByQuizz
+     **/
+    public function setDeliveredByQuizz($deliveredByQuizz)
+    {
+        $this->deliveredByQuizz = $deliveredByQuizz;
     }
 
     /**
