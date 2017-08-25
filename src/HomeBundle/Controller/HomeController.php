@@ -162,6 +162,7 @@ class HomeController extends Controller
      */
     public function mentionsLegalesAction()
     {
+        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $mentionsLegales = $ParamRepo->getParameterById(4);
