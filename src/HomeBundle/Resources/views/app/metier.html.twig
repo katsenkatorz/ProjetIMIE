@@ -1,6 +1,6 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
-{% block title %} Résultat {% endblock %}
+{% block title %} {{ job.name }} {% endblock %}
 
 {% block header %}
     {% include 'HomeBundle:layout:header.html.twig' %}
@@ -26,8 +26,8 @@
                             </div>
                             <div class="col-md-5">
                                 {% if job.image is not null %}
-                                    <a href="#" class="thumbnail">
-                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                    <a href="#" class="thumbnail pull-left">
+                                        <img style="margin-top: 50px" class="imgJob image-responsive"
                                              src="{{ asset(job.image.pathname) }}" alt="...">
                                     </a>
                                 {% endif %}
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-12">
                                 {% if job.image is not null %}
-                                    <a href="#" class="thumbnail">
+                                    <a href="#" class="thumbnail pull-left">
                                         <img style="margin-top: 30px" class="imgJob image-responsive"
                                              src="{{ asset(job.image.pathname) }}" alt="...">
                                     </a>
@@ -99,12 +99,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        {# img job #}
-                        {% if job.image is not null %}
-                            <a href="#" class="thumbnail">
-                                <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
-                            </a>
-                        {% endif %}
+
                     </div>
                 </div>
             </div>
