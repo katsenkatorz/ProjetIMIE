@@ -152,7 +152,7 @@ function genJobChart()
         else
         {
             var divJob = document.getElementById("jobPanelBody");
-            divJob.innerHTML = "Il n'y a pas eu pour l'instant de quizz completer";
+            divJob.innerHTML = "Pour le moment aucun quizz n'a été complété.";
         }
 
 
