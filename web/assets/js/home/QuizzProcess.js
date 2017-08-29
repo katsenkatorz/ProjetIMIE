@@ -1,20 +1,28 @@
 $(document).ready(function ()
 {
-    deleteCookieOnQuizz();
+
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-    // On initialise le test
-    getQuestionSetIntoLocalStorage(function ()
+    try
     {
-        genQuizz(getCookie("lastQuestionToStart"), function ()
+        // On initialise le test
+        getQuestionSetIntoLocalStorage(function ()
         {
-            getImageValue();
-            handleProgressBar();
-            genImg();
-            pT = new PageTransionner();
+            genQuizz(getCookie("lastQuestionToStart"), function ()
+            {
+                getImageValue();
+                handleProgressBar();
+                genImg();
+                pT = new PageTransionner();
+            });
         });
-    });
+    }
+    catch (e)
+    {
+        // En cas d'erreur, on reset le quizz
+        resetQuizz();
+    }
 
     /**
      *  Génère le quizz sur la page au premier chargement
@@ -115,7 +123,7 @@ $(document).ready(function ()
         ptPage.className = "pt-page hidden";
         ptPage.id = "first-pt-page";
 
-        if(isSecond)
+        if (isSecond)
             ptPage.id = "second-pt-page";
 
 
@@ -275,7 +283,7 @@ $(document).ready(function ()
                 var responseLength = questionSet.responses.length;
 
                 // Si la question en cours est paire
-                if(number%2 === 0)
+                if (number % 2 === 0)
                 {
                     // Traitement spécial en fonction du nombre de réponses pour l'affichage
                     switch (responseLength)
@@ -299,7 +307,7 @@ $(document).ready(function ()
                 }
 
                 // Si la question en cours est impaire
-                if(number%2 !== 0)
+                if (number % 2 !== 0)
                 {
                     // Traitement spécial en fonction du nombre de réponses pour l'affichage
                     switch (responseLength)
@@ -388,6 +396,7 @@ $(document).ready(function ()
                         i++;
                     });
                 }
+
                 callback();
             }
         }
@@ -439,9 +448,9 @@ $(document).ready(function ()
         var perso = document.querySelector('#perso');
 
         // On remplis le tableau avec les images du personnage du site
-        for(var i = 2; i < 9; i++)
+        for (var i = 2; i < 9; i++)
         {
-            imgs.push('perso_pose'+i);
+            imgs.push('perso_pose' + i);
         }
 
         // On récupère une image aléatoire
@@ -556,28 +565,24 @@ function deleteAllCookies()
     }
 }
 
-// Fonction permettant de vider le cache (cookies + localStorage) depuis un bouton et pendant un test
-function deleteCookieOnQuizz()
+// Reset du quizz
+function resetQuizz()
 {
-    $('.resetButton').unbind('click').bind('click', function () {
+    // On clear le localstorage
+    localStorage.clear();
 
-        // On clear le localstorage
-        localStorage.clear();
+    // On clear les cookies
+    deleteAllCookies();
 
-        // On clear les cookies
-        deleteAllCookies();
-
-        //On recharge la page
-        location.reload();
-
-    });
+    //On recharge la page
+    location.reload();
 }
 
 /************** Fonction servant à la redirection avec envois de données **************/
 function redirect(redirectUrl, arg, value)
 {
     var form = $('<form action="' + redirectUrl + '" method="post">' +
-        '<input type="hidden" name="'+ arg +'" value="' + value + '"></input>' + '</form>');
+        '<input type="hidden" name="' + arg + '" value="' + value + '"></input>' + '</form>');
     $('body').append(form);
     $(form).submit();
 }
