@@ -29,6 +29,14 @@ body {
     overflow: auto;
 }
 
+#accordion {
+    overflow: visible;
+}
+
+.in {
+   margin-bottom: 50px;
+}
+
 /*------- TEMPERAMENT / METIERS -------*/
 
 #user-nav > ul > li > a {
