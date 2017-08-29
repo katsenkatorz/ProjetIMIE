@@ -1,6 +1,6 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
-{% block title %} Résultat {% endblock %}
+{% block title %} {{ job.name }} {% endblock %}
 
 {% block header %}
     {% include 'HomeBundle:layout:header.html.twig' %}
@@ -22,12 +22,12 @@
                             <div class="col-md-7">
                                 <img src="{{ asset('assets/img/persoResponse/perso_pose1.png') }}" alt="" width="250px"
                                      height="280px">
-                                <h2>Tu es {{ job.name }} !</h2>
+                                <h2>Tu es {{ job.name }} à 90% !</h2>
                             </div>
                             <div class="col-md-5">
                                 {% if job.image is not null %}
-                                    <a href="#" class="thumbnail">
-                                        <img style="margin-top: 30px" class="imgJob image-responsive"
+                                    <a href="#" class="thumbnail pull-left">
+                                        <img style="margin-top: 50px" class="imgJob image-responsive"
                                              src="{{ asset(job.image.pathname) }}" alt="...">
                                     </a>
                                 {% endif %}
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-12">
                                 {% if job.image is not null %}
-                                    <a href="#" class="thumbnail">
+                                    <a href="#" class="thumbnail pull-left">
                                         <img style="margin-top: 30px" class="imgJob image-responsive"
                                              src="{{ asset(job.image.pathname) }}" alt="...">
                                     </a>
@@ -99,12 +99,30 @@
                         </div>
                     </div>
                     <div class="row">
-                        {# img job #}
-                        {% if job.image is not null %}
-                            <a href="#" class="thumbnail">
-                                <img class="imgJob image-responsive" src="{{ asset(job.image.pathname) }}" alt="...">
-                            </a>
-                        {% endif %}
+                        <div class="col-md-12">
+                            <p>Vous êtes également compatible avec les métiers suivants :</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6">
+                            <div class="thumbnail">
+                                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null and job.image) %}
+                                    <div style="border-color: {{ primary.value }}" class="thumbProp">
+                                        <img class="img-responsive imgProp" src="{{ asset(job.image.pathname) }}" alt="">
+                                        <div class="percentage" style="color: {{ text.value }}">
+
+                                            <span class="poucentageSpan"> 89%</span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div style="border-color: #ea3d4f" class="thumbProp">
+                                        <img class="img-responsive imgProp" src="{{ asset(job.image.pathname) }}" alt="">
+                                        <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleProp">{{ job.name }}</h3>
+                                    </div>
+                                {% endif %}
+                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}" class="subtitleProp">{{ job.name }}</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

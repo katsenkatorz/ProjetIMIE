@@ -31,14 +31,14 @@ h1, h2 {
     background-color: #3fbfef;
 }
 
-.imgContent{
+.imgContent {
     box-shadow: 0 0 5px transparent;
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 5px solid transparent;
 }
 
-.imageBorder{
+.imageBorder {
     box-shadow: 0 0 5px #3fbfef;
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
@@ -46,7 +46,7 @@ h1, h2 {
 }
 
 .imgContent:hover {
-     border-color: #000 !important;
+    border-color: #000 !important;
 }
 
 .progress {
@@ -134,7 +134,12 @@ h1, h2 {
     z-index: -1;
 }
 
-@media screen and (max-width: 770px){
+.resetButton {
+    margin-left: 40%;
+    border-radius: 0;
+}
+
+@media screen and (max-width: 770px) {
     .question {
         width: 100%;
         border: 1px black;

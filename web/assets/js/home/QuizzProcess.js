@@ -1,5 +1,6 @@
 $(document).ready(function ()
 {
+    deleteCookieOnQuizz();
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
@@ -552,6 +553,23 @@ function deleteAllCookies()
     }
 }
 
+// Fonction permettant de vider le cache (cookies + localStorage) depuis un bouton et pendant un test
+function deleteCookieOnQuizz()
+{
+    $('.resetButton').unbind('click').bind('click', function () {
+
+        // On clear le localstorage
+        localStorage.clear();
+
+        // On clear les cookies
+        deleteAllCookies();
+
+        //On recharge la page
+        location.reload();
+
+    });
+}
+
 /************** Fonction servant à la redirection avec envois de données **************/
 function redirect(redirectUrl, arg, value)
 {
@@ -560,3 +578,4 @@ function redirect(redirectUrl, arg, value)
     $('body').append(form);
     $(form).submit();
 }
+
