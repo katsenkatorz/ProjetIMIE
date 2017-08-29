@@ -127,8 +127,9 @@
                                                 <img class="img-responsive imgProp"
                                                      src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
                                                      alt="">
-                                                <h3 style="background-color: #ea3d4f; color: #ffffff"
-                                                    class="subtitleProp">{{ result.percentage }}%</h3>
+                                                <div class="percentage" style="color: #ffffff">
+                                                    <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                </div>
                                             </div>
                                             <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleProp">
                                                 <a href="{{ path('home_metier', { bool: "0", jobId: result.jobId }) }}">{{ result.jobName }}</a>
