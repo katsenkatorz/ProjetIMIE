@@ -55,6 +55,27 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
         return $this->findBy(['name' => $name]);
     }
 
+    public function getValidJobs()
+    {
+        $array = [];
+        $jobs = $this->getJobs();
+
+        foreach ($jobs as $job)
+        {
+            $valid = true;
+            foreach($job->getJobTemperaments() as $jobTemperament)
+            {
+                if($jobTemperament->getValue() == 0)
+                    $valid = false;
+            }
+
+            if($valid)
+                $array[] = $job;
+        }
+
+        return $array;
+    }
+
     /**
      * Créer un nouveau job et le renvois
      * Créer aussi les jobs Temperament pour le job avec une valeur par default a 50

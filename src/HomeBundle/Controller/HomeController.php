@@ -102,14 +102,17 @@ class HomeController extends Controller
      */
     public function resolutionAction(Request $request)
     {
+        $jobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
         $QuizzResolver = $this->get('QuizzResolver');
 
         $QuizzResolver->setResultats($request->get('responses'));
 
-        $selectedJobId = $QuizzResolver->resolve();
+        $results = $QuizzResolver->resultHandler($QuizzResolver->resolve());
+
+        $selectedJobId = $results[0]["jobId"];
 
         // Incrémentation du métiers pour le suivie du quizz
-        $this->getDoctrine()->getRepository("AdminBundle:Job")->incrementDeliveredByQuizzWithJobId($selectedJobId);
+        $jobRepository->incrementDeliveredByQuizzWithJobId($selectedJobId);
 
         // Récupération de l'id du visiteur
         $visitorId = $this->container->get('session')->get('client-id');
@@ -117,7 +120,29 @@ class HomeController extends Controller
         // Sauvegarde de l'information que l'utilisateur à finis le test
         $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setQuizzCompletion($visitorId, true);
 
-        return $this->json(['href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId, 'bool' => 1])]);
+
+
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
+        $selectedJob = $jobRepository->getJobById($selectedJobId);
+        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($selectedJobId);
+        $bool = true;
+
+
+
+        return $this->json($this->renderView("HomeBundle:app:metier.html.twig", [
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
+            "job" => $selectedJob,
+            "jobPersonnalities" => $jobPersonnalities,
+            'bool' => $bool,
+            "quizzResult" => $results
+        ]));
+
+        //        return $this->json([
+//            'href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId, 'bool' => 1]),
+//            'quizzResults' => $results
+//        ]);
     }
 
     /**

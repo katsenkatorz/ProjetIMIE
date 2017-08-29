@@ -59,7 +59,7 @@ class QuizzResolver{
     public function resolve()
     {
         $jobTemperamentRepo = $this->em->getRepository("AdminBundle:JobTemperament");
-        $jobs = $this->em->getRepository("AdminBundle:Job")->getJobs();
+        $jobs = $this->em->getRepository("AdminBundle:Job")->getValidJobs();
         $array = [];
 
         // Pour chaque job
@@ -73,29 +73,75 @@ class QuizzResolver{
             // On prépare un tableau pour chaque métier
             $array[$jobId] = [];
 
+            // Pour stocker les pourcentages d'écart de chaque temperament
+            $deltaValue = [];
+            // L'écart maximum possible
+            $maxDelta = 200;
+
             foreach($jobTemperaments as $jobTemperament)
             {
                 // Pour chaque résultat
                 foreach($this->orderResult() as $resultat)
                 {
-                    // Pour chaque temperament, on ajoute l'écart entre la valeur métier et la valeur moyenne des réponses
+                    // Pour chaque temperament
                     if($jobTemperament->getTemperament()->getId() == $resultat->getTemperamentId())
-                        array_push($array[$jobId], abs($jobTemperament->getValue() - $resultat->getValueAverage()));
+                    {
+                        // On récupère la valeur du temperament metier
+                        $valeurTemperamentMetier = $jobTemperament->getValue();
+
+                        // On récupère la valeur du quizz
+                        $valeurQuizz = $resultat->getValueAverage();
+
+                        // On calcule l'écart entre les deux valeurs
+                        $delta = abs($valeurQuizz - $valeurTemperamentMetier);
+
+                        // On en déduit le pourcentage d'ecart
+                        $deltaValue[] = ($delta * 100) / $maxDelta;
+                    }
                 }
             }
 
-            // On fait la somme des écarts
-            $array[$jobId] = array_sum($array[$jobId]);
+            // On fait la moyenne de tout les pourcentages d'ecart
+            $moyenneDeltaValue = (array_sum($deltaValue) / count($deltaValue));
+
+
+            // On récupère le taux de match à partir du taux d'ecart
+            $array[$jobId] = round(100 - $moyenneDeltaValue);
         }
 
-        // On trie le tableau pour avoir en premier le métier qui possède la somme des écarts la plus faible
-        asort($array);
+        // On trie le tableau pour avoir en premier le métier qui possède le taux de match le plus elever
+        arsort($array);
 
         // On récupère le premier élément du tableau
-        $array = array_slice($array, 0, 1, true);
+        $array = array_slice($array, 0, 3, true);
 
-        // On renvois la clés qui contient l'id du métier
-        return array_keys($array)[0];
+        // On renvois le tableau qui contient les id des trois métiers qui ont le plus fort taux de match
+        return $array;
+    }
+
+    public function resultHandler($array)
+    {
+        $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
+
+        $return = [];
+
+        for($i = 0; $i < count($array); $i++)
+        {
+            $jobId = array_keys($array)[$i];
+
+            $percentageValue = $array[$jobId];
+
+            $job = $jobRepository->getJobById($jobId);
+
+            $return[] = [
+                "jobId" => $job->getId(),
+                "jobName" => $job->getName(),
+                "imageName" => $job->getImageName(),
+                "percentage" => $percentageValue
+            ];
+        }
+
+        return $return;
     }
 
     /**

@@ -415,7 +415,12 @@ $(document).ready(function ()
                 deleteAllCookies();
 
                 // On redirige vers la page de résultat
-                location.href = result.href;
+                // location.href = result.href;
+
+                var body = $('body');
+
+                body.html("");
+                body.html(result);
             })
         }
     }
@@ -547,4 +552,11 @@ function deleteAllCookies()
     }
 }
 
-
+/************** Fonction servant à la redirection avec envois de données **************/
+function redirect(redirectUrl, arg, value)
+{
+    var form = $('<form action="' + redirectUrl + '" method="post">' +
+        '<input type="hidden" name="'+ arg +'" value="' + value + '"></input>' + '</form>');
+    $('body').append(form);
+    $(form).submit();
+}
