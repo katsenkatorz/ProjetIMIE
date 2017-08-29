@@ -395,6 +395,8 @@ $(document).ready(function ()
         {
             // On initialise un tableau de réponses
             var responses = [];
+            // On récupère le body
+            var body = $('body');
 
             // On remplis le tableau
             for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
@@ -406,7 +408,12 @@ $(document).ready(function ()
             $.ajax({
                 url: href,
                 type: "POST",
-                data: {"responses": responses}
+                data: {"responses": responses},
+                beforeSend: function ()
+                {
+                    body.html('<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>\n' +
+                        '<span class="sr-only">Loading...</span>');
+                }
             }).done(function (result)
             {
                 // On clear le localstorage
@@ -415,11 +422,7 @@ $(document).ready(function ()
                 // On clear les cookies
                 deleteAllCookies();
 
-                // On redirige vers la page de résultat
-                // location.href = result.href;
-
-                var body = $('body');
-
+                // On charge la page de résultat
                 body.html("");
                 body.html(result);
             })
