@@ -1,5 +1,6 @@
 $(document).ready(function ()
 {
+    deleteCookieOnQuizz();
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
@@ -546,5 +547,22 @@ function deleteAllCookies()
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 }
+
+// Fonction permettant de vider le cache (cookies + localStorage) depuis un bouton et pendant un test
+function deleteCookieOnQuizz() {
+    $('.resetButton').unbind('click').bind('click', function () {
+
+        // On clear le localstorage
+        localStorage.clear();
+
+        // On clear les cookies
+        deleteAllCookies();
+
+        //On recharge la page
+        location.reload();
+
+    });
+}
+
 
 
