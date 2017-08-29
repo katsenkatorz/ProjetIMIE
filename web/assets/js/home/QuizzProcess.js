@@ -1,20 +1,29 @@
 $(document).ready(function ()
 {
-    deleteCookieOnQuizz();
+
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-    // On initialise le test
-    getQuestionSetIntoLocalStorage(function ()
+    try
     {
-        genQuizz(getCookie("lastQuestionToStart"), function ()
+        // On initialise le test
+        getQuestionSetIntoLocalStorage(function ()
         {
-            getImageValue();
-            handleProgressBar();
-            genImg();
-            pT = new PageTransionner();
+            genQuizz(getCookie("lastQuestionToStart"), function ()
+            {
+                    getImageValue();
+                    handleProgressBar();
+                    genImg();
+                    pT = new PageTransionner();
+            });
         });
-    });
+    }
+    catch (e)
+    {
+        // On initialise la fonction permettant de vider le cache (cookies + localStorage)
+        resetQuizz();
+    }
+
 
     /**
      *  Génère le quizz sur la page au premier chargement
@@ -549,8 +558,7 @@ function deleteAllCookies()
 }
 
 // Fonction permettant de vider le cache (cookies + localStorage) depuis un bouton et pendant un test
-function deleteCookieOnQuizz() {
-    $('.resetButton').unbind('click').bind('click', function () {
+function resetQuizz() {
 
         // On clear le localstorage
         localStorage.clear();
@@ -561,7 +569,6 @@ function deleteCookieOnQuizz() {
         //On recharge la page
         location.reload();
 
-    });
 }
 
 
