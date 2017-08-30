@@ -105,8 +105,8 @@ function loadRangeInput(inputRange)
         var valueBlockRight = $('#valueTempResponse');
         var valueBlockLeft = $("#valueOpposedTempResponse");
 
-        valueBlockRight.html(value);
-        valueBlockLeft.html(-value);
+        valueBlockRight.html(-value);
+        valueBlockLeft.html(value);
     }
 
     $(inputRange).each(function ()
