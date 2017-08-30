@@ -405,7 +405,8 @@ $(document).ready(function ()
             // On initialise un tableau de réponses
             var responses = [];
             // On récupère le body
-            var body = $('body');
+            var container = $('.container');
+            var body = $('#my-body');
 
             // On remplis le tableau
             for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
@@ -420,21 +421,35 @@ $(document).ready(function ()
                 data: {"responses": responses},
                 beforeSend: function ()
                 {
-                    body.html('<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>\n' +
-                        '<span class="sr-only">Loading...</span>');
+                    $('#modalLoading').modal('show');
                 }
             }).done(function (result)
             {
-                // On clear le localstorage
-                localStorage.clear();
+                setTimeout(function ()
+                {
+                    // On clear le localstorage
+                    localStorage.clear();
 
-                // On clear les cookies
-                deleteAllCookies();
+                    // On clear les cookies
+                    deleteAllCookies();
 
-                // On charge la page de résultat
-                body.html("");
-                body.html(result);
-            })
+                    // On charge la page de résultat
+                    body.hide().html('').fadeOut('slow');
+                    body.html(result.page).fadeIn('slow');
+
+                    // Changement de l'url
+                    window.history.pushState("", "", result.href);
+
+                    // Permet de compenser la disparition de la barre de scroll
+                    $('html').css("overflow", "auto");
+
+                    // Fermeture du modal
+                    $('#modalLoading').hide();
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+
+                }, 1000)
+            }).fail(function () {})
         }
     }
 

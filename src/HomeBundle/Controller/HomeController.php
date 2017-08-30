@@ -120,29 +120,21 @@ class HomeController extends Controller
         // Sauvegarde de l'information que l'utilisateur à finis le test
         $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setQuizzCompletion($visitorId, true);
 
-
-
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
         $selectedJob = $jobRepository->getJobById($selectedJobId);
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($selectedJobId);
-        $bool = true;
 
-
-
-        return $this->json($this->renderView("HomeBundle:app:metier.html.twig", [
-            "primary" => $colors['primary'],
-            "secondary" => $colors['secondary'],
-            "text" => $colors['text'],
-            "job" => $selectedJob,
-            "jobPersonnalities" => $jobPersonnalities,
-            'bool' => $bool,
-            "quizzResult" => $results
-        ]));
-
-        //        return $this->json([
-//            'href' => $this->generateUrl("home_metier", ['jobId' => $selectedJobId, 'bool' => 1]),
-//            'quizzResults' => $results
-//        ]);
+        return $this->json([
+            "page" => $this->renderView("HomeBundle:app:metier.html.twig", [
+                "primary" => $colors['primary'],
+                "secondary" => $colors['secondary'],
+                "text" => $colors['text'],
+                "job" => $selectedJob,
+                "jobPersonnalities" => $jobPersonnalities,
+                "quizzResult" => $results
+            ]),
+            "href" => $this->generateUrl("home_metier", ["jobId" => $selectedJobId])
+        ]);
     }
 
     /**
@@ -153,7 +145,6 @@ class HomeController extends Controller
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $jobId = $request->attributes->get('jobId');
-        $bool = $request->attributes->get('bool');
 
         $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
@@ -163,8 +154,7 @@ class HomeController extends Controller
             "secondary" => $colors['secondary'],
             "text" => $colors['text'],
             "job" => $job,
-            "jobPersonnalities" => $jobPersonnalities,
-            'bool' => $bool
+            "jobPersonnalities" => $jobPersonnalities
         ]);
     }
 

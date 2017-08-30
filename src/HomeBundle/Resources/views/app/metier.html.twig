@@ -17,7 +17,7 @@
         <div class="container content">
             <div class="row">
                 <div class="col-md-8">
-                    {% if bool != 0 and quizzResult[0] is defined %}
+                    {% if quizzResult[0] is defined %}
                         <div class="row">
                             <div class="col-md-7">
                                 <img src="{{ asset('assets/img/persoResponse/perso_pose1.png') }}" alt="" width="250px"
@@ -38,7 +38,7 @@
                                 {{ job.description|raw }}
                                 <div
                                         class="fb-share-button"
-                                        data-href="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}"
+                                        data-href="{{ path('home_metier', {jobId: job.id} ) }}"
                                         data-layout="button"
                                         data-size="large"
                                         data-mobile-iframe="true">
@@ -120,7 +120,7 @@
                                             <h3 style="background-color: {{ primary.value }};"
                                                 class="subtitleProp">
                                                 <a style="color: {{ text.value }}"
-                                                   href="{{ path('home_metier', { bool: "0", jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                   href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
                                             </h3>
                                         {% else %}
                                             <div style="border-color: #ea3d4f" class="thumbProp">
@@ -132,7 +132,7 @@
                                                 </div>
                                             </div>
                                             <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleProp">
-                                                <a href="{{ path('home_metier', { bool: "0", jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
                                             </h3>
                                         {% endif %}
                                     </div>

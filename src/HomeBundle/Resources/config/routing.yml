@@ -19,13 +19,11 @@ home_quizz_resolution:
         _controller: HomeBundle:Home:resolution
 
 home_metier:
-    path:     /metier/{jobId}/{bool}
+    path:     /metier/{jobId}
     defaults:
         _controller: HomeBundle:Home:metier
-        bool: 0
     requirements:
         jobId: \d+
-        bool: \d
 
 home_cookies:
     path:     /cookies
