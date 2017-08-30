@@ -1,46 +1,45 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-sm-12">
+            <span>Salaire minimum: </span>
+            <p>{{ job.minSalary }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span>Salaire maximum: </span>
+            <p>{{ job.maxSalary }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span>Description du poste: </span>
+            <p>{{ job.description|raw }}</p>
+            {% if job.image is not null %}
+                <span>Image métier</span><br>
+                <img src="{{ asset(job.image.pathname) }}" alt="" width="{{ imageParam.width }}px"
+                     height="{{ imageParam.height }}px">
+            {% else %}
+                <p>Pas d'image</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for jobPersonnality in jobPersonnalities %}
             <div>
-                <ul>
-                    <li>
-                        <span>Salaire minimum: </span>
-                        <p>{{ job.minSalary }}</p>
-                    </li>
-                    <li>
-                        <span>Salaire maximum: </span>
-                        <p>{{ job.maxSalary }}</p>
-                    </li>
-                    <li>
-                        <span>Description du poste: </span>
-                        <p>{{ job.description|raw }}</p>
-                    </li>
-                    <li>
-                        {% if job.image is not null %}
-                            <span>Image métier</span><br>
-                            <img src="{{ asset(job.image.pathname) }}" alt="" width="{{ imageParam.width }}px" height="{{ imageParam.height }}px">
-                        {% else %}
-                            <p>Pas d'image</p>
-                        {% endif %}
-                    </li>
-                </ul>
+                {{ form_start(forms[jobPersonnality["name"]]) }}
+                <h3>{{ jobPersonnality["name"] }}</h3>
+                <p>{{ jobPersonnality["temperament"] }}</p>
+                <p class="valueBlockLeft"></p>
+                <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
+                <p class="opposedTemperament">{{ jobPersonnality["opposedTemperament"] }}</p>
+                {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control rangeInput' } }) }}
+                {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
+                {{ form_widget(forms[jobPersonnality["name"]].temperament, {'attr': {"value": jobPersonnality["temperamentId"], 'class': 'form-control'} }) }}
+                {{ form_end(forms[jobPersonnality["name"]]) }}
             </div>
-            <div>
-                {% for jobPersonnality in jobPersonnalities %}
-                    <div>
-                        {{ form_start(forms[jobPersonnality["name"]]) }}
-                        <h3>{{ jobPersonnality["name"] }}</h3>
-                        <p>{{ jobPersonnality["temperament"] }}</p>
-                        <p class="valueBlockLeft"></p>
-                        <p class="valueBlockRight pull-right" style="margin-left: 5px"></p>
-                        <p class="opposedTemperament">{{ jobPersonnality["opposedTemperament"] }}</p>
-                        {{ form_widget(forms[jobPersonnality["name"]].value, { 'attr': { "value": jobPersonnality["value"], 'class': 'form-control rangeInput' } }) }}
-                        {{ form_widget(forms[jobPersonnality["name"]].job, { 'attr': { "value": job.id, 'class': 'form-control' } }) }}
-                        {{ form_widget(forms[jobPersonnality["name"]].temperament, {'attr': {"value": jobPersonnality["temperamentId"], 'class': 'form-control'} }) }}
-                        {{ form_end(forms[jobPersonnality["name"]]) }}
-                    </div>
-                {% endfor %}
-            </div>
+        {% endfor %}
         </div>
     </div>
 </div>

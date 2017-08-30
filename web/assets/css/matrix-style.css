@@ -1029,7 +1029,6 @@ div.dataTables_wrapper .ui-widget-header {
 	font-size: 10px;
 	padding: 5px 10px 2px;
 	border-bottom: 0;
-	text-align: center;
 	color: #666666;
 }
 .table.with-check tr th:first-child, .table.with-check tr td:first-child {

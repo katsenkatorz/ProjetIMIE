@@ -29,6 +29,14 @@ body {
     overflow: auto;
 }
 
+#accordion {
+    overflow: visible;
+}
+
+.in {
+   margin-bottom: 50px;
+}
+
 /*------- TEMPERAMENT / METIERS -------*/
 
 #user-nav > ul > li > a {
@@ -45,8 +53,17 @@ body {
 .temperament{
     float: left;
 }
+
+#temperamentResponse {
+    margin: 0;
+}
+
 .opposedTemperament {
     float: right;
+}
+
+#opposedTemperamentResponse {
+    margin: 0;
 }
 
 /* PANEL  */
@@ -92,7 +109,7 @@ body {
 
 input[type="range"] {
     position: relative;
-    margin-left: 1em;
+    /*margin-left: 1em;*/
 }
 input[type="range"]:after,
 input[type="range"]:before {

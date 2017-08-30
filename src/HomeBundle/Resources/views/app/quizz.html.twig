@@ -6,12 +6,13 @@
     {{ parent() }}
     {#<script src='https://www.google.com/recaptcha/api.js'></script>#}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
-    {% block stylesheets %}
-        {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
-    {% endblock %}
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
+{% endblock stylesheets %}
 
 {% block header %}
 
