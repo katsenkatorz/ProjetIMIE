@@ -8,16 +8,11 @@
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
 {% endblock %}
 
-{% block header %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-              crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
-    {% endblock %}
-{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
+{% endblock stylesheets %}
 
 {% block content %}
     {% block _HomeBundle %}

@@ -193,9 +193,9 @@ $(document).ready(function ()
 
         // On récupère le numeros de la question en cours
         var questionNumber = parseInt(getCookie("lastQuestionToStart")) + 1;
-
+        
         // On set la width
-        var newWidth = (questionNumber * 100) / getCookie("NumberOfQuestion");
+        var newWidth = ((questionNumber -1) * 100) / getCookie("NumberOfQuestion");
 
         // On ajoute tout au html
         progressBar.attr('aria-valuemax', getCookie("NumberOfQuestion"));
