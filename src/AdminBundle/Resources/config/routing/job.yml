@@ -4,6 +4,12 @@ admin_job_home:
         _controller: AdminBundle:JobTemperament:jobs
         method: [GET, POST]
 
+admin_postJob:
+    path:     /post
+    defaults:
+        _controller: AdminBundle:JobTemperament:postJob
+        method: POST
+
 admin_job:
     path:     /{idJob}
     defaults:
