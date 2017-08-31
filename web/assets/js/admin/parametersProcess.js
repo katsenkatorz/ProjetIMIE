@@ -6,7 +6,7 @@ $(document).ready(function () {
         var label = $(this).attr("data-label");
 
         $.ajax({
-            url: "/admin/parameter/put/"+parameterId,
+            url: "/tdb-admin/parameter/put/"+parameterId,
             method: "PUT",
             data: {
                 label: label,
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
                     // On envoie la requête ajax
                     $.ajax({
-                        url: "/admin/parameter/putValue/"+imageInput.data('id'),
+                        url: "/tdb-admin/parameter/putValue/"+imageInput.data('id'),
                         method: "PUT",
                         data: {
                             "value": array

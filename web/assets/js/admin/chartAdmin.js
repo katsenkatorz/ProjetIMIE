@@ -57,7 +57,7 @@ $(document).ready(function ()
     $('#confirmReset').unbind('click').bind('click', function ()
     {
         $.ajax({
-            url: "/admin/deliveredJob/reset",
+            url: "/tdb-admin/deliveredJob/reset",
             method: "POST"
         }).done(function ()
         {
@@ -106,7 +106,7 @@ function modifySize(targets, callback)
 function genJobChart()
 {
     $.ajax({
-        url: "/admin/deliveredJob",
+        url: "/tdb-admin/deliveredJob",
         method: "GET"
     }).done(function (data)
     {
@@ -167,7 +167,7 @@ function genJobChart()
 function genVisitorByYear(year)
 {
     $.ajax({
-        url: "/admin/visitors/" + year,
+        url: "/tdb-admin/visitors/" + year,
         method: "GET"
     }).done(function (data)
     {
@@ -261,14 +261,14 @@ function genAchieveAndUnAchieveTest(year)
     var max;
 
     $.ajax({
-        url: '/admin/visitors/quizz/' + year + '/1',
+        url: '/tdb-admin/visitors/quizz/' + year + '/1',
         method: 'GET'
     }).done(function (data)
     {
         var achieveData = orderValueToMonth(data.value);
 
         $.ajax({
-            url: '/admin/visitors/quizz/' + year + '/0',
+            url: '/tdb-admin/visitors/quizz/' + year + '/0',
             method: 'GET'
         }).done(function (data)
         {
@@ -346,7 +346,7 @@ function genUnstartedTest(year)
 {
 
     $.ajax({
-        url: '/admin/visitors/quizz/' + year + '/2',
+        url: '/tdb-admin/visitors/quizz/' + year + '/2',
         method: 'GET'
     }).done(function (data)
     {
@@ -403,7 +403,7 @@ function genUnstartedTest(year)
 function genVisitorByBrowser(browser)
 {
     $.ajax({
-        url: "/admin/browser",
+        url: "/tdb-admin/browser",
         method: "GET"
     }).done(function (data)
     {

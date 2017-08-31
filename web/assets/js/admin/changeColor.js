@@ -12,7 +12,7 @@ $(document).ready(function () {
             var value = modifyInput.val();
 
             $.ajax({
-                url: "/admin/parameter/putColor",
+                url: "/tdb-admin/parameter/putColor",
                 method: "PUT",
                 data: {
                     id: id,
