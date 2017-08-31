@@ -15,10 +15,9 @@ class JobTemperamentController extends Controller
     /**
      * Affiche la page de gestion des jobs
      *
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function jobsAction(Request $request)
+    public function jobsAction()
     {
         // Récupération des répository et manager
         $JobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
@@ -28,22 +27,6 @@ class JobTemperamentController extends Controller
 
         // Création du formulaire pour créer un job
         $formJob = $this->createForm(JobType::class);
-
-        // Récupération de la requête de création de job
-        $formJob->handleRequest($request);
-
-        // Traitement pour la création de job
-        if ($formJob->isSubmitted() && $formJob->isValid())
-        {
-            $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageJob/';
-
-            $imageInfo = [
-                'image' => $request->get('croppedImage'),
-                'pathToImage' => $pathToImage
-            ];
-
-            $JobRepository->postJob($formJob, $imageInfo);
-        }
 
         // Récupération des jobs
         $jobs = $JobRepository->getJobs();
@@ -222,7 +205,7 @@ class JobTemperamentController extends Controller
             $job = $JobRepo->putJob($idJob, $form, $imageInfo);
 
             return $this->json([
-                'message'=> "La modification du métier c'est bien effectué",
+                'message'=> "La modification du métier s'est bien effectué",
                 "job" => [
                     'name' => $job->getName(),
                     'description' => $job->getDescription(),
@@ -233,5 +216,38 @@ class JobTemperamentController extends Controller
         }
 
         return $this->json(['message'=> "Il y a eu une erreur lors de la modification du métier"]);
+    }
+
+    /**
+     * Gère l'ajout de nouveau job
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function postJobAction(Request $request)
+    {
+        $JobRepo = $this->getDoctrine()->getRepository("AdminBundle:Job");
+
+        $form = $this->createForm(JobType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isValid() && $form->isSubmitted())
+        {
+            $pathToImage = $this->get('kernel')->getRootDir().'/../web/assets/img/imageJob/';
+
+            $imageInfo = [
+                'image' => $request->get('croppedImage'),
+                'pathToImage' => $pathToImage
+            ];
+
+            $JobRepo->postJob($form, $imageInfo);
+
+            return $this->json([
+                'message'=> "La création du métier s'est bien effectué",
+            ]);
+        }
+
+        return $this->json(['message'=> "Il y a eu une erreur lors de la création du métier"]);
     }
 }

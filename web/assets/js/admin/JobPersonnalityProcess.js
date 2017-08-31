@@ -134,9 +134,10 @@ function createUploadCrop(selector)
     });
 }
 
+var $uploadCrop;
+
 $(document).ready(function ()
 {
-
     var JobPanel = $("a.getJobPersonnalityView");
     var modalJob = $('#modalJob');
 
@@ -176,6 +177,8 @@ $(document).ready(function ()
             // Requete ajax
             $('#formJob').unbind('submit').bind('submit', function (e)
             {
+                e.preventDefault();
+
                 var that = this;
 
                 $uploadCrop.croppie('result', {
@@ -198,24 +201,26 @@ $(document).ready(function ()
                         {
                             $('#loadingmessage').show();
                         }
-                    }).done(function () {})
-                        .fail(function (error)
+                    }).done(function ()
+                    {
+                        clearInput(fileInput, $uploadCrop);
+                        location.reload();
+                    }).fail(function (error)
+                    {
+                        clearInput(fileInput, $uploadCrop);
+                        // Affichage du message d'erreur
+                        $("#responseMessageContent")
+                            .fadeIn(250)
+                            .removeClass('hidden');
+                        $("#responseMessage").html(error.message);
+                        setTimeout(function ()
                         {
-                            clearInput(fileInput, $uploadCrop);
-                            // Affichage du message d'erreur
-                            $("#responseMessageContent")
-                                .fadeIn(250)
-                                .removeClass('hidden');
-                            $("#responseMessage").html(error.message);
-                            setTimeout(function ()
-                            {
-                                $("#responseMessageContent").fadeOut(250);
-                            }, 5000);
-                        })
-                        .always(function ()
-                        {
-                            $('#loadingmessage').hide();
-                        });
+                            $("#responseMessageContent").fadeOut(250);
+                        }, 5000);
+                    }).always(function ()
+                    {
+                        $('#loadingmessage').hide();
+                    });
                 });
             });
         }
@@ -232,6 +237,7 @@ $(document).ready(function ()
             var maxSalary = button.data('max-salary');
             var description = button.data('description');
             var name = button.data('name');
+
             // Assignation des valeurs aux inputs
             nameInput.val(name);
 
@@ -253,7 +259,6 @@ $(document).ready(function ()
                     size: 'viewport'
                 }).then(function (resp)
                 {
-                    console.log(resp);
                     $('#dataCroppedImage').val(resp);
                     var formData = new FormData($(that)[0]);
 
@@ -271,6 +276,7 @@ $(document).ready(function ()
                         }
                     }).done(function (result)
                     {
+                        console.log("put-ok");
                         // Chargement de la vu partielle
                         loadPartielView(jobId, resultContent);
 
@@ -303,6 +309,7 @@ $(document).ready(function ()
                         }, 2000);
                     }).fail(function (error)
                     {
+                        console.log("put-pas-ok");
                         // Affichage du message d'erreur
                         $("#responseMessageContent")
                             .fadeIn(250)
