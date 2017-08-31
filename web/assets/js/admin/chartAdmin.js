@@ -74,31 +74,33 @@ $(document).ready(function ()
 // Rend la taille des charts dépendant de la taille de la fenetre
 function modifySize(targets, callback)
 {
-    targets.forEach(function (idTarget)
+    $.each(targets, function (key, idTarget)
     {
-        var target = document.querySelector(idTarget);
+        var target = $(idTarget);
 
+        console.log($(window).width());
         if ($(window).width() <= 768)
         {
-            target.height = 100;
+            target.attr("height",100);
         }
         else
         {
-            target.height = 20;
+            target.attr("height",20);
         }
 
         $(window).unbind('resize').bind('resize', function ()
         {
             if ($(window).width() <= 768)
             {
-                target.height = 100;
+                target.attr("height",100);
             }
             else
             {
-                target.height = 20;
+                target.attr("height",20);
             }
         });
     });
+
     callback();
 }
 
@@ -115,7 +117,7 @@ function genJobChart()
             var labels = [];
             var values = [];
 
-            data.forEach(function (elem)
+            $.each(data, function (key, elem)
             {
                 labels.push(elem.jobName);
                 values.push(elem.percentage)
@@ -410,7 +412,7 @@ function genVisitorByBrowser(browser)
         var values = [];
         var labels = [];
 
-        data.forEach(function (elem)
+        $.each(data, function (key, elem)
         {
             values.push(elem['1']);
             labels.push(elem['browser']);
@@ -447,16 +449,16 @@ function genVisitorByBrowser(browser)
 // Génère le chart du nombre de visiteur par pays
 function genVisitorByCountry()
 {
-    var inputs = document.querySelectorAll(".visitorCountryDataHolder");
+    var inputs = $(".visitorCountryDataHolder");
 
     var labels = [];
     var values = [];
     var backgroundColor = ["#8e5ea2", "#3e95cd", "#3cba9f", "#e8c3b9", "#c45850"];
 
-    inputs.forEach(function (elem)
+    $.each(inputs, function (key, elem)
     {
-        labels.push(elem.dataset.country);
-        values.push(parseInt(elem.dataset.value))
+        labels.push($(this).data('country'));
+        values.push(parseInt($(this).data('value')))
     });
 
     if (values.length > backgroundColor.length)
@@ -493,18 +495,18 @@ function genVisitorByCountry()
 // Génère le chart qui donne l'information sur le nombre de question valide
 function genQuestionByType()
 {
-    var inputs = document.querySelectorAll(".questionDataHolder");
+    var inputs = $(".questionDataHolder");
 
     var labels = [];
     var values = [];
     var valid = [];
     var unValid = [];
 
-    inputs.forEach(function (elem)
+    $.each(inputs, function (key, elem)
     {
-        labels.push(elem.dataset.type);
-        valid.push(parseInt(elem.dataset.valid));
-        unValid.push(parseInt(elem.dataset.nonvalid))
+        labels.push($(this).data('type'));
+        valid.push(parseInt($(this).data('valid')));
+        unValid.push(parseInt($(this).data('nonvalid')))
     });
 
     values.push(valid);
@@ -514,8 +516,8 @@ function genQuestionByType()
 
     var max = Math.max(values);
 
-    document.querySelector("#valid").innerHTML = values[0].sum();
-    document.querySelector("#nonValid").innerHTML = values[1].sum();
+    $("#valid").html(values[0].sum());
+    $("#nonValid").html(values[1].sum());
 
     var ctxTemp = document.getElementById("questionByType").getContext('2d');
     new Chart(ctxTemp, {
@@ -593,7 +595,7 @@ function orderValueToMonth(array)
     };
 
     // Pour chaque valeur réçus
-    array.forEach(function (elem)
+    $.each(array, function (key, elem)
     {
         // On récupère la valeur du mois pour avoir la string correspondante
         elem.month = monthsName[elem.month];
@@ -609,7 +611,7 @@ function orderValueToMonth(array)
     monthsName.splice(0, 1);
 
     // A partir du tableau de référence on stocke les valeurs ordonnées pour chaque mois
-    monthsName.forEach(function (elem)
+    $.each(monthsName, function (key, elem)
     {
         values.push(yearlyMonthValue[elem]);
     });
