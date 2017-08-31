@@ -66,8 +66,9 @@ html {
 /* IMAGE HEADER */
 
 .ico {
-    height: 25px;
+    height: 65px;
     margin-right: 10px;
+    margin-top: -20px;
 }
 
 /*---------------------- FOOTER ----------------------*/
