@@ -120,12 +120,6 @@ class QuizzResolver
         return $array;
     }
 
-    /**
-     * Permet de formater les résultats métiers
-     *
-     * @param $array
-     * @return array
-     */
     public function resultHandler($array)
     {
         $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
@@ -187,7 +181,7 @@ class QuizzResolver
     }
 
     /**
-     * Permet de renvoyer les résultats moyens par tempérament d'un utilisateur
+     * Permet de renvoyer les résultats moyens d'un utilisateur
      * @return array
      */
     public function getUserResult()

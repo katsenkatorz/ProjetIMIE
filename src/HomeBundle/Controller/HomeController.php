@@ -136,7 +136,8 @@ class HomeController extends Controller
                 "text" => $colors['text'],
                 "job" => $selectedJob,
                 "jobPersonnalities" => $jobPersonnalities,
-                "quizzResult" => $results
+                "quizzResult" => $results,
+                "sessionQuizzResult" => $session->get("quizz-result")
             ]),
             "href" => $this->generateUrl("home_metier", ["jobId" => $selectedJobId])
         ]);
@@ -150,6 +151,7 @@ class HomeController extends Controller
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $jobId = $request->attributes->get('jobId');
+        $quizzResult = $this->container->get('session')->get("quizz-result");
 
         $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
@@ -159,7 +161,8 @@ class HomeController extends Controller
             "secondary" => $colors['secondary'],
             "text" => $colors['text'],
             "job" => $job,
-            "jobPersonnalities" => $jobPersonnalities
+            "jobPersonnalities" => $jobPersonnalities,
+            "sessionQuizzResult" => $quizzResult
         ]);
     }
 

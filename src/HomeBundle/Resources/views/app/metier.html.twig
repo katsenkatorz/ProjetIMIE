@@ -98,11 +98,19 @@
                 </div>
 
                 <div class="col-md-4">
-                    <h3>Le tempérament du métier</h3>
-                    <p>Métier : {{ job.name }}</p>
-                    <canvas id="myChart" width="500" height="300">
-
-                    </canvas>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Le tempérament du métier</h3>
+                            <p>Métier : {{ job.name }}</p>
+                            <canvas id="myChart" width="500" height="300"></canvas>
+                        </div>
+                        {% if sessionQuizzResult is defined and sessionQuizzResult is not null %}
+                            <div class="col-md-12">
+                                <h3>Vos résultats</h3>
+                                <canvas id="userChart" width="500" height="300"></canvas>
+                            </div>
+                        {% endif %}
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             {# jobs #}
@@ -175,6 +183,9 @@
             {% endif %}
         {% endfor %}
 
+        {% if sessionQuizzResult is defined and sessionQuizzResult is not null %}
+            <input type="hidden" name="sessionQuizzResult" id="sessionQuizzResult" value="{{ sessionQuizzResult|e('html') }}">
+        {% endif %}
     {% endblock %}
 {% endblock %}
 
