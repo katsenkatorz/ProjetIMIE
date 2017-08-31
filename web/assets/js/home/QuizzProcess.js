@@ -444,9 +444,12 @@ $(document).ready(function ()
                     $('html').css("overflow", "auto");
 
                     // Fermeture du modal
-                    $('#modalLoading').hide();
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
+                    setTimeout(function ()
+                    {
+                        $('#modalLoading').hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    }, 600)
 
                 }, 1000)
             }).fail(function () {})
