@@ -9,9 +9,9 @@
                 <tr class="text-center">
                     <td>{{ response.label }}</td>
                     {% if response.value >= 0 %}
-                        <td>{{ response.question.temperament.temperament }} {{ response.value }}</td>
+                        <td>{{ response.question.temperament.opposedTemperament }} {{ response.value }}</td>
                     {% else %}
-                        <td>{{ response.question.temperament.opposedTemperament }} {{ -response.value }}</td>
+                        <td>{{ response.question.temperament.temperament }} {{ -response.value }}</td>
                     {% endif %}
                     <td>
                         {% if response.image is not null %}
@@ -33,7 +33,7 @@
                                     {% endif %}
                                     data-question="{{ response.question.id }}"
                                     data-temperament="{{ response.question.temperament.id }}"
-                                    data-action="/admin/question/{{ response.question.id }}/putResponse/{{ response.id }}"
+                                    data-action="{{ path('admin_putResponse', {idQuestion: response.question.id, idResponse: response.id}) }}"
                                     data-toggle="modal"
                                     data-target="#modalResponse">
                                 <i class="fa fa-edit"></i>
@@ -47,7 +47,7 @@
                               data-toggle="modal"
                               data-target="#modalConfirmDeleteResponse"
                               data-name="{{ response.label }}"
-                              data-action="/admin/question/{{ response.question.id }}/deleteResponse/{{ response.id }}">
+                              data-action="{{ path('admin_deleteResponse', {idQuestion: response.question.id, idResponse: response.id}) }}">
                                <i class="fa fa-trash"></i>
                                Supprimer
                            </a>

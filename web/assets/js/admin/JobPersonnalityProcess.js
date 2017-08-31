@@ -5,7 +5,7 @@ function loadPartielView(idJob, resultContent)
 
     // On appelle le controleur qui renvois la vue partielle
     $.ajax({
-        url: "/admin/job/" + idJob,
+        url: "/tdb-admin/job/" + idJob,
         type: "GET",
         dataType: "json"
     }).done(function (result)
@@ -26,7 +26,7 @@ function loadPartielView(idJob, resultContent)
 
             // On appelle la route qui permet de sauvegarder les changements
             $.ajax({
-                url: "/admin/job/" + jobId + "/saveTemperament",
+                url: "/tdb-admin/job/" + jobId + "/saveTemperament",
                 type: "POST",
                 data: {
                     temperament: temperamentId,

@@ -102,10 +102,15 @@ class HomeController extends Controller
      */
     public function resolutionAction(Request $request)
     {
+        $session = $this->container->get('session');
         $jobRepository = $this->getDoctrine()->getRepository("AdminBundle:Job");
         $QuizzResolver = $this->get('QuizzResolver');
 
         $QuizzResolver->setResultats($request->get('responses'));
+
+        $userResult = $QuizzResolver->getUserResult();
+
+        $session->set("quizz-result", json_encode($userResult));
 
         $results = $QuizzResolver->resultHandler($QuizzResolver->resolve());
 
@@ -115,7 +120,7 @@ class HomeController extends Controller
         $jobRepository->incrementDeliveredByQuizzWithJobId($selectedJobId);
 
         // Récupération de l'id du visiteur
-        $visitorId = $this->container->get('session')->get('client-id');
+        $visitorId = $session->get('client-id');
 
         // Sauvegarde de l'information que l'utilisateur à finis le test
         $this->getDoctrine()->getRepository("AdminBundle:Visitor")->setQuizzCompletion($visitorId, true);

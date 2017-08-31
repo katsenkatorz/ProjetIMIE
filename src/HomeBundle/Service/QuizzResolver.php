@@ -5,7 +5,8 @@ namespace HomeBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 
-class QuizzResolver{
+class QuizzResolver
+{
 
     /**
      * @var EntityManager
@@ -63,7 +64,7 @@ class QuizzResolver{
         $array = [];
 
         // Pour chaque job
-        foreach($jobs as $job)
+        foreach ($jobs as $job)
         {
             // On récupère l'id du job
             $jobId = $job->getId();
@@ -78,13 +79,13 @@ class QuizzResolver{
             // L'écart maximum possible
             $maxDelta = 200;
 
-            foreach($jobTemperaments as $jobTemperament)
+            foreach ($jobTemperaments as $jobTemperament)
             {
                 // Pour chaque résultat
-                foreach($this->orderResult() as $resultat)
+                foreach ($this->orderResult() as $resultat)
                 {
                     // Pour chaque temperament
-                    if($jobTemperament->getTemperament()->getId() == $resultat->getTemperamentId())
+                    if ($jobTemperament->getTemperament()->getId() == $resultat->getTemperamentId())
                     {
                         // On récupère la valeur du temperament metier
                         $valeurTemperamentMetier = $jobTemperament->getValue();
@@ -119,13 +120,19 @@ class QuizzResolver{
         return $array;
     }
 
+    /**
+     * Permet de formater les résultats métiers
+     *
+     * @param $array
+     * @return array
+     */
     public function resultHandler($array)
     {
         $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
 
         $return = [];
 
-        for($i = 0; $i < count($array); $i++)
+        for ($i = 0; $i < count($array); $i++)
         {
             $jobId = array_keys($array)[$i];
 
@@ -153,29 +160,63 @@ class QuizzResolver{
         $resultatHolders = [];
         $temperaments = $this->em->getRepository('AdminBundle:Temperament')->getTemperaments();
 
-        foreach($temperaments as $temperament)
+        foreach ($temperaments as $temperament)
         {
             $resultatHolders[] = new ResultatHolder($temperament->getId());
         }
 
-        foreach($this->resultats as $resultat)
+        foreach ($this->resultats as $resultat)
         {
             $value = $resultat['value'];
             $temperamentId = $resultat['temperamentId'];
 
-            foreach($resultatHolders as $resultatHolder)
+            foreach ($resultatHolders as $resultatHolder)
             {
-                if($temperamentId == $resultatHolder->getTemperamentId())
+                if ($temperamentId == $resultatHolder->getTemperamentId())
                 {
-                    if($value > 0)
+                    if ($value > 0)
                         $resultatHolder->addPosValues($value);
 
-                    if($value < 0)
+                    if ($value < 0)
                         $resultatHolder->addNegValues($value);
                 }
             }
         }
 
         return $resultatHolders;
+    }
+
+    /**
+     * Permet de renvoyer les résultats moyens par tempérament d'un utilisateur
+     * @return array
+     */
+    public function getUserResult()
+    {
+        $temperaments = $this->em->getRepository('AdminBundle:Temperament')->getTemperaments();
+        $results = $this->orderResult();
+        $return = [];
+
+        foreach ($temperaments as $temperament)
+        {
+            foreach ($results as $result)
+            {
+                if($result->getTemperamentId() == $temperament->getId())
+                {
+                    $moyenne = $result->getValueAverage();
+
+                    $temperamentName = $temperament->getTemperament();
+
+                    if ($moyenne > 0)
+                        $temperamentName = $temperament->getOpposedTemperament();
+
+                    $return[] = [
+                        "temperament" => $temperamentName,
+                        "moyenne" => $moyenne
+                    ];
+
+                }
+            }
+        }
+        return $return;
     }
 }

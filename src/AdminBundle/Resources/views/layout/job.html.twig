@@ -15,8 +15,13 @@
         <div class="col-md-12">
             <span>Description du poste: </span>
             <p>{{ job.description|raw }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span>Image métier: </span>
             {% if job.image is not null %}
-                <span>Image métier</span><br>
+                <br>
                 <img src="{{ asset(job.image.pathname) }}" alt="" width="{{ imageParam.width }}px"
                      height="{{ imageParam.height }}px">
             {% else %}

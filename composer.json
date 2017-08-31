@@ -23,6 +23,7 @@
         "php": ">=5.5.9",
         "beberlei/DoctrineExtensions": "^1.0",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
         "doctrine/orm": "^2.5",
         "egeloen/ckeditor-bundle": "dev-master",
         "friendsofsymfony/user-bundle": "~2.0",

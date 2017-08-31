@@ -20,8 +20,10 @@ $(document).ready(function ()
     }
     catch (e)
     {
-        // En cas d'erreur, on reset le quizz
         resetQuizz();
+        var responseDiv = document.querySelector('#questionLabel');
+        responseDiv.innerHTML = "<h3>Il semble y avoir eu un problème, veuillez actualiser la page ou contacter un administrateur</h3>";
+        genImg();
     }
 
     /**
@@ -427,11 +429,8 @@ $(document).ready(function ()
             {
                 setTimeout(function ()
                 {
-                    // On clear le localstorage
-                    localStorage.clear();
-
-                    // On clear les cookies
-                    deleteAllCookies();
+                    // On reset le quizz
+                    resetQuizz();
 
                     // On charge la page de résultat
                     body.hide().html('').fadeOut('slow');
@@ -444,9 +443,12 @@ $(document).ready(function ()
                     $('html').css("overflow", "auto");
 
                     // Fermeture du modal
-                    $('#modalLoading').hide();
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
+                    setTimeout(function ()
+                    {
+                        $('#modalLoading').hide();
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    }, 600)
 
                 }, 1000)
             }).fail(function () {})
@@ -588,9 +590,6 @@ function resetQuizz()
 
     // On clear les cookies
     deleteAllCookies();
-
-    //On recharge la page
-    location.reload();
 }
 
 /************** Fonction servant à la redirection avec envois de données **************/
