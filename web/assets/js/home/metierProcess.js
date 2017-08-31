@@ -26,18 +26,22 @@ $(document).ready(function () {
 
     function genGraph()
     {
-        var inputs = document.querySelectorAll(".dataHolder");
+        var inputs = $(".dataHolder");
 
         var labels = [];
         var values = [];
 
-        inputs.forEach(function (elem) {
-            labels.push(elem.dataset.type);
+        inputs.each(function () {
+            var elem = $(this);
 
-            if (elem.value < 0)
-                elem.value = -elem.value;
+            labels.push(elem.data('type'));
 
-            values.push(parseInt(elem.value));
+            var value = elem.val();
+
+            if (value < 0)
+                value = - value;
+
+            values.push(parseInt(value));
         });
 
         var ctx = document.getElementById("myChart").getContext('2d');
