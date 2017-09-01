@@ -17,6 +17,11 @@ h1, h2, h3, h4 {
     font-family: "HelveticaNeue";
 }
 
+.title-site {
+    font-family: "StarJedi";
+    font-size: 70px;
+}
+
 html {
     height: 100%;
     background-color: #aaaaaa;
@@ -66,9 +71,8 @@ html {
 /* IMAGE HEADER */
 
 .ico {
-    height: 65px;
-    margin-right: 10px;
-    margin-top: -20px;
+    height: 55px;
+    margin-top: -16px;
 }
 
 /*---------------------- FOOTER ----------------------*/
@@ -219,10 +223,16 @@ footer {
 
 @font-face {
     font-family: 'ZonaBlack';
-    src: url('../font/Zona Black.ttf')
+    src: url('../font/Zona Black.ttf');
 }
 
 @font-face {
     font-family: 'DejaVu Sans Condensed';
-    src: url('../font/DejaVuSansCondensed-Bold.ttf')
+    src: url('../font/DejaVuSansCondensed-Bold.ttf');
 }
+
+@font-face {
+    font-family: 'StarJedi';
+    src: url('../font/Starjedi.ttf');
+}
+
