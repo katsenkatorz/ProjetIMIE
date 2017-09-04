@@ -537,6 +537,19 @@ function getQuestionSetIntoLocalStorage(callback)
     callback();
 }
 
+function onloadCallback() {
+    var recaptcha = grecaptcha.render('g-recaptcha', {
+        sitekey: "6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq",
+        size:"invisible",
+        callback: function () {
+            console.log('toto');
+        }
+    });
+    var toto = grecaptcha.execute(recaptcha);
+    console.log(toto);
+}
+
+
 /************** Fonction servant à gérer les cookies **************/
 
 // Modifie un cookie

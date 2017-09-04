@@ -4,8 +4,8 @@
 
 {% block head %}
     {{ parent() }}
-    {#<script src='https://www.google.com/recaptcha/api.js'></script>#}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
+    <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit'></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -67,14 +67,15 @@
                 <div class="row">
                     <div id="responseContainer" class="row"></div>
                 </div>
-                {#<div class="row">#}
-                {#<form action="#">#}
-                {#<div#}
-                {#class="g-recaptcha"#}
-                {#data-sitekey="6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq">#}
-                {#</div>#}
-                {#</form>#}
-                {#</div>#}
+                <div class="row">
+                        <div
+                            id="g-recaptcha"
+                            class="g-recaptcha">
+                            {#data-sitekey="6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq"#}
+                            {#aria-required="true"#}
+                            {#data-size="invisible">#}
+                        </div>
+                </div>
                 {% if imageParam is not null and imageParam.width is not null and imageParam.height is not null %}
                     <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
                     <input type="hidden" id="heightInput" value="{{ imageParam.height }}">

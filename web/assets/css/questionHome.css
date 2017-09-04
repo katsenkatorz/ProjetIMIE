@@ -78,6 +78,10 @@ h1, h2 {
     top: -85px;
 }
 
+.g-recaptcha {
+    margin-top: 40%;
+}
+
 /*--- Bubble BD ---*/
 
 .f-question {
