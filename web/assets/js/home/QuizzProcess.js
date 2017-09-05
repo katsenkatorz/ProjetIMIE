@@ -8,11 +8,8 @@ $(document).ready(function ()
 
     setTimeout(function ()
     {
-        console.log(recaptcha);
-
+        console.log(isDone);
         grecaptcha.execute();
-
-        console.log(grecaptcha.getResponse());
     }, 5000);
 
     try
