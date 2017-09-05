@@ -6,6 +6,8 @@ $(document).ready(function ()
 
     // recaptcha = onloadCallback();
 
+    console.log(recaptcha);
+
     grecaptcha.execute(recaptcha);
 
     try

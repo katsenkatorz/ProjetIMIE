@@ -5,9 +5,6 @@
 {% block head %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-            async defer>
-    </script>
     <script type="text/javascript">
         var recaptcha;
 
@@ -22,6 +19,9 @@
                 }
             })
         }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
     </script>
 {% endblock %}
 
