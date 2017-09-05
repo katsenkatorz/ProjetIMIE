@@ -25,7 +25,13 @@
                         var response = JSON.parse(resp);
 
                         if(response.success)
+                        {
                             resolveQuizz();
+                        }
+                        else
+                        {
+                            resetQuizz();
+                        }
 
                     }).fail(function (fail) {});
                 }
