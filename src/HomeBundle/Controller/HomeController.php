@@ -99,14 +99,6 @@ class HomeController extends Controller
 
             $json = file_get_contents($url, false, $context);
 
-//            if (!$json['success'])
-//            {
-//                foreach($json['error-codes'] as $error)
-//                {
-//                    echo $error .'<br />';
-//                }
-//            }
-
             return $this->json($json);
         }
 

@@ -27,7 +27,11 @@
                         }
                     }).done(function (resp)
                     {
-                        console.log(resp)
+                        console.log(resp);
+
+                        if(resp.success)
+                            resolveQuizz();
+
                     }).fail(function (fail)
                     {
                         console.log(fail)

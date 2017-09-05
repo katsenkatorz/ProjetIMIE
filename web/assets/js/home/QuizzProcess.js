@@ -4,14 +4,6 @@ $(document).ready(function ()
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-    // recaptcha = onloadCallback();
-
-    setTimeout(function ()
-    {
-        console.log(isDone);
-        grecaptcha.execute();
-    }, 5000);
-
     try
     {
         // On initialise le test
@@ -412,54 +404,7 @@ $(document).ready(function ()
         }
         else
         {
-            // On initialise un tableau de réponses
-            var responses = [];
-            // On récupère le body
-            var container = $('.container');
-            var body = $('#my-body');
-
-            // On remplis le tableau
-            for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
-            {
-                responses.push(JSON.parse(getCookie("responseContent" + i)));
-            }
-
-            // On envoie la requête ajax qui résous le test
-            $.ajax({
-                url: href,
-                type: "POST",
-                data: {"responses": responses},
-                beforeSend: function ()
-                {
-                    $('#modalLoading').modal('show');
-                }
-            }).done(function (result)
-            {
-                setTimeout(function ()
-                {
-                    // On reset le quizz
-                    resetQuizz();
-
-                    // On charge la page de résultat
-                    body.hide().html('').fadeOut('slow');
-                    body.html(result.page).fadeIn('slow');
-
-                    // Changement de l'url
-                    window.history.pushState("", "", result.href);
-
-                    // Permet de compenser la disparition de la barre de scroll
-                    $('html').css("overflow", "auto");
-
-                    // Fermeture du modal
-                    setTimeout(function ()
-                    {
-                        $('#modalLoading').hide();
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                    }, 600)
-
-                }, 1000)
-            }).fail(function () {})
+            grecaptcha.execute();
         }
     }
 
@@ -485,6 +430,61 @@ $(document).ready(function ()
         perso.src = "assets/img/perso/" + img + '.png';
     }
 });
+
+/**
+ * On récupère les réponses puis on les envoies en traitement
+ */
+function resolveQuizz()
+{
+    // On initialise un tableau de réponses
+    var responses = [];
+    // On récupère le body
+    var container = $('.container');
+    var body = $('#my-body');
+
+    // On remplis le tableau
+    for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
+    {
+        responses.push(JSON.parse(getCookie("responseContent" + i)));
+    }
+
+    // On envoie la requête ajax qui résous le test
+    $.ajax({
+        url: href,
+        type: "POST",
+        data: {"responses": responses},
+        beforeSend: function ()
+        {
+            $('#modalLoading').modal('show');
+        }
+    }).done(function (result)
+    {
+        setTimeout(function ()
+        {
+            // On reset le quizz
+            resetQuizz();
+
+            // On charge la page de résultat
+            body.hide().html('').fadeOut('slow');
+            body.html(result.page).fadeIn('slow');
+
+            // Changement de l'url
+            window.history.pushState("", "", result.href);
+
+            // Permet de compenser la disparition de la barre de scroll
+            $('html').css("overflow", "auto");
+
+            // Fermeture du modal
+            setTimeout(function ()
+            {
+                $('#modalLoading').hide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            }, 600)
+
+        }, 1000)
+    }).fail(function () {})
+}
 
 /**
  * On récupère le tableau de questionSet et on le fragmente, puis enregistre chaque fragment dans le localStorage
