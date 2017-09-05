@@ -77,9 +77,27 @@ class HomeController extends Controller
         {
             $ip = $this->container->get('session')->get('client-ip');
 
-            $gapi = 'https://www.google.com/recaptcha/api/siteverify?secret='. $key .'$response='. $response .'$remoteip=' . $ip;
+            $postdata = http_build_query(
+                array(
+                    'secret' => $key,
+                    'response' => $response,
+                    'remoteip' => $ip
+                )
+            );
 
-            $json = file_get_contents($gapi);
+            $opts = array('http' =>
+                              array(
+                                  'method'  => 'POST',
+                                  'header'  => 'Content-type: application/x-www-form-urlencoded',
+                                  'content' => $postdata
+                              )
+            );
+
+            $context  = stream_context_create($opts);
+
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+
+            $json = file_get_contents($url, false, $context);
 
 //            if (!$json['success'])
 //            {
