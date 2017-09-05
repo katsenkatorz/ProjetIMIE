@@ -1,5 +1,9 @@
 /*---------------------- HTML ----------------------*/
 
+html {
+    font-family: "Arial", "fantasy";
+}
+
 body {
     background-color: #ffffff;
     position: relative;

@@ -6,6 +6,10 @@ h1, h2 {
 
 /*---------------------- BODY ----------------------*/
 
+html {
+    font-family: "Arial", "fantasy";
+}
+
 body {
     font-family: "HelveticaNeue";
 }

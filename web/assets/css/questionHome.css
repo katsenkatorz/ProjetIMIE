@@ -1,5 +1,9 @@
 /*---------------------- HTML ----------------------*/
 
+html {
+    font-family: "Arial", "fantasy";
+}
+
 body {
     font-family: "HelveticaNeue";
 }
