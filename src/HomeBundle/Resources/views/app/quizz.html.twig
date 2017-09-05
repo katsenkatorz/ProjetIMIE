@@ -8,9 +8,10 @@
     <script type="text/javascript">
         var recaptcha;
 
-        var onloadCallback = function ()
+        var toto = function ()
         {
-            return recaptcha = grecaptcha.render('g-recaptcha', {
+            return recaptcha = grecaptcha.render('g-recaptcha',
+            {
                 sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
                 size:"invisible",
                 callback: function ()
@@ -20,7 +21,7 @@
             })
         }
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+    <script src="https://www.google.com/recaptcha/api.js?onload=toto&render=explicit"
             async defer>
     </script>
 {% endblock %}
