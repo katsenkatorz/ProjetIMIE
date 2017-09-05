@@ -1,3 +1,5 @@
+var href;
+
 $(document).ready(function ()
 {
 
@@ -216,7 +218,7 @@ $(document).ready(function ()
             var questionNumber = $(this).data("number");
             var temperamentId = $(this).data("temperament");
             var idImage = $(this).attr('id');
-            var href = $(this).data("href");
+            href = $(this).data("href");
 
             // On les met dans un tableau
             var responseContent = {
