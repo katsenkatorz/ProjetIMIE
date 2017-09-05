@@ -27,10 +27,10 @@
                         }
                     }).done(function (resp)
                     {
-                        console.log(typeof resp);
-                        console.log(resp.success);
+                        var response = JSON.parse(resp);
+                        console.log(response.success);
 
-                        if(resp.success)
+                        if(response.success)
                             resolveQuizz();
 
                     }).fail(function (fail)
