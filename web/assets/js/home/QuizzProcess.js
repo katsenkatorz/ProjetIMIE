@@ -4,7 +4,7 @@ $(document).ready(function ()
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-    recaptcha = onloadCallback();
+    // recaptcha = onloadCallback();
 
     grecaptcha.execute(recaptcha);
 
