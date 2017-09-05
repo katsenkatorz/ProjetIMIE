@@ -11,7 +11,10 @@ $(document).ready(function ()
         console.log(isDone);
     }, 1000);
 
-    // grecaptcha.execute(recaptcha);
+    setTimeout(function ()
+    {
+        grecaptcha.execute(recaptcha);
+    }, 5000);
 
     try
     {
