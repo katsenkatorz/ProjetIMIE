@@ -15,13 +15,24 @@
             {
                 sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
                 size:"invisible",
-                callback: function (respOne, respTwo, respTree)
+                callback: function (response)
                 {
-                    console.log('titi');
+                    console.log(response);
 
-                    console.log(respOne);
-                    console.log(respTwo);
-                    console.log(respTree);
+                    $.ajax({
+                        url: "https://www.google.com/recaptcha/api/siteverify",
+                        method: "POST",
+                        data: {
+                            secret: "6Ldsay8UAAAAAKYJD0Hc9KpDGJ_UOQ0Zj6XBIW9n",
+                            response: response
+                        }
+                    }).done(function (resp)
+                    {
+                        console.log(resp)
+                    }).fail(function (fail)
+                    {
+                        console.log(fail)
+                    });
 
                     isDone = true;
                 }
