@@ -1,9 +1,16 @@
+var recaptcha;
 $(document).ready(function ()
 {
 
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
+    recaptcha = onloadCallback();
+
+
+    var toto = grecaptcha.execute(recaptcha);
+
+    console.log(toto);
     try
     {
         // On initialise le test
@@ -538,15 +545,13 @@ function getQuestionSetIntoLocalStorage(callback)
 }
 
 function onloadCallback() {
-    var recaptcha = grecaptcha.render('g-recaptcha', {
-        sitekey: "6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq",
+    return recaptcha = grecaptcha.render('g-recaptcha', {
+        sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
         size:"invisible",
         callback: function () {
             console.log('toto');
         }
-    });
-    var toto = grecaptcha.execute(recaptcha);
-    console.log(toto);
+    })
 }
 
 
