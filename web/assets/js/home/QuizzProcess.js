@@ -8,6 +8,7 @@ $(document).ready(function ()
 
     setTimeout(function ()
     {
+        console.log(recaptcha);
         var titi = grecaptcha.execute(recaptcha);
 
         console.log(titi);
