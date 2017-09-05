@@ -1,5 +1,3 @@
-var recaptcha;
-
 $(document).ready(function ()
 {
 
@@ -7,7 +5,6 @@ $(document).ready(function ()
     var pT;
 
     recaptcha = onloadCallback();
-
 
     grecaptcha.execute(recaptcha);
 
@@ -544,17 +541,6 @@ function getQuestionSetIntoLocalStorage(callback)
     callback();
 }
 
-function onloadCallback()
-{
-    return grecaptcha.render('g-recaptcha', {
-        sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
-        size:"invisible",
-        callback: function ()
-        {
-            console.log("titi");
-        }
-    })
-}
 
 
 /************** Fonction servant à gérer les cookies **************/

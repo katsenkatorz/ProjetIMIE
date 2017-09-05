@@ -5,6 +5,21 @@
 {% block head %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
+    <script>
+        var recaptcha;
+
+        function onloadCallback()
+        {
+            return grecaptcha.render('g-recaptcha', {
+                sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
+                size:"invisible",
+                callback: function ()
+                {
+                    console.log("titi");
+                }
+            })
+        }
+    </script>
     <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit' async defer></script>
 {% endblock %}
 
