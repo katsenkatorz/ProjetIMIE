@@ -6,7 +6,7 @@ $(document).ready(function ()
 
     // recaptcha = onloadCallback();
 
-    setTimeout(function ()
+    setInterval(function ()
     {
         console.log(isDone);
     }, 1000);
