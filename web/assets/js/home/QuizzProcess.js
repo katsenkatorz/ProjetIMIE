@@ -9,9 +9,10 @@ $(document).ready(function ()
     setTimeout(function ()
     {
         console.log(recaptcha);
-        var titi = grecaptcha.execute();
 
-        console.log(titi);
+        grecaptcha.execute();
+
+        console.log(grecaptcha.getResponse());
     }, 5000);
 
     try
