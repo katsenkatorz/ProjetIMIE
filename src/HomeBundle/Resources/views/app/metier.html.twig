@@ -5,7 +5,7 @@
 {% block header %}
     {% include 'HomeBundle:layout:header.html.twig' %}
     {# Plugin facebook #}
-    <meta property="og:url" content="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}"/>
+    <meta property="og:url" content="{{ path('home_metier', {jobId: job.id} ) }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="QuizzIMIE"/>
     <meta property="og:description" content="Mon résultat est : {{ job.name }} ! Faites le test !"/>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-2">
                                 <div
                                         class="fb-share-button"
                                         data-href="{{ path('home_metier', {jobId: job.id} ) }}"
@@ -66,6 +66,10 @@
                                         Partager
                                     </a>
                                 </div>
+                            </div>
+                            <div class="col-md-2">
+                                <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>
+                                <script type="IN/Share" data-url="geek.njob.fr/quizz"></script>
                             </div>
                         </div>
 
