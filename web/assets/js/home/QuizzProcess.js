@@ -6,14 +6,11 @@ $(document).ready(function ()
 
     // recaptcha = onloadCallback();
 
-    setInterval(function ()
-    {
-        console.log(isDone);
-    }, 1000);
-
     setTimeout(function ()
     {
-        grecaptcha.execute(recaptcha);
+        var titi = grecaptcha.execute(recaptcha);
+
+        console.log(titi);
     }, 5000);
 
     try
