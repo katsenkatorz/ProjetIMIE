@@ -6,35 +6,34 @@
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
     <script type="text/javascript">
-        var recaptcha;
-        var isDone = false;
-
         var onloadCallback = function ()
         {
-            return recaptcha = grecaptcha.render('g-recaptcha',
+            return grecaptcha.render('g-recaptcha',
             {
                 sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
                 size:"invisible",
                 callback: function (response)
                 {
-                    console.log(response);
-
                     $.ajax({
-                        url: "https://www.google.com/recaptcha/api/siteverify",
+                        url: "/recaptcha",
                         method: "POST",
                         data: {
-                            secret: "6Ldsay8UAAAAAKYJD0Hc9KpDGJ_UOQ0Zj6XBIW9n",
                             response: response
                         }
                     }).done(function (resp)
                     {
-                        console.log(resp)
-                    }).fail(function (fail)
-                    {
-                        console.log(fail)
-                    });
+                        var response = JSON.parse(resp);
 
-                    isDone = true;
+                        if(response.success)
+                        {
+                            resolveQuizz();
+                        }
+                        else
+                        {
+                            resetQuizz();
+                        }
+
+                    }).fail(function (fail) {});
                 }
             })
         }

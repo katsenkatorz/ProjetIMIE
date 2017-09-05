@@ -57,21 +57,7 @@ class HomeController extends Controller
 
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
-        $key = '6LeRpSsUAAAAAEf7hX5n9zp-9iaM2mgAUs0_HkGZ';
-        if (isset($_POST['g-recaptcha-response'])) {
-            $response = $_POST['g-recaptcha-response'];
-            $ip = $_SERVER['REMOTE_ADDR'];
 
-            $gapi = 'https://www.google.com/recaptcha/api/siteverify?secret='. $key .'$response='. $response .'$remoteip=' . $ip;
-
-            $json = json_decode(file_get_contents($gapi), true);
-            if (!$json['success']) {
-                foreach ($json['error-codes'] as $error)
-                {
-                    echo $error .'<br />';
-                }
-            }
-        }
 
         return $this->render('HomeBundle:app:quizz.html.twig', [
             'imageParam' => $imageParam,
@@ -79,6 +65,42 @@ class HomeController extends Controller
             "secondary" => $colors['secondary'],
             "text" => $colors['text'],
         ]);
+    }
+
+    public function googleRecaptchaAction(Request $request)
+    {
+        $key = '6Ldsay8UAAAAAKYJD0Hc9KpDGJ_UOQ0Zj6XBIW9n';
+
+        $response = $request->get('response');
+
+        if (isset($response))
+        {
+            $ip = $this->container->get('session')->get('client-ip');
+
+            $postdata = http_build_query([
+                'secret' => $key,
+                'response' => $response,
+                'remoteip' => $ip
+            ]);
+
+            $opts = [
+                'http' => [
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                ]
+            ];
+
+            $context  = stream_context_create($opts);
+
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+
+            $json = file_get_contents($url, false, $context);
+
+            return $this->json($json);
+        }
+
+        return $this->json(['message' => "erreur"]);
     }
 
     /**

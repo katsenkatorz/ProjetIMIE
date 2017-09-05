@@ -78,7 +78,6 @@ function modifySize(targets, callback)
     {
         var target = $(idTarget);
 
-        console.log($(window).width());
         if ($(window).width() <= 768)
         {
             target.attr("height",100);
