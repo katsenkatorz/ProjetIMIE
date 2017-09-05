@@ -20,10 +20,9 @@
                     console.log(response);
 
                     $.ajax({
-                        url: "https://www.google.com/recaptcha/api/siteverify",
+                        url: "/recaptcha",
                         method: "POST",
                         data: {
-                            secret: "6Ldsay8UAAAAAKYJD0Hc9KpDGJ_UOQ0Zj6XBIW9n",
                             response: response
                         }
                     }).done(function (resp)

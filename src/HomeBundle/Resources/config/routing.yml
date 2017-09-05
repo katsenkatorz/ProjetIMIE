@@ -46,3 +46,9 @@ home_setShared:
     defaults:
         _controller: HomeBundle:Home:setShared
         method: POST
+
+home_recaptcha:
+    path:     /recaptcha
+    defaults:
+        _controller: HomeBundle:Home:googleRecaptcha
+        method: POST
