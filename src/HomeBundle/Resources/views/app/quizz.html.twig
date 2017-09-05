@@ -27,8 +27,8 @@
                         }
                     }).done(function (resp)
                     {
-                        console.log(resp);
-                        console.log(resp.success());
+                        console.log(typeof resp);
+                        console.log(resp.success);
 
                         if(resp.success)
                             resolveQuizz();
