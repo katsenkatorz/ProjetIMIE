@@ -4,6 +4,14 @@ $(document).ready(function ()
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
+    // recaptcha = onloadCallback();
+
+    setTimeout(function ()
+    {
+        console.log(isDone);
+        grecaptcha.execute();
+    }, 5000);
+
     try
     {
         // On initialise le test
@@ -537,17 +545,6 @@ function getQuestionSetIntoLocalStorage(callback)
     callback();
 }
 
-function onloadCallback() {
-    var recaptcha = grecaptcha.render('g-recaptcha', {
-        sitekey: "6LeRpSsUAAAAAGQGibCJgXqCItcYxKH0FW__f9oq",
-        size:"invisible",
-        callback: function () {
-            console.log('toto');
-        }
-    });
-    var toto = grecaptcha.execute(recaptcha);
-    console.log(toto);
-}
 
 
 /************** Fonction servant à gérer les cookies **************/
