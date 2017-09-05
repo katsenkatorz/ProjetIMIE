@@ -9,7 +9,7 @@ $(document).ready(function ()
     setTimeout(function ()
     {
         console.log(recaptcha);
-        var titi = grecaptcha.execute(recaptcha);
+        var titi = grecaptcha.execute();
 
         console.log(titi);
     }, 5000);

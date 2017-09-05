@@ -9,7 +9,7 @@
         var recaptcha;
         var isDone = false;
 
-        var toto = function ()
+        var onloadCallback = function ()
         {
             return recaptcha = grecaptcha.render('g-recaptcha',
             {
@@ -17,12 +17,13 @@
                 size:"invisible",
                 callback: function ()
                 {
+                    console.log('titi');
                     isDone = true;
                 }
             })
         }
     </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=toto&render=explicit"
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
             async defer>
     </script>
 {% endblock %}
