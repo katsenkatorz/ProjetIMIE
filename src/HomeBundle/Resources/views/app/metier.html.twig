@@ -43,7 +43,8 @@
                                 {% endif %}
                             </div>
                             <div class="col-md-4">
-                            <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt="" width="250px"
+                                <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
+                                     width="250px"
                                      height="280px">
                             </div>
                         </div>
@@ -136,35 +137,37 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-6">
                                 {% for result in quizzResult|slice(1, 2) %}
-                                    <div class="thumbnail">
-                                        {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
-                                            <div style="border-color: {{ primary.value }}" class="thumbProp">
-                                                <img class="img-responsive imgProp"
-                                                     src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                     alt="">
-                                                <div class="percentage" style="color: {{ text.value }}">
-                                                    <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                    <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
+                                        <div class="thumbnail">
+                                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                                <div style="border-color: {{ primary.value }}" class="thumbProp">
+                                                    <img class="img-responsive imgProp"
+                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                         alt="">
+                                                    <div class="percentage" style="color: {{ text.value }}">
+                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <h3 style="background-color: {{ primary.value }};"
-                                                class="subtitleProp">
-                                                <a style="color: {{ text.value }}"
-                                                   href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
-                                            </h3>
-                                        {% else %}
-                                            <div style="border-color: #ea3d4f" class="thumbProp">
-                                                <img class="img-responsive imgProp"
-                                                     src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                     alt="">
-                                                <div class="percentage" style="color: #ffffff">
-                                                    <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
+                                                    class="subtitleProp">{{ result.jobName }}
+
+                                                </h3>
+                                            {% else %}
+                                                <div style="border-color: #ea3d4f" class="thumbProp">
+                                                    <img class="img-responsive imgProp"
+                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                         alt="">
+                                                    <div class="percentage" style="color: #ffffff">
+                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <h3 style="background-color: #ea3d4f; color: #ffffff" class="subtitleProp">
-                                                <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
-                                            </h3>
-                                        {% endif %}
-                                    </div>
+                                                <h3 style="background-color: #ea3d4f; color: #ffffff"
+                                                    class="subtitleProp">
+                                                    <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                </h3>
+                                            {% endif %}
+                                        </div>
+                                    </a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -184,7 +187,8 @@
         {% endfor %}
 
         {% if sessionQuizzResult is defined and sessionQuizzResult is not null %}
-            <input type="hidden" name="sessionQuizzResult" id="sessionQuizzResult" value="{{ sessionQuizzResult|e('html') }}">
+            <input type="hidden" name="sessionQuizzResult" id="sessionQuizzResult"
+                   value="{{ sessionQuizzResult|e('html') }}">
         {% endif %}
     {% endblock %}
 {% endblock %}
