@@ -5,13 +5,15 @@
 {% block head %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
-    <script src='https://www.google.com/recaptcha/api.js?render=explicit' async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
     <script type="text/javascript">
         var recaptcha;
 
         var onloadCallback = function ()
         {
-            return grecaptcha.render('g-recaptcha', {
+            return recaptcha = grecaptcha.render('g-recaptcha', {
                 sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
                 size:"invisible",
                 callback: function ()
@@ -83,7 +85,7 @@
                     <div id="responseContainer" class="row"></div>
                 </div>
                 <div class="row">
-                    <div id="g-recaptcha"></div>
+                    <div id="g-recaptcha" class="g-recaptcha"></div>
                 </div>
                 {% if imageParam is not null and imageParam.width is not null and imageParam.height is not null %}
                     <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
