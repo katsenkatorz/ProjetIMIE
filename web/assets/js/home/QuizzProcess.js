@@ -1,16 +1,5 @@
 var recaptcha;
 
-function onloadCallback()
-{
-    return recaptcha = grecaptcha.render('g-recaptcha', {
-        sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
-        size:"invisible",
-        callback: function (paramOne) {
-            console.log(paramOne);
-        }
-    })
-}
-
 $(document).ready(function ()
 {
 
@@ -553,6 +542,18 @@ function getQuestionSetIntoLocalStorage(callback)
 
     // On fait les traitements à la fin de la requête ajax
     callback();
+}
+
+function onloadCallback()
+{
+    return recaptcha = grecaptcha.render('g-recaptcha', {
+        sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
+        size:"invisible",
+        callback: function (paramOne)
+        {
+            console.log(paramOne);
+        }
+    })
 }
 
 
