@@ -77,21 +77,19 @@ class HomeController extends Controller
         {
             $ip = $this->container->get('session')->get('client-ip');
 
-            $postdata = http_build_query(
-                array(
-                    'secret' => $key,
-                    'response' => $response,
-                    'remoteip' => $ip
-                )
-            );
+            $postdata = http_build_query([
+                'secret' => $key,
+                'response' => $response,
+                'remoteip' => $ip
+            ]);
 
-            $opts = array('http' =>
-                              array(
-                                  'method'  => 'POST',
-                                  'header'  => 'Content-type: application/x-www-form-urlencoded',
-                                  'content' => $postdata
-                              )
-            );
+            $opts = [
+                'http' => [
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                ]
+            ];
 
             $context  = stream_context_create($opts);
 
@@ -103,7 +101,6 @@ class HomeController extends Controller
         }
 
         return $this->json(['message' => "erreur"]);
-
     }
 
     /**

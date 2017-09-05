@@ -6,19 +6,14 @@
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
     <script type="text/javascript">
-        var recaptcha;
-        var isDone = false;
-
         var onloadCallback = function ()
         {
-            return recaptcha = grecaptcha.render('g-recaptcha',
+            return grecaptcha.render('g-recaptcha',
             {
                 sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
                 size:"invisible",
                 callback: function (response)
                 {
-                    console.log(response);
-
                     $.ajax({
                         url: "/recaptcha",
                         method: "POST",
@@ -28,17 +23,11 @@
                     }).done(function (resp)
                     {
                         var response = JSON.parse(resp);
-                        console.log(response.success);
 
                         if(response.success)
                             resolveQuizz();
 
-                    }).fail(function (fail)
-                    {
-                        console.log(fail)
-                    });
-
-                    isDone = true;
+                    }).fail(function (fail) {});
                 }
             })
         }
