@@ -6,9 +6,12 @@ $(document).ready(function ()
 
     // recaptcha = onloadCallback();
 
-    console.log(recaptcha);
+    setTimeout(function ()
+    {
+        console.log(isDone);
+    }, 1000);
 
-    grecaptcha.execute(recaptcha);
+    // grecaptcha.execute(recaptcha);
 
     try
     {

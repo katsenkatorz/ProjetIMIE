@@ -7,6 +7,7 @@
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
     <script type="text/javascript">
         var recaptcha;
+        var isDone = false;
 
         var toto = function ()
         {
@@ -16,7 +17,7 @@
                 size:"invisible",
                 callback: function ()
                 {
-                    console.log("titi");
+                    isDone = true;
                 }
             })
         }
