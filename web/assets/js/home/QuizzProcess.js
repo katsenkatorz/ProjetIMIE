@@ -549,9 +549,9 @@ function onloadCallback()
     return recaptcha = grecaptcha.render('g-recaptcha', {
         sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
         size:"invisible",
-        callback: function (paramOne)
+        callback: function ()
         {
-            console.log(paramOne);
+            console.log("titi");
         }
     })
 }
