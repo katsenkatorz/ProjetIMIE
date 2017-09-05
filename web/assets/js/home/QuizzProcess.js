@@ -8,9 +8,8 @@ $(document).ready(function ()
     recaptcha = onloadCallback();
 
 
-    var toto = grecaptcha.execute(recaptcha);
+    grecaptcha.execute(recaptcha);
 
-    console.log(toto);
     try
     {
         // On initialise le test
@@ -544,12 +543,15 @@ function getQuestionSetIntoLocalStorage(callback)
     callback();
 }
 
-function onloadCallback() {
+function onloadCallback()
+{
     return recaptcha = grecaptcha.render('g-recaptcha', {
         sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
         size:"invisible",
-        callback: function () {
-            console.log('toto');
+        callback: function (paramOne, paramTwo, paramTree) {
+            console.log(paramOne);
+            console.log(paramTwo);
+            console.log(paramTree);
         }
     })
 }
