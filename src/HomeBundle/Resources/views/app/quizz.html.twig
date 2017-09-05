@@ -5,7 +5,6 @@
 {% block head %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
-    <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit'></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -113,6 +112,7 @@
     {{ parent() }}
     <script src="{{ asset('assets/js/home/pageTransitions.js') }}"></script>
     <script src="{{ asset('assets/js/home/QuizzProcess.js') }}"></script>
+    <script src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit'></script>
     <script src="{{ asset('assets/js/home/questionScroll.js') }}"></script>
 {% endblock %}
 
