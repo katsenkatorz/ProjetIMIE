@@ -408,8 +408,7 @@ $(document).ready(function ()
         }
         else
         {
-            resolveQuizz();
-            // grecaptcha.execute();
+            grecaptcha.execute();
         }
     }
 
