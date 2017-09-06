@@ -51,13 +51,11 @@ class HomeController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function quizzAction(Request $request)
+    public function quizzAction()
     {
         $imageParam = json_decode($this->getDoctrine()->getRepository('AdminBundle:Parameters')->getParameterById(5)->getValue(), true);
 
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
-
-
 
         return $this->render('HomeBundle:app:quizz.html.twig', [
             'imageParam' => $imageParam,
@@ -134,9 +132,11 @@ class HomeController extends Controller
 
         $userResult = $QuizzResolver->getUserResult();
 
-        $session->set("quizz-result", json_encode($userResult));
+        $session->set("quizz-user-result", json_encode($userResult));
 
         $results = $QuizzResolver->resultHandler($QuizzResolver->resolve());
+
+        $session->set("quizz-result", json_encode($results));
 
         $selectedJobId = $results[0]["jobId"];
 
@@ -161,7 +161,8 @@ class HomeController extends Controller
                 "job" => $selectedJob,
                 "jobPersonnalities" => $jobPersonnalities,
                 "quizzResult" => $results,
-                "sessionQuizzResult" => $session->get("quizz-result")
+                "sessionUserQuizzResult" => $session->get("quizz-user-result"),
+                "comeFromQuizz" => true
             ]),
             "href" => $this->generateUrl("home_metier", ["jobId" => $selectedJobId])
         ]);
@@ -172,10 +173,13 @@ class HomeController extends Controller
      */
     public function metierAction(Request $request)
     {
+        $session = $this->container->get('session');
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         $jobId = $request->attributes->get('jobId');
-        $quizzResult = $this->container->get('session')->get("quizz-result");
+
+        $quizzResult = json_decode($session->get("quizz-result"), true);
+        $quizzUserResult = $session->get("quizz-user-result");
 
         $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
         $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
@@ -186,7 +190,9 @@ class HomeController extends Controller
             "text" => $colors['text'],
             "job" => $job,
             "jobPersonnalities" => $jobPersonnalities,
-            "sessionQuizzResult" => $quizzResult
+            "quizzResult" => $quizzResult,
+            "sessionUserQuizzResult" => $quizzUserResult,
+            "comeFromQuizz" => false
         ]);
     }
 

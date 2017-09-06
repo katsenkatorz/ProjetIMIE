@@ -6,6 +6,8 @@ $(document).ready(function ()
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
+
+
     try
     {
         // On initialise le test
@@ -406,7 +408,8 @@ $(document).ready(function ()
         }
         else
         {
-            grecaptcha.execute();
+            resolveQuizz();
+            // grecaptcha.execute();
         }
     }
 
@@ -476,6 +479,8 @@ function resolveQuizz()
             // Permet de compenser la disparition de la barre de scroll
             $('html').css("overflow", "auto");
 
+            // Permet de changer le titre de la page
+            $('title').html($('#my-body title').html());
             // Fermeture du modal
             setTimeout(function ()
             {
@@ -483,6 +488,8 @@ function resolveQuizz()
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             }, 600)
+
+
 
         }, 1000)
     }).fail(function () {})

@@ -1,10 +1,14 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
-{% block title %} {{ job.name }} {% endblock %}
-
+{% block title %}
+    {% for result in quizzResult if result.jobName == job.name  %}
+        Je suis {{ result.jobName }} à {{ result.percentage }}% !
+    {% else %}
+        {{ job.name }}
+    {% endfor %}
+{% endblock %}
 {% block header %}
     {% include 'HomeBundle:layout:header.html.twig' %}
-    {# Plugin facebook #}
     <meta property="og:url" content="{{ path('home_metier', {jobId: job.id} ) }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="QuizzIMIE"/>
@@ -23,31 +27,67 @@
             <div class="row">
                 <div class="col-md-8">
                     {% if quizzResult[0] is defined %}
-                        <div class="row">
-                            <div class="col-md-8">
-                                {% if primary is not null and primary.value is not null %}
-                                    <div class="question pull-right" style="
-                                            margin-top: 70px;
-                                            border: solid {{ primary.value }};
-                                            -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
-                                            filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
-                                    </div>
-                                {% else %}
-                                    <div class="question pull-right" style="
+                        {% if comeFromQuizz == true %}
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {% if primary is not null and primary.value is not null %}
+                                        <div class="question pull-right" style="
+                                                margin-top: 70px;
+                                                border: solid {{ primary.value }};
+                                                -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
+                                                filter: drop-shadow(5px 4px 0 {{ primary.value }});">
+                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
+                                        </div>
+                                    {% else %}
+                                        <div class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
-                                    </div>
-                                {% endif %}
+                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
+                                         width="250px"
+                                         height="280px">
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
-                                     width="250px"
-                                     height="280px">
+                        {% else %}
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {% if primary is not null and primary.value is not null %}
+                                        <div class="question pull-right" style="
+                                                margin-top: 70px;
+                                                border: solid {{ primary.value }};
+                                                -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
+                                                filter: drop-shadow(5px 4px 0 {{ primary.value }});">
+                                            {% for result in quizzResult if result.jobName == job.name  %}
+                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}% !</h3>
+                                            {% else %}
+                                                <h3>Je te présente le métier de {{ job.name }}</h3>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="question pull-right" style="
+                                border: solid #ea3d4f;
+                                -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
+                                filter: drop-shadow(5px 4px 0 #ea3d4f);">
+                                            {% for result in quizzResult if result.jobName == job.name  %}
+                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}% !</h3>
+                                            {% else %}
+                                                <h3>Je te présente le métier de {{ job.name }}</h3>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
+                                         width="250px"
+                                         height="280px">
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-md-2">
                                 <div
@@ -67,12 +107,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>
+                            <div class="col-md-2" id="linkedinContainer">
                                 <script type="IN/Share" data-url="geek.njob.fr/quizz"></script>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12">
                                 {{ job.description|raw }}
@@ -80,8 +118,28 @@
                         </div>
                     {% else %}
                         <div class="row">
-                            <div class="col-md-12">
-                                <h2>{{ job.name }}</h2>
+                            <div class="col-md-8">
+                                {% if primary is not null and primary.value is not null %}
+                                    <div class="question pull-right" style="
+                                            margin-top: 70px;
+                                            border: solid {{ primary.value }};
+                                            -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
+                                            filter: drop-shadow(5px 4px 0 {{ primary.value }});">
+                                        <h3>Je te présente le métier de {{ job.name }}</h3>
+                                    </div>
+                                {% else %}
+                                    <div class="question pull-right" style="
+                                border: solid #ea3d4f;
+                                -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
+                                filter: drop-shadow(5px 4px 0 #ea3d4f);">
+                                        <h3>Je te présente le métier de {{ job.name }}</h3>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
+                                     width="250px"
+                                     height="280px">
                             </div>
                         </div>
                         <div class="row">
@@ -109,7 +167,7 @@
                             <p>Métier : {{ job.name }}</p>
                             <canvas id="myChart" width="500" height="300"></canvas>
                         </div>
-                        {% if sessionQuizzResult is defined and sessionQuizzResult is not null %}
+                        {% if sessionUserQuizzResult is defined and sessionUserQuizzResult is not null %}
                             <div class="col-md-12">
                                 <h3>Vos résultats</h3>
                                 <canvas id="userChart" width="500" height="300"></canvas>
@@ -118,7 +176,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {# jobs #}
                             <h3>Le salaire brut mensuel</h3>
                             <table class="table table-condensed text-center">
                                 <tr>
@@ -140,39 +197,75 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-6">
-                                {% for result in quizzResult|slice(1, 2) %}
-                                    <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
-                                        <div class="thumbnail">
-                                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
-                                                <div style="border-color: {{ primary.value }}" class="thumbProp">
-                                                    <img class="img-responsive imgProp"
-                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                         alt="">
-                                                    <div class="percentage" style="color: {{ text.value }}">
-                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                {% if comeFromQuizz == true %}
+                                    {% for result in quizzResult|slice(1, 2) %}
+                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
+                                            <div class="thumbnail">
+                                                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                                    <div style="border-color: {{ primary.value }}" class="thumbProp">
+                                                        <img class="img-responsive imgProp"
+                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                             alt="">
+                                                        <div class="percentage" style="color: {{ text.value }}">
+                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
-                                                    class="subtitleProp">{{ result.jobName }}
+                                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
+                                                        class="subtitleProp">{{ result.jobName }}
 
-                                                </h3>
-                                            {% else %}
-                                                <div style="border-color: #ea3d4f" class="thumbProp">
-                                                    <img class="img-responsive imgProp"
-                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                         alt="">
-                                                    <div class="percentage" style="color: #ffffff">
-                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                    </h3>
+                                                {% else %}
+                                                    <div style="border-color: #ea3d4f" class="thumbProp">
+                                                        <img class="img-responsive imgProp"
+                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                             alt="">
+                                                        <div class="percentage" style="color: #ffffff">
+                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <h3 style="background-color: #ea3d4f; color: #ffffff"
-                                                    class="subtitleProp">
-                                                    <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
-                                                </h3>
-                                            {% endif %}
-                                        </div>
-                                    </a>
-                                {% endfor %}
+                                                    <h3 style="background-color: #ea3d4f; color: #ffffff"
+                                                        class="subtitleProp">
+                                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                    </h3>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for result in quizzResult if result.jobName != job.name %}
+                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
+                                            <div class="thumbnail">
+                                                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                                    <div style="border-color: {{ primary.value }}" class="thumbProp">
+                                                        <img class="img-responsive imgProp"
+                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                             alt="">
+                                                        <div class="percentage" style="color: {{ text.value }}">
+                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                        </div>
+                                                    </div>
+                                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
+                                                        class="subtitleProp">{{ result.jobName }}
+
+                                                    </h3>
+                                                {% else %}
+                                                    <div style="border-color: #ea3d4f" class="thumbProp">
+                                                        <img class="img-responsive imgProp"
+                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                             alt="">
+                                                        <div class="percentage" style="color: #ffffff">
+                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
+                                                        </div>
+                                                    </div>
+                                                    <h3 style="background-color: #ea3d4f; color: #ffffff"
+                                                        class="subtitleProp">
+                                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                    </h3>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                     {% endif %}
@@ -190,15 +283,16 @@
             {% endif %}
         {% endfor %}
 
-        {% if sessionQuizzResult is defined and sessionQuizzResult is not null %}
-            <input type="hidden" name="sessionQuizzResult" id="sessionQuizzResult"
-                   value="{{ sessionQuizzResult|e('html') }}">
+        {% if sessionUserQuizzResult is defined and sessionUserQuizzResult is not null %}
+            <input type="hidden" name="sessionUserQuizzResult" id="sessionUserQuizzResult"
+                   value="{{ sessionUserQuizzResult|e('html') }}">
         {% endif %}
     {% endblock %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="//platform.linkedin.com/in.js" type="text/javascript" async defer> lang: fr_FR</script>
     <script src="{{ asset('assets/js/home/metierProcess.js') }}"></script>
     <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
 {% endblock %}

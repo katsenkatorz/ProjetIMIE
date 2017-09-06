@@ -15,19 +15,13 @@ $(document).ready(function ()
             $.ajax({
                 url: href,
                 method: 'POST'
-            }).done(function (data)
-            {
-
-            }).fail(function (error)
-            {
-
-            })
+            }).done(function (data) {}).fail(function (error) {})
         });
     }
 
     function genUserGraph()
     {
-        var inputQuizzResult = $('#sessionQuizzResult');
+        var inputQuizzResult = $('#sessionUserQuizzResult');
         var quizzResult = inputQuizzResult.val();
 
         var labels = [];
