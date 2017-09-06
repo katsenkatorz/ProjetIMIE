@@ -187,7 +187,7 @@ $(document).ready(function () {
         imageResizer.id = "imageResizer";
 
         // Imbrication des divs
-        imageResizerHolder.append(imageResizer);
+        imageResizerHolder.appendChild(imageResizer);
 
         alertContent.appendChild(alertMessage);
 
@@ -201,13 +201,13 @@ $(document).ready(function () {
         heightMd.appendChild(heightLabel);
         heightMd.appendChild(heightInput);
 
-        rowWarning.append(widthMd);
-        rowWarning.append(heightMd);
+        rowWarning.appendChild(widthMd);
+        rowWarning.appendChild(heightMd);
 
-        inputWidthHeightHolder.append(rowWarning);
+        inputWidthHeightHolder.appendChild(rowWarning);
 
-        divRow.append(inputWidthHeightHolder);
-        divRow.append(imageResizerHolder);
+        divRow.appendChild(inputWidthHeightHolder);
+        divRow.appendChild(imageResizerHolder);
 
         contentDiv.append(divRow);
 
