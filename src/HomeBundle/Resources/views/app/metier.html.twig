@@ -1,15 +1,19 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
-{% block title %} {{ job.name }} {% endblock %}
+{% block title %} Je suis {{ job.name }} {% endblock %}
 
-{% block header %}
-    {% include 'HomeBundle:layout:header.html.twig' %}
+{% block head %}
+    {{ parent() }}
     {# Plugin facebook #}
     <meta property="og:url" content="{{ path('home_metier', {jobId: job.id} ) }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="QuizzIMIE"/>
+    <meta property="og:title" content="Geek Njob"/>
     <meta property="og:description" content="Mon résultat est : {{ job.name }} ! Faites le test !"/>
-    <meta property="og:image" content="http://127.0.0.1:8000/metier/{{ job.id }}"/>
+    <meta property="og:image" content="{{ asset('assets/img/') }}"/>
+{% endblock %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -49,29 +53,58 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <div
-                                        class="fb-share-button"
-                                        data-href="{{ path('home_metier', {jobId: job.id} ) }}"
-                                        data-layout="button"
-                                        data-size="large"
-                                        data-mobile-iframe="true">
-                                    <a
-                                            data-href="{{ path('home_setShared') }}"
-                                            id="sharedBtn"
-                                            class="fb-xfbml-parse-ignore btn btn-primary"
-                                            target="_blank"
-                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F127.0.0.1%3A8000%2Fmetier%2F11%2F1%23&amp;src=sdkpreparse">
-                                        <i class="fa fa-facebook-square"></i>
-                                        Partager
+                            <div class="col-md-1">
+                                <div id="utils-icon-share-twitter">
+                                    <a href="javascript:void(0);" onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank');" title="Twitter">
+                                        <i class="fa fa-twitter-square fa-2x"></i>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>
-                                <script type="IN/Share" data-url="geek.njob.fr/quizz"></script>
+                            <div class="col-md-1">
+                                <div id="utils-icon-share-fb">
+                                    <a
+                                            href="javascript:void(0);"
+                                            onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank');"
+                                            title="Facebook">
+                                        <i class="fa fa-facebook-square fa-2x"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div id="utils-icon-share-linkedin">
+                                    <a
+                                            title="Linkedin"
+                                            href= "javascript:void(0);"
+                                            onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '');return false;">
+                                        <i class="fa fa-linkedin-square fa-2x"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+                        {#<div class="row">#}
+                            {#<div class="col-md-2">#}
+                                {#<div    id="fb-root"#}
+                                        {#class="fb-share-button"#}
+                                        {#data-href="{{ path('home_metier', {jobId: job.id} ) }}"#}
+                                        {#data-layout="button"#}
+                                        {#data-size="small"#}
+                                        {#data-mobile-iframe="true">#}
+                                    {#<a#}
+                                            {#data-href="{{ path('home_setShared') }}"#}
+                                            {#id="sharedBtn"#}
+                                            {#class="fb-xfbml-parse-ignore btn btn-primary"#}
+                                            {#target="_blank"#}
+                                            {#href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fgeek.njob.fr%2Fmetier%2F{{jobId: job.id}}&amp;src=sdkpreparse">#}
+                                            {#<i class="fa fa-facebook-square"></i>#}
+                                        {#Partager#}
+                                    {#</a>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="col-md-2">#}
+                                {#<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>#}
+                                {#<script type="IN/Share" data-url="geek.njob.fr/quizz"></script>#}
+                            {#</div>#}
+                        {#</div>#}
 
                         <div class="row">
                             <div class="col-md-12">
