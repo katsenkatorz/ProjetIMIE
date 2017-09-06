@@ -328,9 +328,10 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="//platform.linkedin.com/in.js" type="text/javascript" async defer> lang: fr_FR</script>
     <script src="{{ asset('assets/js/home/metierProcess.js') }}"></script>
     <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
+    <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>
 {% endblock %}
 
 {% block footer %}

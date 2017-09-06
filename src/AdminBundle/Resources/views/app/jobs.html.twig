@@ -2,6 +2,11 @@
 
 {% block title %}{{ 'Gestion des métiers' }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/croppie.css') }}" />
+{% endblock %}
+
 {% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
@@ -26,4 +31,5 @@
 
 {% block footer %}
     {{ parent() }}
+    <script src="{{ asset('assets/js/admin/croppie.js') }}"></script>
 {% endblock %}
