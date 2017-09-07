@@ -278,21 +278,21 @@ function genTestData(year)
                         borderColor: "#cd1e10",
                         data: unAchieveData.values,
                         fill: false,
-                        pointRadius: 10
+                        pointRadius: 1
                     },
                     {
                         label: 'Quizz finis',
                         borderColor: "#3e95cd",
                         data: achieveData.values,
                         fill: false,
-                        pointRadius: 10
+                        pointRadius: 1
                     },
                     {
                         label: 'Quizz non commencer',
                         borderColor: "#34cd1a",
                         data: unStartedData.values,
                         fill: false,
-                        pointRadius: 10
+                        pointRadius: 1
                     }
                 ]
             },
@@ -315,7 +315,7 @@ function genTestData(year)
                 },
                 elements: {
                     point: {
-                        pointStyle: 'crossRot'
+                        pointStyle: 'dot'
                     }
                 }
             }

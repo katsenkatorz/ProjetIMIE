@@ -11,16 +11,16 @@
 {% block head %}
     {{ parent() }}
     {# Plugin facebook #}
-    <meta property='og:url' content='{{ path('home_metier', {jobId: job.id} ) }}' class="head" />
-    <meta property='og:type' content='website' class="head" />
-    <meta property='og:title' content='Geek Njob' class="head" />
-    <meta property='og:description' content='Mon résultat est : {{ job.name }} ! Faites le test !' class="head" />
-    <meta property='og:image' content='{{ asset('assets/img/persoResponse/perso_pose1.png') }}' class="head" />
+    <meta property='og:url' content='{{ path('home_metier', {jobId: job.id} ) }}' class="head"/>
+    <meta property='og:type' content='website' class="head"/>
+    <meta property='og:title' content='Geek Njob' class="head"/>
+    <meta property='og:description' content='Mon résultat est : {{ job.name }} ! Faites le test !' class="head"/>
+    <meta property='og:image' content='{{ asset('assets/img/persoResponse/perso_pose1.png') }}' class="head"/>
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}" class="head"/>
+    {{ parent() }}
 {% endblock stylesheets %}
 
 {% block header %}
@@ -94,37 +94,102 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="row">
-                            <div class="col-md-1">
-                                <div id="utils-icon-share-twitter" class="sharedBtn" data-href="{{ path('home_setShared') }}">
-                                    <a href="javascript:void(0);"
-                                       onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"
-                                       title="Twitter"
-                                    >
-                                        <i class="fa fa-twitter-square fa-2x"></i>
-                                    </a>
-                                </div>
+                        <div class="row imie">
+                            <div class="share">
+                                <p class="text-center">
+                                    <span>Share</span>
+                                </p>
+                                <nav>
+
+
+
+                                    <i class="fa fa-facebook">
+                                        <div id="utils-icon-share-fb" class="sharedBtn"
+                                             data-href="{{ path('home_setShared') }}">
+                                            <a href="javascript:void(0);"
+                                               onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"
+                                               title="Facebook"
+                                            >
+                                                <i class="fa fa-facebook-square fa-2x"></i>
+                                            </a>
+                                        </div>
+                                    </i>
+
+
+
+                                    <i class="fa fa-linkedin">
+                                        <div id="utils-icon-share-linkedin" class="sharedBtn"
+                                             data-href="{{ path('home_setShared') }}">
+                                            <a target="_blank" class="ld-item" id="ld-link" rel="nofollow"
+                                               data-title=""
+                                               onclick="Javascript:window.open('https://www.linkedin.com/shareArticle?source=https://geek.njob.fr&mini=true&url=' + document.URL, '', 'height=500,width=600');"
+                                               href="javascript:void(0);"
+                                            >
+                                                <i class="fa fa-linkedin-square fa-2x"></i>
+                                            </a>
+
+                                            {#<a title="Linkedin"#}
+                                            {#href="javascript:void(0);"#}
+                                            {#onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '', 'height=500,width=600');"#}
+                                            {#>#}
+                                            {#<i class="fa fa-linkedin-square fa-2x"></i>#}
+                                            {#</a>#}
+                                        </div>
+                                    </i>
+
+                                    <i class="fa fa-twitter">
+                                        <div id="utils-icon-share-twitter" class="sharedBtn"
+                                             data-href="{{ path('home_setShared') }}">
+                                            <a href="javascript:void(0);"
+                                               onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"
+                                               title="Twitter"
+                                            ></a>
+                                        </div>
+                                    </i>
+
+                                </nav>
                             </div>
-                            <div class="col-md-1">
-                                <div id="utils-icon-share-fb" class="sharedBtn" data-href="{{ path('home_setShared') }}">
-                                    <a href="javascript:void(0);"
-                                       onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"
-                                       title="Facebook"
-                                    >
-                                        <i class="fa fa-facebook-square fa-2x"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div id="utils-icon-share-linkedin" class="sharedBtn" data-href="{{ path('home_setShared') }}">
-                                    <a title="Linkedin"
-                                       href="javascript:void(0);"
-                                       onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '', 'height=500,width=600');"
-                                    >
-                                        <i class="fa fa-linkedin-square fa-2x"></i>
-                                    </a>
-                                </div>
-                            </div>
+                            {#<div class="col-md-1">#}
+                            {#<div id="utils-icon-share-twitter" class="sharedBtn"#}
+                            {#data-href="{{ path('home_setShared') }}">#}
+                            {#<a href="javascript:void(0);"#}
+                            {#onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"#}
+                            {#title="Twitter"#}
+                            {#>#}
+                            {#<i class="fa fa-twitter-square fa-2x"></i>#}
+                            {#</a>#}
+                            {#</div>#}
+                            {#</div>#}
+                            {#<div class="col-md-1">#}
+                            {#<div id="utils-icon-share-fb" class="sharedBtn"#}
+                            {#data-href="{{ path('home_setShared') }}">#}
+                            {#<a href="javascript:void(0);"#}
+                            {#onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"#}
+                            {#title="Facebook"#}
+                            {#>#}
+                            {#<i class="fa fa-facebook-square fa-2x"></i>#}
+                            {#</a>#}
+                            {#</div>#}
+                            {#</div>#}
+                            {#<div class="col-md-1">#}
+                            {#<div id="utils-icon-share-linkedin" class="sharedBtn"#}
+                            {#data-href="{{ path('home_setShared') }}">#}
+                            {#<a target="_blank" class="ld-item" id="ld-link" rel="nofollow"#}
+                            {#data-title=""#}
+                            {#onclick="Javascript:window.open("https://www.linkedin.com/shareArticle?source=https://geek.njob.fr&mini=true&url=" + Javascript:document.location.href + "&summary='summary'", '', 'height=500,width=600');#}
+                            {#href="javascript:void(0);"#}
+                            {#>#}
+                            {#<i class="fa fa-linkedin-square fa-2x"></i>#}
+                            {#</a>#}
+
+                            {#<a title="Linkedin"#}
+                            {#href="javascript:void(0);"#}
+                            {#onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '', 'height=500,width=600');"#}
+                            {#>#}
+                            {#<i class="fa fa-linkedin-square fa-2x"></i>#}
+                            {#</a>#}
+                            {#</div>#}
+                            {#</div>#}
                         </div>
                         <div class="row">
                             <div class="col-md-12">

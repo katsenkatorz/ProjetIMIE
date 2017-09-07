@@ -1,9 +1,20 @@
 $(document).ready(function ()
 {
+    var share = document.querySelector('.share');
+
+    setTimeout(function ()
+    {
+        share.classList.add("hover");
+    }, 1000);
+
+    setTimeout(function ()
+    {
+        share.classList.remove("hover");
+    }, 3000);
+
     genGraph();
     sendShared();
     genUserGraph();
-
 
     function sendShared()
     {
@@ -18,7 +29,11 @@ $(document).ready(function ()
                 $.ajax({
                     url: href,
                     method: 'POST'
-                }).done(function (data) {}).fail(function (error) {})
+                }).done(function (data)
+                {
+                }).fail(function (error)
+                {
+                })
             });
         });
     }
@@ -31,7 +46,7 @@ $(document).ready(function ()
         var labels = [];
         var values = [];
 
-        if(typeof quizzResult !== "undefined")
+        if (typeof quizzResult !== "undefined")
         {
             var results = JSON.parse(quizzResult);
             $.each(results, function (key, element)
@@ -41,7 +56,7 @@ $(document).ready(function ()
                 var value = element.moyenne;
 
                 if (value < 0)
-                    value = - value;
+                    value = -value;
 
                 values.push(value);
             });
@@ -91,7 +106,8 @@ $(document).ready(function ()
         var labels = [];
         var values = [];
 
-        inputs.each(function () {
+        inputs.each(function ()
+        {
             var elem = $(this);
 
             labels.push(elem.data('type'));
@@ -99,7 +115,7 @@ $(document).ready(function ()
             var value = elem.val();
 
             if (value < 0)
-                value = - value;
+                value = -value;
 
             values.push(parseInt(value));
         });

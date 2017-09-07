@@ -15,6 +15,82 @@ h1, h2 {
 .font {
     font-family: "HelveticaNeue";
 }
+/*---- PARTAGE ---- */
+/*.imie {*/
+    /*font-family: 'Roboto';*/
+    /*font-size: 28px;*/
+/*}*/
+/*.imie a {*/
+    /*color: #f1ce64;*/
+/*}*/
+/*.imie .share {*/
+    /*width: 400px;*/
+    /*border-radius: 80px;*/
+    /*border: 1px solid black;*/
+    /*text-align: center;*/
+/*}*/
+/*.imie .share > p > span{*/
+    /*line-height: 80px;*/
+    /*display: inline-block;*/
+    /*font-weight: 700;*/
+    /*text-transform: uppercase;*/
+    /*position: absolute;*/
+    /*opacity: 1;*/
+    /*-webkit-transition: opacity 0.3s ease-in-out;*/
+    /*transition: opacity 0.3s ease-in-out;*/
+    /*pointer-events: none;*/
+/*}*/
+/*.imie .share nav {*/
+    /*font-size: 0;*/
+/*}*/
+/*.imie .share a {*/
+    /*line-height: 80px;*/
+    /*width: 80px;*/
+    /*text-align: center;*/
+    /*display: inline-block;*/
+    /*background-color: #ffffff;*/
+    /*color: #ffffff;*/
+    /*overflow: hidden;*/
+    /*opacity: 1;*/
+    /*-webkit-transition: all 0.3s ease-in-out;*/
+    /*transition: all 0.3s ease-in-out;*/
+    /*margin: 0 -20px;*/
+    /*box-shadow: 3px 1px 3px rgba(0, 0, 0, 0.1);*/
+/*}*/
+/*.imie .share a:nth-child(1) {*/
+    /*border-top-left-radius: 40px;*/
+    /*border-bottom-left-radius: 40px;*/
+    /*margin-left: 0;*/
+/*}*/
+/*.imie .share a:nth-child(1):hover {*/
+    /*background-color: #61c5ec;*/
+/*}*/
+/*.imie .share a:nth-child(2):hover {*/
+    /*background-color: #3B5998;*/
+/*}*/
+/*.imie .share a:nth-child(3):hover {*/
+    /*background-color: #ea4335;*/
+/*}*/
+/*.imie .share a:nth-child(4) {*/
+    /*border-top-right-radius: 40px;*/
+    /*border-bottom-right-radius: 40px;*/
+    /*margin-right: 0;*/
+/*}*/
+/*.imie .share a:nth-child(4):hover {*/
+    /*background-color: #000000;*/
+/*}*/
+/*.imie .share:hover span, .imie .share.hover span {*/
+    /*opacity: 0;*/
+/*}*/
+/*.imie .share:hover a, .imie .share.hover a {*/
+    /*border-radius: 50%;*/
+    /*margin: 0 10px;*/
+    /*color: #f1ce64;*/
+    /*font-size: 28px;*/
+/*}*/
+/*.imie .share:hover a:hover, .imie .share.hover a:hover {*/
+    /*color: #fff;*/
+/*}*/
 
 /*------- QUIZZ -------*/
 
