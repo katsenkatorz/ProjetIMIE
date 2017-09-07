@@ -96,30 +96,31 @@
                         {% endif %}
                         <div class="row">
                             <div class="col-md-1">
-                                <div id="utils-icon-share-twitter">
+                                <div id="utils-icon-share-twitter" class="sharedBtn" data-href="{{ path('home_setShared') }}">
                                     <a href="javascript:void(0);"
-                                       onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank');"
-                                       title="Twitter">
+                                       onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"
+                                       title="Twitter"
+                                    >
                                         <i class="fa fa-twitter-square fa-2x"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <div id="utils-icon-share-fb">
-                                    <a
-                                            href="javascript:void(0);"
-                                            onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank');"
-                                            title="Facebook">
+                                <div id="utils-icon-share-fb" class="sharedBtn" data-href="{{ path('home_setShared') }}">
+                                    <a href="javascript:void(0);"
+                                       onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"
+                                       title="Facebook"
+                                    >
                                         <i class="fa fa-facebook-square fa-2x"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <div id="utils-icon-share-linkedin">
-                                    <a
-                                            title="Linkedin"
-                                            href="javascript:void(0);"
-                                            onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '');return false;">
+                                <div id="utils-icon-share-linkedin" class="sharedBtn" data-href="{{ path('home_setShared') }}">
+                                    <a title="Linkedin"
+                                       href="javascript:void(0);"
+                                       onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '', 'height=500,width=600');"
+                                    >
                                         <i class="fa fa-linkedin-square fa-2x"></i>
                                     </a>
                                 </div>
@@ -306,6 +307,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
     <script src="{{ asset('assets/js/home/metierProcess.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>

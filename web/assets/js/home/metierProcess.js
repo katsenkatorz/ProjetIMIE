@@ -7,15 +7,19 @@ $(document).ready(function ()
 
     function sendShared()
     {
-        var button = $('#sharedBtn');
-        var href = button.data('href');
+        var button = $('.sharedBtn');
 
-        button.unbind('click').bind('click', function ()
+        button.each(function ()
         {
-            $.ajax({
-                url: href,
-                method: 'POST'
-            }).done(function (data) {}).fail(function (error) {})
+            var href = $(this).data('href');
+
+            $(this).unbind('click').bind('click', function ()
+            {
+                $.ajax({
+                    url: href,
+                    method: 'POST'
+                }).done(function (data) {}).fail(function (error) {})
+            });
         });
     }
 
