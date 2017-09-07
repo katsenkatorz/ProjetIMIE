@@ -1,7 +1,6 @@
 // Définition des variables pour contenir les charts qui doivent être reset
 var userChart;
 var testChart;
-var nonStartedChart;
 var jobChart;
 
 $(document).ready(function ()

@@ -75,19 +75,6 @@ class MainController extends Controller
         $achieveData = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
         $visitorData = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
 
-//        switch ($param)
-//        {
-//            case 0:
-//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
-//                break;
-//            case 1:
-//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
-//                break;
-//            case 2:
-//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
-//                break;
-//        }
-
         return $this->json([
             "message" => "Ok",
             "value" => [
