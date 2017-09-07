@@ -67,25 +67,35 @@ class MainController extends Controller
     public function visitorQuizzAction(Request $request)
     {
         $visitorRepo = $this->getDoctrine()->getRepository("AdminBundle:Visitor");
-        $param = $request->attributes->get('param');
         $year = $request->attributes->get('year');
 
         $returnResult = null;
 
-        switch ($param)
-        {
-            case 0:
-                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
-                break;
-            case 1:
-                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
-                break;
-            case 2:
-                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
-                break;
-        }
+        $unAchieveData = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
+        $achieveData = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
+        $visitorData = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
 
-        return $this->json(["message" => "Ok", "value" => $returnResult]);
+//        switch ($param)
+//        {
+//            case 0:
+//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
+//                break;
+//            case 1:
+//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
+//                break;
+//            case 2:
+//                $returnResult = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
+//                break;
+//        }
+
+        return $this->json([
+            "message" => "Ok",
+            "value" => [
+                "achieve" => $achieveData,
+                "unachieve" => $unAchieveData,
+                "visitor" => $visitorData
+            ]
+        ]);
     }
 
     /**
@@ -127,11 +137,13 @@ class MainController extends Controller
         $downgrade = $request->get('down');
         $userId = $request->get('userId');
 
-        if (isset($upgrade) && $upgrade === "Upgrade user") {
+        if (isset($upgrade) && $upgrade === "Upgrade user")
+        {
             $userRepo->upgradeUserToAdmin($userId);
         }
 
-        if (isset($downgrade) && $downgrade === "Downgrade user") {
+        if (isset($downgrade) && $downgrade === "Downgrade user")
+        {
             $userRepo->downgradeAdminToUser($userId);
         }
 
@@ -173,7 +185,8 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if (!is_null($parameterId) && !is_null($label) && !is_null($value)) {
+        if (!is_null($parameterId) && !is_null($label) && !is_null($value))
+        {
             $ParamRepo->putParameter($parameterId, $label, $value);
         }
 
@@ -198,7 +211,8 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -226,7 +240,8 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -255,7 +270,9 @@ class MainController extends Controller
         $bool = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->putValueOfParameterById($paramId, $value);
 
         if ($bool)
+        {
             return $this->json(['message' => "Modification(s) bien effectuée(s)"]);
+        }
 
         return $this->json(['message' => "Erreur lors de la modification"]);
     }
@@ -283,13 +300,13 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if(!is_null($label) && !is_null($value) && !is_null($id))
+        if (!is_null($label) && !is_null($value) && !is_null($id))
         {
             $paramRepo = $this->getDoctrine()->getRepository('AdminBundle:Parameters');
 
             $color = $paramRepo->putParameter($id, $label, $value);
 
-            if (!$color )
+            if (!$color)
             {
                 return $this->json([
                     'message' => 'Erreur lors de la modification.'

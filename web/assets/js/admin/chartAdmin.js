@@ -22,19 +22,16 @@ $(document).ready(function ()
 
     // On crée les premiers chart avec l'année en cours
     userChart = genVisitorByYear(year);
-    testChart = genAchieveAndUnAchieveTest(year);
-    nonStartedChart = genUnstartedTest(year);
+    testChart = genTestData(year);
 
     // Au changement d'années dans le select, on recharge les graphiques
     selectYearInput.unbind('change').bind('change', function ()
     {
         userChart.destroy();
         testChart.destroy();
-        nonStartedChart.destroy();
 
         userChart = genVisitorByYear($(this).val());
-        testChart = genAchieveAndUnAchieveTest($(this).val());
-        nonStartedChart = genUnstartedTest($(this).val());
+        testChart = genTestData($(this).val());
     });
 
 
@@ -172,7 +169,6 @@ function genVisitorByYear(year)
         method: "GET"
     }).done(function (data)
     {
-
         var result = orderValueToMonth(data);
 
         var max = Math.max(result.values);
@@ -185,15 +181,14 @@ function genVisitorByYear(year)
                 labels: result.month,
                 datasets: [{
                     backgroundColor: "#3e95cd",
-                    label: "utilisateurs mensuels",
+                    label: "Utilisateurs mensuels",
                     data: result.values
                 }]
             },
             options: {
                 responsive: true,
                 title: {
-                    display: false,
-                    text: 'Nombre de visiteur par année'
+                    display: false
                 },
                 legend: {
                     display: false
@@ -213,10 +208,7 @@ function genVisitorByYear(year)
             }
         });
 
-    }).fail(function (error)
-    {
-        console.log("error");
-    });
+    }).fail(function (error) {});
 
     return userChart;
 }
@@ -256,117 +248,54 @@ function genSharedTest()
 }
 
 // Génère le chart pour le nombre de test terminer et non terminer
-function genAchieveAndUnAchieveTest(year)
+function genTestData(year)
 {
     var backgroundColor;
     var max;
 
     $.ajax({
-        url: '/tdb-admin/visitors/quizz/' + year + '/1',
+        url: '/tdb-admin/visitors/quizz/' + year,
         method: 'GET'
     }).done(function (data)
     {
-        var achieveData = orderValueToMonth(data.value);
+        // On rrécupère les données formatées par mois
+        var achieveData = orderValueToMonth(data.value.achieve);
+        var unAchieveData = orderValueToMonth(data.value.unachieve);
+        var unStartedData = orderValueToMonth(data.value.visitor);
 
-        $.ajax({
-            url: '/tdb-admin/visitors/quizz/' + year + '/0',
-            method: 'GET'
-        }).done(function (data)
-        {
-            var unAchieveData = orderValueToMonth(data.value);
+        // On set la couleur de fond et l'echelle maximale du graphique
+        backgroundColor = createBackgroundColor(achieveData.values);
+        max = Math.max(achieveData.values);
 
-            if (achieveData.values.length > unAchieveData.values.length)
-            {
-                backgroundColor = createBackgroundColor(achieveData.values);
-                max = Math.max(achieveData.values);
-            }
-            else
-            {
-                backgroundColor = createBackgroundColor(unAchieveData.values);
-                max = Math.max(unAchieveData.values);
-            }
 
-            var ctxTemp = document.getElementById("getNbTestChart").getContext('2d');
-            testChart = new Chart(ctxTemp, {
-                type: 'line',
-                data: {
-                    labels: achieveData.month,
-                    datasets: [
-                        {
-                            label: 'Quizz non finis',
-                            borderColor: "#cd1e10",
-                            data: unAchieveData.values,
-                            fill: false,
-                            pointRadius: 10
-                        },
-                        {
-                            label: 'Quizz finis',
-                            borderColor: "#3e95cd",
-                            data: achieveData.values,
-                            fill: false,
-                            pointRadius: 10
-                        }
-                    ]
-                },
-                options: {
-                    legend: {
-                        display: false
-                    },
-                    responsive: true,
-                    scales: {
-                        xAxes: [{
-                            stacked: false
-                        }],
-                        yAxes: [{
-                            stacked: false,
-                            ticks: {
-                                beginAtZero: true,
-                                stepSize: max
-                            }
-                        }]
-                    },
-                    elements: {
-                        point: {
-                            pointStyle: 'crossRot'
-                        }
-                    }
-                }
-            });
-        }).fail(function ()
-        {
-        });
-    }).fail(function ()
-    {
-    });
-
-    return testChart;
-}
-
-// Génère le chart pour les visiteurs qui ne sont pas du tout aller faire le test
-function genUnstartedTest(year)
-{
-
-    $.ajax({
-        url: '/tdb-admin/visitors/quizz/' + year + '/2',
-        method: 'GET'
-    }).done(function (data)
-    {
-        var unStartedData = orderValueToMonth(data.value);
-
-        var max = Math.max(unStartedData.values);
-
-        var ctxTemp = document.getElementById("unstartedTestChart").getContext('2d');
-        nonStartedChart = new Chart(ctxTemp, {
+        var ctxTemp = document.getElementById("getNbTestChart").getContext('2d');
+        testChart = new Chart(ctxTemp, {
             type: 'line',
             data: {
-                labels: unStartedData.month,
-                datasets: [{
-                    label: 'Curieux',
-                    borderColor: "#3e95cd",
-                    data: unStartedData.values,
-                    fill: false,
-                    pointRadius: 10
-                }]
+                labels: achieveData.month,
+                datasets: [
+                    {
+                        label: 'Quizz non finis',
+                        borderColor: "#cd1e10",
+                        data: unAchieveData.values,
+                        fill: false,
+                        pointRadius: 10
+                    },
+                    {
+                        label: 'Quizz finis',
+                        borderColor: "#3e95cd",
+                        data: achieveData.values,
+                        fill: false,
+                        pointRadius: 10
+                    },
+                    {
+                        label: 'Quizz non commencer',
+                        borderColor: "#34cd1a",
+                        data: unStartedData.values,
+                        fill: false,
+                        pointRadius: 10
+                    }
+                ]
             },
             options: {
                 legend: {
@@ -375,10 +304,10 @@ function genUnstartedTest(year)
                 responsive: true,
                 scales: {
                     xAxes: [{
-                        stacked: true
+                        stacked: false
                     }],
                     yAxes: [{
-                        stacked: true,
+                        stacked: false,
                         ticks: {
                             beginAtZero: true,
                             stepSize: max
@@ -387,17 +316,14 @@ function genUnstartedTest(year)
                 },
                 elements: {
                     point: {
-                        pointStyle: 'rectRot',
-                        backgroundColor: "#3e95cd"
+                        pointStyle: 'crossRot'
                     }
                 }
             }
         });
-    }).fail(function ()
-    {
     });
 
-    return nonStartedChart;
+    return testChart;
 }
 
 // Génère le chart pour la proportion de navigateur

@@ -25,7 +25,7 @@ admin_user:
         _controller: AdminBundle:Main:user
 
 admin_visitorQuizz:
-    path:     /visitors/quizz/{year}/{param}
+    path:     /visitors/quizz/{year}
     defaults:
         _controller: AdminBundle:Main:visitorQuizz
 
