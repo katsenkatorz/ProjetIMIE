@@ -1,8 +1,8 @@
 {% extends 'HomeBundle::base.html.twig' %}
 
 {% block title %}
-    {% for result in quizzResult if result.jobName == job.name  %}
-        Je suis {{ result.jobName }} à {{ result.percentage }}% !
+    {% for result in quizzResult if result.jobName == job.name %}
+        Je suis {{ result.jobName }} à {{ result.percentage }}%&nbsp;!
     {% else %}
         {{ job.name }}
     {% endfor %}
@@ -11,21 +11,21 @@
 {% block head %}
     {{ parent() }}
     {# Plugin facebook #}
-    <meta property="og:url" content="{{ path('home_metier', {jobId: job.id} ) }}"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Geek Njob"/>
-    <meta property="og:description" content="Mon résultat est : {{ job.name }} ! Faites le test !"/>
-    <meta property="og:image" content="{{ asset('assets/img/') }}"/>
-{% endblock %}
-
-{% block header %}
-    {% include 'HomeBundle:layout:header.html.twig' %}
+    <meta property='og:url' content='{{ path('home_metier', {jobId: job.id} ) }}' class="head" />
+    <meta property='og:type' content='website' class="head" />
+    <meta property='og:title' content='Geek Njob' class="head" />
+    <meta property='og:description' content='Mon résultat est : {{ job.name }} ! Faites le test !' class="head" />
+    <meta property='og:image' content='{{ asset('assets/img/persoResponse/perso_pose1.png') }}' class="head" />
 {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}" class="head"/>
 {% endblock stylesheets %}
+
+{% block header %}
+    {% include 'HomeBundle:layout:header.html.twig' %}
+{% endblock header %}
 
 {% block content %}
     {% block _HomeBundle %}
@@ -42,14 +42,14 @@
                                                 border: solid {{ primary.value }};
                                                 -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                                 filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
+                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
                                         </div>
                                     {% else %}
                                         <div class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}% !</h3>
+                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
                                         </div>
                                     {% endif %}
                                 </div>
@@ -68,8 +68,8 @@
                                                 border: solid {{ primary.value }};
                                                 -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                                 filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                            {% for result in quizzResult if result.jobName == job.name  %}
-                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}% !</h3>
+                                            {% for result in quizzResult if result.jobName == job.name %}
+                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
                                             {% else %}
                                                 <h3>Je te présente le métier de {{ job.name }}</h3>
                                             {% endfor %}
@@ -79,8 +79,8 @@
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                            {% for result in quizzResult if result.jobName == job.name  %}
-                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}% !</h3>
+                                            {% for result in quizzResult if result.jobName == job.name %}
+                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
                                             {% else %}
                                                 <h3>Je te présente le métier de {{ job.name }}</h3>
                                             {% endfor %}
@@ -97,7 +97,9 @@
                         <div class="row">
                             <div class="col-md-1">
                                 <div id="utils-icon-share-twitter">
-                                    <a href="javascript:void(0);" onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank');" title="Twitter">
+                                    <a href="javascript:void(0);"
+                                       onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank');"
+                                       title="Twitter">
                                         <i class="fa fa-twitter-square fa-2x"></i>
                                     </a>
                                 </div>
@@ -116,37 +118,13 @@
                                 <div id="utils-icon-share-linkedin">
                                     <a
                                             title="Linkedin"
-                                            href= "javascript:void(0);"
+                                            href="javascript:void(0);"
                                             onclick="Javascript:window.open('https://www.linkedin.com/cws/share?url=geek.njob.fr%2Fquizz&original_referer='+this.href, '');return false;">
                                         <i class="fa fa-linkedin-square fa-2x"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        {#<div class="row">#}
-                            {#<div class="col-md-2">#}
-                                {#<div    id="fb-root"#}
-                                        {#class="fb-share-button"#}
-                                        {#data-href="{{ path('home_metier', {jobId: job.id} ) }}"#}
-                                        {#data-layout="button"#}
-                                        {#data-size="small"#}
-                                        {#data-mobile-iframe="true">#}
-                                    {#<a#}
-                                            {#data-href="{{ path('home_setShared') }}"#}
-                                            {#id="sharedBtn"#}
-                                            {#class="fb-xfbml-parse-ignore btn btn-primary"#}
-                                            {#target="_blank"#}
-                                            {#href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fgeek.njob.fr%2Fmetier%2F{{jobId: job.id}}&amp;src=sdkpreparse">#}
-                                            {#<i class="fa fa-facebook-square"></i>#}
-                                        {#Partager#}
-                                    {#</a>#}
-                                {#</div>#}
-                            {#</div>#}
-                            {#<div class="col-md-2">#}
-                                {#<script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: fr_FR</script>#}
-                                {#<script type="IN/Share" data-url="geek.njob.fr/quizz"></script>#}
-                            {#</div>#}
-                        {#</div>#}
                         <div class="row">
                             <div class="col-md-12">
                                 {{ job.description|raw }}
@@ -329,7 +307,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/metierProcess.js') }}"></script>
-    <script src="{{ asset('assets/js/home/sdkFacebook.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>
 {% endblock %}

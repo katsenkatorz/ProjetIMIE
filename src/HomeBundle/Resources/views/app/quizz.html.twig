@@ -5,41 +5,41 @@
 {% block head %}
     {{ parent() }}
     <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" class="recaptcha">
         var onloadCallback = function ()
         {
             return grecaptcha.render('g-recaptcha',
-            {
-                sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
-                size:"invisible",
-                callback: function (response)
                 {
-                    $.ajax({
-                        url: "/recaptcha",
-                        method: "POST",
-                        data: {
-                            response: response
-                        }
-                    }).done(function (resp)
+                    sitekey: "6Ldsay8UAAAAAGUTeta9WaLv-t4ts1WnqA7Pk_-O",
+                    size:"invisible",
+                    callback: function (response)
                     {
-                        var response = JSON.parse(resp);
-
-                        if(response.success)
+                        $.ajax({
+                            url: "/recaptcha",
+                            method: "POST",
+                            data: {
+                                response: response
+                            }
+                        }).done(function (resp)
                         {
-                            resolveQuizz();
-                        }
-                        else
-                        {
-                            resetQuizz();
-                        }
+                            var response = JSON.parse(resp);
 
-                    }).fail(function (fail) {});
-                }
-            })
+                            if(response.success)
+                            {
+                                resolveQuizz();
+                            }
+                            else
+                            {
+                                resetQuizz();
+                            }
+
+                        }).fail(function (fail) {});
+                    }
+                })
         }
     </script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-            async defer>
+            async defer class="recaptcha">
     </script>
 {% endblock %}
 
@@ -48,10 +48,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
 {% endblock stylesheets %}
-
-{% block header %}
-
-{% endblock %}
 
 {% block content %}
     <div id="my-body">
@@ -102,9 +98,6 @@
                 <div class="row">
                     <div id="responseContainer" class="row"></div>
                 </div>
-                <div class="row">
-                    <div id="g-recaptcha" class="g-recaptcha"></div>
-                </div>
                 {% if imageParam is not null and imageParam.width is not null and imageParam.height is not null %}
                     <input type="hidden" id="widthInput" value="{{ imageParam.width }}">
                     <input type="hidden" id="heightInput" value="{{ imageParam.height }}">
@@ -113,6 +106,9 @@
                     <input type="hidden" id="heightInput" value="250">
                 {% endif %}
                 <input type="hidden" id="hrefInput" value="{{ path('home_quizz_resolution') }}">
+            </div>
+            <div class="row">
+                <div id="g-recaptcha" class="g-recaptcha recaptcha"></div>
             </div>
         {% endblock %}
     </div>

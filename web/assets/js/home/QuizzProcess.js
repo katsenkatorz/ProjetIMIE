@@ -6,8 +6,6 @@ $(document).ready(function ()
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-
-
     try
     {
         // On initialise le test
@@ -443,7 +441,6 @@ function resolveQuizz()
     // On initialise un tableau de réponses
     var responses = [];
     // On récupère le body
-    var container = $('.container');
     var body = $('#my-body');
 
     // On remplis le tableau
@@ -472,14 +469,22 @@ function resolveQuizz()
             body.hide().html('').fadeOut('slow');
             body.html(result.page).fadeIn('slow');
 
+            var head = $('head');
+            head.remove();
+
             // Changement de l'url
             window.history.pushState("", "", result.href);
 
             // Permet de compenser la disparition de la barre de scroll
             $('html').css("overflow", "auto");
 
-            // Permet de changer le titre de la page
-            $('title').html($('#my-body title').html());
+            head = document.createElement("head");
+            head.id = "myhead";
+
+            $('.head').wrapAll(head);
+
+            $('html').prepend($('#myhead'));
+
             // Fermeture du modal
             setTimeout(function ()
             {
@@ -488,9 +493,7 @@ function resolveQuizz()
                 $('.modal-backdrop').remove();
             }, 600)
 
-
-
-        }, 1000)
+        }, 1000);
     }).fail(function () {})
 }
 
