@@ -40,7 +40,7 @@ class UserInformationHandler extends Controller
 
             $ipClient = $this->requestStack->getCurrentRequest()->getClientIp();
             $browsers = $_SERVER["HTTP_USER_AGENT"];
-            $country = geoip_country_name_by_name($ipClient);
+            $country = $_SERVER['GEOIP_COUNTRY_NAME'];
             $datetime = new \DateTime();
 
             try
