@@ -36,6 +36,10 @@ html {
     background-color: #aaaaaa;
 }
 
+.content {
+    padding-bottom: 100px;
+}
+
 /*---------------------- HEADER ----------------------*/
 
 .navbar-nav > li > a {
