@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Entity;
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Grafikart\UploadBundle\Annotation\Uploadable;
 use Grafikart\UploadBundle\Annotation\UploadableField;
@@ -22,6 +23,11 @@ class Job
      * @var string
      */
     private $name;
+
+    /**
+     * @var string
+     */
+    private $slug;
 
     /**
      * @var string
@@ -68,6 +74,14 @@ class Job
     {
         $this->jobTemperaments = new ArrayCollection();
         $this->deliveredByQuizz = 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

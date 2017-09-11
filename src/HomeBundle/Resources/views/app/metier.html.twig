@@ -11,7 +11,7 @@
 {% block head %}
     {{ parent() }}
     {# Plugin facebook #}
-    <meta property='og:url' content='{{ path('home_metier', {jobId: job.id} ) }}' class="head"/>
+    <meta property='og:url' content='{{ path('home_metier', {jobSlug: job.slug} ) }}' class="head"/>
     <meta property='og:type' content='website' class="head"/>
     <meta property='og:title' content='Geek Njob' class="head"/>
     <meta property='og:description' content='Mon résultat est : {{ job.name }} ! Faites le test !' class="head"/>
@@ -279,7 +279,7 @@
                             <div class="col-md-12 col-sm-6">
                                 {% if comeFromQuizz == true %}
                                     {% for result in quizzResult|slice(1, 2) %}
-                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
+                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">
                                             <div class="thumbnail">
                                                 {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
                                                     <div style="border-color: {{ primary.value }}" class="thumbProp">
@@ -305,7 +305,7 @@
                                                     </div>
                                                     <h3 style="background-color: #ea3d4f; color: #ffffff"
                                                         class="subtitleProp">
-                                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">{{ result.jobName }}</a>
                                                     </h3>
                                                 {% endif %}
                                             </div>
@@ -313,7 +313,7 @@
                                     {% endfor %}
                                 {% else %}
                                     {% for result in quizzResult if result.jobName != job.name %}
-                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">
+                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">
                                             <div class="thumbnail">
                                                 {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
                                                     <div style="border-color: {{ primary.value }}" class="thumbProp">
@@ -339,7 +339,7 @@
                                                     </div>
                                                     <h3 style="background-color: #ea3d4f; color: #ffffff"
                                                         class="subtitleProp">
-                                                        <a href="{{ path('home_metier', { jobId: result.jobId }) }}">{{ result.jobName }}</a>
+                                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">{{ result.jobName }}</a>
                                                     </h3>
                                                 {% endif %}
                                             </div>

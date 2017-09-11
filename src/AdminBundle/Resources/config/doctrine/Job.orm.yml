@@ -13,6 +13,15 @@ AdminBundle\Entity\Job:
             type: string
             length: '45'
             unique: true
+        slug:
+            type: string
+            length: '255'
+            gedmo:
+                slug:
+                    separator: _
+                    style: lower
+                    fields:
+                        - name
         description:
             type: text
         minSalary:
@@ -28,6 +37,9 @@ AdminBundle\Entity\Job:
             nullable: true
         deliveredByQuizz:
             type: integer
+    indexes:
+        search_idx:
+          columns: slug
     oneToMany:
         jobTemperaments:
             targetEntity: AdminBundle\Entity\JobTemperament

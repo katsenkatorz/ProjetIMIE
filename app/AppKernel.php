@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new HomeBundle\HomeBundle(),
             new Grafikart\UploadBundle\UploadBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
         ];
 

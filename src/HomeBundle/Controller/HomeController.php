@@ -164,7 +164,7 @@ class HomeController extends Controller
                 "sessionUserQuizzResult" => $session->get("quizz-user-result"),
                 "comeFromQuizz" => true
             ]),
-            "href" => $this->generateUrl("home_metier", ["jobId" => $selectedJobId])
+            "href" => $this->generateUrl("home_metier", ["jobSlug" => $selectedJob->getSlug()])
         ]);
     }
 
@@ -176,13 +176,13 @@ class HomeController extends Controller
         $session = $this->container->get('session');
         $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
-        $jobId = $request->attributes->get('jobId');
+        $jobSlug = $request->attributes->get('jobSlug');
 
         $quizzResult = json_decode($session->get("quizz-result"), true);
         $quizzUserResult = $session->get("quizz-user-result");
 
-        $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobById($jobId);
-        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($jobId);
+        $job = $this->getDoctrine()->getRepository("AdminBundle:Job")->getJobBySlug($jobSlug);
+        $jobPersonnalities = $this->getDoctrine()->getRepository("AdminBundle:JobTemperament")->getJobTemperamentByJobId($job->getId());
 
         return $this->render('HomeBundle:app:metier.html.twig', [
             "primary" => $colors['primary'],
