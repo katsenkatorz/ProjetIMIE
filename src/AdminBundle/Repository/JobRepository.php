@@ -34,6 +34,17 @@ class JobRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * Renvois un métier grâce à sont slug
+     *
+     * @param $jobSlug
+     * @return null|object
+     */
+    public function getJobBySlug($jobSlug)
+    {
+        return $this->findOneBy(["slug" => $jobSlug]);
+    }
+
+    /**
      * Renvois un metier choisie grâce à sont nom
      *
      * @param $name

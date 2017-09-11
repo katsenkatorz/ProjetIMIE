@@ -138,6 +138,7 @@ class QuizzResolver
                 "jobId" => $job->getId(),
                 "jobName" => $job->getName(),
                 "imageName" => $job->getImageName(),
+                "jobSlug" => $job->getSlug(),
                 "percentage" => $percentageValue
             ];
         }
