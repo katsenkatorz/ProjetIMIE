@@ -4,7 +4,7 @@
 
 {% block head %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/home/modernizr.custom.js') }}"></script>
+    <script src="{{ asset('assets/js/home/modernizr.custom.min.js') }}"></script>
     <script type="text/javascript" class="recaptcha">
         var onloadCallback = function ()
         {
@@ -45,7 +45,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/questionHome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/PageTransitionnerComponent.css') }}">
 {% endblock stylesheets %}
 
@@ -139,8 +139,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/home/pageTransitions.js') }}"></script>
-    <script src="{{ asset('assets/js/home/QuizzProcess.js') }}"></script>
+    <script src="{{ asset('assets/js/home/pageTransitions.min.js') }}"></script>
+    <script src="{{ asset('assets/js/home/QuizzProcess.min.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>
 {% endblock %}

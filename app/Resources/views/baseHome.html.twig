@@ -10,18 +10,18 @@
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" class="head">
 
         {# Jquery #}
-        <script rel="script" src="{{ asset('assets/jquery/jquery-3.2.1.js') }}" class="head"></script>
+        <script rel="script" src="{{ asset('assets/jquery/jquery-3.2.1.min.js') }}" class="head"></script>
     {% endblock %}
 
     {% block stylesheets %}
         {# CSS Bootstrap #}
-        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.css') }}" class="head" >
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" class="head" >
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
         crossorigin="anonymous" class="head" >
         {# CSS #}
-        <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" class="head" >
+        <link rel="stylesheet" href="{{ asset('assets/css/home.min.css') }}" class="head" >
     {% endblock %}
 </head>
 <body>
@@ -39,10 +39,10 @@
 {% endblock %}
 {% block javascripts %}
     {# Js Bootstrap #}
-    <script src="{{ asset('assets/bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
     {# Cookies #}
-    <script src="{{ asset('assets/js/home/cookiechoices.js') }}"></script>
-    <script src="{{ asset('assets/js/home/cookies.js') }}"></script>
+    <script src="{{ asset('assets/js/home/cookiechoices.min.js') }}"></script>
+    <script src="{{ asset('assets/js/home/cookies.min.js') }}"></script>
 {% endblock %}
 
 </body>
