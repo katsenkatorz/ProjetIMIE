@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/croppie.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/croppie.min.css') }}" />
 {% endblock %}
 
 {% block _AdminBundle %}
@@ -29,6 +29,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/admin/croppie.js') }}"></script>
-    <script src="{{ asset('assets/js/admin/ResponsesFromQuestionProcess.js') }}"></script>
+    <script src="{{ asset('assets/js/admin/croppie.min.js') }}"></script>
+    <script src="{{ asset('assets/js/admin/ResponsesFromQuestionProcess.min.js') }}"></script>
 {% endblock %}
