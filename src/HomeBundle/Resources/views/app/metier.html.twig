@@ -36,29 +36,36 @@
                         <div class="row">
                             <div class="col-md-8">
                                 {% if primary is not null and primary.value is not null %}
-                                    <div class="question pull-right" style="
-                                            margin-top: 70px;
+                                    <div id="questionRes" class="question pull-right" style="
                                             border: solid {{ primary.value }};
                                             -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                             filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
+                                        {% for result in quizzResult if result.jobName == job.name %}
+                                            <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
+                                        {% else %}
+                                            <h3>Je te présente le métier de {{ job.name }}</h3>
+                                        {% endfor %}
                                     </div>
                                 {% else %}
-                                    <div class="question pull-right" style="
+                                    <div id="questionRes" class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
+                                        {% for result in quizzResult if result.jobName == job.name %}
+                                            <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
+                                        {% else %}
+                                            <h3>Je te présente le métier de {{ job.name }}</h3>
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
+
                             <div class="col-md-4">
                                 <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
                                      width="250px"
                                      height="280px">
                             </div>
                         </div>
-
                         {# Pour le boutton de partage #}
 
                         {#<div class="row imie">#}
@@ -151,15 +158,14 @@
                         <div class="row">
                             <div class="col-md-8">
                                 {% if primary is not null and primary.value is not null %}
-                                    <div class="question pull-right" style="
-                                            margin-top: 70px;
+                                    <div id="questionRes" class="question pull-right" style="
                                             border: solid {{ primary.value }};
                                             -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                             filter: drop-shadow(5px 4px 0 {{ primary.value }});">
                                         <h3>Je te présente le métier de {{ job.name }}</h3>
                                     </div>
                                 {% else %}
-                                    <div class="question pull-right" style="
+                                    <div id="questionRes" class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
@@ -286,13 +292,13 @@
     {% endblock %}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('assets/js/home/metierProcess.min.js') }}"></script>
-    <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>
-{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('assets/js/home/metierProcess.min.js') }}"></script>
+        <script src="{{ asset('assets/js/home/Chart.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/js/home/Chart.min.js') }}"></script>
+    {% endblock %}
 
-{% block footer %}
-    {{ render(controller('HomeBundle:Home:renderFooter')) }}
-{% endblock %}
+    {% block footer %}
+        {{ render(controller('HomeBundle:Home:renderFooter')) }}
+    {% endblock %}
