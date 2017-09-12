@@ -2,9 +2,6 @@ var href;
 
 $(document).ready(function ()
 {
-    console.log('toto');
-    console.log(getCookie("displayCookieConsent"));
-
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
@@ -608,7 +605,6 @@ function deleteAllCookies()
 // Reset du quizz
 function resetQuizz()
 {
-
     if(getCookie("displayCookieConsent") === "y")
     {
         // On clear le localstorage
@@ -626,9 +622,6 @@ function resetQuizz()
         // On clear les cookies
         deleteAllCookies();
     }
-
-
-
 }
 
 /************** Fonction servant à la redirection avec envois de données **************/
