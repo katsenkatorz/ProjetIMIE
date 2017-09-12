@@ -276,7 +276,6 @@ $(document).ready(function ()
                         }
                     }).done(function (result)
                     {
-                        console.log("put-ok");
                         // Chargement de la vu partielle
                         loadPartielView(jobId, resultContent);
 
@@ -309,7 +308,6 @@ $(document).ready(function ()
                         }, 2000);
                     }).fail(function (error)
                     {
-                        console.log("put-pas-ok");
                         // Affichage du message d'erreur
                         $("#responseMessageContent")
                             .fadeIn(250)

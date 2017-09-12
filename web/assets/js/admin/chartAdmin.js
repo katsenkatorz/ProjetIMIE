@@ -364,10 +364,7 @@ function genVisitorByBrowser(browser)
             }
         });
 
-    }).fail(function (error)
-    {
-        console.log("error");
-    })
+    }).fail(function (error) {})
 }
 
 // Génère le chart du nombre de visiteur par pays
