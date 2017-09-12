@@ -230,7 +230,7 @@ h1, h2 {
     z-index: -1;
 }
 
-@media screen and (max-width: 770px) {
+@media screen and (max-width: 988px) {
     .question {
         width: 100%;
         border: 1px black;
