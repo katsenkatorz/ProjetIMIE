@@ -37,15 +37,14 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     {% if primary is not null and primary.value is not null %}
-                                        <div class="question pull-right" style="
-                                                margin-top: 70px;
+                                        <div id="questionRes" class="question pull-right" style="
                                                 border: solid {{ primary.value }};
                                                 -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                                 filter: drop-shadow(5px 4px 0 {{ primary.value }});">
                                             <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
                                         </div>
                                     {% else %}
-                                        <div class="question pull-right" style="
+                                        <div id="questionRes" class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
@@ -63,8 +62,7 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     {% if primary is not null and primary.value is not null %}
-                                        <div class="question pull-right" style="
-                                                margin-top: 70px;
+                                        <div id="questionRes" class="question pull-right" style="
                                                 border: solid {{ primary.value }};
                                                 -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
                                                 filter: drop-shadow(5px 4px 0 {{ primary.value }});">
@@ -75,7 +73,7 @@
                                             {% endfor %}
                                         </div>
                                     {% else %}
-                                        <div class="question pull-right" style="
+                                        <div id="questionRes" class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
