@@ -33,113 +33,77 @@
             <div class="row">
                 <div class="col-md-8">
                     {% if quizzResult[0] is defined %}
-                        {% if comeFromQuizz == true %}
-                            <div class="row">
-                                <div class="col-md-8">
-                                    {% if primary is not null and primary.value is not null %}
-                                        <div class="question pull-right" style="
-                                                margin-top: 70px;
-                                                border: solid {{ primary.value }};
-                                                -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
-                                                filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
-                                        </div>
-                                    {% else %}
-                                        <div class="question pull-right" style="
+                        <div class="row">
+                            <div class="col-md-8">
+                                {% if primary is not null and primary.value is not null %}
+                                    <div class="question pull-right" style="
+                                            margin-top: 70px;
+                                            border: solid {{ primary.value }};
+                                            -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
+                                            filter: drop-shadow(5px 4px 0 {{ primary.value }});">
+                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
+                                    </div>
+                                {% else %}
+                                    <div class="question pull-right" style="
                                 border: solid #ea3d4f;
                                 -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
                                 filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                            <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
-                                         width="250px"
-                                         height="280px">
-                                </div>
+                                        <h3>Tu es {{ job.name }} à {{ quizzResult[0].percentage }}%&nbsp;!</h3>
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% else %}
-                            <div class="row">
-                                <div class="col-md-8">
-                                    {% if primary is not null and primary.value is not null %}
-                                        <div class="question pull-right" style="
-                                                margin-top: 70px;
-                                                border: solid {{ primary.value }};
-                                                -webkit-filter: drop-shadow(5px 4px 0 {{ primary.value }});
-                                                filter: drop-shadow(5px 4px 0 {{ primary.value }});">
-                                            {% for result in quizzResult if result.jobName == job.name %}
-                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
-                                            {% else %}
-                                                <h3>Je te présente le métier de {{ job.name }}</h3>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        <div class="question pull-right" style="
-                                border: solid #ea3d4f;
-                                -webkit-filter: drop-shadow(5px 4px 0 #ea3d4f);
-                                filter: drop-shadow(5px 4px 0 #ea3d4f);">
-                                            {% for result in quizzResult if result.jobName == job.name %}
-                                                <h3>Tu es {{ result.jobName }} à {{ result.percentage }}%&nbsp;!</h3>
-                                            {% else %}
-                                                <h3>Je te présente le métier de {{ job.name }}</h3>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
-                                         width="250px"
-                                         height="280px">
-                                </div>
+                            <div class="col-md-4">
+                                <img src="{{ asset('assets/img/persoResponse/perso_pose1Bis.png') }}" alt=""
+                                     width="250px"
+                                     height="280px">
                             </div>
-                        {% endif %}
+                        </div>
 
                         {# Pour le boutton de partage #}
 
                         {#<div class="row imie">#}
-                            {#<div class="share">#}
-                                {#<p class="text-center">#}
-                                    {#<span>Share</span>#}
-                                {#</p>#}
-                                {#<nav>#}
-                                    {#<i class="fa fa-facebook">#}
-                                        {#<div id="utils-icon-share-fb" class="sharedBtn"#}
-                                             {#data-href="{{ path('home_setShared') }}">#}
-                                            {#<a href="javascript:void(0);"#}
-                                               {#onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"#}
-                                               {#title="Facebook"#}
-                                            {#>#}
-                                                {#<i class="fa fa-facebook-square fa-2x"></i>#}
-                                            {#</a>#}
-                                        {#</div>#}
-                                    {#</i>#}
+                        {#<div class="share">#}
+                        {#<p class="text-center">#}
+                        {#<span>Share</span>#}
+                        {#</p>#}
+                        {#<nav>#}
+                        {#<i class="fa fa-facebook">#}
+                        {#<div id="utils-icon-share-fb" class="sharedBtn"#}
+                        {#data-href="{{ path('home_setShared') }}">#}
+                        {#<a href="javascript:void(0);"#}
+                        {#onclick="Javascript:window.open('https://facebook.com/sharer/sharer.php?u='+document.URL,'_blank', 'height=500,width=600');"#}
+                        {#title="Facebook"#}
+                        {#>#}
+                        {#<i class="fa fa-facebook-square fa-2x"></i>#}
+                        {#</a>#}
+                        {#</div>#}
+                        {#</i>#}
 
 
-                                    {#<i class="fa fa-linkedin">#}
-                                        {#<div id="utils-icon-share-linkedin" class="sharedBtn"#}
-                                             {#data-href="{{ path('home_setShared') }}">#}
-                                            {#<a target="_blank" class="ld-item" id="ld-link" rel="nofollow"#}
-                                               {#data-title=""#}
-                                               {#onclick="Javascript:window.open('https://www.linkedin.com/shareArticle?source=https://geek.njob.fr&mini=true&url=' + document.URL, '', 'height=500,width=600');"#}
-                                               {#href="javascript:void(0);"#}
-                                            {#>#}
-                                                {#<i class="fa fa-linkedin-square fa-2x"></i>#}
-                                            {#</a>#}
-                                        {#</div>#}
-                                    {#</i>#}
+                        {#<i class="fa fa-linkedin">#}
+                        {#<div id="utils-icon-share-linkedin" class="sharedBtn"#}
+                        {#data-href="{{ path('home_setShared') }}">#}
+                        {#<a target="_blank" class="ld-item" id="ld-link" rel="nofollow"#}
+                        {#data-title=""#}
+                        {#onclick="Javascript:window.open('https://www.linkedin.com/shareArticle?source=https://geek.njob.fr&mini=true&url=' + document.URL, '', 'height=500,width=600');"#}
+                        {#href="javascript:void(0);"#}
+                        {#>#}
+                        {#<i class="fa fa-linkedin-square fa-2x"></i>#}
+                        {#</a>#}
+                        {#</div>#}
+                        {#</i>#}
 
-                                    {#<i class="fa fa-twitter">#}
-                                        {#<div id="utils-icon-share-twitter" class="sharedBtn"#}
-                                             {#data-href="{{ path('home_setShared') }}">#}
-                                            {#<a href="javascript:void(0);"#}
-                                               {#onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"#}
-                                               {#title="Twitter"#}
-                                            {#></a>#}
-                                        {#</div>#}
-                                    {#</i>#}
-                                {#</nav>#}
-                            {#</div>#}
+                        {#<i class="fa fa-twitter">#}
+                        {#<div id="utils-icon-share-twitter" class="sharedBtn"#}
+                        {#data-href="{{ path('home_setShared') }}">#}
+                        {#<a href="javascript:void(0);"#}
+                        {#onclick="Javascript:window.open('https://twitter.com/intent/tweet?&url='+document.URL,'_blank', 'height=500,width=600');"#}
+                        {#title="Twitter"#}
+                        {#></a>#}
+                        {#</div>#}
+                        {#</i>#}
+                        {#</nav>#}
+                        {#</div>#}
                         {#</div>#}
 
                         <div class="row">
@@ -215,16 +179,17 @@
                             </div>
                         </div>
                     {% endif %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            {% if job.image is not null %}
+
+                    {% if job.image is not null %}
+                        <div class="row">
+                            <div class="col-md-12">
                                 <a href="#" class="thumbnail text-center">
                                     <img style="margin-top: 30px" class="imgJob image-responsive"
                                          src="{{ asset(job.image.pathname) }}" alt="...">
                                 </a>
-                            {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="col-md-4">
@@ -264,75 +229,39 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-6">
-                                {% if comeFromQuizz == true %}
-                                    {% for result in quizzResult|slice(1, 2) %}
-                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">
-                                            <div class="thumbnail">
-                                                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
-                                                    <div style="border-color: {{ primary.value }}" class="thumbProp">
-                                                        <img class="img-responsive imgProp"
-                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                             alt="">
-                                                        <div class="percentage" style="color: {{ text.value }}">
-                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
-                                                        </div>
+                                {% for result in quizzResult if result.jobName != job.name %}
+                                    <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">
+                                        <div class="thumbnail">
+                                            {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
+                                                <div style="border-color: {{ primary.value }}" class="thumbProp">
+                                                    <img class="img-responsive imgProp"
+                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                         alt="">
+                                                    <div class="percentage" style="color: {{ text.value }}">
+                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
                                                     </div>
-                                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
-                                                        class="subtitleProp">{{ result.jobName }}
+                                                </div>
+                                                <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
+                                                    class="subtitleProp">{{ result.jobName }}
 
-                                                    </h3>
-                                                {% else %}
-                                                    <div style="border-color: #ea3d4f" class="thumbProp">
-                                                        <img class="img-responsive imgProp"
-                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                             alt="">
-                                                        <div class="percentage" style="color: #ffffff">
-                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
-                                                        </div>
+                                                </h3>
+                                            {% else %}
+                                                <div style="border-color: #ea3d4f" class="thumbProp">
+                                                    <img class="img-responsive imgProp"
+                                                         src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
+                                                         alt="">
+                                                    <div class="percentage" style="color: #ffffff">
+                                                        <span class="poucentageSpan">{{ result.percentage }}%</span>
                                                     </div>
-                                                    <h3 style="background-color: #ea3d4f; color: #ffffff"
-                                                        class="subtitleProp">
-                                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">{{ result.jobName }}</a>
-                                                    </h3>
-                                                {% endif %}
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                {% else %}
-                                    {% for result in quizzResult if result.jobName != job.name %}
-                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">
-                                            <div class="thumbnail">
-                                                {% if (primary is not null and text is not null ) and (primary.value is not null and text.value is not null) %}
-                                                    <div style="border-color: {{ primary.value }}" class="thumbProp">
-                                                        <img class="img-responsive imgProp"
-                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                             alt="">
-                                                        <div class="percentage" style="color: {{ text.value }}">
-                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
-                                                        </div>
-                                                    </div>
-                                                    <h3 style="background-color: {{ primary.value }}; color: {{ text.value }}"
-                                                        class="subtitleProp">{{ result.jobName }}
-
-                                                    </h3>
-                                                {% else %}
-                                                    <div style="border-color: #ea3d4f" class="thumbProp">
-                                                        <img class="img-responsive imgProp"
-                                                             src="{{ asset("/assets/img/imageJob/" ~ result.imageName) }}"
-                                                             alt="">
-                                                        <div class="percentage" style="color: #ffffff">
-                                                            <span class="poucentageSpan">{{ result.percentage }}%</span>
-                                                        </div>
-                                                    </div>
-                                                    <h3 style="background-color: #ea3d4f; color: #ffffff"
-                                                        class="subtitleProp">
-                                                        <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">{{ result.jobName }}</a>
-                                                    </h3>
-                                                {% endif %}
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                {% endif %}
+                                                </div>
+                                                <h3 style="background-color: #ea3d4f; color: #ffffff"
+                                                    class="subtitleProp">
+                                                    <a href="{{ path('home_metier', { jobSlug: result.jobSlug }) }}">{{ result.jobName }}</a>
+                                                </h3>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                {% endfor %}
                             </div>
                         </div>
                     {% endif %}
