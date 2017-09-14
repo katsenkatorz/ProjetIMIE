@@ -11,7 +11,7 @@
                     <button type="button" class="btn btn-primary"
                             data-type="create"
                             data-toggle="modal"
-                            data-action="/admin/job/"
+                            data-action="{{ path('admin_postJob') }}"
                             data-method="post"
                             data-target="#modalJob"><i class="fa fa-plus"></i> Ajouter un métier
                     </button>
@@ -44,7 +44,7 @@
                                         <div class="pull-right inline-block">
                                             <a class="btn btn-danger btn-sm" data-target="#modalDeleteJob"
                                                data-toggle="modal"
-                                               data-action="/admin/job/{{ job.id }}/delete"
+                                               data-action="{{ path('admin_deleteJob', {idJob: job.id}) }}"
                                                data-name="{{ job.name }}"
                                                data-job="{{ job.id }}">
                                                 <i class="fa fa-trash fa-inverse fa-2x"></i>
@@ -55,7 +55,7 @@
                                                data-min-salary="{{ job.minSalary }}"
                                                data-max-salary="{{ job.maxSalary }}"
                                                data-name="{{ job.name }}"
-                                               data-action="/admin/job/{{ job.id }}/put"
+                                               data-action="{{ path('admin_putJob', {idJob: job.id}) }}"
                                                data-toggle="modal"
                                                data-method="put"
                                                data-target="#modalJob">
@@ -110,7 +110,9 @@
                                     }
                                 }) }}
                                 <div class="modal-body">
-                                    {{ form_row(formJob.name, {'id': 'nameInput' }) }}
+                                    {{ form_label(formJob.name) }}
+                                    <div class="small">( 45 caractères maximum )</div>
+                                    {{ form_widget(formJob.name, {'id': 'nameInput', 'attr' : {'maxlength' : '45'}}) }}
                                     {{ form_row(formJob.minSalary, {'id': 'minSalaryInput' }) }}
                                     {{ form_row(formJob.maxSalary, {'id': 'maxSalaryInput' }) }}
                                     {{ form_row(formJob.description, {'id': 'descriptionInput' }) }}

@@ -10,22 +10,21 @@
     {% block _HomeBundle %}
         <div class="container content">
             <div class="row">
-                <div class="col-sm-12 col-md-12">
-                    <div class="margin-100"></div>
-                    {% for job in jobs %}
-                        <div class="col-md-4 col-sm-6">
-                            <div class="thumbnail thumJob">
-                                <a href="{{ path('home_metier', {jobId: job.id, bool: 0} ) }}" class="text-center">
-                                    {% if job.image is not null %}
-                                        <img style="height: 200px; width: 300px" class="" src="{{ asset(job.image.pathname) }}"
-                                             alt="job.name">
-                                    {% endif %}
-                                    <h3 class="text-center subtitle">{{ job.name }}</h3>
-                                </a>
-                            </div>
+                <div class="margin-100"></div>
+                {% for job in jobs %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="thumbnail thumJob">
+                            <a href="{{ path('home_metier', {jobSlug: job.slug} ) }}" class="text-center">
+                                {% if job.image is not null %}
+                                    <img style="height: 200px; width: 300px" class=""
+                                         src="{{ asset(job.image.pathname) }}"
+                                         alt="job.name">
+                                {% endif %}
+                                <h3 class="text-center subtitle">{{ job.name }}</h3>
+                            </a>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {% endblock %}

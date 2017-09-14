@@ -1,19 +1,31 @@
+var href;
+
 $(document).ready(function ()
 {
     // On initialise une variable qui va contenir l'objet qui gère l'animation
     var pT;
 
-    // On initialise le test
-    getQuestionSetIntoLocalStorage(function ()
+    try
     {
-        genQuizz(getCookie("lastQuestionToStart"), function ()
+        // On initialise le test
+        getQuestionSetIntoLocalStorage(function ()
         {
-            getImageValue();
-            handleProgressBar();
-            genImg();
-            pT = new PageTransionner();
+            genQuizz(getCookie("lastQuestionToStart"), function ()
+            {
+                getImageValue();
+                handleProgressBar();
+                genImg();
+                pT = new PageTransionner();
+            });
         });
-    });
+    }
+    catch (e)
+    {
+        resetQuizz();
+        var responseDiv = document.querySelector('#questionLabel');
+        responseDiv.innerHTML = "<h3>Il semble y avoir eu un problème, veuillez actualiser la page ou contacter un administrateur</h3>";
+        genImg();
+    }
 
     /**
      *  Génère le quizz sur la page au premier chargement
@@ -114,7 +126,7 @@ $(document).ready(function ()
         ptPage.className = "pt-page hidden";
         ptPage.id = "first-pt-page";
 
-        if(isSecond)
+        if (isSecond)
             ptPage.id = "second-pt-page";
 
 
@@ -184,9 +196,9 @@ $(document).ready(function ()
 
         // On récupère le numeros de la question en cours
         var questionNumber = parseInt(getCookie("lastQuestionToStart")) + 1;
-
+        
         // On set la width
-        var newWidth = (questionNumber * 100) / getCookie("NumberOfQuestion");
+        var newWidth = ((questionNumber -1) * 100) / getCookie("NumberOfQuestion");
 
         // On ajoute tout au html
         progressBar.attr('aria-valuemax', getCookie("NumberOfQuestion"));
@@ -205,7 +217,7 @@ $(document).ready(function ()
             var questionNumber = $(this).data("number");
             var temperamentId = $(this).data("temperament");
             var idImage = $(this).attr('id');
-            var href = $(this).data("href");
+            href = $(this).data("href");
 
             // On les met dans un tableau
             var responseContent = {
@@ -274,7 +286,7 @@ $(document).ready(function ()
                 var responseLength = questionSet.responses.length;
 
                 // Si la question en cours est paire
-                if(number%2 === 0)
+                if (number % 2 === 0)
                 {
                     // Traitement spécial en fonction du nombre de réponses pour l'affichage
                     switch (responseLength)
@@ -298,7 +310,7 @@ $(document).ready(function ()
                 }
 
                 // Si la question en cours est impaire
-                if(number%2 !== 0)
+                if (number % 2 !== 0)
                 {
                     // Traitement spécial en fonction du nombre de réponses pour l'affichage
                     switch (responseLength)
@@ -387,36 +399,13 @@ $(document).ready(function ()
                         i++;
                     });
                 }
+
                 callback();
             }
         }
         else
         {
-            // On initialise un tableau de réponses
-            var responses = [];
-
-            // On remplis le tableau
-            for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
-            {
-                responses.push(JSON.parse(getCookie("responseContent" + i)));
-            }
-
-            // On envoie la requête ajax qui résous le test
-            $.ajax({
-                url: href,
-                type: "POST",
-                data: {"responses": responses}
-            }).done(function (result)
-            {
-                // On clear le localstorage
-                localStorage.clear();
-
-                // On clear les cookies
-                deleteAllCookies();
-
-                // On redirige vers la page de résultat
-                location.href = result.href;
-            })
+            grecaptcha.execute();
         }
     }
 
@@ -430,9 +419,9 @@ $(document).ready(function ()
         var perso = document.querySelector('#perso');
 
         // On remplis le tableau avec les images du personnage du site
-        for(var i = 2; i < 9; i++)
+        for (var i = 2; i < 9; i++)
         {
-            imgs.push('perso_pose'+i);
+            imgs.push('perso_pose' + i);
         }
 
         // On récupère une image aléatoire
@@ -442,6 +431,70 @@ $(document).ready(function ()
         perso.src = "assets/img/perso/" + img + '.png';
     }
 });
+
+/**
+ * On récupère les réponses puis on les envoies en traitement
+ */
+function resolveQuizz()
+{
+    // On initialise un tableau de réponses
+    var responses = [];
+    // On récupère le body
+    var body = $('#my-body');
+
+    // On remplis le tableau
+    for (var i = 0; i < getCookie("NumberOfQuestion"); i++)
+    {
+        responses.push(JSON.parse(getCookie("responseContent" + i)));
+    }
+
+    // On envoie la requête ajax qui résous le test
+    $.ajax({
+        url: href,
+        type: "POST",
+        data: {"responses": responses},
+        beforeSend: function ()
+        {
+            $('#modalLoading').modal('show');
+        }
+    }).done(function (result)
+    {
+        setTimeout(function ()
+        {
+            // On reset le quizz
+            resetQuizz();
+
+            // On charge la page de résultat
+            body.hide().html('').fadeOut('slow');
+            body.html(result.page).fadeIn('slow');
+
+            var head = $('head');
+            head.remove();
+
+            // Changement de l'url
+            window.history.pushState("", "", result.href);
+
+            // Permet de compenser la disparition de la barre de scroll
+            $('html').css("overflow", "auto");
+
+            head = document.createElement("head");
+            head.id = "myhead";
+
+            $('.head').wrapAll(head);
+
+            $('html').prepend($('#myhead'));
+
+            // Fermeture du modal
+            setTimeout(function ()
+            {
+                $('#modalLoading').hide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            }, 600)
+
+        }, 1000);
+    }).fail(function () {})
+}
 
 /**
  * On récupère le tableau de questionSet et on le fragmente, puis enregistre chaque fragment dans le localStorage
@@ -502,6 +555,8 @@ function getQuestionSetIntoLocalStorage(callback)
     callback();
 }
 
+
+
 /************** Fonction servant à gérer les cookies **************/
 
 // Modifie un cookie
@@ -547,4 +602,34 @@ function deleteAllCookies()
     }
 }
 
+// Reset du quizz
+function resetQuizz()
+{
+    if(getCookie("displayCookieConsent") === "y")
+    {
+        // On clear le localstorage
+        localStorage.clear();
+
+        // On clear les cookies
+        deleteAllCookies();
+
+        setCookie("displayCookieConsent", "y", 365);
+    }
+    else
+    {
+        // On clear le localstorage
+        localStorage.clear();
+        // On clear les cookies
+        deleteAllCookies();
+    }
+}
+
+/************** Fonction servant à la redirection avec envois de données **************/
+function redirect(redirectUrl, arg, value)
+{
+    var form = $('<form action="' + redirectUrl + '" method="post">' +
+        '<input type="hidden" name="' + arg + '" value="' + value + '"></input>' + '</form>');
+    $('body').append(form);
+    $(form).submit();
+}
 

@@ -47,7 +47,7 @@
                                     data-id="{{ question.id }}"
                                     data-label="{{ question.label }}"
                                     data-temperament="{{ question.temperament.id }}"
-                                    data-action="/admin/question/put/{{ question.id }}"
+                                    data-action="{{ path('admin_putQuestion', {idQuestion: question.id}) }}"
                                     data-toggle="modal"
                                     data-target="#modalQuestion">
                                 <i class="fa fa-edit fa-inverse fa-2x"></i>
@@ -67,7 +67,7 @@
                             <button type="button" class="btn btn-primary" id="responseButton{{ question.id }}"
                                     data-type="create"
                                     data-question="{{ question.id }}"
-                                    data-action="/admin/question/{{ question.id }}/postResponse"
+                                    data-action="{{ path('admin_postResponse', {idQuestion: question.id}) }}"
                                     data-temperament="{{ question.temperament.id }}"
                                     data-toggle="modal"
                                     data-target="#modalResponse">Ajouter une réponse

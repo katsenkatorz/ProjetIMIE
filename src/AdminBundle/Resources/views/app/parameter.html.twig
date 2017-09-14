@@ -2,6 +2,11 @@
 
 {% block title %}{{ 'Gestion des paramètres' }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/croppie.min.css') }}" />
+{% endblock %}
+
 {% block _AdminBundle %}
 
     {% include "AdminBundle:layout:sidebar.html.twig" %}
@@ -35,7 +40,7 @@
                                     <div class="form-group">
                                         <label class="param-title"
                                                id="parameterLabel{{ parameter.id }}">{{ parameter.label }}</label>
-                                        <input title="" type="text" class="form-control"
+                                        <input title="" type="text" class="form-control param"
                                                id="parameterValue{{ parameter.id }}"
                                                name="{{ parameter.label }}Value"
                                                value="{{ parameter.value }}"
@@ -55,5 +60,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/admin/parametersProcess.js') }}"></script>
+    <script src="{{ asset('assets/js/admin/croppie.min.js') }}"></script>
+    <script src="{{ asset('assets/js/admin/parametersProcess.min.js') }}"></script>
 {% endblock %}

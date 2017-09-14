@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Entity;
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Grafikart\UploadBundle\Annotation\Uploadable;
 use Grafikart\UploadBundle\Annotation\UploadableField;
@@ -22,6 +23,11 @@ class Job
      * @var string
      */
     private $name;
+
+    /**
+     * @var string
+     */
+    private $slug;
 
     /**
      * @var string
@@ -54,11 +60,44 @@ class Job
      */
     private $updatedAt;
 
-    private $jobPersonnalities;
+    /**
+     * @var ArrayCollection
+     */
+    private $jobTemperaments;
+
+    /**
+     * @var integer
+     */
+    private $deliveredByQuizz;
 
     public function __construct()
     {
-        $this->jobPersonnalities = new ArrayCollection();
+        $this->jobTemperaments = new ArrayCollection();
+        $this->deliveredByQuizz = 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveredByQuizz()
+    {
+        return $this->deliveredByQuizz;
+    }
+
+    /**
+     * @param int $deliveredByQuizz
+     **/
+    public function setDeliveredByQuizz($deliveredByQuizz)
+    {
+        $this->deliveredByQuizz = $deliveredByQuizz;
     }
 
     /**
@@ -151,17 +190,17 @@ class Job
     /**
      * @return ArrayCollection
      */
-    public function getJobPersonnalities()
+    public function getJobTemperaments()
     {
-        return $this->jobPersonnalities;
+        return $this->jobTemperaments;
     }
 
     /**
-     * @param JobPersonnality $jobPersonnalities
+     * @param JobTemperament $jobTemperaments
      **/
-    public function setJobPersonnalities(JobPersonnality $jobPersonnalities)
+    public function setJobTemperaments(JobTemperament $jobTemperaments)
     {
-        $this->jobPersonnalities->add($jobPersonnalities);
+        $this->jobTemperaments->add($jobTemperaments);
         return $this;
     }
 

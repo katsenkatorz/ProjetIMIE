@@ -113,9 +113,6 @@ function PageTransionner()
     // Reset la page
     this.resetPage = function ($outpage, $inpage)
     {
-        // $outpage.attr('class', $outpage.data('originalClassList'+ ' hidden'));
-        // $inpage.attr('class', $inpage.data('originalClassList'));
-
         $outpage.attr('class', "pt-page hidden");
         $outpage.attr('data-active', false);
 

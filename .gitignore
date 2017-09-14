@@ -49,3 +49,6 @@
 #image
 web/assets/img/imageJob/*
 web/assets/img/imageResponse/*
+
+#nmp
+/node_modules/

@@ -1,7 +1,7 @@
 <?php
 namespace AdminBundle\Form;
 
-use AdminBundle\Entity\JobPersonnality;
+use AdminBundle\Entity\JobTemperament;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -29,10 +29,10 @@ class JobTemperamentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            "data_class" => JobPersonnality::class,
+            "data_class" => JobTemperament::class,
             "csrf_protection" => true,
             "csrf_field_name" => '_token',
-            "csrf_token_id" => "jobPersonnality_item",
+            "csrf_token_id" => "jobTemperament_item",
         ]);
     }
 }

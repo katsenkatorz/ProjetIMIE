@@ -19,13 +19,9 @@ home_quizz_resolution:
         _controller: HomeBundle:Home:resolution
 
 home_metier:
-    path:     /metier/{jobId}/{bool}
+    path:     /metier/{jobSlug}
     defaults:
         _controller: HomeBundle:Home:metier
-        bool: 0
-    requirements:
-        jobId: \d+
-        bool: \d
 
 home_cookies:
     path:     /cookies
@@ -43,4 +39,14 @@ home_getQuestionSet:
         _controller: HomeBundle:Home:getQuestionSet
         method: GET
 
+home_setShared:
+    path:     /setShared
+    defaults:
+        _controller: HomeBundle:Home:setShared
+        method: POST
 
+home_recaptcha:
+    path:     /recaptcha
+    defaults:
+        _controller: HomeBundle:Home:googleRecaptcha
+        method: POST

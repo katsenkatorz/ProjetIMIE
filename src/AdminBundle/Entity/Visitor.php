@@ -32,10 +32,54 @@ class Visitor
      */
     private $connexionDate;
 
+    /**
+     * @var boolean
+     */
+    private $hasShared;
+
+    /**
+     * @var boolean
+     */
+    private $hasCompleteTest;
 
     public function __construct()
     {
         $this->connexionDate = new \DateTime();
+        $this->hasShared = false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHasShared()
+    {
+        return $this->hasShared;
+    }
+
+    /**
+     * @param mixed $hasShared
+     **/
+    public function setHasShared($hasShared)
+    {
+        $this->hasShared = $hasShared;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasCompleteTest()
+    {
+        return $this->hasCompleteTest;
+    }
+
+    /**
+     * @param bool $hasCompleteTest
+     **/
+    public function setHasCompleteTest($hasCompleteTest)
+    {
+        $this->hasCompleteTest = $hasCompleteTest;
+        return $this;
     }
 
     /**

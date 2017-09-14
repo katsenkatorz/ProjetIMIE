@@ -43,7 +43,6 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
           - 'bootstrap_3_layout.html.twig'
-          # resources: ['bootstrap_3_horizontal_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -72,6 +71,12 @@ doctrine:
                 YEAR: DoctrineExtensions\Query\Mysql\Year
                 DAY: DoctrineExtensions\Query\Mysql\Day
 
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            sluggable: true
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
@@ -97,6 +102,11 @@ fos_user:
                 sender_name:    ...
             enabled:    false # change to true for required email confirmation
             template:   FOSUserBundle:Registration:email.txt.twig
+    change_password:
+        form:
+            type:               FOS\UserBundle\Form\Type\ChangePasswordFormType # or 'fos_user_change_password' on Symfony < 2.8
+            name:               fos_user_change_password_form
+            validation_groups:  [ChangePassword, Default]
     resetting:
         token_ttl: 86400
         email:
@@ -117,7 +127,11 @@ ivory_ck_editor:
         my_config:
             toolbar: standard
 
-
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
 
 
 

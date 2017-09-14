@@ -60,7 +60,7 @@ class TemperamentRepository extends \Doctrine\ORM\EntityRepository
         {
             $em = $this->getEntityManager();
             $jobRepository = $this->getEntityManager()->getRepository("AdminBundle:Job");
-            $JobPersonnalityRepository = $this->getEntityManager()->getRepository("AdminBundle:JobPersonnality");
+            $JobPersonnalityRepository = $this->getEntityManager()->getRepository("AdminBundle:JobTemperament");
 
             $jobs = $jobRepository->getJobs();
 
@@ -78,7 +78,7 @@ class TemperamentRepository extends \Doctrine\ORM\EntityRepository
 
                 foreach($jobs as $job)
                 {
-                    $JobPersonnalityRepository->postJobPersonnality(50, $job, $pT);
+                    $JobPersonnalityRepository->postJobTemperament(50, $job, $pT);
                 }
 
                 return $pT;

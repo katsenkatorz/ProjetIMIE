@@ -18,16 +18,70 @@ class MainController extends Controller
      */
     public function homeAction()
     {
-        $questions = $this->getDoctrine()->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
+        $em = $this->getDoctrine();
+        $visitorRepo = $em->getRepository("AdminBundle:Visitor");
 
-        $visitorByCountry = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getNumberOfConnectionByCountry();
-
-        $registeredYears = $this->getDoctrine()->getRepository("AdminBundle:Visitor")->getRegisteredYears();
+        $questions = $em->getRepository("AdminBundle:Question")->getNumberOfQuestionByTemperament();
+        $visitorByCountry = $visitorRepo->getNumberOfConnectionByCountry();
+        $registeredYears = $visitorRepo->getRegisteredYears();
+        $visitorWhoSharedAndThoseWhoDont = $visitorRepo->getVisitorsWhoSharedAndThoseWhoDont();
 
         return $this->render('AdminBundle:app:home.html.twig', [
             "questions" => $questions,
             "visitorsByCountry" => $visitorByCountry,
-            "registeredYears" => $registeredYears
+            "registeredYears" => $registeredYears,
+            "visitorWhoSharedAndThoseWhoDont" => $visitorWhoSharedAndThoseWhoDont,
+        ]);
+    }
+
+    /**
+     * Permet de récupérer les statistiques de métiers renvoyer
+     *
+     * @return JsonResponse
+     */
+    public function getMostDeliveredJobByQuizzAction()
+    {
+        $jobs = $this->getDoctrine()->getRepository("AdminBundle:Job")->getMostDeliveredJobByQuizz();
+
+        return $this->json($jobs);
+    }
+
+    /**
+     * Permet de reset les statistiques de métiers renvoyer
+     *
+     * @return JsonResponse
+     */
+    public function resetMostDeliveredJobByQuizzAction()
+    {
+        $this->getDoctrine()->getRepository("AdminBundle:Job")->resetMostDeliveredQuizz();
+
+        return $this->json([]);
+    }
+
+    /**
+     * Permet de récuperer les informations d'utilisation du quizz
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function visitorQuizzAction(Request $request)
+    {
+        $visitorRepo = $this->getDoctrine()->getRepository("AdminBundle:Visitor");
+        $year = $request->attributes->get('year');
+
+        $returnResult = null;
+
+        $unAchieveData = $visitorRepo->getVisitorsForQuizzInformation(0, $year);
+        $achieveData = $visitorRepo->getVisitorsForQuizzInformation(1, $year);
+        $visitorData = $visitorRepo->getVisitorsForQuizzInformation(null, $year);
+
+        return $this->json([
+            "message" => "Ok",
+            "value" => [
+                "achieve" => $achieveData,
+                "unachieve" => $unAchieveData,
+                "visitor" => $visitorData
+            ]
         ]);
     }
 
@@ -70,11 +124,13 @@ class MainController extends Controller
         $downgrade = $request->get('down');
         $userId = $request->get('userId');
 
-        if (isset($upgrade) && $upgrade === "Upgrade user") {
+        if (isset($upgrade) && $upgrade === "Upgrade user")
+        {
             $userRepo->upgradeUserToAdmin($userId);
         }
 
-        if (isset($downgrade) && $downgrade === "Downgrade user") {
+        if (isset($downgrade) && $downgrade === "Downgrade user")
+        {
             $userRepo->downgradeAdminToUser($userId);
         }
 
@@ -116,7 +172,8 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if (!is_null($parameterId) && !is_null($label) && !is_null($value)) {
+        if (!is_null($parameterId) && !is_null($label) && !is_null($value))
+        {
             $ParamRepo->putParameter($parameterId, $label, $value);
         }
 
@@ -141,7 +198,8 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -169,7 +227,8 @@ class MainController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $parameter->setValue($form['value']->getData());
 
             $em->persist($parameter);
@@ -198,24 +257,27 @@ class MainController extends Controller
         $bool = $this->getDoctrine()->getRepository("AdminBundle:Parameters")->putValueOfParameterById($paramId, $value);
 
         if ($bool)
+        {
             return $this->json(['message' => "Modification(s) bien effectuée(s)"]);
+        }
 
         return $this->json(['message' => "Erreur lors de la modification"]);
     }
 
+    /**
+     * Permet de modifier les couleurs depuis l'interface administrateur
+     * On récupère le service correspondant
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function colorAction()
     {
-        $ParamRepo = $this->getDoctrine()->getRepository("AdminBundle:Parameters");
-
-        $primary = $ParamRepo->getParameterById(8);
-        $secondary = $ParamRepo->getParameterById(9);
-        $text = $ParamRepo->getParameterById(10);
-
+        $colors = $this->container->get('admin.parametersColorHandler')->getColors();
 
         return $this->render('AdminBundle:app:color.html.twig', [
-            "primary" => $primary,
-            "secondary" => $secondary,
-            "text" => $text,
+            "primary" => $colors['primary'],
+            "secondary" => $colors['secondary'],
+            "text" => $colors['text'],
         ]);
     }
 
@@ -225,13 +287,13 @@ class MainController extends Controller
         $label = $request->get('label');
         $value = $request->get('value');
 
-        if(!is_null($label) && !is_null($value) && !is_null($id))
+        if (!is_null($label) && !is_null($value) && !is_null($id))
         {
             $paramRepo = $this->getDoctrine()->getRepository('AdminBundle:Parameters');
 
             $color = $paramRepo->putParameter($id, $label, $value);
 
-            if (!$color )
+            if (!$color)
             {
                 return $this->json([
                     'message' => 'Erreur lors de la modification.'

@@ -3,7 +3,7 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Job;
-use AdminBundle\Entity\JobPersonnality;
+use AdminBundle\Entity\JobTemperament;
 use AdminBundle\Entity\Response;
 use AdminBundle\Entity\Temperament;
 use AdminBundle\Form\JobTemperamentType;

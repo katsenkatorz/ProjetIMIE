@@ -1,0 +1,21 @@
+AdminBundle\Entity\JobTemperament:
+    type: entity
+    table: JOB_TEMPERAMENT
+    repositoryClass: AdminBundle\Repository\JobTemperamentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        value:
+            type: integer
+    manyToOne:
+        job:
+            targetEntity: AdminBundle\Entity\Job
+            inversedBy: jobTemperaments
+        temperament:
+            targetEntity: AdminBundle\Entity\Temperament
+            inversedBy: jobTemperaments
+    lifecycleCallbacks: {  }

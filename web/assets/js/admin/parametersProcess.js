@@ -6,7 +6,7 @@ $(document).ready(function () {
         var label = $(this).attr("data-label");
 
         $.ajax({
-            url: "/admin/parameter/put/"+parameterId,
+            url: "/tdb-admin/parameter/put/"+parameterId,
             method: "PUT",
             data: {
                 label: label,
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
                     // On envoie la requête ajax
                     $.ajax({
-                        url: "/admin/parameter/putValue/"+imageInput.data('id'),
+                        url: "/tdb-admin/parameter/putValue/"+imageInput.data('id'),
                         method: "PUT",
                         data: {
                             "value": array
@@ -187,7 +187,7 @@ $(document).ready(function () {
         imageResizer.id = "imageResizer";
 
         // Imbrication des divs
-        imageResizerHolder.append(imageResizer);
+        imageResizerHolder.appendChild(imageResizer);
 
         alertContent.appendChild(alertMessage);
 
@@ -201,13 +201,13 @@ $(document).ready(function () {
         heightMd.appendChild(heightLabel);
         heightMd.appendChild(heightInput);
 
-        rowWarning.append(widthMd);
-        rowWarning.append(heightMd);
+        rowWarning.appendChild(widthMd);
+        rowWarning.appendChild(heightMd);
 
-        inputWidthHeightHolder.append(rowWarning);
+        inputWidthHeightHolder.appendChild(rowWarning);
 
-        divRow.append(inputWidthHeightHolder);
-        divRow.append(imageResizerHolder);
+        divRow.appendChild(inputWidthHeightHolder);
+        divRow.appendChild(imageResizerHolder);
 
         contentDiv.append(divRow);
 

@@ -9,7 +9,7 @@ function loadResponse(idQuestion, env, PanelTitle)
 
     // Récupération des réponses pour une question et affichage dans le content de l'accordion
     $.ajax({
-        url: "/admin/question/" + idQuestion + "/getResponse",
+        url: "/tdb-admin/question/" + idQuestion + "/getResponse",
         type: "GET",
         dataType: "json"
     }).done(function (result)
@@ -105,8 +105,8 @@ function loadRangeInput(inputRange)
         var valueBlockRight = $('#valueTempResponse');
         var valueBlockLeft = $("#valueOpposedTempResponse");
 
-        valueBlockRight.html(value);
-        valueBlockLeft.html(-value);
+        valueBlockRight.html(-value);
+        valueBlockLeft.html(value);
     }
 
     $(inputRange).each(function ()
@@ -127,7 +127,7 @@ function loadTemperament(idTemperament, temperamentDiv, opposedTempDiv, selectDi
     function getHomonyme(idTemperament, temperamentDiv, opposedTempDiv)
     {
         $.ajax({
-            url: "/admin/job/getTemperament/" + idTemperament,
+            url: "/tdb-admin/job/getTemperament/" + idTemperament,
             type: "GET",
             dataType: "json"
         }).done(function (result)
@@ -370,7 +370,7 @@ $(document).ready(function ()
             e.preventDefault();
 
             $.ajax({
-                url: "/admin/question/delete/" + questionId,
+                url: "/tdb-admin/question/delete/" + questionId,
                 type: "DELETE"
             }).done(function ()
             {

@@ -28,10 +28,10 @@ class UserInformationHandler extends Controller
 
     public function onKernelController(FilterControllerEvent $event)
     {
-        $this->sessionProcess("Visitor");
+        $this->sessionProcess();
     }
 
-    public function sessionProcess($table)
+    private function sessionProcess()
     {
         if (empty($this->session->get('client-ip')))
         {
@@ -40,7 +40,7 @@ class UserInformationHandler extends Controller
 
             $ipClient = $this->requestStack->getCurrentRequest()->getClientIp();
             $browsers = $_SERVER["HTTP_USER_AGENT"];
-            $country = geoip_country_name_by_name($ipClient);
+            $country = null;
             $datetime = new \DateTime();
 
             try
@@ -55,21 +55,18 @@ class UserInformationHandler extends Controller
 
                     $this->session->set("client-browser", $browser);
 
-                    if(is_null($country) || $country === '')
+                    if(is_null($country) || $country === '' || $country === false)
                         $country = "Indefinis";
 
                     $this->session->set("client-country", $country);
 
                     $this->session->set("client-connexionDate", $datetime);
 
-                    if($table === "Visitor")
-                    {
-                        $this->entityManager->getRepository("AdminBundle:Visitor")->postVisitor($ipClient, $browser, $country, $datetime);
-                    }
-                    else
-                    {
-                        $this->entityManager->getRepository("AdminBundle:Visitor")->postVisitor($ipClient, $browser, $country, $datetime);
-                    }
+                    $visitor = $this->entityManager->getRepository("AdminBundle:Visitor")->postVisitor($ipClient, $browser, $country, $datetime);
+
+                    if($visitor != false)
+                        $this->session->set("client-id", $visitor->getId());
+
                 }
             }
             catch(NoResultFoundException $ex) {}

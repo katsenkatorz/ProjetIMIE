@@ -22,8 +22,8 @@ AdminBundle\Entity\Temperament:
             length: '45'
             unique: true
     oneToMany:
-        jobPersonnalities:
-            targetEntity: AdminBundle\Entity\JobPersonnality
+        jobTemperaments:
+            targetEntity: AdminBundle\Entity\JobTemperament
             mappedBy: temperament
             cascade: [persist, remove]
         questions:

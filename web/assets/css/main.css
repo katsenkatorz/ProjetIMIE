@@ -6,6 +6,10 @@ h1, h2 {
 
 /*---------------------- BODY ----------------------*/
 
+html {
+    font-family: "Arial", "fantasy";
+}
+
 body {
     font-family: "HelveticaNeue";
 }
@@ -29,13 +33,41 @@ body {
     overflow: auto;
 }
 
+#accordion {
+    overflow: visible;
+}
+
+.in {
+   margin-bottom: 50px;
+}
+
 /*------- TEMPERAMENT / METIERS -------*/
+
+#user-nav > ul > li > a {
+    color: #FFF;
+}
+
+/*------- TEMPERAMENT / METIERS -------*/
+
+.small {
+    font-size: 10px;
+    color: red;
+}
 
 .temperament{
     float: left;
 }
+
+#temperamentResponse {
+    margin: 0;
+}
+
 .opposedTemperament {
     float: right;
+}
+
+#opposedTemperamentResponse {
+    margin: 0;
 }
 
 /* PANEL  */
@@ -81,7 +113,7 @@ body {
 
 input[type="range"] {
     position: relative;
-    margin-left: 1em;
+    /*margin-left: 1em;*/
 }
 input[type="range"]:after,
 input[type="range"]:before {

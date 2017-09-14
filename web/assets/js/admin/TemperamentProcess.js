@@ -26,7 +26,7 @@ $(document).ready(function () {
             var opposedTemperament = $('#opposedTemperamentUpdate'+idTemperament).val();
 
             $.ajax({
-                url: "/admin/temperament/put/"+idTemperament,
+                url: "/tdb-admin/temperament/put/"+idTemperament,
                 type: "PUT",
                 datatype: "json",
                 data: {

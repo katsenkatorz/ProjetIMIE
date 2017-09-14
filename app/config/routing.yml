@@ -8,7 +8,7 @@ test:
 
 admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
-    prefix:   /admin
+    prefix:   /tdb-admin
 
 upload:
     resource: "@UploadBundle/Resources/config/routing.yml"

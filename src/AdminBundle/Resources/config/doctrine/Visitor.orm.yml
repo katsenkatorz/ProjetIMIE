@@ -20,4 +20,9 @@ AdminBundle\Entity\Visitor:
             length: 255
         connexionDate:
             type: datetime
+        hasShared:
+            type: boolean
+        hasCompleteTest:
+            type: boolean
+            nullable: true
     lifecycleCallbacks: {  }

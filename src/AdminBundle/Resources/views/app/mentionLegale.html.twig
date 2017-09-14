@@ -13,8 +13,9 @@
         </div>
         <div class="container-fluid">
             <div class="row">
+                {% if parameter is not null and parameter.label is not null %}
                 <div class="col-md-12">
-                    <h2>Mentions Légales</h2>
+                    <h2>{{ parameter.label }}</h2>
                     <hr />
                 </div>
                 <div class="col-md-6">
@@ -23,12 +24,13 @@
                     {{ form_row(form.save, {'label': 'Sauvegarder', 'attr': {'class': 'btn btn-primary param','data-id': parameter.id, 'data-label': parameter.label}}) }}
                     {{ form_end(form) }}
                 </div>
+                {% else %}
+                    <div class="col-md-12">
+                        <h2>Paramètre "Mentions légales" non présent dans la base de données</h2>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
 {% endblock %}

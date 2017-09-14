@@ -85,7 +85,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                     ->setQuestion($question)
                     ->setUpdatedAt(new \DateTime());
 
-                if ($data !== $blankImageData)
+                if ($data !== $blankImageData && !is_null($data) && $data !== '')
                 {
                     list(, $data) = explode(';', $data);
                     list(,$data)  = explode(',', $data);
@@ -139,7 +139,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 ->setValue($value)
                 ->setUpdatedAt(new \DateTime());
 
-            if ($data !== $blankImageData)
+            if ($data !== $blankImageData && !is_null($data) && $data !== '')
             {
                 list(, $data) = explode(';', $data);
                 list(,$data)  = explode(',', $data);

@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %} {% endblock %} - Projet IMIE</title>
+    <title class="head">{% block title %} {% endblock %} - Geek NJOB</title>
 
     {% block head %}
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
+        <meta charset="utf-8" class="head">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" class="head" >
+        <meta name="viewport" content="width=device-width, initial-scale=1" class="head">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" class="head">
 
         {# Jquery #}
-        <script rel="script" src="{{ asset('assets/jquery/jquery-3.2.1.js') }}"></script>
-        {#<script rel="script" src="{{ asset('assets/jquery/jquery-3.2.1.min.js') }}"></script>#}
+        <script rel="script" src="{{ asset('assets/jquery/jquery-3.2.1.min.js') }}" class="head"></script>
     {% endblock %}
 
     {% block stylesheets %}
         {# CSS Bootstrap #}
-        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" class="head" >
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous">
+        crossorigin="anonymous" class="head" >
         {# CSS #}
-        <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/home.min.css') }}" class="head" >
     {% endblock %}
 </head>
 <body>
@@ -38,16 +37,13 @@
 {% block footer %}
 
 {% endblock %}
-
 {% block javascripts %}
     {# Js Bootstrap #}
-    <script src="{{ asset('assets/bootstrap/js/bootstrap.js') }}"></script>
-    {# Chart.js #}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
     {# Cookies #}
-    <script src="{{ asset('assets/js/home/cookiechoices.js') }}"></script>
-    <script src="{{ asset('assets/js/home/cookies.js') }}"></script>
+    <script src="{{ asset('assets/js/home/cookiechoices.min.js') }}"></script>
+    <script src="{{ asset('assets/js/home/cookies.min.js') }}"></script>
 {% endblock %}
 
 </body>
+</html>
